@@ -14,7 +14,8 @@ class MPSController extends Controller
      */
     public function index()
     {
-        //
+        $queryBuilder = MPS::all();
+        return view('mps.index', ['data' => $queryBuilder]);
     }
 
     /**

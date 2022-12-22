@@ -14,7 +14,8 @@ class LPBController extends Controller
      */
     public function index()
     {
-        //
+        $queryBuilder = LPB::all();
+        return view('lpb.index', ['data' => $queryBuilder]);
     }
 
     /**

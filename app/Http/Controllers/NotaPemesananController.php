@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Barang;
 use App\NotaPemesanan;
+use App\Pengguna;
+use App\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NotaPemesananController extends Controller
 {
@@ -14,7 +18,8 @@ class NotaPemesananController extends Controller
      */
     public function index()
     {
-        //
+        $queryBuilder = NotaPemesanan::all();
+        return view('notapemesanan.index', ['data' => $queryBuilder]);
     }
 
     /**
@@ -24,7 +29,9 @@ class NotaPemesananController extends Controller
      */
     public function create()
     {
-        //
+        $supplier = Supplier::all();
+        $pengguna = Pengguna::all();
+        return view('notapemesanan.create', ['supplier' => $supplier],['pengguna' => $pengguna]);
     }
 
     /**

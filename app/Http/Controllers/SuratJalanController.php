@@ -14,7 +14,8 @@ class SuratJalanController extends Controller
      */
     public function index()
     {
-        //
+        $queryBuilder = SuratJalan::all();
+        return view('suratjalan.index', ['data' => $queryBuilder]);
     }
 
     /**

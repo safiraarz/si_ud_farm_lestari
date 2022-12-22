@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\NotaPembelian;
+use App\Pengguna;
+use App\Supplier;
 use Illuminate\Http\Request;
 
 class NotaPembelianController extends Controller
@@ -14,7 +16,8 @@ class NotaPembelianController extends Controller
      */
     public function index()
     {
-        //
+        $queryBuilder = NotaPembelian::all();
+        return view('notapembelian.index', ['data' => $queryBuilder]);
     }
 
     /**
@@ -24,7 +27,9 @@ class NotaPembelianController extends Controller
      */
     public function create()
     {
-        //
+        $supplier = Supplier::all();
+        $pengguna = Pengguna::all();
+        return view('notapembelian.create', ['supplier' => $supplier],['pengguna' => $pengguna]);
     }
 
     /**

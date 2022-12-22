@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Customer;
-use App\NotaPenjualan;
-use App\Pengguna;
-
+use App\User;
 use Illuminate\Http\Request;
 
-class NotaPenjualanController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +14,8 @@ class NotaPenjualanController extends Controller
      */
     public function index()
     {
-        $queryBuilder = NotaPenjualan::all();
-        return view('notapenjualan.index', ['data' => $queryBuilder]);
+        $data = Pengguna::all();
+        return view('pengguna.index', compact('data'));
     }
 
     /**
@@ -28,9 +25,7 @@ class NotaPenjualanController extends Controller
      */
     public function create()
     {
-        $customer = Customer::all();
-        $pengguna = Pengguna::all();
-        return view('notapenjualan.create', ['customer' => $customer],['pengguna' => $pengguna]);
+        //
     }
 
     /**
@@ -47,10 +42,10 @@ class NotaPenjualanController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\NotaPenjualan  $notaPenjualan
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(NotaPenjualan $notaPenjualan)
+    public function show(User $user)
     {
         //
     }
@@ -58,10 +53,10 @@ class NotaPenjualanController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\NotaPenjualan  $notaPenjualan
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(NotaPenjualan $notaPenjualan)
+    public function edit(User $user)
     {
         //
     }
@@ -70,10 +65,10 @@ class NotaPenjualanController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\NotaPenjualan  $notaPenjualan
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, NotaPenjualan $notaPenjualan)
+    public function update(Request $request, User $user)
     {
         //
     }
@@ -81,10 +76,10 @@ class NotaPenjualanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\NotaPenjualan  $notaPenjualan
+     * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(NotaPenjualan $notaPenjualan)
+    public function destroy(User $user)
     {
         //
     }

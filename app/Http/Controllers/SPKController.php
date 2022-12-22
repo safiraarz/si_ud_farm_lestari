@@ -14,7 +14,8 @@ class SPKController extends Controller
      */
     public function index()
     {
-        //
+        $queryBuilder = SPK::all();
+        return view('spk.index', ['data' => $queryBuilder]);
     }
 
     /**

@@ -13,7 +13,7 @@
     </div>
     @endif
     <div class="form-row align-items-center">
-        <h2>Supplier Table</h2>
+        <h2>Daftar Supplier</h2>
     </div>
     <div class="form-group mx-sm-2 mb-2">
         <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Supplier</a>

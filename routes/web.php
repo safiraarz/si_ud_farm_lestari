@@ -39,6 +39,10 @@ Route::post('/barang/saveDataField', 'BarangController@saveDataField')->name('ba
 Route::post('/barang/deleteData', 'BarangController@deleteData')->name('barang.deleteData');
 
 Route::resource('bom', 'BOMController');
+Route::post('/bom/getEditForm', 'BOMController@getEditForm')->name('bom.getEditForm');
+Route::post('/bom/saveData', 'BOMController@saveData')->name('bom.saveData');
+Route::post('/bom/saveDataField', 'BOMController@saveDataField')->name('bom.saveDataField');
+Route::post('/bom/deleteData', 'BOMController@deleteData')->name('bom.deleteData');
 
 //flok
 Route::resource('flok', 'FlokController');
@@ -49,6 +53,11 @@ Route::post('/flok/deleteData', 'FlokController@deleteData')->name('flok.deleteD
 
 
 Route::resource('hasilproduksi', 'HasilProduksiController');
+Route::post('/hasilproduksi/getEditForm', 'HasilProduksiController@getEditForm')->name('hasilproduksi.getEditForm');
+Route::post('/hasilproduksi/saveData', 'HasilProduksiController@saveData')->name('hasilproduksi.saveData');
+Route::post('/hasilproduksi/saveDataField', 'HasilProduksiController@saveDataField')->name('hasilproduksi.saveDataField');
+Route::post('/hasilproduksi/deleteData', 'HasilProduksiController@deleteData')->name('hasilproduksi.deleteData');
+
 
 //jabatan
 Route::resource('jabatan', 'JabatanController');
@@ -57,14 +66,75 @@ Route::post('/jabatan/saveData', 'JabatanController@saveData')->name('jabatan.sa
 Route::post('/jabatan/saveDataField', 'JabatanController@saveDataField')->name('jabatan.saveDataField');
 Route::post('/jabatan/deleteData', 'JabatanController@deleteData')->name('jabatan.deleteData');
 
+//LPB
 Route::resource('lpb', 'LPBController');
+Route::post('/lpb/getEditForm', 'LPBController@getEditForm')->name('lpb.getEditForm');
+Route::post('/lpb/saveData', 'LPBController@saveData')->name('lpb.saveData');
+Route::post('/lpb/saveDataField', 'LPBController@saveDataField')->name('lpb.saveDataField');
+Route::post('/lpb/deleteData', 'LPBController@deleteData')->name('lpb.deleteData');
+
+//MPS
 Route::resource('mps', 'MPSController');
+Route::post('/mps/getEditForm', 'MPSController@getEditForm')->name('mps.getEditForm');
+Route::post('/mps/saveData', 'MPSController@saveData')->name('mps.saveData');
+Route::post('/mps/saveDataField', 'MPSController@saveDataField')->name('mps.saveDataField');
+Route::post('/mps/deleteData', 'MPSController@deleteData')->name('mps.deleteData');
+
+//MRP
 Route::resource('mrp', 'MRPController');
+Route::post('/mrp/getEditForm', 'MRPController@getEditForm')->name('mrp.getEditForm');
+Route::post('/mrp/saveData', 'MRPController@saveData')->name('mrp.saveData');
+Route::post('/mrp/saveDataField', 'MRPController@saveDataField')->name('mrp.saveDataField');
+Route::post('/mrp/deleteData', 'MRPController@deleteData')->name('mmrpps.deleteData');
+
+//notapembelian
 Route::resource('notapembelian', 'NotaPembelianController');
+Route::post('/notapembelian/getEditForm', 'NotaPembelianController@getEditForm')->name('notapembelian.getEditForm');
+Route::post('/notapembelian/saveData', 'NotaPembelianController@saveData')->name('notapembelian.saveData');
+Route::post('/notapembelian/saveDataField', 'NotaPembelianController@saveDataField')->name('notapembelian.saveDataField');
+Route::post('/notapembelian/deleteData', 'NotaPembelianController@deleteData')->name('notapembelian.deleteData');
+
+//nota pemesanan
 Route::resource('notapemesanan', 'NotaPemesananController');
+Route::post('/notapemesanan/getEditForm', 'NotaPemesananController@getEditForm')->name('notapemesanan.getEditForm');
+Route::post('/notapemesanan/saveData', 'NotaPemesananController@saveData')->name('notapemesanan.saveData');
+Route::post('/notapemesanan/saveDataField', 'NotaPemesananController@saveDataField')->name('notapemesanan.saveDataField');
+Route::post('/notapemesanan/deleteData', 'NotaPemesananController@deleteData')->name('notapemesanan.deleteData');
+
+//notapenjualan
 Route::resource('notapenjualan', 'NotaPenjualanController');
+Route::post('/notapenjualan/getEditForm', 'NotaPenjualanController@getEditForm')->name('notapenjualan.getEditForm');
+Route::post('/notapenjualan/saveData', 'NotaPenjualanController@saveData')->name('notapenjualan.saveData');
+Route::post('/notapenjualan/saveDataField', 'NotaPenjualanController@saveDataField')->name('notapenjualan.saveDataField');
+Route::post('/notapenjualan/deleteData', 'NotaPenjualanController@deleteData')->name('notapenjualan.deleteData');
+
+//SPK
 Route::resource('spk', 'SPKController');
+Route::post('/spk/getEditForm', 'SPKController@getEditForm')->name('spk.getEditForm');
+Route::post('/spk/saveData', 'SPKController@saveData')->name('spk.saveData');
+Route::post('/spk/saveDataField', 'SPKController@saveDataField')->name('spk.saveDataField');
+Route::post('/spk/deleteData', 'SPKController@deleteData')->name('spk.deleteData');
+
 Route::resource('suratjalan', 'SuratJalanController');
+Route::post('/suratjalan/getEditForm', 'SuratJalanController@getEditForm')->name('suratjalan.getEditForm');
+Route::post('/suratjalan/saveData', 'SuratJalanController@saveData')->name('suratjalan.saveData');
+Route::post('/suratjalan/saveDataField', 'SuratJalanController@saveDataField')->name('suratjalan.saveDataField');
+Route::post('/suratjalan/deleteData', 'SuratJalanController@deleteData')->name('suratjalan.deleteData');
+
 Route::resource('pemasukantelur', 'PemasukanTelurController');
+Route::post('/pemasukantelur/getEditForm', 'PemasukanTelurController@getEditForm')->name('pemasukantelur.getEditForm');
+Route::post('/pemasukantelur/saveData', 'PemasukanTelurController@saveData')->name('pemasukantelur.saveData');
+Route::post('/pemasukantelur/saveDataField', 'PemasukanTelurController@saveDataField')->name('pemasukantelur.saveDataField');
+Route::post('/pemasukantelur/deleteData', 'PemasukanTelurController@deleteData')->name('pemasukantelur.deleteData');
+
 Route::resource('jadwalpakan', 'JadwalPakanController');
+Route::post('/jadwalpakan/getEditForm', 'JadwalPakanController@getEditForm')->name('jadwalpakan.getEditForm');
+Route::post('/jadwalpakan/saveData', 'JadwalPakanController@saveData')->name('jadwalpakan.saveData');
+Route::post('/jadwalpakan/saveDataField', 'JadwalPakanController@saveDataField')->name('jadwalpakan.saveDataField');
+Route::post('/jadwalpakan/deleteData', 'JadwalPakanController@deleteData')->name('jadwalpakan.deleteData');
+
 Route::resource('daftarakun', 'DaftarAkunController');
+Route::post('/daftarakun/getEditForm', 'DaftarAkunController@getEditForm')->name('daftarakun.getEditForm');
+Route::post('/daftarakun/saveData', 'DaftarAkunController@saveData')->name('daftarakun.saveData');
+Route::post('/daftarakun/saveDataField', 'DaftarAkunController@saveDataField')->name('daftarakun.saveDataField');
+Route::post('/daftarakun/deleteData', 'DaftarAkunController@deleteData')->name('daftarakun.deleteData');

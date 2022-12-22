@@ -586,7 +586,7 @@ License: You must have a valid license purchased only from themeforest(the above
 							</li>
 							<li>
 								<a href="{{route('lpb.index')}}">
-									<span class="title">Pengeluaran Bahan Baku</span>
+									<span class="title">Laporan Pengeluaran Barang</span>
 								</a>
 							</li>
 							<li>

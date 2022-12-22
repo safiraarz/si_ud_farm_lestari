@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Barang;
+use App\Flok;
 use App\JadwalPakan;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,13 @@ class JadwalPakanController extends Controller
      */
     public function index()
     {
-        //
+        $queryBuilder = JadwalPakan::all();
+        $barang = Barang::all();
+        $flok = Flok::all();
+
+        // dd($queryBuilder);
+
+        return view('jadwalpakan.index', ['data' => $queryBuilder,'barang'=>$barang,'flok'=>$flok]);
     }
 
     /**

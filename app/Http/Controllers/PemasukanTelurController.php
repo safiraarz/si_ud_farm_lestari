@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Barang;
+use App\Flok;
 use App\PemasukanTelur;
+use App\Pengguna;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PemasukanTelurController extends Controller
 {
@@ -14,7 +18,13 @@ class PemasukanTelurController extends Controller
      */
     public function index()
     {
-        //
+        $queryBuilder = PemasukanTelur::all();
+        $barang = Barang::all();
+        $flok = Flok::all();
+
+        // dd($queryBuilder);
+
+        return view('pemasukantelur.index', ['data' => $queryBuilder,'barang'=>$barang,'flok'=>$flok]);
     }
 
     /**
@@ -24,7 +34,10 @@ class PemasukanTelurController extends Controller
      */
     public function create()
     {
-        //
+        $barang = Barang::all();
+        $pengguna = Pengguna::all();
+        $flok = Flok::all();
+        return view('pemasukantelur.create', ['barang' => $barang],['pengguna' => $pengguna],['flok' => $flok]);
     }
 
     /**

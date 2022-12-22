@@ -7,4 +7,53 @@ use Illuminate\Database\Eloquent\Model;
 class Barang extends Model
 {
     protected $table = "barang";
+
+    public function notapembelian()
+    {
+        return $this->hasMany('App\NotaPembelian', 'barang_id', 'id');
+        
+    }
+    public function notapenjualan()
+    {
+        return $this->hasMany('App\NotaPenjualan', 'barang_id', 'id');
+    }
+    public function notapemesanan()
+    {
+        return $this->hasMany('App\NotaPemesanan', 'barang_id', 'id');
+    }
+    public function pemasukanTelur(){
+        return $this->hasMany('App\PemasukanTelur','barang_id');
+    }
+    public function spk()
+    {
+        return $this->belongsTo('App\SPK', 'barang_id', 'id');
+    }
+    public function mps()
+    {
+        return $this->hasMany('App\MPS', 'barang_id', 'id');
+    }
+    public function suratjalan()
+    {
+        return $this->hasMany('App\SuratJalan', 'barang_id', 'id');
+    }
+    public function mrp()
+    {
+        return $this->hasMany('App\MRP', 'barang_id', 'id');
+    }
+    public function jadwalpakan()
+    {
+        return $this->hasMany('App\JadwalPakan', 'barang_id', 'id');
+    }
+    public function hasilproduksi()
+    {
+        return $this->hasMany('App\HasilProduksi', 'barang_id', 'id');
+    }
+    public function bom()
+    {
+        return $this->hasMany('App\BOM', 'barang_id', 'id');
+    }
+    public function lpb()
+    {
+        return $this->hasMany('App\LPB', 'barang_id', 'id');
+    }
 }

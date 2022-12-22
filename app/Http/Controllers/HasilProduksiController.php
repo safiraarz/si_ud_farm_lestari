@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Barang;
 use App\HasilProduksi;
+use App\SPK;
 use Illuminate\Http\Request;
 
 class HasilProduksiController extends Controller
@@ -14,7 +16,13 @@ class HasilProduksiController extends Controller
      */
     public function index()
     {
-        //
+        $queryBuilder = HasilProduksi::all();
+        $barang = Barang::all();
+        $spk = SPK::all();
+
+        // dd($queryBuilder);
+
+        return view('hasilproduksi.index', ['data' => $queryBuilder,'barang'=>$barang,'spk'=>$spk]);
     }
 
     /**

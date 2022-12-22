@@ -14,7 +14,8 @@ class BOMController extends Controller
      */
     public function index()
     {
-        //
+        $queryBuilder = BOM::all();
+        return view('bom.index', ['data' => $queryBuilder]);
     }
 
     /**
