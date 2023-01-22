@@ -26,28 +26,19 @@
                     <th>Flok Tujuan</th>
                     <th>Pencatat Transaksi</th>
                     <th>Action</th>
-                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($data as $d)
                 <tr>
-                    <td id='td_tanggal_pemberian_'>{{$d->tanggal_pemberian}}</td>
+                    <td id='td_tgl_pemberian_'>{{$d->tgl_pemberian}}</td>
                     <td id='td_jenis_telur_'>{{$d->barang->nama}}</td>
                     <td id='td_kuantitas'>{{number_format($d->kuantitas)}}</td>
                     <td id='td_satuan'>{{$d->barang->satuan}}</td>
                     <td id='td_flok_tujuan_'>{{$d->flok->nama}}</td>
-                    <td id='td_pencatat_transaksi_'>{{$d->pengguna_id}}</td>
+                    <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
                     <td>
                         <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm()">EDIT</a>
-                    </td>
-                    <td>
-                        <form method='POST' action="{{url('jadwalpakan/')}}">
-                            @csrf
-                            @method('DELETE')
-                            <input type="submit" value="delete" class='btn btn-danger btn-xs' onclick="if(!confirm('Are you sure you wanna delete this data?')) return false;">
-                        </form>
-                        <a class='btn btn-danger btn-xs' onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR()">Delete 2</a>
                     </td>
                 </tr>
                 @endforeach
@@ -59,77 +50,57 @@
 
 <!-- tambah jadwalpakan -->
 
-<!-- <div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
+<div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Tambah Data</h4>
+                <h4 class="modal-title">Tambah Jadwal</h4>
             </div>
             <div class="modal-body">
-                <form action="{{ route('jadwalpakan.store') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form action="{{ url('pemasukantelur') }}" class="form-horizontal" method='POST'>
                     @csrf
                     <div class="form-body">
                         <div class="form-group">
-                            <label>Nama Barang</label>
-                            <input type="text" name="nama" class="form-control" placeholder="Nama Barang">
-                        </div>
-                         <div class="form-group">
-                            <label>Jenis Barang</label>
-                            <input type="text" name="jenis" class="form-control" placeholder="Jenis Barang">
-                        </div>
-                        <div class="form-group">
-                            <label>Jenis Telur</label>
-                            <select class="form-control" name="jenis_telur" id="jenis_telur">
-                                @foreach ($barang as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                @endforeach
+                            <label>Jenis Pakan Ternak</label>
+                            <select class="form-control" name="jenis_pakan" id="jenis_pakan">
+
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Asal Flok</label>
                             <select class="form-control" name="asal_flok" id="asal_flok">
-                                @foreach ($flok as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                @endforeach
+
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Kuantitas Reject</label>
-                            <input type="text" name="kuantitas_reject" class="form-control" placeholder="Kuantitas Reject">
-                        </div>
-                        <div class="form-group">
-                            <label>Kuantitas Bersih</label>
-                            <input type="text" name="kuantitas_bersih" class="form-control" placeholder="Kuantitas Bersih">
-                        </div>
-                        <div class="form-group">
-                            <label>Total Kuantitas</label>
-                            <input type="text" name="total_kuantitas" class="form-control" placeholder="Total Kuantitas">
-                        </div>
-                        <div class="form-group">
-                            <label>Satuan</label>
-                            <input type="text" name="harga" class="form-control" placeholder="Harga per-Satuan">
-                        </div>
-                        <div class="form-group">
-                            <label>Satuan</label>
-                            @foreach ($barang as $item)
-                            <input type="text" value="{{ $item->id }}">{{ $item->satuan }}</input>
-                            @endforeach
+                            <label>Kuantitas</label>
+                            <input type="text" name="kuantitas" class="form-control" id='kuantitas' required>
+                            </input>
                         </div>
                         <div class="form-group">
                             <label>Tanggal Pencatatan</label>
-                            <input type="text" name="tanggal_pencatatan" class="form-control" placeholder="Pilih tanggal">
+                            <td>
+                                <div class="input-group input-group-sm date date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
+                                    <input type="text" class="form-control form-filter" readonly name="order_date_from" placeholder="Pilih tgl">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </div>
+                            </td>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Submit</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                            <a href="{{url('mps')}}" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>  -->
+</div>
 
 <div class="modal fade" id="modalEdit" tabindex="-1" role="basic" aria-hidden="true">
     <div class="modal-dialog">

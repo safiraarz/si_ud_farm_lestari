@@ -105,7 +105,7 @@ class CustomerController extends Controller
         $data = Customer::find($id);
         return response()->json(array(
             'status' => 'oke',
-            'msg' => view('supplier.getEditForm', compact('data'))->render()
+            'msg' => view('customer.getEditForm', compact('data'))->render()
         ), 200);
     }
 

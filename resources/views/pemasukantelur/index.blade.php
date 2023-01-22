@@ -28,7 +28,6 @@
                     <th>Tanggal Pencatatan</th>
                     <th>Pencatat Transaksi</th>
                     <th>Action</th>
-                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,18 +39,10 @@
                     <td id='td_kuantitas_bersih_'>{{number_format($d->kuantitas_bersih)}}</td>
                     <td id='td_total_kuantitas_'>{{number_format($d->total_kuantitas)}}</td>
                     <td id='td_satuan'>{{$d->barang->satuan}}</td>
-                    <td id='td_tanggal_pencatatan_'>{{$d->tanggal_pencatatan}}</td>
-                    <td id='td_pengguna_id_'>{{$d->pengguna_id}}</td>
+                    <td id='td_tgl_pencatatan_'>{{$d->tgl_pencatatan}}</td>
+                    <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
                     <td>
                         <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm()">EDIT</a>
-                    </td>
-                    <td>
-                        <form method='POST' action="{{url('pemasukantelur/')}}">
-                            @csrf
-                            @method('DELETE')
-                            <input type="submit" value="delete" class='btn btn-danger btn-xs' onclick="if(!confirm('Are you sure you wanna delete this data?')) return false;">
-                        </form>
-                        <a class='btn btn-danger btn-xs' onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR()">Delete 2</a>
                     </td>
                 </tr>
                 @endforeach
@@ -63,7 +54,7 @@
 
 <!-- tambah pemasukantelur -->
 
-<!-- <div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
+<div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -71,69 +62,72 @@
                 <h4 class="modal-title">Tambah Data</h4>
             </div>
             <div class="modal-body">
-                <form action="{{ route('pemasukantelur.store') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form action="{{ url('pemasukantelur') }}" class="form-horizontal" method='POST'>
                     @csrf
                     <div class="form-body">
                         <div class="form-group">
-                            <label>Nama Barang</label>
-                            <input type="text" name="nama" class="form-control" placeholder="Nama Barang">
-                        </div>
-                         <div class="form-group">
-                            <label>Jenis Barang</label>
-                            <input type="text" name="jenis" class="form-control" placeholder="Jenis Barang">
-                        </div>
-                        <div class="form-group">
                             <label>Jenis Telur</label>
                             <select class="form-control" name="jenis_telur" id="jenis_telur">
+                                <!-- seharusnya dikasih where jenis==barang -->
                                 @foreach ($barang as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                <option value="{{ $item->id }}">{{ $item->nama}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Asal Flok</label>
-                            <select class="form-control" name="asal_flok" id="asal_flok">
+                            <select class="form-control" name="jenis_telur" id="jenis_telur">
                                 @foreach ($flok as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                <option value="{{ $item->id }}">{{ $item->nama}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Kuantitas Reject</label>
-                            <input type="text" name="kuantitas_reject" class="form-control" placeholder="Kuantitas Reject">
+                            <label>Kuantitas Bersih</label>
+                            <input type="text" name="kuantitas_bersih" class="form-control" id='kuantitas_bersih' required>
+                            </input>
                         </div>
                         <div class="form-group">
-                            <label>Kuantitas Bersih</label>
-                            <input type="text" name="kuantitas_bersih" class="form-control" placeholder="Kuantitas Bersih">
+                            <label>Kuantitas Reject</label>
+                            <input type="text" name="kuantitas_reject" class="form-control" id='kuantitas_reject' required>
+                            </input>
                         </div>
                         <div class="form-group">
                             <label>Total Kuantitas</label>
-                            <input type="text" name="total_kuantitas" class="form-control" placeholder="Total Kuantitas">
+                            <!-- ini seharusnya otomatis penjumlahan kuantitas bersih+reject -->
+                            <input type="text" name="total_kuantitas" class="form-control" id='total_kuantitas' required>
+                            </input>
                         </div>
                         <div class="form-group">
-                            <label>Satuan</label>
-                            <input type="text" name="harga" class="form-control" placeholder="Harga per-Satuan">
-                        </div>
-                        <div class="form-group">
-                            <label>Satuan</label>
-                            @foreach ($barang as $item)
-                            <input type="text" value="{{ $item->id }}">{{ $item->satuan }}</input>
-                            @endforeach
+                            <label>Keterangan</label>
+                            <textarea id="eKeterangan" type="text" class="form-control" name="keterangan" required></textarea>
                         </div>
                         <div class="form-group">
                             <label>Tanggal Pencatatan</label>
-                            <input type="text" name="tanggal_pencatatan" class="form-control" placeholder="Pilih tanggal">
+                            <td>
+                                <!-- <div class="input-group input-group-sm date date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
+                                    <input type="text" class="form-control form-filter" readonly name="order_date_from" placeholder="Pilih tgl">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </div> -->
+                                <div>
+                                    <input type="date" class="form-control input-sm"required />
+                                </div>
+                            </td>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Submit</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                            <a href="{{url('mps')}}" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>  -->
+</div>
 
 <div class="modal fade" id="modalEdit" tabindex="-1" role="basic" aria-hidden="true">
     <div class="modal-dialog">

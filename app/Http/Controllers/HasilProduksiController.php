@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Barang;
 use App\HasilProduksi;
 use App\SPK;
+use App\User;
 use Illuminate\Http\Request;
 
 class HasilProduksiController extends Controller
@@ -18,11 +19,12 @@ class HasilProduksiController extends Controller
     {
         $queryBuilder = HasilProduksi::all();
         $barang = Barang::all();
-        $spk = SPK::all();
-
+        $surat_perintah_kerja = SPK::all();
+        $user = User::all();
+        
         // dd($queryBuilder);
 
-        return view('hasilproduksi.index', ['data' => $queryBuilder,'barang'=>$barang,'spk'=>$spk]);
+        return view('hasilproduksi.index', ['data' => $queryBuilder,'barang'=>$barang,'surat_perintah_kerja'=>$surat_perintah_kerja,'user'=>$user]);
     }
 
     /**
@@ -89,5 +91,17 @@ class HasilProduksiController extends Controller
     public function destroy(HasilProduksi $hasilProduksi)
     {
         //
+    }
+
+    public function getEditForm(Request $request)
+    {
+        $id = $request->get('id');
+        $data = HasilProduksi::find($id);
+        $barang = Barang::all();
+        $surat_perintah_kerja = SPK::all();
+        return response()->json(array(
+            'status' => 'oke',
+            'msg' => view('hasilproduksi.getEditForm', compact('data', 'barang','surat_perintah_kerja'))->render()
+        ), 200);
     }
 }

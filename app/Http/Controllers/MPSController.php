@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Barang;
 use App\MPS;
+use App\SPK;
 use Illuminate\Http\Request;
 
 class MPSController extends Controller
@@ -15,7 +17,9 @@ class MPSController extends Controller
     public function index()
     {
         $queryBuilder = MPS::all();
-        return view('mps.index', ['data' => $queryBuilder]);
+        $spk = SPK::all();
+        $barang = Barang::all();
+        return view('mps.index', ['data' => $queryBuilder,'barang' => $barang,'spk' => $spk]);
     }
 
     /**
@@ -25,7 +29,9 @@ class MPSController extends Controller
      */
     public function create()
     {
-        //
+        $spk = SPK::all();
+        $barang = Barang::all();
+        return view('mps.create', ['spk' => $spk,'barang' => $barang]);
     }
 
     /**
@@ -36,7 +42,16 @@ class MPSController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = new MPS();
+        $data->tgl_mulai_produksi = $request->get('tgl_mulai_produksi');
+        $data->tgl_akhir_produksi = $request->get('tgl_mulai_produksi');
+        $data->kuantitas_barang_jadi = $request->get('kuantitas_barang_jadi');
+        // dd($request->get('category'));
+        $spk = SPK::find($request->get('spk'));
+        $spk->mps()->save($data);
+        $barang = Barang::find($request->get('barang'));
+        $barang->mps()->save($data);
+        return redirect()->route('mps.index')->with('status', 'Success Add MPS');
     }
 
     /**
@@ -82,5 +97,17 @@ class MPSController extends Controller
     public function destroy(MPS $mPS)
     {
         //
+    }
+
+    public function getEditForm(Request $request)
+    {
+        $id = $request->get('id');
+        $data = MPS::find($id);
+        $barang = Barang::all();
+        $spk = SPK::all();
+        return response()->json(array(
+            'status' => 'oke',
+            'msg' => view('mps.getEditForm', compact('data', 'barang','spk'))->render()
+        ), 200);
     }
 }

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Barang;
 use App\Customer;
 use App\NotaPenjualan;
 use App\Pengguna;
-
+use App\User;
 use Illuminate\Http\Request;
 
 class NotaPenjualanController extends Controller
@@ -18,7 +19,10 @@ class NotaPenjualanController extends Controller
     public function index()
     {
         $queryBuilder = NotaPenjualan::all();
-        return view('notapenjualan.index', ['data' => $queryBuilder]);
+        $user = User::all();
+        $customer = Customer::all();
+        $barang = Barang::all();
+        return view('notapenjualan.index', ['data' => $queryBuilder,'user' => $user,'barang' => $barang,'customer' => $customer]);
     }
 
     /**
@@ -28,9 +32,10 @@ class NotaPenjualanController extends Controller
      */
     public function create()
     {
+        $user = User::all();
         $customer = Customer::all();
-        $pengguna = Pengguna::all();
-        return view('notapenjualan.create', ['customer' => $customer],['pengguna' => $pengguna]);
+        $barang = Barang::all();
+        return view('notapenjualan.create', ['customer' => $customer,'user' => $user,'barang' => $barang]);
     }
 
     /**
@@ -41,7 +46,19 @@ class NotaPenjualanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = new NotaPenjualan();
+        $data->no_nota = $request->get('no_nota');
+        $data->	tanggal_pembuatan_nota = $request->get('tanggal_pembuatan_nota');
+        $data->total_harga = $request->get('total_harga');
+        $data->	status = $request->get('status');
+
+        $customer = Customer::find($request->get('cus$customer'));
+        $barang = Barang::find($request->get('barang'));
+
+        $customer->notapenjualan()->save($data);
+        $barang->notapenjualan()->save($data);
+
+        return redirect()->route('notapenjualan.index')->with('status', 'Berhasil menambahkan nota' . $request->get('no_nota'));
     }
 
     /**
@@ -63,7 +80,7 @@ class NotaPenjualanController extends Controller
      */
     public function edit(NotaPenjualan $notaPenjualan)
     {
-        //
+        return view('notapenjualan.edit', ['notapenjualan' => NotaPenjualan::find($notaPenjualan), 'customer' => Customer::All(),'barang' => Barang::All()]);
     }
 
     /**
@@ -87,5 +104,16 @@ class NotaPenjualanController extends Controller
     public function destroy(NotaPenjualan $notaPenjualan)
     {
         //
+    }
+    public function getEditForm(Request $request)
+    {
+        $id = $request->get('id');
+        $data = NotaPenjualan::find($id);
+        $customer = Customer::all();
+        $barang = Barang::all();
+        return response()->json(array(
+            'status' => 'oke',
+            'msg' => view('notapenjualan.getEditForm', compact('data', 'customer','barang'))->render()
+        ), 200);
     }
 }

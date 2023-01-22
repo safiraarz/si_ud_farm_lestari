@@ -21,7 +21,7 @@ class Barang extends Model
     {
         return $this->hasMany('App\NotaPemesanan', 'barang_id', 'id');
     }
-    public function pemasukanTelur(){
+    public function pemasukantelur(){
         return $this->hasMany('App\PemasukanTelur','barang_id');
     }
     public function spk()

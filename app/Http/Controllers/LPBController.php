@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Barang;
 use App\LPB;
+use App\User;
 use Illuminate\Http\Request;
 
 class LPBController extends Controller
@@ -15,7 +17,9 @@ class LPBController extends Controller
     public function index()
     {
         $queryBuilder = LPB::all();
-        return view('lpb.index', ['data' => $queryBuilder]);
+        $barang = Barang::all();
+        $user = User::all();
+        return view('lpb.index', ['data' => $queryBuilder, 'barang' => $barang,'user' => $user]);
     }
 
     /**
@@ -58,7 +62,7 @@ class LPBController extends Controller
      */
     public function edit(LPB $lPB)
     {
-        //
+        return view('lpb.edit', ['lpb' => LPB::find($lPB), 'barang' => Barang::All()]);
     }
 
     /**
@@ -82,5 +86,16 @@ class LPBController extends Controller
     public function destroy(LPB $lPB)
     {
         //
+    }
+
+    public function getEditForm(Request $request)
+    {
+        $id = $request->get('id');
+        $data = LPB::find($id);
+        $barang = Barang::all();
+        return response()->json(array(
+            'status' => 'oke',
+            'msg' => view('lpb.getEditForm', compact('data','barang'))->render()
+        ), 200);
     }
 }

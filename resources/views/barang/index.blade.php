@@ -64,7 +64,6 @@
                             </div>
                         </div>
                     </td>
-                    
                     <td>
                         <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
                     </td>
@@ -101,10 +100,6 @@
                             <label>Nama Barang</label>
                             <input type="text" name="nama" class="form-control" placeholder="Nama Barang">
                         </div>
-                        <!-- <div class="form-group">
-                            <label>Jenis Barang</label>
-                            <input type="text" name="jenis" class="form-control" placeholder="Jenis Barang">
-                        </div> -->
                         <div class='form-group'>
                             <label>Jenis Barang</label>
                             <select class='form-control select2' name='jenis'>

@@ -100,6 +100,8 @@ Route::post('/notapemesanan/getEditForm', 'NotaPemesananController@getEditForm')
 Route::post('/notapemesanan/saveData', 'NotaPemesananController@saveData')->name('notapemesanan.saveData');
 Route::post('/notapemesanan/saveDataField', 'NotaPemesananController@saveDataField')->name('notapemesanan.saveDataField');
 Route::post('/notapemesanan/deleteData', 'NotaPemesananController@deleteData')->name('notapemesanan.deleteData');
+Route::post('/notapemesanan/create', 'NotaPemesananController@create')->name('notapemesanan.create');
+Route::post('/notapemesanan/store', 'NotaPemesananController@store')->name('notapemesanan.store');
 
 //notapenjualan
 Route::resource('notapenjualan', 'NotaPenjualanController');
@@ -138,3 +140,9 @@ Route::post('/daftarakun/getEditForm', 'DaftarAkunController@getEditForm')->name
 Route::post('/daftarakun/saveData', 'DaftarAkunController@saveData')->name('daftarakun.saveData');
 Route::post('/daftarakun/saveDataField', 'DaftarAkunController@saveDataField')->name('daftarakun.saveDataField');
 Route::post('/daftarakun/deleteData', 'DaftarAkunController@deleteData')->name('daftarakun.deleteData');
+
+Route::resource('user', 'UserController');
+Route::post('/user/getEditForm', 'UserController@getEditForm')->name('user.getEditForm');
+Route::post('/user/saveData', 'UserController@saveData')->name('user.saveData');
+Route::post('/user/saveDataField', 'UserController@saveDataField')->name('user.saveDataField');
+Route::post('/user/deleteData', 'UserController@deleteData')->name('user.deleteData');

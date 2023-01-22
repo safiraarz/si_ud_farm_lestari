@@ -514,7 +514,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								</a>
 							</li>
 							<li>
-								<a>
+								<a href="{{route('user.index')}}">
 									<span class="title">Pengguna</span>
 								</a>
 							</li>

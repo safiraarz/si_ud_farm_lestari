@@ -11,4 +11,7 @@ class NotaPenjualan extends Model
     public function customer(){
         return $this->belongsTo('App\Customer','customer_id');
     }
+    public function pengguna(){
+        return $this->belongsTo('App\User','pengguna_id','id');
+    }
 }

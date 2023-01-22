@@ -14,4 +14,7 @@ class SPK extends Model
     {
         return $this->has('App\HasilProduksi', 'barang_id', 'id');
     }
+    public function pengguna(){
+        return $this->belongsTo('App\User','pengguna_id','id');
+    }
 }

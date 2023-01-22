@@ -11,4 +11,7 @@ class LPB extends Model
     public function barang(){
         return $this->belongsTo('App\Barang','barang_id');
     }
+    public function pengguna(){
+        return $this->belongsTo('App\User','pengguna_id','id');
+    }
 }

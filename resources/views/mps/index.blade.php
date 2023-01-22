@@ -11,6 +11,8 @@
         {{session('error')}}
     </div>
     @endif
+    <link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-datepicker/css/datepicker.css" />
+    <script type="text/javascript" src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <h2>Daftar Master Production Schedule</h2>
     <div class="table">
         <div>
@@ -27,31 +29,22 @@
                     <th>Tanggal Mulai Produksi</th>
                     <th>Tanggal Selesai Produksi</th>
                     <th>Action</th>
-                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($data as $d)
                 <tr id='tr_{{$d->id}}'>
                     <td>{{$d->id}}</td>
-                    <td id='td_no_spk_{{$d->id}}'>{{$d->spk->no_surat}}</td>
+                    <td id='td_no_spk_{{$d->id}}'>{{$d->surat_perintah_kerja->no_surat}}</td>
                     <td id='td_barang_{{$d->id}}'>{{$d->barang->nama}}</td>
                     <td id='td_kuantitas_{{$d->id}}'>{{number_format($d->kuantitas_barang_jadi)}}</td>
                     <td id='td_satuan_{{$d->id}}'>{{$d->barang->satuan}}</td>
-                    <td id='td_tanggal_mulai_produksi{{$d->id}}'>{{$d->tgl_mulai_produksi}}</td>
-                    <td id='td_tanggal_selesai_produksi{{$d->id}}'>{{$d->tgl_akhir_produksi}}</td>
-
+                    <td id='td_tgl_mulai_produksi{{$d->id}}'>{{$d->tgl_mulai_produksi}}</td>
+                    <td id='td_tgl_selesai_produksi{{$d->id}}'>{{$d->tgl_selesai_produksi}}</td>
                     <td>
                         <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
                     </td>
-                    <td>
-                        <form method='POST' action="{{url('mps/'.$d->id)}}">
-                            @csrf
-                            @method('DELETE')
-                            <input type="submit" value="delete" class='btn btn-danger btn-xs' onclick="if(!confirm('Are you sure you wanna delete this data?')) return false;">
-                        </form>
-                        <a class='btn btn-danger btn-xs' onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{$d->id}})">Delete 2</a>
-                    </td>
+                    
                 </tr>
                 @endforeach
             </tbody>
@@ -66,7 +59,63 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Tambah Surat</h4>
+                <h4 class="modal-title">Tambah MPS</h4>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url('mps') }}" class="form-horizontal" method='POST'>
+                    @csrf
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label>Nomor Surat Perintah Kerja</label>
+                            <select class="form-control" name="spk" id="spk">
+                                @foreach ($spk as $item)
+                                <option value="{{ $item->id }}">{{ $item->no_surat}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Nama Barang Jadi</label>
+                            <select class="form-control" name="barang" id="barang">
+                                @foreach ($barang as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Kuantitas</label>
+                            <input type="text" name="no_telepon" class="form-control" id='no_telepon' required>
+                            </input>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Produksi Mulai</label>
+                            <td>
+                                <div class="input-group input-group-sm date date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
+                                    <input type="text" class="form-control form-filter" readonly name="order_date_from" placeholder="Pilih tgl mulai">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </div>
+                            </td>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Produksi Selesai</label>
+                            <td>
+                                <div class="input-group input-group-sm date date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
+                                    <input type="text" class="form-control form-filter" readonly name="order_date_from" placeholder="Pilih tgl selesai">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </div>
+                            </td>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                            <a href="{{url('mps')}}" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

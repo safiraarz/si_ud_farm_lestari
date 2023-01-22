@@ -26,7 +26,6 @@
                     <th>Keterangan</th>
                     <th>Pembuat Surat</th>
                     <th>Action</th>
-                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,17 +52,9 @@
                         </div>
                     </td>
                     <td id='td_keterangan_{{$d->id}}'>{{$d->keterangan}}</td>
-                    <td id='td_pengguna_{{$d->id}}'>{{$d->total_pengguna_id}}</td>
+                    <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
                     <td>
                         <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
-                    </td>
-                    <td>
-                        <form method='POST' action="{{url('suratjalan/'.$d->id)}}">
-                            @csrf
-                            @method('DELETE')
-                            <input type="submit" value="delete" class='btn btn-danger btn-xs' onclick="if(!confirm('Are you sure you wanna delete this data?')) return false;">
-                        </form>
-                        <a class='btn btn-danger btn-xs' onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{$d->id}})">Delete 2</a>
                     </td>
                 </tr>
                 @endforeach
@@ -80,6 +71,51 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Tambah Nota</h4>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url('suratjalan') }}" class="form-horizontal" method='POST'>
+                    @csrf
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label>Nomor Surat Jalan:</label>
+                            <input type="text" name="no_surat" class="form-control" id='kuantitas' required>
+                            </input>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Pengiriman Barang:</label>
+                            <td>
+                                <div class="input-group input-group-sm date date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
+                                    <input type="text" class="form-control form-filter" readonly name="order_date_from" placeholder="Pilih tanggal">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </div>
+                            </td>
+                        </div>
+                        <div class="form-group">
+                            <label>Keterangan</label>
+                            <textarea type="text" class="form-control" name="keterangan" id='keterangan'></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Nama Barang Jadi</label>
+                            <select class="form-control" name="barang_jadi" id="barang_jadi">
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Kuantitas</label>
+                            <input type="text" name="kuantitas" class="form-control" id='kuantitas' required>
+                            </input>
+                        </div>
+                        <button type="tambah" class="btn btn-success">Tambah ke Tabel</button>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                            <a href="{{url('suratjalan')}}" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

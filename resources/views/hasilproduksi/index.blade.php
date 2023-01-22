@@ -28,14 +28,13 @@
                     <th>Detail Kuantitas</th>
                     <th>Pembuat Surat</th>
                     <th>Action</th>
-                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($data as $d)
                 <tr id='tr_{{$d->id}}'>
                     <td>{{$d->id}}</td>
-                    <td id='td_spk_{{$d->id}}'>{{$d->spk->no_surat}}</td>
+                    <td id='td_surat_perintah_kerja_{{$d->id}}'>{{$d->surat_perintah_kerja->no_surat}}</td>
                     <td id='td_tgl_pencatatan_{{$d->id}}'>{{$d->tgl_pencatatan}}</td>
                     <td id='td_barang_{{$d->id}}'>{{$d->barang->nama}}</td>
 
@@ -46,7 +45,7 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">{{$d->spk->no_surat}}</h4>
+                                        <h4 class="modal-title">{{$d->surat_perintah_kerja->no_surat}}</h4>
                                     </div>
                                     <div class="modal-body">
                                         <b>Kuantitas Reject:</b>
@@ -63,18 +62,11 @@
                             </div>
                         </div>
                     </td>
-                    <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna_id}}</td>
+                    <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
                     <td>
                         <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
                     </td>
-                    <td>
-                        <form method='POST' action="{{url('notapemesanan/'.$d->id)}}">
-                            @csrf
-                            @method('DELETE')
-                            <input type="submit" value="delete" class='btn btn-danger btn-xs' onclick="if(!confirm('Are you sure you wanna delete this data?')) return false;">
-                        </form>
-                        <a class='btn btn-danger btn-xs' onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{$d->id}})">Delete 2</a>
-                    </td>
+
                 </tr>
                 @endforeach
             </tbody>
@@ -91,6 +83,69 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Tambah Nota</h4>
             </div>
+            <div class="modal-body">
+                <form action="{{ url('notapenjualan') }}" class="form-horizontal" method='POST'>
+                    @csrf
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label>Nomor Surat Perintah Kerja:</label>
+                            <select class="form-control" name="no_surat_perintah_kerja" id="no_surat_perintah_kerja">
+                                @foreach ($surat_perintah_kerja as $item)
+                                <option value="{{ $item->id }}">{{ $item->no_surat}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Pencatatan:</label>
+                            <!-- <td>
+                                <div class="input-group input-group-sm date date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
+                                    <input type="text" class="form-control form-filter" readonly name="order_date_from" placeholder="Pilih tanggal">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
+                                    </span>
+                                </div>
+                            </td> -->
+                            <div class="col-sm-3">
+                                <input type="date" class="form-control input-sm" name="dariTgl" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Nama Barang Jadi:</label>
+                            <select class="form-control" name="barang_jadi" id="barang_jadi">
+                                @foreach ($barang as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Kuantitas Barang Reject:</label>
+                            <input type="text" name="kuantitas" class="form-control" id='kuantitas' required>
+                            </input>
+                        </div>
+                        <div class="form-group">
+                            <label>Kuantitas Barang Bersih:</label>
+                            <input type="text" name="kuantitas" class="form-control" id='kuantitas' required>
+                            </input>
+                        </div>
+                        <div class="form-group">
+                            <label>Total Kuantitas:</label>
+                            <input type="text" name="kuantitas" class="form-control" id='kuantitas' required>
+                            </input>
+                        </div>
+                        <div class="form-group">
+                            <label>Keterangan:</label>
+                            <textarea type="text" class="form-control" name="keterangan" id='keterangan'></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                            <a href="{{url('hasilproduksi')}}" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -105,7 +160,7 @@
     function getEditForm(id) {
         $.ajax({
                 type: 'POST',
-                url: '{{route("notapemesanan.getEditForm")}}',
+                url: '{{route("hasilproduksi.getEditForm")}}',
                 data: {
                     '_token': '<?php echo csrf_token() ?>',
                     'id': id

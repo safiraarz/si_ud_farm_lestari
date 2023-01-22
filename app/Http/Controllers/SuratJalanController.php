@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Barang;
 use App\SuratJalan;
+use App\User;
 use Illuminate\Http\Request;
 
 class SuratJalanController extends Controller
@@ -15,7 +17,9 @@ class SuratJalanController extends Controller
     public function index()
     {
         $queryBuilder = SuratJalan::all();
-        return view('suratjalan.index', ['data' => $queryBuilder]);
+        $user = User::all();
+        $barang = Barang::all();
+        return view('suratjalan.index', ['data' => $queryBuilder, 'barang' => $barang, 'user' => $user]);
     }
 
     /**
@@ -82,5 +86,15 @@ class SuratJalanController extends Controller
     public function destroy(SuratJalan $suratJalan)
     {
         //
+    }
+    public function getEditForm(Request $request)
+    {
+        $id = $request->get('id');
+        $data = SuratJalan::find($id);
+        $barang = Barang::all();
+        return response()->json(array(
+            'status' => 'oke',
+            'msg' => view('suratjalan.getEditForm', compact('data','barang'))->render()
+        ), 200);
     }
 }

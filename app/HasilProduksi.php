@@ -10,7 +10,10 @@ class HasilProduksi extends Model
     public function barang(){
         return $this->belongsTo('App\Barang','barang_id','id');
     }
-    public function spk(){
-        return $this->belongsTo('App\SPK','spk_id','id');
+    public function surat_perintah_kerja(){
+        return $this->belongsTo('App\SPK','surat_perintah_kerja_id','id');
+    }
+    public function pengguna(){
+        return $this->belongsTo('App\User','pengguna_id','id');
     }
 }
