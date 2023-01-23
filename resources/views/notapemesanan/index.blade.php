@@ -38,17 +38,38 @@
                     <td id='td_tanggal_pembuatan_nota_{{$d->id}}'>{{$d->tgl_pembuatan_nota}}</td>
                     <td id='td_supplier_{{$d->id}}'>{{$d->supplier->nama}}</td>
                     <td id='td_total_harga_{{$d->id}}'>Rp{{number_format($d->total_harga,2)}}</td>
-                    <td> <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a>
+                    <td> 
+                        {{-- <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a> --}}
+                        <a class="btn btn-default edittable" data-toggle="modal" href="#detail_{{$d->id}}">
+                            Detail
+                        </a>
                         <div class="modal fade" id="detail_{{$d->id}}" tabindex="-1" role="basic" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">{{$d->no_nota}}</h4>
+                                        <h4 class="modal-title">Nomer Nota : {{$d->no_nota}}</h4>
                                     </div>
                                     <div class="modal-body">
-                                        @foreach ($data as $item)
-                                        <p value="{{ $item->id }}">{{ $item->no_nota}}</p>
+                                      
+                                        @foreach ($d->barang as $key =>$item)
+                                        <p>
+                                            <span>Barang {{ $key+1 }}</span>
+
+                                        </p>
+                                        <p>
+                                            <span>Nama Barang</span> : <span> {{$item->nama}}</span>
+
+                                        </p>
+                                        <p>
+                                            <span>Harga</span> : <span> {{$item->harga}}</span>
+
+                                        </p>
+                                        <p>
+                                            <span>Kuantitas</span> : <span> {{ $item->pivot->kuantitas }}</span>
+
+                                        </p>
                                         @endforeach
+                                
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

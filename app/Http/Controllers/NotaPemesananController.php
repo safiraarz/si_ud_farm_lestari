@@ -50,14 +50,19 @@ class NotaPemesananController extends Controller
     public function store(Request $request)
     {
         //belum
+        // Create Nota
+        // dd($request->get("barang"));
         $data = new NotaPemesanan();
         $data->no_nota = $request->get('no_nota');
-        $data->	tanggal_pembuatan_nota = $request->get('tanggal_pembuatan_nota');
+        $data->tgl_pembuatan_nota = $request->get('tgl_transaksi');
         $data->total_harga = $request->get('total_harga');
-        $data->	status = $request->get('status');
-        $supplier = Supplier::find($request->get('supplier'));
-        $barang = Barang::find($request->get('barang'));
+        $supplier = Supplier::find($request->get('supplier_id'));
         $supplier->notapemesanan()->save($data);
+        $idNotaNew = $data->id;
+        foreach($request->get("barang") as $details) 
+        {
+            $data->barang()->attach($details['id_barang'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga_barang']]);
+        }
         return redirect()->route('notapemesanan.index')->with('status', 'Berhasil menambahkan nota' . $request->get('no_nota'));
     }
 

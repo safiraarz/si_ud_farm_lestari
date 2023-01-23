@@ -20,7 +20,7 @@
         }
     </style>
 </head>
-<form action="{{ route('notapemesanan.create') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+
 
     <body>
         <section class="mt-3">
@@ -69,7 +69,7 @@
                                     <td>
                                         <select name="barang" id="barang" class="form-control">
                                             @foreach($barang as $row )
-                                            <option id={{$row->id}} value={{$row->nama}} class="barang custom-select">
+                                            <option id={{$row->id}} value="{{$row->nama}}" harga="{{$row->harga}}" satuan="{{$row->satuan}}" class="barang custom-select">
                                                 {{$row->nama}}
                                             </option>
                                             @endforeach
@@ -91,21 +91,23 @@
                         </div>
                     </div>
                     <div class="col-md-7  mt-4" style="background-color:#f5f5f5;">
+                        <form action="{{ route('notapemesanan.store') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        @csrf
                         <div class="p-4">
                             <div class="text-center">
                                 <h4>Nota Pemesanan</h4>
                             </div>
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 ">
-                                    <span>No. Nota</span> : <span id="no_nota"></span>
+                                    <span>No. Nota</span> : <span id="no_nota_span"></span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 ">
-                                    <span>Tanggal Transaksi</span> : <span id="tgl_transaksi"></span>
+                                    <span>Tanggal Transaksi</span> : <span id="tgl_transaksi_span"></span>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 text-right">
-                                    <span>Nama Supplier</span> : <span id="supplier"></span>
+                                    <span>Nama Supplier</span> : <span id="supplier_span"></span>
                                 </div>
                             </div>
                             <div class="row">
@@ -132,6 +134,7 @@
                                             <h5><strong>Sub Total: Rp </strong></h5>
                                         </td>
                                         <td class="text-center text-dark">
+                                            <input type="hidden" name="total_harga" id="total_harga">
                                             <h5> <strong><span id="subTotal"></strong></h5>
                                         </td>
                                     </tr>
@@ -141,11 +144,13 @@
                                 <td><button id="proses" class="btn btn-success">Proses</button></td>
                             </div>
                         </div>
+                    </form>
                     </div>
+
                 </div>
         </section>
     </body>
-</form>
+
 
 </html>
 
@@ -153,21 +158,23 @@
 <script>
     $(document).ready(function() {
         $('#barang').change(function() {
-            var ids = $(this).find(':selected')[0].id;
-            $.ajax({
-                type: 'GET',
-                url: 'getPrice/{id}',
-                data: {
-                    id: ids
-                },
-                dataType: 'json',
-                success: function(data) {
-
-                    $.each(data, function(key, resp) {
-                        $('#harga').text(resp.product_harga);
-                    });
-                }
-            });
+            var ids = $(this).find(':selected').attr('harga');
+            $('#harga').val(ids);
+            // alert(ids);
+            // $.ajax({
+            //     type: 'GET',
+            //     url: 'getPrice/{id}',
+            //     data: {
+            //         id: ids
+            //     },
+            //     dataType: 'json',
+            //     success: function(data) {
+            //         alert(resp.product_harga);
+            //         $.each(data, function(key, resp) {
+            //             $('#harga').text(resp.product_harga);
+            //         });
+            //     }
+            // });
         });
 
         //tambah to cart 
@@ -175,12 +182,13 @@
         $('#tambah').on('click', function() {
 
             var name = $('#barang').val();
+            
             var kuantitas = $('#kuantitas').val();
-            var harga = $('#harga').text();
-            var satuan = $('#satuan').text();
-            var no_nota = $('#no_nota').text();
-            var tgl_transaksi = $('#tgl_transaksi').text();
-            var supplier = $('#supplier').text();
+            var harga = $('#harga').val();
+            var satuan = $('#satuan').val();
+            var no_nota = $('#no_nota').val();
+            var tgl_transaksi = $('#tgl_transaksi').val();
+            var supplier = $('#supplier').val();
 
             if (kuantitas == 0) {
                 var erroMsg = '<span class="alert alert-danger ml-5">Minimum Qty should be 1 or More than 1</span>';
@@ -191,14 +199,24 @@
 
             function billFunction() {
                 var total = 0;
+                $('#no_nota_span').html(no_nota);
+                $('#tgl_transaksi_span').html(tgl_transaksi);
+                $('#supplier_span').html(supplier);
+                var id_supplier = $('#supplier').find(':selected').attr('id');
+                var notainput =  '<input type="hidden" name="no_nota" value='+no_nota+'> ' + '<input type="hidden" name="tgl_transaksi" value='+tgl_transaksi+'> ' +'<input type="hidden" name="supplier_id" value='+id_supplier+'> ' ;
+                $('#new').append(notainput);
+
 
                 $("#receipt_bill").each(function() {
                     var total = harga * kuantitas;
                     var subTotal = 0;
                     subTotal += parseInt(total);
-
-                    var table = '<tr><td>' + count + '</td><td>' + name + '</td><td>' + kuantitas + '</td><td>' + harga + '</td><td><strong><input type="hidden" id="total" value="' + total + '">' + total + '</strong></td></tr>';
-                    $('#new').append(table)
+                    var satuan = $('#barang').find(':selected').attr('satuan');
+                    var id_barang = $('#barang').find(':selected').attr('id');
+     
+                    
+                    var table = '<tr><td>' + count + '</td><td>' + name + '<input type="hidden" name="barang['+count +']['+ "id_barang" +']" value='+id_barang+'></td><td>'  + kuantitas +  '<input type="hidden" name="barang['+count +']['+ "kuantitas" +']" value='+kuantitas+'></td><td>' + satuan +'</td><td>'+ harga +  '<input type="hidden" name="barang['+count +']['+ "harga_barang" +']" value='+harga+'></td><td><strong><input type="hidden" id="total" value="' + total + '">' + total + '</strong></td></tr>';
+                    $('#new').append(table);
 
                     // Code for Sub Total of Vegitables 
                     var total = 0;
@@ -214,7 +232,7 @@
                     var Subtotal = $('#subTotal').text();
 
                     var totalPayment = parseFloat(Subtotal);
-                    $('#totalPayment').text(totalPayment.toFixed(2)); // Showing using ID 
+                    $('#total_harga').val(total); // Showing using ID 
 
                 });
                 count++;
