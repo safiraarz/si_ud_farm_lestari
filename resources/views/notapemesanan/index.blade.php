@@ -53,7 +53,7 @@
                                       
                                         @foreach ($d->barang as $key =>$item)
                                         <p>
-                                            <span>Barang {{ $key+1 }}</span>
+                                            <span>- Barang {{ $key+1 }}</span>
 
                                         </p>
                                         <p>
@@ -134,7 +134,10 @@
                             <select class="form-control" name="bahan_baku" id="bahan_baku">
                                 <!-- seharusnya dikasih where jenis==barang jadi -->
                                 @foreach ($barang as $item)
+                                @if ($item->jenis == "Barang Jadi")
+                                    
                                 <option value="{{ $item->id }}">{{ $item->nama}}</option>
+                                @endif
                                 @endforeach
                             </select>
                         </div>
@@ -170,6 +173,7 @@
 </div>
 @section('javascript')
 <script>
+    
     function getEditForm(id) {
         $.ajax({
                 type: 'POST',
@@ -185,6 +189,7 @@
 
         );
     }
+    
 
     //masi belum
     function saveDataUpdateTD(id) {

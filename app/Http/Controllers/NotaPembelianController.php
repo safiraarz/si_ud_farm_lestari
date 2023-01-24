@@ -37,6 +37,7 @@ class NotaPembelianController extends Controller
         $supplier = Supplier::all();
         $barang = Barang::all();
         $notapemesanan = NotaPemesanan::all();
+
         return view('notapembelian.create', ['supplier' => $supplier, 'user' => $user,'barang' => $barang,'notapemesanan' => $notapemesanan]);
     }
 

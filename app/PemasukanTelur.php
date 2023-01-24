@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class PemasukanTelur extends Model
 {
     protected $table = "daftar_pemasukan_telur";
+    protected $primaryKey = null;
+    public $incrementing = false;
+
     public function barang(){
         return $this->belongsTo('App\Barang','barang_id','id');
     }

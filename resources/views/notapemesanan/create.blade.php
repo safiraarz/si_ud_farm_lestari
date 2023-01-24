@@ -31,23 +31,23 @@
                         <table class="table" style="background-color:#e0e0e0;">
                             <thead>
                                 <tr>
-                                    <th style="width:35%">Nomor Nota</th>
-                                    <th style="width:25%">Tanggal Pembuatan Nota</th>
+                                    {{-- <th id="generator"  style="width:35%">Nomor Nota</th> --}}
+                                    {{-- <th style="width:25%">Tanggal Pembuatan Nota</th> --}}
                                     <th>Nama Supplier</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>
-                                        <input type="text" id="no_nota" class="form-control">
-                                    </td>
-                                    <td>
-                                        <input type="date" id="tgl_transaksi" class="form-control input-sm" required />
-                                    </td>
+                                    {{-- <td>
+                                        <input type="text" id="no_nota" class="form-control" value="{{ $no_nota_generator }}" disabled>
+                                    </td> --}}
+                                    {{-- <td>
+                                        <input type="date" value="{{date('Y-m-d')}}" id="tgl_transaksi" class="form-control input-sm" required />
+                                    </td> --}}
                                     <td>
                                         <select name="supplier" id="supplier" class="form-control">
                                             @foreach($supplier as $row )
-                                            <option id={{$row->id}} value={{$row->nama}} class="barang custom-select">
+                                            <option id={{$row->id}} value="{{$row->nama}}"" class="barang custom-select">
                                                 {{$row->nama}}
                                             </option>
                                             @endforeach
@@ -99,12 +99,12 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 ">
-                                    <span>No. Nota</span> : <span id="no_nota_span"></span>
+                                    <span>No. Nota</span> : <span id="no_nota_span">{{ $no_nota_generator }}</span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 ">
-                                    <span>Tanggal Transaksi</span> : <span id="tgl_transaksi_span"></span>
+                                    <span>Tanggal Transaksi</span> : <span id="tgl_transaksi_span">{{ $date_now }}</span>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 text-right">
                                     <span>Nama Supplier</span> : <span id="supplier_span"></span>
@@ -124,7 +124,6 @@
                                         </tr>
                                     </thead>
                                     <tbody id="new">
-
                                     </tbody>
                                     <tr>
                                         <td> </td>
@@ -160,36 +159,32 @@
         $('#barang').change(function() {
             var ids = $(this).find(':selected').attr('harga');
             $('#harga').val(ids);
-            // alert(ids);
-            // $.ajax({
-            //     type: 'GET',
-            //     url: 'getPrice/{id}',
-            //     data: {
-            //         id: ids
-            //     },
-            //     dataType: 'json',
-            //     success: function(data) {
-            //         alert(resp.product_harga);
-            //         $.each(data, function(key, resp) {
-            //             $('#harga').text(resp.product_harga);
-            //         });
-            //     }
-            // });
         });
+        // $('#tgl_transaksi').change(function() {
+        //     var tanggal = $(this).val();
+        //     var replace = tanggal.replaceAll('-','');
+        //     // var replace = replace.replace('-','aa');
+        //     var generator = $('#generator').attr('no');
+        //     // $('#harga').val(ids);
+        //     var no_nota_generator = replace +'-'+'01'+'-'+generator.padStart(3, "0");
+        //     $('#no_nota').val(no_nota_generator);
+        // });
 
         //tambah to cart 
         var count = 1;
+        if(count != 1){
+           
+        };
         $('#tambah').on('click', function() {
-
+            $("#supplier").disable = true;
             var name = $('#barang').val();
-            
+           
             var kuantitas = $('#kuantitas').val();
             var harga = $('#harga').val();
             var satuan = $('#satuan').val();
-            var no_nota = $('#no_nota').val();
-            var tgl_transaksi = $('#tgl_transaksi').val();
+            var no_nota = $('#no_nota_span').text();
+            var tgl_transaksi = $('#tgl_transaksi_span').text();
             var supplier = $('#supplier').val();
-
             if (kuantitas == 0) {
                 var erroMsg = '<span class="alert alert-danger ml-5">Minimum Qty should be 1 or More than 1</span>';
                 $('#errorMsg').html(erroMsg).fadeOut(9000);
@@ -199,10 +194,11 @@
 
             function billFunction() {
                 var total = 0;
-                $('#no_nota_span').html(no_nota);
-                $('#tgl_transaksi_span').html(tgl_transaksi);
+                // $('#no_nota_span').html(no_nota);
+                // $('#tgl_transaksi_span').html(tgl_transaksi);
                 $('#supplier_span').html(supplier);
                 var id_supplier = $('#supplier').find(':selected').attr('id');
+                
                 var notainput =  '<input type="hidden" name="no_nota" value='+no_nota+'> ' + '<input type="hidden" name="tgl_transaksi" value='+tgl_transaksi+'> ' +'<input type="hidden" name="supplier_id" value='+id_supplier+'> ' ;
                 $('#new').append(notainput);
 
@@ -238,5 +234,6 @@
                 count++;
             }
         });
+        
     });
 </script>

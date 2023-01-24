@@ -38,7 +38,7 @@
                     <td id='td_flok_tujuan_'>{{$d->flok->nama}}</td>
                     <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
                     <td>
-                        <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm()">EDIT</a>
+                        <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm('{{ $d->created_at }}')">EDIT</a>
                     </td>
                 </tr>
                 @endforeach
@@ -55,22 +55,27 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Tambah Jadwal</h4>
+                <h4 class="modal-title">Tambah Jadwal Pakan</h4>
             </div>
             <div class="modal-body">
-                <form action="{{ url('pemasukantelur') }}" class="form-horizontal" method='POST'>
+                <form action="{{ route('jadwalpakan.store') }}" class="form-horizontal" method='POST'>
                     @csrf
                     <div class="form-body">
                         <div class="form-group">
                             <label>Jenis Pakan Ternak</label>
                             <select class="form-control" name="jenis_pakan" id="jenis_pakan">
-
+                                @foreach ($barang as $item)
+                         
+                                <option value="{{ $item->id }}">{{ $item->nama}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Asal Flok</label>
                             <select class="form-control" name="asal_flok" id="asal_flok">
-
+                                @foreach ($flok as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
@@ -79,15 +84,10 @@
                             </input>
                         </div>
                         <div class="form-group">
-                            <label>Tanggal Pencatatan</label>
-                            <td>
-                                <div class="input-group input-group-sm date date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
-                                    <input type="text" class="form-control form-filter" readonly name="order_date_from" placeholder="Pilih tgl">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
-                                    </span>
-                                </div>
-                            </td>
+                            <label>Tanggal Pemberian</label>
+                            <div>
+                                <input type="date" name="tgl_pemberian" class="form-control input-sm"required/>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

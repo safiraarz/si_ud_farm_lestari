@@ -42,7 +42,13 @@
                     <td id='td_tgl_pencatatan_'>{{$d->tgl_pencatatan}}</td>
                     <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
                     <td>
-                        <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm()">EDIT</a>
+                        {{-- {{$d->created_at}} --}}
+                        {{-- @php
+                            $create = strval($d->created_at);
+                            $created = str_replace(" ","",$create);
+                            echo $created;
+                        @endphp --}}
+                        <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm('{{ $d->created_at }}')">EDIT</a>
                     </td>
                 </tr>
                 @endforeach
@@ -62,21 +68,24 @@
                 <h4 class="modal-title">Tambah Data</h4>
             </div>
             <div class="modal-body">
-                <form action="{{ url('pemasukantelur') }}" class="form-horizontal" method='POST'>
+                <form action="{{ route('pemasukantelur.store') }}" class="form-horizontal" method='POST'>
                     @csrf
                     <div class="form-body">
                         <div class="form-group">
                             <label>Jenis Telur</label>
-                            <select class="form-control" name="jenis_telur" id="jenis_telur">
+                            <select class="form-control" name="barang_id" id="jenis_telur">
                                 <!-- seharusnya dikasih where jenis==barang -->
                                 @foreach ($barang as $item)
+                                @if ($item->jenis == "Barang Jadi")
+                                    
                                 <option value="{{ $item->id }}">{{ $item->nama}}</option>
+                                @endif
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Asal Flok</label>
-                            <select class="form-control" name="jenis_telur" id="jenis_telur">
+                            <select class="form-control" name="flok_id" id="jenis_telur">
                                 @foreach ($flok as $item)
                                 <option value="{{ $item->id }}">{{ $item->nama}}</option>
                                 @endforeach
@@ -84,23 +93,23 @@
                         </div>
                         <div class="form-group">
                             <label>Kuantitas Bersih</label>
-                            <input type="text" name="kuantitas_bersih" class="form-control" id='kuantitas_bersih' required>
+                            <input type="text" id="kuantitas_bersih" name="kuantitas_bersih" class="form-control"  required>
                             </input>
                         </div>
                         <div class="form-group">
                             <label>Kuantitas Reject</label>
-                            <input type="text" name="kuantitas_reject" class="form-control" id='kuantitas_reject' required>
+                            <input type="text" id="kuantitas_reject" name="kuantitas_reject" class="form-control"  required>
                             </input>
                         </div>
                         <div class="form-group">
                             <label>Total Kuantitas</label>
                             <!-- ini seharusnya otomatis penjumlahan kuantitas bersih+reject -->
-                            <input type="text" name="total_kuantitas" class="form-control" id='total_kuantitas' required>
+                            <input type="text" id="total_kuantitas" name="total_kuantitas" class="form-control"  readonly="true">
                             </input>
                         </div>
                         <div class="form-group">
                             <label>Keterangan</label>
-                            <textarea id="eKeterangan" type="text" class="form-control" name="keterangan" required></textarea>
+                            <textarea id="keterangan" type="text" class="form-control" name="keterangan" required></textarea>
                         </div>
                         <div class="form-group">
                             <label>Tanggal Pencatatan</label>
@@ -112,7 +121,7 @@
                                     </span>
                                 </div> -->
                                 <div>
-                                    <input type="date" class="form-control input-sm"required />
+                                    <input type="date" name="tanggal_pencatatan" class="form-control input-sm"required />
                                 </div>
                             </td>
                         </div>
@@ -137,7 +146,31 @@
 </div>
 @section('javascript')
 <script>
+    // Generate Total 
+    $("#kuantitas_bersih").on('change', function () {
+        $("#kuantitas_reject").on('change', function () {
+            var total = parseInt($("#kuantitas_reject").val()) + parseInt($("#kuantitas_bersih").val());
+            // alert(total);
+            $('#total_kuantitas').val(total);
+        })
+    })
+    // $('').onChange(function() {
+    //         $('#kuantitas_reject').onChange(function() {
+    //             var total = $("#kuantitas_reject").val() + $("#kuantitas_bersih").val();
+    //             // alert(total);
+    //             $('#total_kuantitas').val(total);
+
+           
+    //         });
+    //     });
+    $(document).ready(function() {
+        
+        if($("#kuantitas_bersih").val() != 0 && $("#kuantitas_reject").val() !=0){
+           
+        }
+    });
     function getEditForm(id) {
+
         $.ajax({
                 type: 'POST',
                 url: '{{route("pemasukantelur.getEditForm")}}',

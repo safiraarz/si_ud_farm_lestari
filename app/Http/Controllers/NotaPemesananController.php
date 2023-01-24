@@ -38,7 +38,10 @@ class NotaPemesananController extends Controller
         $user = User::all();
         $supplier = Supplier::all();
         $barang = Barang::all();
-        return view('notapemesanan.create', ['supplier' => $supplier,'user' => $user,'supplier' => $supplier,'barang' => $barang]);
+        $date_now = str_replace('-', '',Carbon::now()->toDateString());
+        $sqlmaxnota = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_nota, -3))+1 AS PemesananMaxTanggal FROM `nota_pemesanan` WHERE `no_nota` LIKE '". $date_now ."%';"));
+        $no_nota_generator = $date_now.'-'.'01'.'-'.str_pad($sqlmaxnota[0]->PemesananMaxTanggal, 3, "0", STR_PAD_LEFT);
+        return view('notapemesanan.create', ['date_now'=>Carbon::now()->toDateString(),'no_nota_generator'=>$no_nota_generator,'supplier' => $supplier,'user' => $user,'supplier' => $supplier,'barang' => $barang]);
     }
 
     /**
@@ -61,6 +64,7 @@ class NotaPemesananController extends Controller
         $idNotaNew = $data->id;
         foreach($request->get("barang") as $details) 
         {
+            
             $data->barang()->attach($details['id_barang'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga_barang']]);
         }
         return redirect()->route('notapemesanan.index')->with('status', 'Berhasil menambahkan nota' . $request->get('no_nota'));
@@ -95,9 +99,33 @@ class NotaPemesananController extends Controller
      * @param  \App\NotaPemesanan  $notaPemesanan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, NotaPemesanan $notaPemesanan)
+    public function update(Request $request,$notaPemesanan)
     {
         //
+        // dd($request->get("barang"));
+        $data = NotaPemesanan::find($notaPemesanan);
+        // dd($request->barang);
+        $data->no_nota = $request->get('no_nota');
+        $data->tgl_pembuatan_nota = $request->get('tanggal_pembuatan_nota');
+        $total = 0;
+        // Delete
+        
+        foreach($request->get("barang") as $details) 
+        {
+            $data->barang()->detach();
+            // $data->barang()->updateExistingPivot($details['barang_id'],[
+            //     'kuantitas' =>$details['kuantitas'],'harga' =>$details['harga']
+            // ]);
+            $total += $details['kuantitas'] * $details['harga'];
+            
+            // Add
+            $data->barang()->attach($details['barang_id'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga']]);
+        }
+        // Tambah with total
+      
+        $data->total_harga = $total;
+        $data->save();
+        return redirect()->route('notapemesanan.index')->with('status', 'Berhasil Mengubah Nota Pembelian '.$request->get('no_nota'));
     }
 
     /**

@@ -19,7 +19,7 @@ class PemasukanTelurController extends Controller
      */
     public function index()
     {
-        $queryBuilder = PemasukanTelur::all();
+        $queryBuilder = PemasukanTelur::orderBy('created_at', 'desc')->get();
         $barang = Barang::all();
         $flok = Flok::all();
         $user = User::all();
@@ -49,17 +49,24 @@ class PemasukanTelurController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->get('total_kuantitas'));
         $data = new PemasukanTelur();
-        $data->kuantitas = $request->get('kuantitas');
-        $data->	tanggal_pencatatan = $request->get('tanggal_pencatatan');;
+        $data->kuantitas_bersih = $request->get('kuantitas_bersih');
+        $data->kuantitas_reject = $request->get('kuantitas_reject');
+        $data->total_kuantitas = $request->get('total_kuantitas');
+        $data->keterangan = $request->get('keterangan');
 
-        $flok = Flok::find($request->get('flok'));
-        $barang = Barang::find($request->get('barang'));
+        $data->barang_id= $request->get('barang_id');
+        $data->flok_id= $request->get('flok_id');
 
-        $flok->notapemesanan()->save($data);
-        $barang->notapemesanan()->save($data);
+        $data->tgl_pencatatan = $request->get('tanggal_pencatatan');
 
-        return redirect()->route('notapemesanan.index')->with('status', 'Berhasil menambahkan pencatatan');
+    
+        $data->save();
+
+
+        return redirect()->route('pemasukantelur.index')->with('status', 'Berhasil mennambah pencatatan');
+
     }
 
     /**
@@ -91,9 +98,22 @@ class PemasukanTelurController extends Controller
      * @param  \App\PemasukanTelur  $pemasukanTelur
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PemasukanTelur $pemasukanTelur)
+    public function update(Request $request,  $pemasukanTelur)
     {
         //
+        DB::table('daftar_pemasukan_telur')
+            ->where('created_at', $pemasukanTelur)
+            ->update([
+                'barang_id' => $request->get('barang_id'),
+                'flok_id' =>$request->get('flok_id'),
+                'kuantitas_bersih' => $request->get('kuantitas_bersih'),
+                'kuantitas_reject' => $request->get('kuantitas_reject'),
+                'total_kuantitas' => $request->get('total_kuantitas'),
+                'tgl_pencatatan' => $request->get('tanggal_pencatatan'),
+                'keterangan' => $request->get('keterangan')
+            ]);
+
+        return redirect()->route('pemasukantelur.index')->with('status', 'Berhasil mengubah pencatatan');
     }
 
     /**
@@ -109,7 +129,9 @@ class PemasukanTelurController extends Controller
 
     public function getEditForm(Request $request)
     {
-        $data = PemasukanTelur::find();
+        $data = PemasukanTelur::where('created_at',$request->get('id'))->first();
+        // dd($data);
+
         $barang = Barang::all();
         $flok = Flok::all();
         return response()->json(array(
