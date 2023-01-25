@@ -7,7 +7,9 @@ use App\NotaPemesanan;
 use App\Supplier;
 use App\User;
 use App\Barang;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NotaPembelianController extends Controller
 {
@@ -23,7 +25,17 @@ class NotaPembelianController extends Controller
         $supplier = Supplier::all();
         $barang = Barang::all();
         $notapemesanan = NotaPemesanan::all();
-        return view('notapembelian.index', ['data' => $queryBuilder, 'user' => $user,'supplier' => $supplier,'barang' => $barang,'notapemesanan' => $notapemesanan]);
+        $date_now = str_replace('-', '',Carbon::now()->toDateString());
+        $sqlmaxnota = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_nota, -3))+1 AS PembelianMaxTanggal FROM `nota_pembelian` WHERE `no_nota` LIKE '". $date_now ."%';"));
+        $pembelianMax= 0;
+        if($sqlmaxnota[0]->PembelianMaxTanggal == null){
+            $pembelianMax=1;
+        }
+        else{
+            $pembelianMax = $sqlmaxnota[0]->PembelianMaxTanggal;
+        }
+        $no_nota_generator = $date_now.'-'.'02'.'-'.str_pad($pembelianMax, 3, "0", STR_PAD_LEFT);
+        return view('notapembelian.index', ['no_nota_generator'=> $no_nota_generator,'data' => $queryBuilder, 'user' => $user,'supplier' => $supplier,'barang' => $barang,'notapemesanan' => $notapemesanan]);
     }
 
     /**
@@ -49,21 +61,28 @@ class NotaPembelianController extends Controller
      */
     public function store(Request $request)
     {
-        $data = new NotaPemesanan();
+        // dd($request->barang);
+        $data = new NotaPembelian();
         $data->no_nota = $request->get('no_nota');
-        $data->	tanggal_pembuatan_nota = $request->get('tanggal_pembuatan_nota');
-        $data->total_harga = $request->get('total_harga');
-        $data->	status = $request->get('status');
 
-        $supplier = Supplier::find($request->get('supplier'));
-        $barang = Barang::find($request->get('barang'));
-        $notapemesanan = NotaPemesanan::find($request->get('nota_pemesanan'));
-
+        $data->nota_pemesanan_id = $request->get('no_pesanan');
+        $data->tgl_pembuatan_nota = $request->get('tanggal_pembuatan_nota');
+        
+        $supplier = Supplier::find($request->get('supplier_id'));
         $supplier->notapembelian()->save($data);
-        $barang->notapembelian()->save($data);
-        $notapemesanan->notapembelian()->save($data);
+        $idNotaNew = $data->id;
+        $total = 0;
+        foreach($request->get("barang") as $details) 
+        {
+            $total += $details['kuantitas'] * $details['harga'];
+            $data->barang()->attach($details['bahan_baku'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga']]);
+        }
 
-        return redirect()->route('notapembelian.index')->with('status', 'Berhasil menambahkan nota' . $request->get('no_nota'));
+        $data->total_harga = $total;
+        $data->save();
+      
+
+        return redirect()->route('notapembelian.index')->with('status', 'Berhasil Menambahkan Nota ' . $request->get('no_nota'));
     }
 
     /**
@@ -118,6 +137,8 @@ class NotaPembelianController extends Controller
         $supplier = Supplier::all();
         $barang = Barang::all();
         $notapemesanan = NotaPemesanan::all();
+        
+       
         return response()->json(array(
             'status' => 'oke',
             'msg' => view('notapembelian.getEditForm', compact('data', 'supplier','barang','notapemesanan'))->render()

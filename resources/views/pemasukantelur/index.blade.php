@@ -56,7 +56,6 @@
         </table>
     </div>
 </div>
-@endsection
 
 <!-- tambah pemasukantelur -->
 
@@ -144,6 +143,11 @@
         </div>
     </div>
 </div>
+
+
+@endsection
+
+
 @section('javascript')
 <script>
     // Generate Total 

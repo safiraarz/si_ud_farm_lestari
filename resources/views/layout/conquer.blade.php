@@ -27,24 +27,24 @@ License: You must have a valid license purchased only from themeforest(the above
 	<meta name="MobileOptimized" content="320">
 	<!-- BEGIN GLOBAL MANDATORY STYLES -->
 	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
-	<link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-	<link href="assets/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
-	<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-	<link href="assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
+	<link href="{{asset('assets/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{asset('assets/plugins/simple-line-icons/simple-line-icons.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{asset('assets/plugins/uniform/css/uniform.default.css') }}" rel="stylesheet" type="text/css" />
 	<!-- END GLOBAL MANDATORY STYLES -->
 	<!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
-	<link href="assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
-	<link href="assets/plugins/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css" />
-	<link href="assets/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css" />
+	<link href="{{asset('assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{asset('assets/plugins/fullcalendar/fullcalendar/fullcalendar.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{asset('assets/plugins/jqvmap/jqvmap/jqvmap.css') }}" rel="stylesheet" type="text/css" />
 	<!-- END PAGE LEVEL PLUGIN STYLES -->
 	<!-- BEGIN THEME STYLES -->
-	<link href="assets/css/style-conquer.css" rel="stylesheet" type="text/css" />
-	<link href="assets/css/style.css" rel="stylesheet" type="text/css" />
-	<link href="assets/css/style-responsive.css" rel="stylesheet" type="text/css" />
-	<link href="assets/css/plugins.css" rel="stylesheet" type="text/css" />
-	<link href="assets/css/pages/tasks.css" rel="stylesheet" type="text/css" />
-	<link href="assets/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color" />
-	<link href="assets/css/custom.css" rel="stylesheet" type="text/css" />
+	<link href="{{asset('assets/css/style-conquer.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{asset('assets/css/style.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{asset('assets/css/style-responsive.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{asset('assets/css/plugins.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{asset('assets/css/pages/tasks.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{asset('assets/css/themes/default.css') }}" rel="stylesheet" type="text/css" id="style_color" />
+	<link href="{{asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css" />
 	<!-- END THEME STYLES -->
 	<link rel="shortcut icon" href="favicon.ico" />
 
@@ -60,7 +60,7 @@ License: You must have a valid license purchased only from themeforest(the above
 			<!-- BEGIN LOGO -->
 			<div class="page-logo">
 				<a href="index.html">
-					<img src="assets/img/logo.png" alt="logo" />
+					<img src="{{asset('assets/img/logo.png') }}" alt="logo" />
 				</a>
 			</div>
 			<form class="search-form search-form-header" role="form" action="index.html">
@@ -72,7 +72,7 @@ License: You must have a valid license purchased only from themeforest(the above
 			<!-- END LOGO -->
 			<!-- BEGIN RESPONSIVE MENU TOGGLER -->
 			<a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-				<img src="assets/img/menu-toggler.png" alt="" />
+				<img src="{{asset('assets/img/menu-toggler.png') }}" alt="" />
 			</a>
 			<!-- END RESPONSIVE MENU TOGGLER -->
 			<!-- BEGIN TOP NAVIGATION MENU -->
@@ -194,7 +194,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<li>
 									<a href="inbox.html?a=view">
 										<span class="photo">
-											<img src="./assets/img/avatar2.jpg" alt="" />
+											<img src="{{asset('assets/img/avatar2.jpg') }}" alt="" />
 										</span>
 										<span class="subject">
 											<span class="from">
@@ -209,7 +209,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<li>
 									<a href="inbox.html?a=view">
 										<span class="photo">
-											<img src="./assets/img/avatar3.jpg" alt="" />
+											<img src="{{asset('assets/img/avatar3.jpg') }}" alt="" />
 										</span>
 										<span class="subject">
 											<span class="from">
@@ -224,7 +224,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<li>
 									<a href="inbox.html?a=view">
 										<span class="photo">
-											<img src="./assets/img/avatar1.jpg" alt="" />
+											<img src="{{asset('assets/img/avatar1.jpg') }}" alt="" />
 										</span>
 										<span class="subject">
 											<span class="from">
@@ -239,7 +239,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<li>
 									<a href="inbox.html?a=view">
 										<span class="photo">
-											<img src="./assets/img/avatar2.jpg" alt="" />
+											<img src="{{asset('assets/img/avatar2.jpg') }}" alt="" />
 										</span>
 										<span class="subject">
 											<span class="from">
@@ -254,7 +254,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<li>
 									<a href="inbox.html?a=view">
 										<span class="photo">
-											<img src="./assets/img/avatar3.jpg" alt="" />
+											<img src="{{asset('assets/img/avatar3.jpg') }}" alt="" />
 										</span>
 										<span class="subject">
 											<span class="from">
@@ -666,7 +666,9 @@ License: You must have a valid license purchased only from themeforest(the above
 			</div>
 		</div>
 	</div>
+	
 	<!-- END CONTENT -->
+	
 	</div>
 	<!-- END CONTAINER -->
 	<!-- BEGIN FOOTER -->
@@ -685,42 +687,42 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!-- BEGIN CORE PLUGINS -->
 
 
-	<script src="assets/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jquery-1.11.0.min.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jquery-migrate-1.2.1.min.js') }}" type="text/javascript"></script>
 	<!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
-	<script src="assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jquery.blockui.min.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/uniform/jquery.uniform.min.js') }}" type="text/javascript"></script>
 	<!-- END CORE PLUGINS -->
 	<!-- BEGIN PAGE LEVEL PLUGINS -->
-	<script src="assets/plugins/jqvmap/jqvmap/jquery.vmap.js" type="text/javascript"></script>
-	<script src="assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js" type="text/javascript"></script>
-	<script src="assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js" type="text/javascript"></script>
-	<script src="assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.europe.js" type="text/javascript"></script>
-	<script src="assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js" type="text/javascript"></script>
-	<script src="assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js" type="text/javascript"></script>
-	<script src="assets/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js" type="text/javascript"></script>
-	<script src="assets/plugins/jquery.peity.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/jquery.pulsate.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/jquery-knob/js/jquery.knob.js" type="text/javascript"></script>
-	<script src="assets/plugins/flot/jquery.flot.js" type="text/javascript"></script>
-	<script src="assets/plugins/flot/jquery.flot.resize.js" type="text/javascript"></script>
-	<script src="assets/plugins/bootstrap-daterangepicker/moment.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
-	<script src="assets/plugins/gritter/js/jquery.gritter.js" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jqvmap/jqvmap/jquery.vmap.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.europe.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jquery.peity.min.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jquery.pulsate.min.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jquery-knob/js/jquery.knob.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/flot/jquery.flot.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/flot/jquery.flot.resize.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/bootstrap-daterangepicker/moment.min.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/bootstrap-daterangepicker/daterangepicker.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/gritter/js/jquery.gritter.js') }}" type="text/javascript"></script>
 	<!-- IMPORTANT! fullcalendar depends on jquery-ui-1.10.3.custom.min.js for drag & drop support -->
-	<script src="assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/jquery-easypiechart/jquery.easypiechart.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jquery-easypiechart/jquery.easypiechart.min.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jquery.sparkline.min.js') }}" type="text/javascript"></script>
 	<!-- END PAGE LEVEL PLUGINS -->
 	<!-- BEGIN PAGE LEVEL SCRIPTS -->
-	<script src="assets/scripts/app.js" type="text/javascript"></script>
-	<script src="assets/scripts/index.js" type="text/javascript"></script>
-	<script src="assets/scripts/tasks.js" type="text/javascript"></script>
-	<script src="assets/plugins/jquery.editable.min.js" type="text/javascript"></script>
+	<script src="{{asset('assets/scripts/app.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/scripts/index.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/scripts/tasks.js') }}" type="text/javascript"></script>
+	<script src="{{asset('assets/plugins/jquery.editable.min.js') }}" type="text/javascript"></script>
 	<!-- END PAGE LEVEL SCRIPTS -->
 	<script>
 		jQuery(document).ready(function() {
