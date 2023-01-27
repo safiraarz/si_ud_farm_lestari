@@ -34,7 +34,10 @@ class HasilProduksiController extends Controller
      */
     public function create()
     {
-        //
+        $barang = Barang::all();
+        $user = User::all();
+        $spk = SPK::all();
+        return view('pemasukantelur.create', ['barang' => $barang, 'user' => $user,'spk' => $spk]);
     }
 
     /**

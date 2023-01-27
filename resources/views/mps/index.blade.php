@@ -11,44 +11,47 @@
         {{session('error')}}
     </div>
     @endif
-    <link rel="stylesheet" type="text/css" href="assets/plugins/bootstrap-datepicker/css/datepicker.css" />
-    <script type="text/javascript" src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-    <h2>Daftar Master Production Schedule</h2>
-    <div class="table">
-        <div>
-            <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah MPS</a>
+    <div class="portlet">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i>Daftar Master Production Schedule
+            </div>
+            <div class="actions">
+                <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Data</a>
+            </div>
         </div>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>ID SPK</th>
-                    <th>Nama Barang Jadi</th>
-                    <th>Kuantitas</th>
-                    <th>Satuan</th>
-                    <th>Tanggal Mulai Produksi</th>
-                    <th>Tanggal Selesai Produksi</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($data as $d)
-                <tr id='tr_{{$d->id}}'>
-                    <td>{{$d->id}}</td>
-                    <td id='td_no_spk_{{$d->id}}'>{{$d->surat_perintah_kerja->no_surat}}</td>
-                    <td id='td_barang_{{$d->id}}'>{{$d->barang->nama}}</td>
-                    <td id='td_kuantitas_{{$d->id}}'>{{number_format($d->kuantitas_barang_jadi)}}</td>
-                    <td id='td_satuan_{{$d->id}}'>{{$d->barang->satuan}}</td>
-                    <td id='td_tgl_mulai_produksi{{$d->id}}'>{{$d->tgl_mulai_produksi}}</td>
-                    <td id='td_tgl_selesai_produksi{{$d->id}}'>{{$d->tgl_selesai_produksi}}</td>
-                    <td>
+        <div class="portlet-body">
+            <table id='myTable' class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>No. SPK</th>
+                        <th>Nama Barang Jadi</th>
+                        <th>Kuantitas</th>
+                        <th>Satuan</th>
+                        <th>Tanggal Mulai Produksi</th>
+                        <th>Tanggal Selesai Produksi</th>
+                        <!-- <th>Action</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($data as $d)
+                    <tr id='tr_{{$d->id}}'>
+                        <td>{{$d->id}}</td>
+                        <td id='td_no_spk_{{$d->id}}'>{{$d->spk->no_surat}}</td>
+                        <td id='td_barang_{{$d->id}}'>{{$d->barang->nama}}</td>
+                        <td id='td_kuantitas_{{$d->id}}'>{{number_format($d->kuantitas_barang_jadi)}}</td>
+                        <td id='td_satuan_{{$d->id}}'>{{$d->barang->satuan}}</td>
+                        <td id='td_tgl_mulai_produksi{{$d->id}}'>{{$d->tgl_mulai_produksi}}</td>
+                        <td id='td_tgl_selesai_produksi{{$d->id}}'>{{$d->tgl_selesai_produksi}}</td>
+                        <!-- <td>
                         <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
-                    </td>
-                    
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                    </td> -->
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 @endsection
@@ -77,7 +80,9 @@
                             <label>Nama Barang Jadi</label>
                             <select class="form-control" name="barang" id="barang">
                                 @foreach ($barang as $item)
+                                @if ($item->jenis == "Barang Jadi")
                                 <option value="{{ $item->id }}">{{ $item->nama}}</option>
+                                @endif
                                 @endforeach
                             </select>
                         </div>
@@ -89,22 +94,16 @@
                         <div class="form-group">
                             <label>Tanggal Produksi Mulai</label>
                             <td>
-                                <div class="input-group input-group-sm date date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
-                                    <input type="text" class="form-control form-filter" readonly name="order_date_from" placeholder="Pilih tgl mulai">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
-                                    </span>
+                                <div>
+                                    <input type="date" name="tanggal_pencatatan" class="form-control input-sm" required />
                                 </div>
                             </td>
                         </div>
                         <div class="form-group">
                             <label>Tanggal Produksi Selesai</label>
                             <td>
-                                <div class="input-group input-group-sm date date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
-                                    <input type="text" class="form-control form-filter" readonly name="order_date_from" placeholder="Pilih tgl selesai">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
-                                    </span>
+                                <div>
+                                    <input type="date" name="tanggal_pencatatan" class="form-control input-sm" required />
                                 </div>
                             </td>
                         </div>
@@ -143,5 +142,6 @@
 
         );
     }
+    $('#myTable').DataTable();
 </script>
 @endsection

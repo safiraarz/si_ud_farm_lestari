@@ -11,55 +11,79 @@
         {{session('error')}}
     </div>
     @endif
-    <h2>Daftar Surat Jalan</h2>
-    <div class="table">
-        <div>
-            <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Nota</a>
+    <div class="portlet">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i>Daftar Surat Jalan
+            </div>
+            <div class="actions">
+            <a href="{{url('suratjalan/create')}}" class="btn btn-info" type="button">Tambah Data</a>
+            </div>
         </div>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nomor Surat</th>
-                    <th>Tanggal Pengiriman Barang</th>
-                    <th>Detail Barang</th>
-                    <th>Keterangan</th>
-                    <th>Pembuat Surat</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($data as $d)
-                <tr id='tr_{{$d->id}}'>
-                    <td>{{$d->id}}</td>
-                    <td id='td_no_surat_{{$d->id}}'>{{$d->no_surat}}</td>
-                    <td id='td_tgl_pengiriman_barang_{{$d->id}}'>{{$d->tgl_pengiriman_barang}}</td>
-                    <td> <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a>
-                        <div class="modal fade" id="detail_{{$d->id}}" tabindex="-1" role="basic" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">{{$d->no_surat}}</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <hr>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <div class="portlet-body">
+            <table id='myTable' class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nomor Surat</th>
+                        <th>Tanggal Pengiriman Barang</th>
+                        <th>Keterangan</th>
+                        <th>Daftar Barang</th>
+                        <th>Pembuat Surat</th>
+                        <!-- <th>Action</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($data as $d)
+                    <tr id='tr_{{$d->id}}'>
+                        <td>{{$d->id}}</td>
+                        <td id='td_no_surat_{{$d->id}}'>{{$d->no_surat}}</td>
+                        <td id='td_tgl_pengiriman_barang_{{$d->id}}'>{{$d->tgl_pengiriman_barang}}</td>
+                        <td id='td_keterangan_{{$d->id}}'>{{$d->keterangan}}</td>
+                        <td>
+                            {{-- <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a> --}}
+                            <a class="btn btn-default edittable" data-toggle="modal" href="#detail_{{$d->id}}">
+                                Detail
+                            </a>
+                            <div class="modal fade" id="detail_{{$d->id}}" tabindex="-1" role="basic" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Nomor Nota : {{$d->no_nota}}</h4>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            @foreach ($d->daftar_barang as $key =>$item)
+                                            <p>
+                                                <span>- Barang {{ $key+1 }}</span>
+
+                                            </p>
+                                            <p>
+                                                <span>Nama Barang</span> : <span> {{$item->nama}}</span>
+
+                                            </p>
+                                            <p>
+                                                <span>Kuantitas</span> : <span> {{ number_format($item->pivot->kuantitas) }}</span>
+
+                                            </p>
+                                            @endforeach
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                    <td id='td_keterangan_{{$d->id}}'>{{$d->keterangan}}</td>
-                    <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
-                    <td>
+                        </td>
+                        <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
+                        <!-- <td>
                         <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                    </td> -->
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 @endsection
@@ -128,20 +152,6 @@
 </div>
 @section('javascript')
 <script>
-    function getEditForm(id) {
-        $.ajax({
-                type: 'POST',
-                url: '{{route("suratjalan.getEditForm")}}',
-                data: {
-                    '_token': '<?php echo csrf_token() ?>',
-                    'id': id
-                },
-                success: function(data) {
-                    $('#modalContent').html(data.msg)
-                }
-            },
-
-        );
-    }
+    $('#myTable').DataTable();
 </script>
 @endsection

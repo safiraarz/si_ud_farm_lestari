@@ -3,7 +3,6 @@
     <h4 class="modal-title">Edit Barang</h4>
 </div>
 <div class="modal-body">
-
     <form action="{{ route('barang.update',$data->id) }}" method="post" enctype="multipart/form-data" class="form-horizontal">
         @csrf
         @method('PUT')
@@ -22,19 +21,19 @@
             </div>
             <div class="form-group">
                 <label>Kuantitas Stok on Order Supplier</label>
-                <input id="eKuantitas_stok_onorder_supplier" type="text" name="kuantitas_supplier" class="form-control"value='{{number_format($data->kuantitas_stok_onorder_supplier)}}'>
+                <input id="eKuantitas_stok_onorder_supplier" type="text" id="kuantitas_supplier" name="kuantitas_supplier" class="form-control" value='{{number_format($data->kuantitas_stok_onorder_supplier)}}'>
             </div>
             <div class="form-group">
                 <label>Kuantitas Stok on Order Produksi</label>
-                <input id="eKuantitas_stok_onorder_produksi" type="text" name="kuntitas_produksi" class="form-control"value='{{number_format($data->kuantitas_stok_onorder_produksi)}}'>
+                <input id="eKuantitas_stok_onorder_produksi" type="text" id="kuntitas_produksi" name="kuntitas_produksi" class="form-control" value='{{number_format($data->kuantitas_stok_onorder_produksi)}}'>
             </div>
             <div class="form-group">
                 <label>Kuantitas Stok Ready</label>
-                <input id="eKuantitas_stok_ready" type="text" name="kuantitas_ready" class="form-control" value='{{number_format($data->kuantitas_stok_ready)}}'>
+                <input id="eKuantitas_stok_ready" type="text" id="kuantitas_ready" name="kuantitas_ready" class="form-control" value='{{number_format($data->kuantitas_stok_ready)}}'>
             </div>
             <div class="form-group">
                 <label>Total Kuantitas Stok</label>
-                <input id="eTotal_kuantitas_stok" type="text" name="total_kuantitas" class="form-control" value='{{number_format($data->total_kuantitas_stok)}}'>
+                <input id="eTotal_kuantitas_stok" type="text" id="total_kuantitas" name="total_kuantitas" class="form-control" value='{{number_format($data->total_kuantitas_stok)}}'>
             </div>
             <div class="form-group">
                 <label>Harga per-Satuan</label>
@@ -60,3 +59,18 @@
         </div>
     </form>
 </div>
+
+@section('javascript')
+<script>
+    $("#kuantitas_supplier").on('change', function() {
+        $("#kuntitas_produksi").on('change', function() {
+            $("#kuantitas_ready").on('change', function() {
+                var total = parseInt($("#kuantitas_supplier").val()) + parseInt($("#kuntitas_produksi").val()) + parseInt($("#kuantitas_ready").val());
+                // alert(total);
+                $('#total_kuantitas').val(total);
+            })
+        })
+    })
+</script>
+
+@endsection

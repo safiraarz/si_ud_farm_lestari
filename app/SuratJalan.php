@@ -13,4 +13,7 @@ class SuratJalan extends Model
     public function pengguna(){
         return $this->belongsTo('App\User','pengguna_id','id');
     }
+    public function daftar_barang(){
+        return $this->belongsToMany('App\Barang','d_surat_jalan','surat_jalan_id','barang_id')->withPivot('kuantitas');
+    }
 }

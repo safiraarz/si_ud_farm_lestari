@@ -11,155 +11,87 @@
         {{session('error')}}
     </div>
     @endif
-    <h2>Daftar Nota Penjualan</h2>
-    <div class="table">
-        <div>
-            <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Nota</a>
+    <div class="portlet">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i>Daftar Nota Penjualan
+            </div>
         </div>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nomor Nota</th>
-                    <th>Tanggal Pembuatan Nota</th>
-                    <th>Nama Customer</th>
-                    <th>Total Harga</th>
-                    <th></th>
-                    <th>Pembuat Nota</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($data as $d)
-                <tr id='tr_{{$d->id}}'>
-                    <td>{{$d->id}}</td>
-                    <td id='td_no_nota_{{$d->id}}'>{{$d->no_nota}}</td>
-                    <td id='td_tgl_pembuatan_nota{{$d->id}}'>{{$d->tgl_pembuatan_nota}}</td>
-                    <td id='td_customer_{{$d->id}}'>{{$d->customer->nama}}</td>
-                    <td id='td_total_harga_{{$d->id}}'>Rp{{number_format($d->total_harga,2)}}</td>
-                    <td> <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a>
-                        <div class="modal fade" id="detail_{{$d->id}}" tabindex="-1" role="basic" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">{{$d->no_nota}}</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <hr>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <div class="portlet-body">
+            <table id='myTable' class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nomor Nota</th>
+                        <th>Tanggal Pembuatan Nota</th>
+                        <th>Nama Customer</th>
+                        <th>Total Harga</th>
+                        <th>Daftar Barang</th>
+                        <th>Pembuat Nota</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($data as $d)
+                    <tr id='tr_{{$d->id}}'>
+                        <td>{{$d->id}}</td>
+                        <td id='td_no_nota_{{$d->id}}'>{{$d->no_nota}}</td>
+                        <td id='td_tgl_pembuatan_nota{{$d->id}}'>{{$d->tgl_pembuatan_nota}}</td>
+                        <td id='td_customer_{{$d->id}}'>{{$d->customer->nama}}</td>
+                        <td id='td_total_harga_{{$d->id}}'>Rp{{number_format($d->total_harga,2)}}</td>
+                        <td>
+                            {{-- <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a> --}}
+                            <a class="btn btn-default edittable" data-toggle="modal" href="#detail_{{$d->id}}">
+                                Detail
+                            </a>
+                            <div class="modal fade" id="detail_{{$d->id}}" tabindex="-1" role="basic" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Nomor Nota : {{$d->no_nota}}</h4>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            @foreach ($d->barang as $key =>$item)
+                                            <p>
+                                                <span>- Barang {{ $key+1 }}</span>
+
+                                            </p>
+                                            <p>
+                                                <span>Nama Barang</span> : <span> {{$item->nama}}</span>
+                                            </p>
+                                            <p>
+                                                <span>Harga</span> : <span> Rp{{number_format($item->harga,2)}}</span>
+                                            </p>
+                                            <p>
+                                                <span>Kuantitas</span> : <span> {{ number_format($item->pivot->kuantitas) }}</span>
+                                            </p>
+                                            @endforeach
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                    <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
-                    <td id='td_status_{{$d->id}}'>{{$d->status}}</td>
-                    <td>
-                        <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                        </td>
+                        <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
+                        <td id='td_status_{{$d->id}}'>{{$d->status}}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-@endsection
-
-<!-- add new data -->
-<div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Tambah Nota</h4>
-            </div>
-            <div class="modal-body">
-                <form action="{{ url('notapenjualan') }}" class="form-horizontal" method='POST'>
-                    @csrf
-                    <div class="form-body">
-                        <div class="form-group">
-                            <label>Nomor Nota</label>
-                            <input type="text" name="kuantitas" class="form-control" id='kuantitas' required>
-                            </input>
-                        </div>
-                        <div class="form-group">
-                            <label>Tanggal Pembuatan Nota</label>
-                            <td>
-                                <div class="input-group input-group-sm date date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
-                                    <input type="text" class="form-control form-filter" readonly name="order_date_from" placeholder="Pilih tgl_pembuatan_nota">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
-                                    </span>
-                                </div>
-                            </td>
-                        </div>
-                        <div class="form-group">
-                            <label>Nama Customer</label>
-                            <select class="form-control" name="customer" id="customer">
-                                @foreach ($customer as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Jenis Telur</label>
-                            <select class="form-control" name="jenis_telur" id="jenis_telur">
-                                <!-- seharusnya dikasih where jenis==bahan baku -->
-                                @foreach ($barang as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Harga per-satuan</label>
-                            <input type="text" name="harga" class="form-control" id='harga' required>
-                            </input>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Kuantitas</label>
-                            <input type="text" name="kuantitas" class="form-control" id='kuantitas' required>
-                            </input>
-                        </div>
-                        <button type="tambah" class="btn btn-success">Tambah ke Tabel</button>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="col-md-offset-3 col-md-9">
-                            <button type="submit" class="btn btn-success">Submit</button>
-                            <a href="{{url('mps')}}" class="btn btn-default" data-dismiss="modal">Cancel</a>
-                        </div>
-                    </div>
-                </form>
+    @endsection
+    <div class="modal fade" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" id='modalContent'>
             </div>
         </div>
     </div>
-</div>
-<div class="modal fade" id="modalEdit" tabindex="-1" role="basic" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content" id='modalContent'>
-        </div>
-    </div>
-</div>
-@section('javascript')
-<script>
-    function getEditForm(id) {
-        $.ajax({
-                type: 'POST',
-                url: '{{route("notapenjualan.getEditForm")}}',
-                data: {
-                    '_token': '<?php echo csrf_token() ?>',
-                    'id': id
-                },
-                success: function(data) {
-                    $('#modalContent').html(data.msg)
-                }
-            },
-
-        );
-    }
-</script>
-@endsection
+    @section('javascript')
+    <script>
+        $('#myTable').DataTable();
+    </script>
+    @endsection

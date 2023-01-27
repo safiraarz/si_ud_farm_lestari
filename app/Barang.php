@@ -11,7 +11,6 @@ class Barang extends Model
     public function notapembelian()
     {
         return $this->hasMany('App\NotaPembelian', 'barang_id', 'id');
-        
     }
     public function notapenjualan()
     {
@@ -21,12 +20,13 @@ class Barang extends Model
     {
         return $this->hasMany('App\NotaPemesanan', 'barang_id', 'id');
     }
-    public function pemasukantelur(){
-        return $this->hasMany('App\PemasukanTelur','barang_id');
+    public function pemasukantelur()
+    {
+        return $this->hasMany('App\PemasukanTelur', 'barang_id', 'id');
     }
     public function spk()
     {
-        return $this->belongsTo('App\SPK', 'barang_id', 'id');
+        return $this->hasMany('App\SPK', 'barang_id', 'id');
     }
     public function mps()
     {

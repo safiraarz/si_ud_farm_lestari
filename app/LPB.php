@@ -14,4 +14,7 @@ class LPB extends Model
     public function pengguna(){
         return $this->belongsTo('App\User','pengguna_id','id');
     }
+    public function daftar_barang(){
+        return $this->belongsToMany('App\Barang','d_pengeluaran_bahan_baku','pengeluaran_bahan_baku_id','barang_id')->withPivot('kuantitas');;
+    }
 }

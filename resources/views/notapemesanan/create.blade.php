@@ -22,76 +22,78 @@
 </head>
 
 
-    <body>
-        <section class="mt-3">
-            <div class="container-fluid">
-                <h4 class="text-center" style="color:green"> UD Farm Lestari </h4>
-                <div class="row">
-                    <div class="col-md-5  mt-4 ">
-                        <table class="table" style="background-color:#e0e0e0;">
-                            <thead>
-                                <tr>
-                                    {{-- <th id="generator"  style="width:35%">Nomor Nota</th> --}}
-                                    {{-- <th style="width:25%">Tanggal Pembuatan Nota</th> --}}
-                                    <th>Nama Supplier</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    {{-- <td>
+<body>
+    <section class="mt-3">
+        <div class="container-fluid">
+            <h4 class="text-center" style="color:green"> UD Farm Lestari </h4>
+            <div class="row">
+                <div class="col-md-5  mt-4 ">
+                    <table class="table" style="background-color:#e0e0e0;">
+                        <thead>
+                            <tr>
+                                {{-- <th id="generator"  style="width:35%">Nomor Nota</th> --}}
+                                {{-- <th style="width:25%">Tanggal Pembuatan Nota</th> --}}
+                                <th>Nama Supplier</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {{-- <td>
                                         <input type="text" id="no_nota" class="form-control" value="{{ $no_nota_generator }}" disabled>
-                                    </td> --}}
-                                    {{-- <td>
+                                </td> --}}
+                                {{-- <td>
                                         <input type="date" value="{{date('Y-m-d')}}" id="tgl_transaksi" class="form-control input-sm" required />
-                                    </td> --}}
-                                    <td>
-                                        <select name="supplier" id="supplier" class="form-control">
-                                            @foreach($supplier as $row )
-                                            <option id={{$row->id}} value="{{$row->nama}}"" class="barang custom-select">
-                                                {{$row->nama}}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table class="table" style="background-color:#e0e0e0;">
-                            <thead>
-                                <tr>
-                                    <th style="width:35%">Nama Barang</th>
-                                    <th style="width:25%">Kuantitas</th>
-                                    <th>Harga</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <select name="barang" id="barang" class="form-control">
-                                            @foreach($barang as $row )
-                                            <option id={{$row->id}} value="{{$row->nama}}" harga="{{$row->harga}}" satuan="{{$row->satuan}}" class="barang custom-select">
-                                                {{$row->nama}}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input type="number" id="kuantitas" min="0" value="0" class="form-control">
-                                    </td>
-                                    <td>
-                                        <input type="number" id="harga" min="0" value="0" class="form-control">
-                                    </td>
-                                    <td><button id="tambah" class="btn btn-success">Tambah</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                </td> --}}
+                                <td>
+                                    <select name="supplier" id="supplier" class="form-control">
+                                        @foreach($supplier as $row )
+                                        <option id={{$row->id}} value="{{$row->nama}}"" class=" barang custom-select">
+                                            {{$row->nama}}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table" style="background-color:#e0e0e0;">
+                        <thead>
+                            <tr>
+                                <th style="width:35%">Nama Barang</th>
+                                <th style="width:25%">Kuantitas</th>
+                                <th>Harga</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <select name="barang" id="barang" class="form-control">
+                                        @foreach($barang as $row )
+                                        @if ($row->jenis == "Bahan Baku")
+                                        <option id={{$row->id}} value="{{$row->nama}}" harga="{{$row->harga}}" satuan="{{$row->satuan}}" class="barang custom-select">
+                                            {{$row->nama}}
+                                        </option>
+                                        @if ($row->jenis == "Bahan Baku")
+                                        @endforeach
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" id="kuantitas" min="0" value="0" class="form-control">
+                                </td>
+                                <td>
+                                    <input type="number" id="harga" min="0" value="0" class="form-control">
+                                </td>
+                                <td><button id="tambah" class="btn btn-success">Tambah</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                        <div role="alert" id="errorMsg" class="mt-5">
-                            <!-- Error msg  -->
-                        </div>
+                    <div role="alert" id="errorMsg" class="mt-5">
+                        <!-- Error msg  -->
                     </div>
-                    <div class="col-md-7  mt-4" style="background-color:#f5f5f5;">
-                        <form action="{{ route('notapemesanan.store') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                </div>
+                <div class="col-md-7  mt-4" style="background-color:#f5f5f5;">
+                    <form action="{{ route('notapemesanan.store') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
                         @csrf
                         <div class="p-4">
                             <div class="text-center">
@@ -111,7 +113,6 @@
                                 </div>
                             </div>
                             <div class="row">
-                                </span>
                                 <table id="receipt_bill" class="table">
                                     <thead>
                                         <tr>
@@ -144,11 +145,11 @@
                             </div>
                         </div>
                     </form>
-                    </div>
-
                 </div>
-        </section>
-    </body>
+
+            </div>
+    </section>
+</body>
 
 
 </html>
@@ -172,13 +173,13 @@
 
         //tambah to cart 
         var count = 1;
-        if(count != 1){
-           
+        if (count != 1) {
+
         };
         $('#tambah').on('click', function() {
             $("#supplier").disable = true;
             var name = $('#barang').val();
-           
+
             var kuantitas = $('#kuantitas').val();
             var harga = $('#harga').val();
             var satuan = $('#satuan').val();
@@ -198,10 +199,9 @@
                 // $('#tgl_transaksi_span').html(tgl_transaksi);
                 $('#supplier_span').html(supplier);
                 var id_supplier = $('#supplier').find(':selected').attr('id');
-                
-                var notainput =  '<input type="hidden" name="no_nota" value='+no_nota+'> ' + '<input type="hidden" name="tgl_transaksi" value='+tgl_transaksi+'> ' +'<input type="hidden" name="supplier_id" value='+id_supplier+'> ' ;
-                $('#new').append(notainput);
 
+                var notainput = '<input type="hidden" name="no_nota" value=' + no_nota + '> ' + '<input type="hidden" name="tgl_transaksi" value=' + tgl_transaksi + '> ' + '<input type="hidden" name="supplier_id" value=' + id_supplier + '> ';
+                $('#new').append(notainput);
 
                 $("#receipt_bill").each(function() {
                     var total = harga * kuantitas;
@@ -209,9 +209,9 @@
                     subTotal += parseInt(total);
                     var satuan = $('#barang').find(':selected').attr('satuan');
                     var id_barang = $('#barang').find(':selected').attr('id');
-     
-                    
-                    var table = '<tr><td>' + count + '</td><td>' + name + '<input type="hidden" name="barang['+count +']['+ "id_barang" +']" value='+id_barang+'></td><td>'  + kuantitas +  '<input type="hidden" name="barang['+count +']['+ "kuantitas" +']" value='+kuantitas+'></td><td>' + satuan +'</td><td>'+ harga +  '<input type="hidden" name="barang['+count +']['+ "harga_barang" +']" value='+harga+'></td><td><strong><input type="hidden" id="total" value="' + total + '">' + total + '</strong></td></tr>';
+
+
+                    var table = '<tr><td>' + count + '</td><td>' + name + '<input type="hidden" name="barang[' + count + '][' + "id_barang" + ']" value=' + id_barang + '></td><td>' + kuantitas + '<input type="hidden" name="barang[' + count + '][' + "kuantitas" + ']" value=' + kuantitas + '></td><td>' + satuan + '</td><td>' + harga + '<input type="hidden" name="barang[' + count + '][' + "harga_barang" + ']" value=' + harga + '></td><td><strong><input type="hidden" id="total" value="' + total + '">' + total + '</strong></td></tr>';
                     $('#new').append(table);
 
                     // Code for Sub Total of Vegitables 
@@ -234,6 +234,6 @@
                 count++;
             }
         });
-        
+
     });
 </script>

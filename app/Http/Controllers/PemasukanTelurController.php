@@ -7,6 +7,7 @@ use App\Flok;
 use App\PemasukanTelur;
 use App\Pengguna;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,7 +20,7 @@ class PemasukanTelurController extends Controller
      */
     public function index()
     {
-        $queryBuilder = PemasukanTelur::orderBy('created_at', 'desc')->get();
+        $queryBuilder = PemasukanTelur::all();
         $barang = Barang::all();
         $flok = Flok::all();
         $user = User::all();
@@ -38,7 +39,8 @@ class PemasukanTelurController extends Controller
         $barang = Barang::all();
         $user = User::all();
         $flok = Flok::all();
-        return view('pemasukantelur.create', ['barang' => $barang, 'user' => $user,'flok' => $flok]);
+        $date_now = str_replace('-', '',Carbon::now()->toDateString());
+        return view('pemasukantelur.create', ['date_now'=>Carbon::now()->toDateString(),'barang' => $barang, 'user' => $user,'flok' => $flok]);
     }
 
     /**
@@ -51,21 +53,22 @@ class PemasukanTelurController extends Controller
     {
         // dd($request->get('total_kuantitas'));
         $data = new PemasukanTelur();
-        $data->kuantitas_bersih = $request->get('kuantitas_bersih');
-        $data->kuantitas_reject = $request->get('kuantitas_reject');
-        $data->total_kuantitas = $request->get('total_kuantitas');
+        // $data->kuantitas_bersih = $request->get('kuantitas_bersih');
+        // $data->kuantitas_reject = $request->get('kuantitas_reject');
+        // $data->total_kuantitas = $request->get('total_kuantitas');
         $data->keterangan = $request->get('keterangan');
-
         $data->barang_id= $request->get('barang_id');
         $data->flok_id= $request->get('flok_id');
-
         $data->tgl_pencatatan = $request->get('tanggal_pencatatan');
-
     
         $data->save();
 
-
-        return redirect()->route('pemasukantelur.index')->with('status', 'Berhasil mennambah pencatatan');
+        foreach($request->get("daftar_barang") as $details) 
+        {
+            $data->daftar_barang()->attach($details['id_barang'],['kuantitas_bersih' =>$details['kuantitas_bersih'],
+            'kuantitas_reject' =>$details['kuantitas_reject'],'total_kuantitas' =>$details['total_kuantitas']]);
+        }
+        return redirect()->route('pemasukantelur.index')->with('status', 'Berhasil menambah pencatatan');
 
     }
 
@@ -101,7 +104,7 @@ class PemasukanTelurController extends Controller
     public function update(Request $request,  $pemasukanTelur)
     {
         //
-        DB::table('daftar_pemasukan_telur')
+        DB::table('pemasukan_telur')
             ->where('created_at', $pemasukanTelur)
             ->update([
                 'barang_id' => $request->get('barang_id'),
@@ -129,14 +132,23 @@ class PemasukanTelurController extends Controller
 
     public function getEditForm(Request $request)
     {
-        $data = PemasukanTelur::where('created_at',$request->get('id'))->first();
-        // dd($data);
+        // $data = PemasukanTelur::where('created_at',$request->get('id'))->first();
+        // // dd($data);
 
+        // $barang = Barang::all();
+        // $flok = Flok::all();
+        // return response()->json(array(
+        //     'status' => 'oke',
+        //     'msg' => view('pemasukantelur.getEditForm', compact('data', 'flok','barang'))->render()
+        // ), 200);
+
+        $id = $request->get('id');
+        $data = PemasukanTelur::find($id);
         $barang = Barang::all();
         $flok = Flok::all();
         return response()->json(array(
             'status' => 'oke',
-            'msg' => view('pemasukantelur.getEditForm', compact('data', 'flok','barang'))->render()
+            'msg' => view('pemasukantelur.getEditForm', compact('data', 'barang'))->render()
         ), 200);
     }
 }

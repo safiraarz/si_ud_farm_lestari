@@ -11,75 +11,82 @@
         {{session('error')}}
     </div>
     @endif
-    <h2>Daftar Barang</h2>
-    <div class="table">
-        <div>
-            <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Barang</a>
+    <div class="portlet">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i>Master Barang
+            </div>
+            <div class="actions">
+                <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Data</a>
+            </div>
         </div>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nama Barang</th>
-                    <th>Jenis</th>
-                    <th>Harga per-Satuan</th>
-                    <th>Lead Time</th>
-                    <th>Total Kuantitas Stok</th>
-                    <th>Satuan</th>
-                    <th>Detail Kuantitas</th>
-                    
-                    <th>Action</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($data as $d)
-                <tr id='tr_{{$d->id}}'>
-                    <td>{{$d->id}}</td>
-                    <td id='td_nama_{{$d->id}}'>{{$d->nama}}</td>
-                    <td id='td_jenis_{{$d->id}}'>{{$d->jenis}}</td>
-                    <td id='td_harga_{{$d->id}}'>Rp{{number_format($d->harga,2)}}</td>
-                    <td id='td_lead_time_{{$d->id}}'>{{$d->lead_time}}</td>
-                    <td id='td_total_kuantitas_stok_{{$d->id}}'>{{number_format($d->total_kuantitas_stok)}}</td>
-                    <td id='td_satuan{{$d->id}}'>{{$d->satuan}}</td>
-                    <td> <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a>
-                        <div class="modal fade" id="detail_{{$d->id}}" tabindex="-1" role="basic" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">{{$d->nama}}</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <b>Kuantitas Stok on Order Supplier:</b>
-                                        <p>{{number_format($d->kuantitas_stok_onorder_supplier)}} {{$d->satuan}}</p>
-                                        <b>Kuantitas Stok on Order Produksi:</b>
-                                        <p>{{number_format($d->kuantitas_stok_onorder_produksi)}} {{$d->satuan}}</p>
-                                        <b>Kuantitas Stok Ready:</b>
-                                        <p>{{number_format($d->kuantitas_stok_ready)}} {{$d->satuan}}</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <div class="portlet-body">
+            <table table id='myTable' class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nama Barang</th>
+                        <th>Jenis</th>
+                        <th>Harga per-Satuan</th>
+                        <th>Lead Time</th>
+                        <th>Total Kuantitas Stok</th>
+                        <th>Satuan</th>
+                        <th>Detail Kuantitas</th>
+
+                        <th>Action</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($data as $d)
+                    <tr id='tr_{{$d->id}}'>
+                        <td>{{$d->id}}</td>
+                        <td id='td_nama_{{$d->id}}'>{{$d->nama}}</td>
+                        <td id='td_jenis_{{$d->id}}'>{{$d->jenis}}</td>
+                        <td id='td_harga_{{$d->id}}'>Rp{{number_format($d->harga,2)}}</td>
+                        <td id='td_lead_time_{{$d->id}}'>{{$d->lead_time}}</td>
+                        <td id='td_total_kuantitas_stok_{{$d->id}}'>{{number_format($d->total_kuantitas_stok)}}</td>
+                        <td id='td_satuan{{$d->id}}'>{{$d->satuan}}</td>
+                        <td> <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a>
+                            <div class="modal fade" id="detail_{{$d->id}}" tabindex="-1" role="basic" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">{{$d->nama}}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <b>Kuantitas Stok on Order Supplier:</b>
+                                            <p>{{number_format($d->kuantitas_stok_onorder_supplier)}} {{$d->satuan}}</p>
+                                            <b>Kuantitas Stok on Order Produksi:</b>
+                                            <p>{{number_format($d->kuantitas_stok_onorder_produksi)}} {{$d->satuan}}</p>
+                                            <b>Kuantitas Stok Ready:</b>
+                                            <p>{{number_format($d->kuantitas_stok_ready)}} {{$d->satuan}}</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                    <td>
-                        <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
-                    </td>
-                    <td>
-                        <form method='POST' action="{{url('barang/'.$d->id)}}">
-                            @csrf
-                            @method('DELETE')
-                            <input type="submit" value="delete" class='btn btn-danger btn-xs' onclick="if(!confirm('Are you sure you wanna delete this data?')) return false;">
-                        </form>
-                        <a class='btn btn-danger btn-xs' onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{$d->id}})">Delete 2</a>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                        </td>
+                        <td>
+                            <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
+                        </td>
+                        <td>
+                            <form method='POST' action="{{url('barang/'.$d->id)}}">
+                                @csrf
+                                @method('DELETE')
+                                <input type="submit" value="delete" class='btn btn-danger btn-xs' onclick="if(!confirm('Are you sure you wanna delete this data?')) return false;">
+                            </form>
+                            <a class='btn btn-danger btn-xs' onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{$d->id}})">Delete 2</a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
+</div>
 </div>
 @endsection
 
@@ -109,19 +116,19 @@
                         </div>
                         <div class="form-group">
                             <label>Kuantitas Stok on Order Supplier</label>
-                            <input type="text" name="kuantitas_stok_onorder_supplier" class="form-control" placeholder="Kuantitas Stok on Order Supplier">
+                            <input type="text" name="kuantitas_stok_onorder_supplier" id="kuantitas_supplier" class="form-control" placeholder="Kuantitas Stok on Order Supplier">
                         </div>
                         <div class="form-group">
                             <label>Kuantitas Stok on Order Produksi</label>
-                            <input type="text" name="kuantitas_stok_onorder_produksi" class="form-control" placeholder="Kuantitas Stok on Order Produksi">
+                            <input type="text" name="kuantitas_stok_onorder_produksi" id="kuantitas_produksi" class="form-control" placeholder="Kuantitas Stok on Order Produksi">
                         </div>
                         <div class="form-group">
                             <label>Kuantitas Stok Ready</label>
-                            <input type="text" name="kuantitas_stok_ready" class="form-control" placeholder="Kuantitas Stok Ready">
+                            <input type="text" name="kuantitas_stok_ready" id="kuantitas_ready" class="form-control" placeholder="Kuantitas Stok Ready">
                         </div>
                         <div class="form-group">
                             <label>Total Kuantitas Stok</label>
-                            <input type="text" name="total_kuantitas_stok" class="form-control" placeholder="Total Kuantitas Stok">
+                            <input type="text" name="total_kuantitas_stok" id="total_kuantitas" class="form-control" placeholder="Total Kuantitas Stok" readonly="true" value="hitTotalBarang()">
                         </div>
                         <div class="form-group">
                             <label>Harga per-Satuan</label>
@@ -173,8 +180,16 @@
         );
     }
 
-    function hitTotalBarang(id) {
-
+    function hitTotalBarang() {
+        $("#kuantitas_supplier").on('change', function() {
+            $("#kuantitas_produksi").on('change', function() {
+                $("#kuantitas_ready").on('change', function() {
+                    var total = parseInt($("#kuantitas_supplier").val()) + parseInt($("#kuantitas_produksi").val()) + parseInt($("#kuantitas_ready").val());
+                    // alert(total);
+                    $('#total_kuantitas').val(total);
+                })
+            })
+        })
     }
 
     function saveDataUpdateTD(id) {
@@ -239,5 +254,6 @@
             }
         });
     }
+    $('#myTable').DataTable();
 </script>
 @endsection

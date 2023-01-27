@@ -43,6 +43,7 @@ Route::post('/bom/getEditForm', 'BOMController@getEditForm')->name('bom.getEditF
 Route::post('/bom/saveData', 'BOMController@saveData')->name('bom.saveData');
 Route::post('/bom/saveDataField', 'BOMController@saveDataField')->name('bom.saveDataField');
 Route::post('/bom/deleteData', 'BOMController@deleteData')->name('bom.deleteData');
+Route::post('/bom/create', 'BOMController@create')->name('bom.create');
 
 //flok
 Route::resource('flok', 'FlokController');
@@ -72,6 +73,7 @@ Route::post('/lpb/getEditForm', 'LPBController@getEditForm')->name('lpb.getEditF
 Route::post('/lpb/saveData', 'LPBController@saveData')->name('lpb.saveData');
 Route::post('/lpb/saveDataField', 'LPBController@saveDataField')->name('lpb.saveDataField');
 Route::post('/lpb/deleteData', 'LPBController@deleteData')->name('lpb.deleteData');
+Route::post('/lpb/create', 'LPBController@create')->name('lpb.create');
 
 //MPS
 Route::resource('mps', 'MPSController');
@@ -116,12 +118,14 @@ Route::post('/spk/getEditForm', 'SPKController@getEditForm')->name('spk.getEditF
 Route::post('/spk/saveData', 'SPKController@saveData')->name('spk.saveData');
 Route::post('/spk/saveDataField', 'SPKController@saveDataField')->name('spk.saveDataField');
 Route::post('/spk/deleteData', 'SPKController@deleteData')->name('spk.deleteData');
+Route::post('/spk/create', 'SPKController@create')->name('spk.create');
 
 Route::resource('suratjalan', 'SuratJalanController');
 Route::post('/suratjalan/getEditForm', 'SuratJalanController@getEditForm')->name('suratjalan.getEditForm');
 Route::post('/suratjalan/saveData', 'SuratJalanController@saveData')->name('suratjalan.saveData');
 Route::post('/suratjalan/saveDataField', 'SuratJalanController@saveDataField')->name('suratjalan.saveDataField');
 Route::post('/suratjalan/deleteData', 'SuratJalanController@deleteData')->name('suratjalan.deleteData');
+Route::post('/suratjalan/create', 'SuratJalanController@create')->name('suratjalan.create');
 
 Route::resource('pemasukantelur', 'PemasukanTelurController');
 Route::post('/pemasukantelur/getEditForm', 'PemasukanTelurController@getEditForm')->name('pemasukantelur.getEditForm');

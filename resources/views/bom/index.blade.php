@@ -14,7 +14,7 @@
     <h2>Bill of Material</h2>
     <div class="table">
         <div>
-            <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Nota</a>
+            <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Data</a>
         </div>
         <table class="table table-bordered">
             <thead>

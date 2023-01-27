@@ -14,4 +14,7 @@ class NotaPenjualan extends Model
     public function pengguna(){
         return $this->belongsTo('App\User','pengguna_id','id');
     }
+    public function barang(){
+        return $this->belongsToMany('App\Barang','d_nota_penjualan','nota_penjualan_id','barang_id')->withPivot('kuantitas','harga');
+    }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PemasukanTelur extends Model
 {
-    protected $table = "daftar_pemasukan_telur";
+    protected $table = "pemasukan_telur";
     protected $primaryKey = null;
     public $incrementing = false;
 
@@ -18,5 +18,8 @@ class PemasukanTelur extends Model
     }
     public function pengguna(){
         return $this->belongsTo('App\User','pengguna_id','id');
+    } 
+    public function daftar_barang(){
+        return $this->belongsToMany('App\Barang','d_pemasukan_telur','pemasukan_telur_id','barang_id')->withPivot('kuantitas_bersih','kuantitas_reject','total_kuantitas');
     }
 }

@@ -12,41 +12,44 @@
         {{session('error')}}
     </div>
     @endif
-    <div class="form-row align-items-center">
-        <h2>Daftar Jabatan</h2>
+    <div class="portlet">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i>Master Jabatan
+            </div>
+            <div class="actions">
+                <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Jabatan</a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <table id='myTable' class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nama</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($data as $d)
+                    <tr id='tr_{{$d->id}}'>
+                        <td>{{$d->id}}</td>
+                        <td class='editable' id='td_nama_{{$d->id}}'>{{$d->nama}}</td>
+                        <td>
+                            <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
+                            <form method='POST' action="{{url('jabatans/'.$d->id)}}">
+                                @csrf
+                                @method('DELETE')
+                                <input type="submit" value="delete" class='btn btn-danger btn-xs' onclick="if(!confirm('Are you sure you wanna delete this data?')) return false;">
+                            </form>
+                            <a class='btn btn-danger btn-xs' onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{$d->id}})">Delete 2</a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="form-group mx-sm-2 mb-2">
-        <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Jabatan</a>
-    </div>
-
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nama</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($data as $d)
-            <tr id='tr_{{$d->id}}'>
-                <td>{{$d->id}}</td>
-                <td class='editable' id='td_nama_{{$d->id}}'>{{$d->nama}}</td>
-                <td>
-                    <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
-                </td>
-                <td>
-                    <form method='POST' action="{{url('jabatans/'.$d->id)}}">
-                        @csrf
-                        @method('DELETE')
-                        <input type="submit" value="delete" class='btn btn-danger btn-xs' onclick="if(!confirm('Are you sure you wanna delete this data?')) return false;">
-                    </form>
-                    <a class='btn btn-danger btn-xs' onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{$d->id}})">Delete 2</a>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
 </div>
 <br>
 
@@ -141,35 +144,6 @@
             }
         });
     }
-</script>
-@endsection
-@section('initialscript')
-<script>
-    $('.editable').editable({
-        closeOnEnter: true,
-        callback: function(data) {
-            if (data.content) {
-                alert(data.content)
-            }
-        }
-    });
-
-    var s_id = data.$el[0].id
-    var fnama = s_id.split('_')[1]
-    var id = s_id.split('_')[2]
-    $.ajax({
-        type: 'POST',
-        url: '{{route("jabatan.saveDataField")}}',
-        data: {
-            '_token': '<?php echo csrf_token() ?>',
-            'id': id,
-            'fnama': fnama,
-            'value': data.content
-
-        },
-        success: function(data){
-            alert(data.msg)
-        }
-    });
+    $('#myTable').DataTable();
 </script>
 @endsection

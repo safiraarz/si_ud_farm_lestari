@@ -14,7 +14,8 @@ class DaftarAkunController extends Controller
      */
     public function index()
     {
-        //
+        $data = DaftarAkun::all();
+        return view('daftarakun.index', compact('data'));
     }
 
     /**
@@ -24,7 +25,7 @@ class DaftarAkunController extends Controller
      */
     public function create()
     {
-        //
+        return view("flok.create");
     }
 
     /**
@@ -35,7 +36,14 @@ class DaftarAkunController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = new DaftarAkun();
+        $data->no_akun = $request->get('no_akun');
+        $data->nama = $request->get('nama');
+        $data->jenis_akun = $request->get('jenis_akun');
+        $data->saldo_normal = $request->get('saldo_normal');
+        $data->save();
+
+        return redirect()->route('daftarakun.index')->with('status', 'Akun berhasil ditambahkan');
     }
 
     /**
@@ -81,5 +89,42 @@ class DaftarAkunController extends Controller
     public function destroy(DaftarAkun $daftarAkun)
     {
         //
+    }
+
+    public function saveData(Request $request)
+    {
+        $id = $request->get('no_akun');
+        $Flok = DaftarAkun::find($id);
+        $Flok->nama = $request->get('nama');
+        $Flok->jenis_akun = $request->get('jenis_akun');
+        $Flok->saldo_normal = $request->get('saldo_normal');
+        $Flok->strain = $request->get('strain');
+        $Flok->populasi = $request->get('populasi');
+        $Flok->usia_hari = $request->get('usia_hari');
+        $Flok->save();
+        return response()->json(
+            array(
+                'status' => 'ok',
+                'msg' => 'Flok berhasil diupdate'
+            ),
+            200
+        );
+    }
+    public function saveDataField(Request $request)
+    {
+        $id = $request->get('no_akun');
+        $fnama = $request->get('fnama');
+        $value = $request->get('value');
+
+        $Flok = DaftarAkun::find($id);
+        $Flok->$fnama = $value;
+        $Flok->save();
+        return response()->json(
+            array(
+                'status' => 'ok',
+                'msg' => 'Akun berhasil diupdate'
+            ),
+            200
+        );
     }
 }

@@ -12,41 +12,55 @@
         {{session('error')}}
     </div>
     @endif
-    <div class="form-row align-items-center">
-        <h2>Daftar Flok Ayam</h2>
+    <div class="portlet">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-reorder"></i>Master Flok
+            </div>
+            <div class="actions">
+                <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Flok</a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <table id='myTable' class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nama</th>
+                        <th>Keterangan</th>
+                        <th>Cage</th>
+                        <th>Strain</th>
+                        <th>Populasi</th>
+                        <th>Usia</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($data as $d)
+                    <tr id='tr_{{$d->id}}'>
+                        <td>{{$d->id}}</td>
+                        <td>{{$d->nama}}</td>
+                        <td>{{$d->keterangan}}</td>
+                        <td>{{$d->cage}}</td>
+                        <td>{{$d->strain}}</td>
+                        <td>{{number_format($d->populasi)}}</td>
+                        <td>{{$d->usia_hari}}</td>
+                        <!-- <td class='editable' id='td_nama_{{$d->id}}'>{{$d->nama}}</td> -->
+                        <td>
+                            <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
+                            <form method='POST' action="{{url('flok/'.$d->id)}}">
+                                @csrf
+                                @method('DELETE')
+                                <input type="submit" value="delete" class='btn btn-danger btn-xs' onclick="if(!confirm('Are you sure you wanna delete this data?')) return false;">
+                            </form>
+                            <a class='btn btn-danger btn-xs' onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{$d->id}})">Delete 2</a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="form-group mx-sm-2 mb-2">
-        <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Flok</a>
-    </div>
-
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nama</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($data as $d)
-            <tr id='tr_{{$d->id}}'>
-                <td>{{$d->id}}</td>
-                <td class='editable' id='td_nama_{{$d->id}}'>{{$d->nama}}</td>
-                <td>
-                    <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
-                </td>
-                <td>
-                    <form method='POST' action="{{url('flok/'.$d->id)}}">
-                        @csrf
-                        @method('DELETE')
-                        <input type="submit" value="delete" class='btn btn-danger btn-xs' onclick="if(!confirm('Are you sure you wanna delete this data?')) return false;">
-                    </form>
-                    <a class='btn btn-danger btn-xs' onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{$d->id}})">Delete 2</a>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
 </div>
 <br>
 
@@ -66,6 +80,26 @@
                         <div class="form-group">
                             <label>Nama</label>
                             <input type="text" name="nama" class="form-control" id='nama' required>
+                        </div>
+                        <div class="form-group">
+                            <label>Keterangan</label>
+                            <input type="text" name="keterangan" class="form-control" id='keterangan' required>
+                        </div>
+                        <div class="form-group">
+                            <label>Cage</label>
+                            <input type="text" name="cage" class="form-control" id='cage' required>
+                        </div>
+                        <div class="form-group">
+                            <label>Strain</label>
+                            <input type="text" name="strain" class="form-control" id='strain' required>
+                        </div>
+                        <div class="form-group">
+                            <label>Populasi</label>
+                            <input type="number" min="0" name="populasi" class="form-control" id='populasi' required>
+                        </div>
+                        <div class="form-group">
+                            <label>Usia</label>
+                            <input type="type" min="0" name="usia_hari" class="form-control" id='usia_hari' required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -106,6 +140,11 @@
 
     function saveDataUpdateTD(id) {
         var eNama = $('#eNama').val();
+        var eKeterangan = $('#eKeterangan').val();
+        var eCage = $('#eCage').val();
+        var eStrain = $('#eStrain').val();
+        var ePopulasi = $('#ePopulasi').val();
+        var eUsia = $('#eUsia').val();
         $.ajax({
             type: 'POST',
             url: '{{route("flok.saveData")}}',
@@ -113,6 +152,11 @@
                 '_token': '<?php echo csrf_token() ?>',
                 'id': id,
                 'nama': eNama,
+                'keterangan': eKeterangan,
+                'cage': eCage,
+                'strain': eStrain,
+                'populasi': ePopulasi,
+                'usia_hari': eUsia
             },
             success: function(data) {
                 if (data.status == 'ok') {
@@ -141,35 +185,7 @@
             }
         });
     }
-</script>
-@endsection
-@section('initialscript')
-<script>
-    $('.editable').editable({
-        closeOnEnter: true,
-        callback: function(data) {
-            if (data.content) {
-                alert(data.content)
-            }
-        }
-    });
 
-    var s_id = data.$el[0].id
-    var fnama = s_id.split('_')[1]
-    var id = s_id.split('_')[2]
-    $.ajax({
-        type: 'POST',
-        url: '{{route("flok.saveDataField")}}',
-        data: {
-            '_token': '<?php echo csrf_token() ?>',
-            'id': id,
-            'fnama': fnama,
-            'value': data.content
-
-        },
-        success: function(data){
-            alert(data.msg)
-        }
-    });
+    $('#myTable').DataTable();
 </script>
 @endsection

@@ -44,7 +44,7 @@ class MPSController extends Controller
     {
         $data = new MPS();
         $data->tgl_mulai_produksi = $request->get('tgl_mulai_produksi');
-        $data->tgl_akhir_produksi = $request->get('tgl_mulai_produksi');
+        $data->tgl_selesai_produksi = $request->get('tgl_selesai_produksi');
         $data->kuantitas_barang_jadi = $request->get('kuantitas_barang_jadi');
         // dd($request->get('category'));
         $spk = SPK::find($request->get('spk'));

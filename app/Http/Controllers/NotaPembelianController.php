@@ -34,7 +34,7 @@ class NotaPembelianController extends Controller
         else{
             $pembelianMax = $sqlmaxnota[0]->PembelianMaxTanggal;
         }
-        $no_nota_generator = $date_now.'-'.'02'.'-'.str_pad($pembelianMax, 3, "0", STR_PAD_LEFT);
+        $no_nota_generator = $date_now.'-'.'01'.'-'.'02'.'-'.str_pad($pembelianMax, 3, "0", STR_PAD_LEFT);
         return view('notapembelian.index', ['no_nota_generator'=> $no_nota_generator,'data' => $queryBuilder, 'user' => $user,'supplier' => $supplier,'barang' => $barang,'notapemesanan' => $notapemesanan]);
     }
 

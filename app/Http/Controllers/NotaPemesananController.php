@@ -36,7 +36,6 @@ class NotaPemesananController extends Controller
     {
         $supplier = Supplier::all();
         $user = User::all();
-        $supplier = Supplier::all();
         $barang = Barang::all();
         $date_now = str_replace('-', '',Carbon::now()->toDateString());
         $sqlmaxnota = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_nota, -3))+1 AS PemesananMaxTanggal FROM `nota_pemesanan` WHERE `no_nota` LIKE '". $date_now ."%';"));
@@ -47,8 +46,8 @@ class NotaPemesananController extends Controller
         else{
             $pemesanMax = $sqlmaxnota[0]->PemesananMaxTanggal;
         }
-        $no_nota_generator = $date_now.'-'.'01'.'-'.str_pad($pemesanMax, 3, "0", STR_PAD_LEFT);
-        return view('notapemesanan.create', ['date_now'=>Carbon::now()->toDateString(),'no_nota_generator'=>$no_nota_generator,'supplier' => $supplier,'user' => $user,'supplier' => $supplier,'barang' => $barang]);
+        $no_nota_generator = $date_now.'-'.'01'.'-'.'01'.'-'.str_pad($pemesanMax, 3, "0", STR_PAD_LEFT);
+        return view('notapemesanan.create', ['date_now'=>Carbon::now()->toDateString(),'no_nota_generator'=>$no_nota_generator,'supplier' => $supplier,'user' => $user,'barang' => $barang]);
     }
 
     /**
@@ -68,10 +67,9 @@ class NotaPemesananController extends Controller
         $data->total_harga = $request->get('total_harga');
         $supplier = Supplier::find($request->get('supplier_id'));
         $supplier->notapemesanan()->save($data);
-        $idNotaNew = $data->id;
+        // $idNotaNew = $data->id;
         foreach($request->get("barang") as $details) 
-        {
-            
+        {   
             $data->barang()->attach($details['id_barang'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga_barang']]);
         }
         return redirect()->route('notapemesanan.index')->with('status', 'Berhasil Menambahkan Nota '  . $request->get('no_nota'));
@@ -108,7 +106,6 @@ class NotaPemesananController extends Controller
      */
     public function update(Request $request,$notaPemesanan)
     {
-        //
         // dd($request->get("barang"));
         $data = NotaPemesanan::find($notaPemesanan);
         // dd($request->barang);
@@ -129,7 +126,6 @@ class NotaPemesananController extends Controller
             $data->barang()->attach($details['barang_id'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga']]);
         }
         // Tambah with total
-      
         $data->total_harga = $total;
         $data->save();
         return redirect()->route('notapemesanan.index')->with('status', 'Berhasil Mengubah Nota Pembelian '.$request->get('no_nota'));

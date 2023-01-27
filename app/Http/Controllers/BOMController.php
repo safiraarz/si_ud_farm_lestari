@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Barang;
 use App\BOM;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,9 @@ class BOMController extends Controller
     public function index()
     {
         $queryBuilder = BOM::all();
-        return view('bom.index', ['data' => $queryBuilder]);
+        $barang = Barang::all();
+
+        return view('bom.index', ['data' => $queryBuilder,'barang' => $barang]);
     }
 
     /**
@@ -25,7 +28,10 @@ class BOMController extends Controller
      */
     public function create()
     {
-        //
+        $supplier = BOM::all();
+        $barang = Barang::all();
+
+        return view('bom.create', ['barang' => $barang]);
     }
 
     /**
@@ -36,7 +42,14 @@ class BOMController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = new BOM();
+        $data->kuantitas_barang_jadi = $request->get('kuantitas_barang_jadi');
+        
+        foreach($request->get("barang") as $details) 
+        {   
+            $data->barang()->attach($details['id_barang'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga_barang']]);
+        }
+        return redirect()->route('bom.index')->with('status', 'Berhasil Menambahkan BOM ');
     }
 
     /**
@@ -58,7 +71,7 @@ class BOMController extends Controller
      */
     public function edit(BOM $bOM)
     {
-        //
+        return view('bom.edit', ['bom' => BOM::find($bOM),'barang' => Barang::All()]);
     }
 
     /**

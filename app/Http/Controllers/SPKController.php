@@ -1,11 +1,12 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Barang;
 use App\SPK;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SPKController extends Controller
 {
@@ -31,7 +32,17 @@ class SPKController extends Controller
     {
         $user = User::all();
         $barang = Barang::all();
-        return view('spk.create', ['user' => $user,'barang' => $barang]);
+        $date_now = str_replace('-', '',Carbon::now()->toDateString());
+        $sqlmaxnota = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_surat, -3))+1 AS SPKMaxTanggal FROM `surat_perintah_kerja` WHERE `no_surat` LIKE '". $date_now ."%';"));
+        $noSuratMax= 0;
+        if($sqlmaxnota[0]->SPKMaxTanggal == null){
+            $noSuratMax=1;
+        }
+        else{
+            $noSuratMax = $sqlmaxnota[0]->SPKMaxTanggal;
+        }
+        $no_surat_generator = $date_now.'-'.'02'.'-'.'01'.'-'.str_pad($noSuratMax, 3, "0", STR_PAD_LEFT);
+        return view('spk.create', ['date_now'=>Carbon::now()->toDateString(),'no_surat_generator'=>$no_surat_generator,'user' => $user,'barang' => $barang]);
     }
 
     /**
@@ -51,7 +62,10 @@ class SPKController extends Controller
         $data->	status = $request->get('status');
 
         $barang = Barang::find($request->get('barang'));
-
+        foreach($request->get("daftar_barang") as $details) 
+        {   
+            $data->daftar_barang()->attach($details['id_barang'],['kuantitas' =>$details['kuantitas']]);
+        }
         $barang->notapembelian()->save($data);
 
         return redirect()->route('spk.index')->with('status', 'Berhasil menambahkan surat' . $request->get('no_surat'));
