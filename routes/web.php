@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -150,3 +151,8 @@ Route::post('/user/getEditForm', 'UserController@getEditForm')->name('user.getEd
 Route::post('/user/saveData', 'UserController@saveData')->name('user.saveData');
 Route::post('/user/saveDataField', 'UserController@saveDataField')->name('user.saveDataField');
 Route::post('/user/deleteData', 'UserController@deleteData')->name('user.deleteData');
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+
+Auth::routes();
