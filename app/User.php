@@ -8,16 +8,17 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    protected $table = "pengguna";
+    
     use Notifiable;
-
+    
+    protected $table = "pengguna";
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'username', 'password',
+        'nama', 'username', 'password','jabatan_id'
     ];
 
     /**
@@ -37,6 +38,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
 
     public function notapembelian()
     {
