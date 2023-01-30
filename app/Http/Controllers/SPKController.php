@@ -33,13 +33,13 @@ class SPKController extends Controller
         $user = User::all();
         $barang = Barang::all();
         $date_now = str_replace('-', '',Carbon::now()->toDateString());
-        $sqlmaxnota = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_surat, -3))+1 AS SPKMaxTanggal FROM `surat_perintah_kerja` WHERE `no_surat` LIKE '". $date_now ."%';"));
+        $sqlmaxsurat = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_surat, -3))+1 AS SPKMaxTanggal FROM `surat_perintah_kerja` WHERE `no_surat` LIKE '". $date_now ."%';"));
         $noSuratMax= 0;
-        if($sqlmaxnota[0]->SPKMaxTanggal == null){
+        if($sqlmaxsurat[0]->SPKMaxTanggal == null){
             $noSuratMax=1;
         }
         else{
-            $noSuratMax = $sqlmaxnota[0]->SPKMaxTanggal;
+            $noSuratMax = $sqlmaxsurat[0]->SPKMaxTanggal;
         }
         $no_surat_generator = $date_now.'-'.'02'.'-'.'01'.'-'.str_pad($noSuratMax, 3, "0", STR_PAD_LEFT);
         return view('spk.create', ['date_now'=>Carbon::now()->toDateString(),'no_surat_generator'=>$no_surat_generator,'user' => $user,'barang' => $barang]);
@@ -54,19 +54,18 @@ class SPKController extends Controller
     public function store(Request $request)
     {
         $data = new SPK();
-        $data->no_nota = $request->get('no_nota');
-        $data->	tgl_pembuatan_nota = $request->get('tgl_pembuatan_nota');
-        $data->	tgl_pembuatan_nota = $request->get('tgl_pembuatan_nota');
-        $data->	tgl_pembuatan_nota = $request->get('tgl_pembuatan_nota');
+        $data->no_surat = $request->get('no_surat');
+        $data->	tgl_pembuatan_surat = $request->get('tgl_pembuatan_surat');
         $data->total_harga = $request->get('total_harga');
         $data->	status = $request->get('status');
 
         $barang = Barang::find($request->get('barang'));
         foreach($request->get("daftar_barang") as $details) 
         {   
-            $data->daftar_barang()->attach($details['id_barang'],['kuantitas' =>$details['kuantitas']]);
+            $data->daftar_barang()->attach($details['id_barang'],['tgl_mulai_produksi' =>$details['tgl_mulai_produksi'],
+            'tgl_selesai_produksi' =>$details['tgl_selesai_produksi'],'kuantitas' =>$details['kuantitas']]);
         }
-        $barang->notapembelian()->save($data);
+        $barang->spk()->save($data);
 
         return redirect()->route('spk.index')->with('status', 'Berhasil menambahkan surat' . $request->get('no_surat'));
     }

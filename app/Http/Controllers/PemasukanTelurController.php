@@ -63,11 +63,13 @@ class PemasukanTelurController extends Controller
     
         $data->save();
 
+        $barang = Barang::find($request->get('barang'));
         foreach($request->get("daftar_barang") as $details) 
         {
             $data->daftar_barang()->attach($details['id_barang'],['kuantitas_bersih' =>$details['kuantitas_bersih'],
             'kuantitas_reject' =>$details['kuantitas_reject'],'total_kuantitas' =>$details['total_kuantitas']]);
         }
+        $barang->pemasukantelur()->save($data);
         return redirect()->route('pemasukantelur.index')->with('status', 'Berhasil menambah pencatatan');
 
     }

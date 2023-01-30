@@ -31,18 +31,6 @@
                     <table class="table" style="background-color:#e0e0e0;">
                         <tbody>
                             <tr>
-                                <th>Tanggal Mulai Produksi</th>
-                                <td>
-                                    <input type="date" id="tgl_pencatatan" class="form-control">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Tanggal Selesai Produksi</th>
-                                <td>
-                                    <input type="date" id="tgl_pencatatan" class="form-control">
-                                </td>
-                            </tr>
-                            <tr>
                                 <th>Keterangan</th>
                                 <td>
                                     <input type="text" id="keterangan" class="form-control">
@@ -73,10 +61,28 @@
                                 <td>
                                     <input type="number" id="kuantitas" min="0" value="0" class="form-control">
                                 </td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th>Tanggal Mulai Produksi</th>
+                                <th>Tanggal Selesai Produksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="date" id="tgl_mulai_prod" class="form-control">
+                                </td>
+                                <td>
+                                    <input type="date" id="tgl_selesai_prod" class="form-control">
+                                </td>
+                                
                                 <td><button id="tambah" class="btn btn-success">Tambah</button></td>
                             </tr>
                         </tbody>
                     </table>
+
                 </div>
                 <div class="col-md-7  mt-4" style="background-color:#f5f5f5;">
                     <form action="{{ route('spk.store') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
@@ -86,25 +92,21 @@
                                 <h4>Surat Perintah Kerja</h4>
                             </div>
                             <div class="row">
-                                <div class="col-xs-6 col-sm-6 col-md-6 ">
-                                    <span>No. Surat</span> : <span id="no_nota_span">{{ $no_surat_generator }}</span>
-                                </div>
                                 <div class="col-xs col-sm col-md text-right">
-                                    <span>Tgl Mulai Produksi</span> : <span id="tgl_mulai_produksi"></span>
+                                    <span>No. Surat</span> : <span id="no_nota_span">{{ $no_surat_generator }}</span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-6 col-sm-6 col-md-6 ">
-                                    <span>Tgl Pembuatan Surat</span> : <span id="no_nota_span">{{ $date_now }}</span>
-                                </div>
                                 <div class="col-xs col-sm col-md text-right">
-                                    <span>Tgl Selesai Produksi</span> : <span id="tgl_selesai_produksi"></span>
+                                    <span>Tgl Pembuatan Surat</span> : <span id="no_nota_span">{{ $date_now }}</span>
                                 </div>
                             </div>
                             <div class="row">
                                 <table id="receipt_bill" class="table">
                                     <thead>
                                         <tr>
+                                            <th>Tgl Mulai Produksi</th>
+                                            <th>Tgl Selesai Produksi</th>
                                             <th>Nama Pakan Ayam</th>
                                             <th>Kuantitas</th>
                                             <th>Satuan</th>

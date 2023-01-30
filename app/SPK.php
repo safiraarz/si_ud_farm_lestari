@@ -19,7 +19,8 @@ class SPK extends Model
         return $this->belongsTo('App\User','pengguna_id','id');
     }
     public function daftar_barang(){
-        return $this->belongsToMany('App\Barang','d_surat_perintah_kerja','surat_perintah_kerja_id','barang_id')->withPivot('kuantitas');;
+        return $this->belongsToMany('App\Barang','d_surat_perintah_kerja','surat_perintah_kerja_id','barang_id')
+        ->withPivot('tgl_mulai_produksi','tgl_selesai_produksi','kuantitas');
     }
     public function mps()
     {

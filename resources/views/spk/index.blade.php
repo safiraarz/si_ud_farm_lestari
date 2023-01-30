@@ -27,8 +27,6 @@
                         <th>ID</th>
                         <th>Nomor SPK</th>
                         <th>Tanggal Pembuatan SPK</th>
-                        <th>Tanggal Mulai Produksi</th>
-                        <th>Tanggal Selesai Produksi</th>
                         <th>Daftar Barang</th>
                         <th>Pembuat Surat</th>
                         <!-- <th>Action</th> -->
@@ -40,8 +38,6 @@
                         <td>{{$d->id}}</td>
                         <td id='td_no_spk_{{$d->id}}'>{{$d->no_surat}}</td>
                         <td id='td_tgl_pembuatan_spk_{{$d->id}}'>{{$d->tgl_pembuatan_surat}}</td>
-                        <td id='td_tgl_mulai_produksi{{$d->id}}'>{{$d->tgl_mulai_produksi}}</td>
-                        <td id='td_tgl_selesai_produksi{{$d->id}}'>{{$d->tgl_selesai_produksi}}</td>
                         <td>
                             {{-- <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a> --}}
                             <a class="btn btn-default edittable" data-toggle="modal" href="#detail_{{$d->id}}">
@@ -58,11 +54,15 @@
                                             @foreach ($d->daftar_barang as $key =>$item)
                                             <p>
                                                 <span>- Barang {{ $key+1 }}</span>
-
                                             </p>
                                             <p>
                                                 <span>Nama Barang</span> : <span> {{$item->nama}}</span>
-
+                                            </p>
+                                            <p>
+                                                <span>Tanggal Mulai Produksi</span> : <span> {{$item->pivot->tgl_mulai_produksi}}</span>
+                                            </p>
+                                            <p>
+                                                <span>Tanggal Selesai Produksi</span> : <span> {{$item->pivot->tgl_selesai_produksi}}</span>
                                             </p>
                                             <p>
                                                 <span>Kuantitas</span> : <span> {{ number_format($item->pivot->kuantitas) }}</span>
