@@ -37,7 +37,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <input type="text" id="kuantitas_pakan"class="form-control">
+                                    <input type="text" id="keterangan"class="form-control">
                                 </td>
                             </tr>
                         </tbody>
@@ -52,7 +52,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <select name="nama_barang_jadi" id="nama_barang_jadi" class="form-control">
+                                    <select name="barang_jadi" id="barang_jadi" class="form-control">
                                         @foreach($barang as $row )
                                         @if ($row->jenis == "Barang Jadi")
                                         <option id={{$row->id}} value="{{$row->nama}}" satuan="{{$row->satuan}}" class="barang custom-select">
@@ -73,16 +73,20 @@
                 <div class="col-md-7  mt-4" style="background-color:#f5f5f5;">
                     <form action="{{ route('suratjalan.store') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
                         @csrf
+                        <input type="hidden" name="keterangan_input" id="keterangan_input" >
+                        
                         <div class="p-4">
                             <div class="text-center">
                                 <h4>Surat Jalan</h4>
                             </div>
                             <div class="row">
+                                <input type="hidden" name="no_surat" value="{{ $no_surat_generator }}">
                                 <div class="col-xs-6 col-sm-6 col-md-6 ">
                                     <span>No. Surat</span> : <span id="no_surat_span">{{ $no_surat_generator }}</span>
                                 </div>
                             </div>
                             <div class="row">
+                                <input type="hidden" name="tgl_pencatatan" value="{{ $date_now }}">
                                 <div class="col-xs-6 col-sm-6 col-md-6 ">
                                     <span>Tgl Pencatatan</span> : <span id="no_nota_span">{{ $date_now }}</span>
                                 </div>
@@ -91,6 +95,7 @@
                                 <table id="receipt_bill" class="table">
                                     <thead>
                                         <tr>
+                                            <th>No</th>
                                             <th>Nama Barang Jadi</th>
                                             <th>Kuantitas</th>
                                             <th>Satuan</th>
@@ -118,20 +123,19 @@
         //     var ids = $(this).find(':selected').attr('harga');
         //     $('#harga').val(ids);
         // });
-        // var count = 1;
+        var count = 1;
         // if (count != 1) {
 
         // };
         $('#tambah').on('click', function() {
             $("#pakan_ayam").disable = true;
+            $("#keterangan_input").val( $("#keterangan").val())
             var nama_barang_jadi = $('#barang_jadi').val();
-            var kuantitas_barang_jadi = $('#barang_jadi').val();
-            var satuan = $('#satuan').val();
+            var kuantitas_barang_jadi = $('#kuantitas_barang_jadi').val();
+            var satuan_barang_jadi = $('#barang_jadi').find(':selected').attr('satuan');
+            var id_barang_jadi = $('#barang_jadi').find(':selected').attr('id');
 
-            var nama_pakan = $('#nama_pakan').val();
-            var kuantitas_pakan = $('#kuantitas_pakan').val();
-
-            if (kuantitas == 0) {
+            if (kuantitas_barang_jadi == 0) {
                 var erroMsg = '<span class="alert alert-danger ml-5">Minimum Qty should be 1 or More than 1</span>';
                 $('#errorMsg').html(erroMsg).fadeOut(9000);
             } else {
@@ -139,21 +143,14 @@
             }
 
             function billFunction() {
-                $('#nama_pakan_span').html(supplier);
-                var id_pakan_ayam = $('#nama_pakan').find(':selected').attr('id');
-
-                var bominput = '<input type="hidden" name="barang_id" value=' + id_pakan_ayam + '> ';
-                $('#new').append(bominput);
-
-
                 $("#receipt_bill").each(function() {
-                    var satuan = $('#barang_jadi').find(':selected').attr('satuan');
-                    var id_barang_jadi = $('#barang_jadi').find(':selected').attr('id');
 
-                    var table = '<tr><td>' + count + '</td><td>' + name + '<input type="hidden" name="barang_jadi[' + count +
-                        '][' + "id_barang_jadi" + ']" value=' + id_barang_jadi + '></td><td>' + kuantitas +
-                        '<input type="hidden" name="barang_jadi[' + count + '][' + "kuantitas" + ']" value=' + kuantitas +
-                        '></td><td>' + satuan + '</td></tr>';
+                    var table = '<tr>'+
+                        '<td>' + count + '</td>'+
+                        '<td>' + nama_barang_jadi + '<input type="hidden" name="barang_jadi[' + count +'][' + "id_barang_jadi" + ']" value=' + id_barang_jadi + '></td>'+
+                        '<td>' + kuantitas_barang_jadi +'<input type="hidden" name="barang_jadi[' + count + '][' + "kuantitas" + ']" value=' + kuantitas_barang_jadi +'></td>'+
+                        '<td>' + satuan_barang_jadi + '</td>'+
+                        '</tr>';
                     $('#new').append(table);
                 });
                 count++;

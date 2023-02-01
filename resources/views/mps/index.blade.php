@@ -54,7 +54,6 @@
         </div>
     </div>
 </div>
-@endsection
 
 <!-- add new data -->
 <div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
@@ -71,12 +70,16 @@
                         <div class="form-group">
                             <label>Nomor Surat Perintah Kerja</label>
                             <select class="form-control" name="spk" id="spk">
+                                <option value="">Silahkan Pilih SPK</option>
                                 @foreach ($spk as $item)
                                 <option value="{{ $item->id }}">{{ $item->no_surat}}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div id="barang_spk">
+
+                        </div>
+                        {{-- <div class="form-group">
                             <label>Nama Barang Jadi</label>
                             <select class="form-control" name="barang" id="barang">
                                 @foreach ($barang as $item)
@@ -85,17 +88,17 @@
                                 @endif
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label>Kuantitas</label>
-                            <input type="text" name="no_telepon" class="form-control" id='no_telepon' required>
+                            <input type="text" name="kuantitas_barang_jadi" class="form-control" id='no_telepon' required>
                             </input>
                         </div>
                         <div class="form-group">
                             <label>Tanggal Produksi Mulai</label>
                             <td>
                                 <div>
-                                    <input type="date" name="tanggal_pencatatan" class="form-control input-sm" required />
+                                    <input type="date" name="tgl_mulai_produksi" class="form-control input-sm" required />
                                 </div>
                             </td>
                         </div>
@@ -103,7 +106,7 @@
                             <label>Tanggal Produksi Selesai</label>
                             <td>
                                 <div>
-                                    <input type="date" name="tanggal_pencatatan" class="form-control input-sm" required />
+                                    <input type="date" name="tgl_selesai_produksi" class="form-control input-sm" required />
                                 </div>
                             </td>
                         </div>
@@ -125,8 +128,51 @@
         </div>
     </div>
 </div>
+
+@endsection
+
+
 @section('javascript')
 <script>
+    $("#spk").on('change', function() {
+        $('#barang_spk').html("");
+        var spkbarang = [
+        @foreach($spk as $item)[
+            "{{ $item->id }}",
+                [
+                    @foreach($item->daftar_barang as $barangs)[
+                        "{{ $barangs->id }}",
+                        "{{ $barangs->nama }}",
+                        "{{ $barangs->pivot->harga }}",
+                        "{{ $barangs->pivot->kuantitas }}",
+                    ],
+                    @endforeach
+                ]
+            ],
+            @endforeach
+        ];
+        var id_spk= $(this).val();
+        spkbarang.forEach(element => {
+            if (id_spk == element[0]) {
+                // Show Supplier
+                for (let index = 0; index < element[1].length; index++) {
+                    const elements = element[1][index];
+                    var barang_id = elements[0];
+                    var barang_name = elements[1];
+                    var harga = elements[2];
+                    var kuantitas = elements[3];
+                    var barang_pesanan =
+                        '<div class="form-group bahan_' + index + '"><label>Bahan ' + parseInt(index + 1) + '</label></div> ' +
+                        '<div class="form-group"><label>Nama Bahan Baku</label><select class="form-control" name="barang[' + index + '][' + "barang_id" + ']" id="bahan_baku"  readonly><option value="' + barang_id + '" >' + barang_name + '</option></select></div></div>' ;
+                    // alert(barang_pesanan);
+                    $('#barang_spk').append(barang_pesanan);
+
+                }
+            }
+
+        });
+
+    });
     function getEditForm(id) {
         $.ajax({
                 type: 'POST',

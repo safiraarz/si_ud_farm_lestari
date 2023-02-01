@@ -20,10 +20,10 @@ class Barang extends Model
     {
         return $this->hasMany('App\NotaPemesanan', 'barang_id', 'id');
     }
-    public function pemasukantelur()
-    {
-        return $this->hasMany('App\PemasukanTelur', 'barang_id', 'id');
-    }
+    // public function pemasukantelur()
+    // {
+    //     return $this->hasMany('App\PemasukanTelur', 'barang_id', 'id');
+    // }
     public function spk()
     {
         return $this->hasMany('App\SPK', 'barang_id', 'id');

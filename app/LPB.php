@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class LPB extends Model
 {
     protected $table = "pengeluaran_bahan_baku";
+    public $timestamps = false;
 
     public function barang(){
         return $this->belongsTo('App\Barang','barang_id');

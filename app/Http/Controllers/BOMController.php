@@ -17,7 +17,8 @@ class BOMController extends Controller
     {
         $queryBuilder = BOM::all();
         $barang = Barang::all();
-
+        
+        // dd($queryBuilder);
         return view('bom.index', ['data' => $queryBuilder,'barang' => $barang]);
     }
 
@@ -43,11 +44,14 @@ class BOMController extends Controller
     public function store(Request $request)
     {
         $data = new BOM();
-        $data->kuantitas_barang_jadi = $request->get('kuantitas_barang_jadi');
-        
-        foreach($request->get("barang") as $details) 
+        // dd($request->get("bahan_baku"));
+        $data->kuantitas_barang_jadi = $request->get('kuantitas_pakan_input');
+        // dd($request->get('kuantitas_pakan_input'));
+        $data->save();
+        $data->barang()->attach($request->get('nama_pakan_input'));
+        foreach($request->get("bahan_baku") as $details) 
         {   
-            $data->barang()->attach($details['id_barang'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga_barang']]);
+            $data->barang()->attach($details['id_bahan_baku'],['kuantitas_bahan_baku' =>$details['kuantitas']]);
         }
         return redirect()->route('bom.index')->with('status', 'Berhasil Menambahkan BOM ');
     }

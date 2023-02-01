@@ -91,7 +91,7 @@
 @endsection
 
 <!-- add new data -->
-<div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
+{{-- <div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -170,7 +170,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 <div class="modal fade" id="modalEdit" tabindex="-1" role="basic" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" id='modalContent'>

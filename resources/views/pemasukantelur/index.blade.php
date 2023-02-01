@@ -52,6 +52,7 @@
                             <a class="btn btn-default edittable" data-toggle="modal" href="#detail_{{$d->id}}">
                                 Detail
                             </a>
+                            {{-- {{ $ }} --}}
                             <div class="modal fade" id="detail_{{$d->id}}" tabindex="-1" role="basic" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -59,6 +60,8 @@
                                             <h4 class="modal-title">{{$d->tgl_pencatatan}}</h4>
                                         </div>
                                         <div class="modal-body">
+                                            {{-- {{ $d->barang() }} --}}
+                                            
                                             @foreach ($d->daftar_barang as $key =>$item)
                                             <p>
                                                 <span>- Barang {{ $key+1 }}</span>

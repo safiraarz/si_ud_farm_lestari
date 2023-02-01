@@ -10,6 +10,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PemasukanTelurController extends Controller
 {
@@ -24,7 +25,10 @@ class PemasukanTelurController extends Controller
         $barang = Barang::all();
         $flok = Flok::all();
         $user = User::all();
-        // dd($queryBuilder);
+        // foreach ($queryBuilder as $data){
+        //     dd($data->barang);
+
+        // }
 
         return view('pemasukantelur.index', ['data' => $queryBuilder,'barang'=>$barang,'flok'=>$flok, 'user' => $user]);
     }
@@ -51,25 +55,31 @@ class PemasukanTelurController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+        // dd($user->id);
         // dd($request->get('total_kuantitas'));
         $data = new PemasukanTelur();
-        // $data->kuantitas_bersih = $request->get('kuantitas_bersih');
-        // $data->kuantitas_reject = $request->get('kuantitas_reject');
-        // $data->total_kuantitas = $request->get('total_kuantitas');
+        $data->karantina = $request->get('karantina');
+        $data->afkir = $request->get('afkir');
+        $data->kematian = $request->get('kematian');
         $data->keterangan = $request->get('keterangan');
-        $data->barang_id= $request->get('barang_id');
-        $data->flok_id= $request->get('flok_id');
-        $data->tgl_pencatatan = $request->get('tanggal_pencatatan');
-    
+        $data->pengguna_id= $user->id;
+        $data->flok_id= $request->get('flok');
+        $data->tgl_pencatatan = Carbon::now()->toDateString();
+        // dd($request->get('tanggal_pencatatan'));
+        // dd($request->get('telur'));
         $data->save();
 
-        $barang = Barang::find($request->get('barang'));
-        foreach($request->get("daftar_barang") as $details) 
+        // $barang = Barang::find($request->get('barang'));
+        foreach($request->get("telur") as $details) 
         {
-            $data->daftar_barang()->attach($details['id_barang'],['kuantitas_bersih' =>$details['kuantitas_bersih'],
-            'kuantitas_reject' =>$details['kuantitas_reject'],'total_kuantitas' =>$details['total_kuantitas']]);
+            $data->daftar_barang()->attach($details['id_telur'],[
+                'kuantitas_bersih' =>$details['kuantitas_bersih'],
+                'kuantitas_reject' =>$details['kuantitas_reject'],
+                'total_kuantitas' =>$details['kuantitas_total']
+            ]);
         }
-        $barang->pemasukantelur()->save($data);
+        // $barang->pemasukantelur()->save($data);
         return redirect()->route('pemasukantelur.index')->with('status', 'Berhasil menambah pencatatan');
 
     }

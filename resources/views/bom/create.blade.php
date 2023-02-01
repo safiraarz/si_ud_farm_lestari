@@ -39,7 +39,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <select name="nama_pakan" id="nama_pakan" class="form-control">
+                                    <select id="nama_pakan_jadi" class="form-control">
                                         @foreach($barang as $row )
                                         @if ($row->jenis == "Barang Jadi")
                                         <option id={{$row->id}} value="{{$row->nama}}" satuan="{{$row->satuan}}" class="barang custom-select">
@@ -50,7 +50,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="number" id="kuantitas_pakan" min="0" value="0" class="form-control">
+                                    <input type="number" id="kuantitas_pakan_jadi" min="0" value="0" class="form-control">
                                 </td>
                             </tr>
                         </tbody>
@@ -91,11 +91,13 @@
                                 <h4>Bill of Material</h4>
                             </div>
                             <div class="row">
+                                <input type="hidden" name="nama_pakan_input" id="nama_pakan_input">
                                 <div class="col-xs col-sm col-md text-right">
                                     <span>Nama Pakan Ayam</span> : <span id="nama_pakan_span"></span>
                                 </div>
                             </div>
                             <div class="row">
+                                <input type="hidden" name="kuantitas_pakan_input" id="kuantitas_pakan_input">
                                 <div class="col-xs col-sm col-md text-right">
                                     <span>Kuantitas Pakan Ayam</span> : <span id="kuantitas_pakan_span"></span>
                                 </div>
@@ -104,6 +106,7 @@
                                 <table id="receipt_bill" class="table">
                                     <thead>
                                         <tr>
+                                            <th>No</th>
                                             <th>Nama Bahan Baku</th>
                                             <th>Kuantitas</th>
                                             <th>Satuan</th>
@@ -131,20 +134,29 @@
         //     var ids = $(this).find(':selected').attr('harga');
         //     $('#harga').val(ids);
         // });
-        // var count = 1;
+        var count = 1;
         // if (count != 1) {
 
         // };
         $('#tambah').on('click', function() {
-            $("#pakan_ayam").disable = true;
-            var nama_bahan_baku = $('#bahan_baku').val();
-            var kuantitas_bahan_baku = $('#bahan_baku').val();
-            var satuan = $('#satuan').val();
+            // $("#pakan_ayam").disable = true;
+            var nama_pakan = $('#nama_pakan_jadi').val();
+            var id_nama_pakan = $("#nama_pakan_jadi").find(':selected').attr('id');
+            var kuantitas_pakan = $('#kuantitas_pakan_jadi').val();
+            $("#nama_pakan_span").html(nama_pakan);
+            $("#kuantitas_pakan_span").html(kuantitas_pakan);
+            $("#nama_pakan_input").val(id_nama_pakan);
+            $("#kuantitas_pakan_input").val(kuantitas_pakan);
 
-            var nama_pakan = $('#nama_pakan').val();
-            var kuantitas_pakan = $('#kuantitas_pakan').val();
 
-            if (kuantitas == 0) {
+            //Get Bahan Baku 
+            var nama_bahan_baku = $('#nama_bahan_baku').val();
+            var kuantitas_bahan_baku = $('#kuantitas_bahan_baku').val();
+            var satuan = $("#nama_bahan_baku").find(':selected').attr('satuan');
+            var id_bahan_baku = $("#nama_bahan_baku").find(':selected').attr('id');
+            
+
+            if (kuantitas_bahan_baku == 0) {
                 var erroMsg = '<span class="alert alert-danger ml-5">Minimum Qty should be 1 or More than 1</span>';
                 $('#errorMsg').html(erroMsg).fadeOut(9000);
             } else {
@@ -152,21 +164,16 @@
             }
 
             function billFunction() {
-                $('#nama_pakan_span').html(supplier);
-                var id_pakan_ayam = $('#nama_pakan').find(':selected').attr('id');
-                
-                var bominput = '<input type="hidden" name="barang_id" value='+id_pakan_ayam+'> ' ;
-                $('#new').append(bominput);
-
-
                 $("#receipt_bill").each(function() {
-                    var satuan = $('#bahan_baku').find(':selected').attr('satuan');
-                    var id_bahan_baku = $('#bahan_baku').find(':selected').attr('id');
-
-                    var table = '<tr><td>' + count + '</td><td>' + name + '<input type="hidden" name="bahan_baku[' + count
-                    + '][' + "id_bahan_baku" + ']" value=' + id_bahan_baku + '></td><td>' + kuantitas +
-                    '<input type="hidden" name="bahan_baku[' + count + '][' + "kuantitas" + ']" value=' + kuantitas
-                    + '></td><td>' + satuan + '</td></tr>';
+               
+                    var table = 
+                        '<tr>'+
+                        '<td>' + count + '</td>'+
+                        '<td>' + nama_bahan_baku + '<input type="hidden" name="bahan_baku[' + count + '][' + "id_bahan_baku" + ']" value=' + id_bahan_baku + '></td>'+
+                        '<td>' + kuantitas_bahan_baku + '<input type="hidden" name="bahan_baku[' + count + '][' + "kuantitas" + ']" value=' + kuantitas_bahan_baku+ '></td>'+
+                        '<td>' + satuan + '</td>'+
+                        '</tr>';
+                    // alert(table);
                     $('#new').append(table);
                 });
                 count++;

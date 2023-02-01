@@ -7,6 +7,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class SPKController extends Controller
 {
@@ -53,19 +54,24 @@ class SPKController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
         $data = new SPK();
         $data->no_surat = $request->get('no_surat');
         $data->	tgl_pembuatan_surat = $request->get('tgl_pembuatan_surat');
-        $data->total_harga = $request->get('total_harga');
-        $data->	status = $request->get('status');
+        $data->keterangan = $request->get('keterangan_input');
+        $data->pengguna_id = $user->id;
 
-        $barang = Barang::find($request->get('barang'));
-        foreach($request->get("daftar_barang") as $details) 
+        // dd($request->get('barang'));
+        // $barang = Barang::find($request->get('barang'));
+        $data->save();
+        foreach($request->get("barang") as $details) 
         {   
-            $data->daftar_barang()->attach($details['id_barang'],['tgl_mulai_produksi' =>$details['tgl_mulai_produksi'],
-            'tgl_selesai_produksi' =>$details['tgl_selesai_produksi'],'kuantitas' =>$details['kuantitas']]);
+            $data->daftar_barang()->attach($details['id_barang'],[
+                'tgl_mulai_produksi' =>$details['tanggal_mulai'],
+                'tgl_selesai_produksi' =>$details['tanggal_akhir'],
+                'kuantitas' =>$details['kuantitas']]);
         }
-        $barang->spk()->save($data);
+        // $barang->spk()->save($data);
 
         return redirect()->route('spk.index')->with('status', 'Berhasil menambahkan surat' . $request->get('no_surat'));
     }

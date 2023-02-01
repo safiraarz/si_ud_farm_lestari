@@ -161,6 +161,10 @@ License: You must have a valid license purchased only from themeforest(the above
 						</a>
 						<ul class="sub-menu blank">
 							<li>
+								<a href="{{route('notapemesanan.index')}}">Tambah Nota
+								</a>
+							</li>
+							<li>
 								<a href="{{route('notapemesanan.index')}}">Nota Pemesanan
 								</a>
 							</li>

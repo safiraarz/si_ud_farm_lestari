@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class PemasukanTelur extends Model
 {
     protected $table = "pemasukan_telur";
-    protected $primaryKey = null;
-    public $incrementing = false;
+    // protected $primaryKey = null;
+    // public $incrementing = false;
 
-    public function barang(){
-        return $this->belongsTo('App\Barang','barang_id','id');
-    }
+    // public function barang(){
+    //     return $this->belongsTo('App\Barang','barang_id','id');
+    // }
     public function flok(){
         return $this->belongsTo('App\Flok','flok_id','id');
     }
@@ -22,4 +22,5 @@ class PemasukanTelur extends Model
     public function daftar_barang(){
         return $this->belongsToMany('App\Barang','d_pemasukan_telur','pemasukan_telur_id','barang_id')->withPivot('kuantitas_bersih','kuantitas_reject','total_kuantitas');
     }
+    
 }

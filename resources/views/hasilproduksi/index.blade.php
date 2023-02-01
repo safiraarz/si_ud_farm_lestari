@@ -78,7 +78,6 @@
         </div>
     </div>
 </div>
-@endsection
 
 <!-- add new data -->
 <div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
@@ -89,24 +88,29 @@
                 <h4 class="modal-title">Tambah Hasil Produksi</h4>
             </div>
             <div class="modal-body">
-                <form action="{{ url('hasilproduksi') }}" class="form-horizontal" method='POST'>
+                <form action="{{ route('hasilproduksi.store') }}" class="form-horizontal" method='POST'>
                     @csrf
                     <div class="form-body">
                         <div class="form-group">
+                            <label>Tanggal Pencatatan:</label>
+                            <div>
+                                <input type="date" class="form-control input-sm" name="tgl_pencatatan" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label>Nomor Surat Perintah Kerja:</label>
                             <select class="form-control" name="no_surat_perintah_kerja" id="no_surat_perintah_kerja">
+                                <option value="">Silahkan Pilih Nomor Perintah Kerja</option>
                                 @foreach ($surat_perintah_kerja as $item)
                                 <option value="{{ $item->id }}">{{ $item->no_surat}}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>Tanggal Pencatatan:</label>
-                            <div>
-                                <input type="date" class="form-control input-sm" name="dariTgl" required />
-                            </div>
+                        <div id="barang_spk">
+
                         </div>
-                        <div class="form-group">
+                       
+                        {{-- <div class="form-group">
                             <label>Nama Barang Jadi:</label>
                             <select class="form-control" name="barang_jadi" id="barang_jadi">
                                 @foreach ($barang as $item)
@@ -115,7 +119,7 @@
                                 @endif
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group">
                             <label>Kuantitas Barang Reject:</label>
@@ -129,7 +133,7 @@
                         </div>
                         <div class="form-group">
                             <label>Total Kuantitas:</label>
-                            <input type="text" name="input_kn_total" class="form-control" id='input_kn_total' required>
+                            <input type="text" name="input_kn_total" class="form-control" id='input_kn_total' required readonly>
                             </input>
                         </div>
                         <div class="form-group">
@@ -154,6 +158,11 @@
         </div>
     </div>
 </div>
+
+
+@endsection
+
+
 @section('javascript')
 <script>
     // function getEditForm(id) {
@@ -171,12 +180,60 @@
 
     //     );
     // }
-    $("#input_kn_bersih").on('change', function() {
-        $("#input_kn_reject").on('change', function() {
-            var total = parseInt($("#input_kn_reject").val()) + parseInt($("input_kn_bersih").val());
+    $("#input_kn_reject").on('change', function() {
+        // alert($("#input_kn_reject").val());
+        $("#input_kn_bersih").on('change', function() {
+            // alert($("#input_kn_bersih").val());
+
+            var total = parseInt($("#input_kn_reject").val()) + parseInt($("#input_kn_bersih").val());
+
             $('#input_kn_total').val(total);
         })
     })
+    $("#no_surat_perintah_kerja").on('change', function() {
+        $('#barang_spk').html("");
+        var spkbarang = [
+        @foreach($surat_perintah_kerja as $item)[
+            "{{ $item->id }}",
+                [
+                    @foreach($item->daftar_barang as $barangs)[
+                        "{{ $barangs->id }}",
+                        "{{ $barangs->nama }}",
+                        "{{ $barangs->pivot->harga }}",
+                        "{{ $barangs->pivot->kuantitas }}",
+                    ],
+                    @endforeach
+                ]
+            ],
+            @endforeach
+        ];
+        var id_spk= $(this).val();
+        var label = '<div class="form-group"><label>Bahan Baku</label></div> ' ;
+        $('#barang_spk').append(label);
+        spkbarang.forEach(element => {
+            if (id_spk == element[0]) {
+                // Show Supplier
+                for (let index = 0; index < element[1].length; index++) {
+                    const elements = element[1][index];
+                    var barang_id = elements[0];
+                    var barang_name = elements[1];
+                    var harga = elements[2];
+                    var kuantitas = elements[3];
+                    var barang_pesanan =  
+                        '<div class="form-group">'+
+                        '<label>- Bahan Baku '+ parseInt(index+1) +" : "+ barang_name +'</label>'+
+                        '<input type="hidden" name="barang[' + index + '][' + "barang_id" + ']" value=' +barang_id + '>'+
+                        '</div>' ;
+                    // alert(barang_pesanan);
+                    $('#barang_spk').append(barang_pesanan);
+
+                }
+            }
+
+        });
+
+    });
+
     $('#myTable').DataTable();
 </script>
 @endsection

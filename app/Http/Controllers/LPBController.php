@@ -8,6 +8,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class LPBController extends Controller
 {
@@ -54,13 +55,23 @@ class LPBController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
         $data = new LPB();
-        $barang = Barang::find($request->get('barang'));
-        foreach($request->get("daftar_barang") as $details) 
+        $data->no_surat = $request->get('no_surat');
+        $data->keterangan = $request->get('keterangan_input');
+        $data->tgl_pengeluaran_barang = $request->get('tgl_pencatatan');
+        $data->pengguna_id = $user->id;
+        $data->save();
+
+        // $barang = Barang::find($request->get('barang'));
+        // dd($request->get('bahan_baku'));
+        foreach($request->get("bahan_baku") as $details) 
         {   
-            $data->daftar_barang()->attach($details['id_barang'],['kuantitas' =>$details['kuantitas']]);
+            $data->daftar_barang()->attach($details['id_bahan_baku'],['kuantitas' =>$details['kuantitas']]);
         }
-        $barang->notapembelian()->save($data);
+        // $barang->notapembelian()->save($data);
+        return redirect()->route('lpb.index')->with('status', 'Berhasil menambah pencatatan '.$request->get('no_surat'));
+
 
     }
 

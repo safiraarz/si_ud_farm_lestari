@@ -39,13 +39,13 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <input type="number" id="karantina" min="0" value="0" class="form-control">
+                                    <input type="number" name="karantina"  id="karantina" min="0" value="0" class="form-control">
                                 </td>
                                 <td>
-                                    <input type="number" id="afkir" min="0" value="0" class="form-control">
+                                    <input type="number" name="afkir" id="afkir" min="0" value="0" class="form-control">
                                 </td>
                                 <td>
-                                    <input type="number" id="kematian" min="0" value="0" class="form-control">
+                                    <input type="number" name="kematian" id="kematian" min="0" value="0" class="form-control">
                                 </td>
                             </tr>
                         </tbody>
@@ -57,6 +57,22 @@
                                 <td>
                                     <input type="text" id="keterangan" class="form-control">
                                 </td>
+                                
+                            </tr>
+                            <tr>
+                                <th>Flok</th>
+                                <td>
+                                    <select id="flok" class="form-control">
+                                        @foreach($flok as $row )
+                            
+                                        <option id={{$row->id}} value="{{$row->id}}"  class="barang custom-select">
+                                            {{$row->nama}}
+                                        </option>
+                                  
+                                        @endforeach
+                                    </select>
+                                </td>
+                                
                             </tr>
                         </tbody>
                     </table>
@@ -80,19 +96,19 @@
                             <tr>
                                 <th>Kuantitas Bersih</th>
                                 <td>
-                                    <input type="number" id="kuantitas_bersih" min="0" value="0" class="form-control">
+                                    <input type="number" name="kuantitas_bersih" id="kuantitas_bersih" min="0" value="0" class="form-control">
                                 </td>
                             </tr>
                             <tr>
                                 <th>Kuantitas Reject</th>
                                 <td>
-                                    <input type="number" id="kuantitas_reject" min="0" value="0" class="form-control">
+                                    <input type="number" name="kuantitas_reject" id="kuantitas_reject" min="0" value="0" class="form-control">
                                 </td>
                             </tr>
                             <tr>
                                 <th>Kuantitas Total</th>
                                 <td>
-                                    <input type="number" id="kuantitas_total" min="0" value="0" class="form-control">
+                                    <input type="number" name="kuantitas_total" id="kuantitas_total" min="0" value="0" class="form-control">
                                 </td>
                             </tr>
                             <td><button id="tambah" class="btn btn-success">Tambah</button></td>
@@ -102,6 +118,11 @@
                 <div class="col-md-7  mt-4" style="background-color:#f5f5f5;">
                     <form action="{{ route('pemasukantelur.store') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
                         @csrf
+                        <input type="hidden" name="karantina" id="karangtina_input">
+                        <input type="hidden" name="afkir" id="afkir_input">
+                        <input type="hidden" name="kematian" id="kematian_input">
+                        <input type="hidden" name="keterangan" id="keterangan_input">
+                        <input type="hidden" name="flok" id="flok_input">
                         <div class="p-4">
                             <div class="text-center">
                                 <h4>Pemasukan Telur</h4>
@@ -115,6 +136,7 @@
                                 <table id="receipt_bill" class="table">
                                     <thead>
                                         <tr>
+                                            <th>No</th>
                                             <th>Nama Telur</th>
                                             <th>Kuantitas Bersih</th>
                                             <th>Kuantitas Reject</th>
@@ -148,37 +170,52 @@
         // if (count != 1) {
 
         // };
+        var count = 1;
         $('#tambah').on('click', function() {
+
+            $("#karangtina_input").val($("#karantina").val())
+            $("#afkir_input").val($("#afkir").val());
+            $("#kematian_input").val($("#kematian").val());
+            $("#keterangan_input").val($("#keterangan").val());
+            var flok = $('#flok').find(':selected').val();
+            $("#flok_input").val(flok);
+
             $("#karantina").disable = true;
             $("#afkir").disable = true;
             $("#kematian").disable = true;
 
-            var nama_telur = $('#telur').val();
+            var nama_telur = $('#nama_telur').val();
             var kuantitas_bersih = $('#kuantitas_bersih').val();
             var kuantitas_reject = $('#kuantitas_reject').val();
             var kuantitas_total = $('#kuantitas_total').val();
-            var satuan = $('#satuan').val();
+            var satuan = $('#nama_telur').find(':selected').attr('satuan');
+            // alert(nama_telur + kuantitas_total + satuan);
 
             var tgl_pencatatan = $('#tgl_pencatatan').val();
             var keterangan = $('#keterangan').val();
 
-            if (kuantitas == 0) {
+            if (kuantitas_total == 0) {
                 var erroMsg = '<span class="alert alert-danger ml-5">Minimum Qty should be 1 or More than 1</span>';
                 $('#errorMsg').html(erroMsg).fadeOut(9000);
             } else {
+                // alert("masuk")
                 billFunction(); // Below Function passing here 
             }
 
             function billFunction() {
                 $("#receipt_bill").each(function() {
-                    var satuan = $('#telur').find(':selected').attr('satuan');
-                    var id_telur = $('#telur').find(':selected').attr('id');
-
+                    var id_telur = $('#nama_telur').find(':selected').attr('id');
+                    // alert(satuan+id_telur);
                     // masi error
-                    var table = '<tr><td>' + count + '</td><td>' + name + '<input type="hidden" name="telur[' + count +
-                        '][' + "id_telur" + ']" value=' + id_telur + '></td><td>' + kuantitas_bersih +
-                        '<input type="hidden" name="telur[' + count + '][' + "kuantitas_bersih" + ']" value=' + kuantitas_bersih +
-                        '></td><td>' + satuan + '</td></tr>';
+                    var table = '<tr>'+
+                        '<td>' + count + '</td>'+
+                        '<td>' + nama_telur + '<input type="hidden" name="telur[' + count + '][' + "id_telur" + ']" value=' + id_telur + '></td>'+
+                        '<td>' + kuantitas_bersih + '<input type="hidden" name="telur[' + count + '][' + "kuantitas_bersih" + ']" value=' + kuantitas_bersih + '></td>'+
+                        '<td>' + kuantitas_reject + '<input type="hidden" name="telur[' + count + '][' + "kuantitas_reject" + ']" value=' + kuantitas_reject + '></td>'+
+                        '<td>' + kuantitas_total + '<input type="hidden" name="telur[' + count + '][' + "kuantitas_total" + ']" value=' + kuantitas_total + '></td>'+
+                        '<td>' + satuan + '<input type="hidden" name="telur[' + count + '][' + "satuan" + ']" value=' + satuan+ '></td>'
+                        +'</tr>';
+                    // alert(table);
                     $('#new').append(table);
                 });
                 count++;

@@ -86,7 +86,7 @@
         </div>
     </div>
 </div>
-@endsection
+
 
 <!-- add new data -->
 <div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
@@ -150,6 +150,10 @@
         </div>
     </div>
 </div>
+
+@endsection
+
+
 @section('javascript')
 <script>
     function getEditForm(id) {

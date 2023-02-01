@@ -7,14 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class SPK extends Model
 {
     protected $table = "surat_perintah_kerja";
+    public $timestamps = false;
 
     public function barang(){
         return $this->belongsTo('App\Barang','barang_id');
     }
     public function hasilproduksi()
     {
-        return $this->has('App\HasilProduksi', 'barang_id', 'id');
+        return $this->hasMany('App\HasilProduksi', 'surat_perintah_kerja_id', 'id');
     }
+    
     public function pengguna(){
         return $this->belongsTo('App\User','pengguna_id','id');
     }
@@ -24,6 +26,10 @@ class SPK extends Model
     }
     public function mps()
     {
-        return $this->hasMany('App\MPS', 'barang_id', 'id');
+        return $this->belongsTo('App\MPS', 'surat_perintah_kerja_id');
+    }
+    public function mps2(){
+        return $this->hasMany('App\MPS','surat_perintah_kerja_id','id');
+        
     }
 }
