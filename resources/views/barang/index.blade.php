@@ -88,7 +88,6 @@
     </div>
 </div>
 </div>
-@endsection
 
 <!-- tambah barang -->
 
@@ -128,7 +127,7 @@
                         </div>
                         <div class="form-group">
                             <label>Total Kuantitas Stok</label>
-                            <input type="text" name="total_kuantitas_stok" id="total_kuantitas" class="form-control" placeholder="Total Kuantitas Stok" readonly="true" value="hitTotalBarang()">
+                            <input type="text" name="total_kuantitas_stok" id="total_kuantitas" class="form-control" placeholder="Total Kuantitas Stok" readonly="true">
                         </div>
                         <div class="form-group">
                             <label>Harga per-Satuan</label>
@@ -136,7 +135,7 @@
                         </div>
                         <div class="form-group">
                             <label>Satuan</label>
-                            <select class='form-control select2' name='jenis'>
+                            <select class='form-control select2' name='satuan'>
                                 <option value="kg" selected="">kg</option>
                                 <option value="sak" selected="">sak</option>
                                 <option value="pc" selected="">pc</option>
@@ -162,6 +161,9 @@
         </div>
     </div>
 </div>
+@endsection
+
+
 @section('javascript')
 <script>
     function getEditForm(id) {
@@ -180,17 +182,14 @@
         );
     }
 
-    function hitTotalBarang() {
-        $("#kuantitas_supplier").on('change', function() {
-            $("#kuantitas_produksi").on('change', function() {
-                $("#kuantitas_ready").on('change', function() {
-                    var total = parseInt($("#kuantitas_supplier").val()) + parseInt($("#kuantitas_produksi").val()) + parseInt($("#kuantitas_ready").val());
-                    // alert(total);
-                    $('#total_kuantitas').val(total);
-                })
+    $("#kuantitas_supplier").on('change', function() {
+        $("#kuantitas_produksi").on('change', function() {
+            $("#kuantitas_ready").on('change', function() {
+                var total = parseInt($("#kuantitas_supplier").val()) + parseInt($("#kuantitas_produksi").val()) + parseInt($("#kuantitas_ready").val());
+                $('#total_kuantitas').val(total);
             })
         })
-    }
+    });
 
     function saveDataUpdateTD(id) {
         var eNama = $('#eNama').val();

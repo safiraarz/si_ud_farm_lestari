@@ -38,7 +38,9 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
+        
         $data = new Barang();
+
         $data->nama = $request->get('nama');
         $data->harga = $request->get('harga');
         $data->lead_time = $request->get('lead_time');
@@ -47,6 +49,7 @@ class BarangController extends Controller
         $data->kuantitas_stok_ready = $request->get('kuantitas_stok_ready');
         $data->total_kuantitas_stok = $request->get('total_kuantitas_stok');
         $data->jenis = $request->get('jenis');
+        // dd($request->get('jenis'));
         $data->satuan = $request->get('satuan');
         $data->save();
 
@@ -82,18 +85,26 @@ class BarangController extends Controller
      * @param  \App\Barang  $barang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Barang $barang)
+    public function update(Request $request, $barang)
     {
-        $barang->nama = $request->get('nama');
-        $barang->harga = $request->get('harga');
-        $barang->lead_time = $request->get('lead_time');
-        $barang->kuantitas_stok_onorder_supplier = $request->get('kuantitas_stok_onorder_supplier');
-        $barang->kuantitas_stok_onorder_produksi = $request->get('kuantitas_stok_onorder_produksi');
-        $barang->kuantitas_stok_ready = $request->get('kuantitas_stok_ready');
-        $barang->total_kuantitas_stok = $request->get('total_kuantitas_stok');
-        $barang->jenis = $request->get('jenis'); //enum
-        $barang->satuan = $request->get('satuan');
-        $barang->save();
+        $data = Barang::find($barang);
+        $data->nama = $request->get('nama');
+        $data->harga = $request->get('harga');
+        $data->lead_time = $request->get('lead_time');
+        $data->kuantitas_stok_onorder_supplier = $request->get('kuantitas_supplier');
+        $data->kuantitas_stok_onorder_produksi = $request->get('kuantitas_produksi');
+        // dd($request->get('kuantitas_produksi'));
+
+        $data->kuantitas_stok_ready = $request->get('kuantitas_ready');
+        $data->total_kuantitas_stok = $request->get('total_kuantitas');
+        $jenis_variabel = 1 ;
+        if($request->get('jenis') == "Bahan Jadi"){
+            $jenis_variabel = 2;
+        }
+        $data->jenis = $jenis_variabel;
+        // dd($request->get('jenis'));
+        $data->satuan = $request->get('satuan');
+        $data->save();
         return redirect()->route('barang.index')->with('status', 'Barang berhasil dupdate');
     }
 
