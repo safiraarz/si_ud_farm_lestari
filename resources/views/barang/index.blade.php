@@ -59,6 +59,8 @@
                                             <p>{{number_format($d->kuantitas_stok_onorder_supplier)}} {{$d->satuan}}</p>
                                             <b>Kuantitas Stok on Order Produksi:</b>
                                             <p>{{number_format($d->kuantitas_stok_onorder_produksi)}} {{$d->satuan}}</p>
+                                            <b>Kuantitas Stok Pengaman:</b>
+                                            <p>{{number_format($d->kuantitas_stok_pengaman)}} {{$d->satuan}}</p>
                                             <b>Kuantitas Stok Ready:</b>
                                             <p>{{number_format($d->kuantitas_stok_ready)}} {{$d->satuan}}</p>
                                         </div>
@@ -120,6 +122,10 @@
                         <div class="form-group">
                             <label>Kuantitas Stok on Order Produksi</label>
                             <input type="text" name="kuantitas_stok_onorder_produksi" id="kuantitas_produksi" class="form-control" placeholder="Kuantitas Stok on Order Produksi">
+                        </div>
+                        <div class="form-group">
+                            <label>Kuantitas Stok Pengaman</label>
+                            <input type="text" name="kuantitas_stok_pengaman" id="kuantitas_pengaman" class="form-control" placeholder="Kuantitas Stok Pengaman">
                         </div>
                         <div class="form-group">
                             <label>Kuantitas Stok Ready</label>
@@ -185,18 +191,20 @@
     $("#kuantitas_supplier").on('change', function() {
         $("#kuantitas_produksi").on('change', function() {
             $("#kuantitas_ready").on('change', function() {
-                var total = parseInt($("#kuantitas_supplier").val()) + parseInt($("#kuantitas_produksi").val()) + parseInt($("#kuantitas_ready").val());
+                var total = parseInt($("#kuantitas_supplier").val()) + parseInt($("#kuantitas_produksi").val()) 
+                + parseInt($("#kuantitas_pengaman").val())+ parseInt($("#kuantitas_ready").val());
                 $('#total_kuantitas').val(total);
             })
         })
     });
-
+//belum ada safety stok
     function saveDataUpdateTD(id) {
         var eNama = $('#eNama').val();
         var eHarga = $('#eHarga').val();
         var eLeadTime = $('#eLeadTime').val();
         var eKuantitas_stok_onorder_supplier = $('#eKuantitas_stok_onorder_supplier').val();
         var eKuantitas_stok_onorder_produksi = $('#eKuantitas_stok_onorder_produksi').val();
+        var eKuantitas_stok_pengaman = $('#eKuantitas_stok_pengaman').val();
         var eKuantitas_stok_ready = $('#eKuantitas_stok_ready').val();
         var eTotal_kuantitas_stok = $('#eTotal_kuantitas_stok').val();
         var eJenis = $('#eJenis').val();
@@ -213,6 +221,7 @@
                 'lead_time': eLeadTime,
                 'kuantitas_stok_onorder_supplier': eKuantitas_stok_onorder_supplier,
                 'kuantitas_stok_onorder_produksi': eKuantitas_stok_onorder_produksi,
+                'kuantitas_stok_pengaman': eKuantitas_stok_pengaman,
                 'kuantitas_stok_ready': eKuantitas_stok_ready,
                 'total_kuantitas_stok': eTotal_kuantitas_stok,
                 'jenis': eJenis,
@@ -226,6 +235,7 @@
                     $('#td_lead_time_' + id).html(eLead_time);
                     $('#td_kuantitas_stok_onorder_supplier_' + id).html(eKuantitas_stok_onorder_supplier);
                     $('#td_kuantitas_stok_onorder_produksi_' + id).html(eKuantitas_stok_onorder_produksi);
+                    $('#td_kuantitas_stok_pengaman_' + id).html(eKuantitas_stok_pengaman);
                     $('#td_kuantitas_stok_ready_' + id).html(eKuantitas_stok_ready);
                     $('#td_total_kuantitas_stok_' + id).html(eTotal_kuantitas_stok);
                     $('#td_jenis_' + id).html(eJenis);

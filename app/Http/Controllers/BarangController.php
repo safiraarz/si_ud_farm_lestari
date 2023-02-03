@@ -46,6 +46,7 @@ class BarangController extends Controller
         $data->lead_time = $request->get('lead_time');
         $data->kuantitas_stok_onorder_supplier = $request->get('kuantitas_stok_onorder_supplier');
         $data->kuantitas_stok_onorder_produksi = $request->get('kuantitas_stok_onorder_produksi');
+        $data->kuantitas_stok_pengaman = $request->get('kuantitas_stok_pengaman');
         $data->kuantitas_stok_ready = $request->get('kuantitas_stok_ready');
         $data->total_kuantitas_stok = $request->get('total_kuantitas_stok');
         $data->jenis = $request->get('jenis');
@@ -93,8 +94,7 @@ class BarangController extends Controller
         $data->lead_time = $request->get('lead_time');
         $data->kuantitas_stok_onorder_supplier = $request->get('kuantitas_supplier');
         $data->kuantitas_stok_onorder_produksi = $request->get('kuantitas_produksi');
-        // dd($request->get('kuantitas_produksi'));
-
+        $data->kuantitas_stok_pengaman = $request->get('kuantitas_pengaman');
         $data->kuantitas_stok_ready = $request->get('kuantitas_ready');
         $data->total_kuantitas_stok = $request->get('total_kuantitas');
         $jenis_variabel = 1 ;
@@ -142,6 +142,7 @@ class BarangController extends Controller
         $Barang->lead_time = $request->get('lead_time');
         $Barang->kuantitas_stok_onorder_supplier = $request->get('kuantitas_stok_onorder_supplier');
         $Barang->kuantitas_stok_onorder_produksi = $request->get('kuantitas_stok_onorder_produksi');
+        $Barang->kuantitas_stok_pengaman = $request->get('kuantitas_stok_pengaman');
         $Barang->kuantitas_stok_ready = $request->get('kuantitas_stok_ready');
         $Barang->total_kuantitas_stok = $request->get('total_kuantitas_stok');
         $Barang->jenis = $request->get('jenis'); //enum
