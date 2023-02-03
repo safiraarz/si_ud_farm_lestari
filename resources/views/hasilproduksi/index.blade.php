@@ -30,7 +30,7 @@
                         <th>Nama Barang Jadi</th>
                         <th>Total Hasil Produksi</th>
                         <th>Satuan</th>
-                        <th>Detail Kuantitas</th>
+                        <th>Daftar Barang</th>
                         <th>Pembuat Surat</th>
                         <!-- <th>Action</th> -->
                     </tr>

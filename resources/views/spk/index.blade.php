@@ -28,6 +28,7 @@
                         <th>Nomor SPK</th>
                         <th>Tanggal Pembuatan SPK</th>
                         <th>Daftar Barang</th>
+                        <th>Keterangan</th>
                         <th>Pembuat Surat</th>
                         <!-- <th>Action</th> -->
                     </tr>
@@ -77,6 +78,7 @@
                                 </div>
                             </div>
                         </td>
+                        <td id='td_keterangan_{{$d->id}}'>{{$d->keterangan}}</td>
                         <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
                         <!-- <td>
                         <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>

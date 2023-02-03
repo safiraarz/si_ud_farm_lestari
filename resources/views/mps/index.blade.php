@@ -14,7 +14,7 @@
     <div class="portlet">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-reorder"></i>Daftar Master Production Schedule
+                <i class="fa fa-reorder"></i>Master Production Schedule
             </div>
             <div class="actions">
                 <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Data</a>
@@ -31,6 +31,7 @@
                         <th>Satuan</th>
                         <th>Tanggal Mulai Produksi</th>
                         <th>Tanggal Selesai Produksi</th>
+                        <th>Status</th>
                         <!-- <th>Action</th> -->
                     </tr>
                 </thead>
@@ -44,6 +45,7 @@
                         <td id='td_satuan_{{$d->id}}'>{{$d->barang->satuan}}</td>
                         <td id='td_tgl_mulai_produksi{{$d->id}}'>{{$d->tgl_mulai_produksi}}</td>
                         <td id='td_tgl_selesai_produksi{{$d->id}}'>{{$d->tgl_selesai_produksi}}</td>
+                        <td id='td_status_{{$d->id}}'>{{$d->status}}</td>
                         <!-- <td>
                         <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
                     </td> -->

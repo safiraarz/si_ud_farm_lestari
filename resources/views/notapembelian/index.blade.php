@@ -76,7 +76,6 @@
                             {{-- <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a> --}}
                         </td>
                         <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
-
                     </tr>
                     @endforeach
                 </tbody>

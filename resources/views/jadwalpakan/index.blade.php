@@ -29,6 +29,7 @@
                         <th>Kuantitas</th>
                         <th>Satuan</th>
                         <th>Flok Tujuan</th>
+                        <th>Keterangan</th>
                         <th>Pencatat Transaksi</th>
                         <!-- <th>Action</th> -->
                     </tr>
@@ -41,6 +42,7 @@
                         <td id='td_kuantitas'>{{number_format($d->kuantitas)}}</td>
                         <td id='td_satuan'>{{$d->barang->satuan}}</td>
                         <td id='td_flok_tujuan_'>{{$d->flok->nama}}</td>
+                        <td id='td_keterangan_'>{{$d->keterangan}}</td>
                         <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
                         <!-- <td>
                         <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm('{{ $d->created_at }}')">EDIT</a>
@@ -67,7 +69,13 @@
                         @csrf
                         <div class="form-body">
                             <div class="form-group">
-                                <label>Jenis Pakan Ternak</label>
+                                <label>Tanggal Pencatatan</label>
+                                <div>
+                                    <input type="date" name="tgl_pemberian" class="form-control input-sm" required />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Nama Pakan Ternak</label>
                                 <select class="form-control" name="jenis_pakan" id="jenis_pakan">
                                     @foreach ($barang as $item)
                                     @if ($item->jenis == "Barang Jadi")
@@ -91,10 +99,9 @@
                                 </input>
                             </div>
                             <div class="form-group">
-                                <label>Tanggal Pemberian</label>
-                                <div>
-                                    <input type="date" name="tgl_pemberian" class="form-control input-sm" required />
-                                </div>
+                                <label>Keterangan</label>
+                                <input type="text" name="kuantitas" class="form-control" id='kuantitas' required>
+                                </input>
                             </div>
                         </div>
                         <div class="modal-footer">
