@@ -90,6 +90,11 @@ Route::post('/mrp/saveData', 'MRPController@saveData')->name('mrp.saveData');
 Route::post('/mrp/saveDataField', 'MRPController@saveDataField')->name('mrp.saveDataField');
 Route::post('/mrp/deleteData', 'MRPController@deleteData')->name('mmrpps.deleteData');
 
+
+// Nota Universal
+Route::resource('nota', 'NotaController');
+
+
 //notapembelian
 Route::resource('notapembelian', 'NotaPembelianController');
 Route::post('/notapembelian/getEditForm', 'NotaPembelianController@getEditForm')->name('notapembelian.getEditForm');

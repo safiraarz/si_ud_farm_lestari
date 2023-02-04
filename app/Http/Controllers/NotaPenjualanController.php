@@ -10,6 +10,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class NotaPenjualanController extends Controller
 {
@@ -58,22 +59,37 @@ class NotaPenjualanController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+        // dd($request->get("barang_penjualan"));
         $data = new NotaPenjualan();
-        $data->no_nota = $request->get('no_nota');
-        $data->	tanggal_pembuatan_nota = $request->get('tanggal_pembuatan_nota');
-        $data->total_harga = $request->get('total_harga');
-        $data->	status = $request->get('status');
+        $data->no_nota = $request->get('no_nota_penjualan');
+        $data->tgl_pembuatan_nota = $request->get('tgl_transaksi');
+        $data->total_harga = $request->get('total_harga_penjualan');
+        // dd($request->get('total_harga_penjualan'));
+        $data->pengguna_id = $user->id;
+        // $data->customer_id = $request->get('customer_id');
+        $customer = Customer::find($request->get('customer_id'));
 
-        $customer = Customer::find($request->get('cus$customer'));
-        $barang = Barang::find($request->get('barang'));
-
+        // // dd($customer);
         $customer->notapenjualan()->save($data);
-        $barang->notapenjualan()->save($data);
-        foreach($request->get("barang") as $details) 
+        // dd($request->get("barang_penjualan"));
+        foreach($request->get("barang_penjualan") as $details) 
         {   
+             // Update Kuantitas di barang
+             $barang_update = Barang::find($details['id_barang']);
+             $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
+             $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  - $details['kuantitas'];
+             $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
+             $total_kuantitas_stok_new  = $total_kuantitas_stok_old - $details['kuantitas'];
+             
+             $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
+             $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
+             $barang_update->save();
+             
             $data->barang()->attach($details['id_barang'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga_barang']]);
         }
-        return redirect()->route('notapenjualan.index')->with('status', 'Berhasil menambahkan nota' . $request->get('no_nota'));
+        // $data->save();
+        return redirect()->route('notapenjualan.index')->with('status', 'Berhasil menambahkan nota ' . $request->get('no_nota_penjualan'));
     }
 
     /**

@@ -232,6 +232,7 @@
         });
 
     });
+    
     document.cookie = "var1=22";
     function getEditForm(id) {
         $.ajax({

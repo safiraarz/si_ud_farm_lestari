@@ -94,9 +94,15 @@
                             <div class="modal-body">
                                 <label for="">Bahan Baku</label>
                                 <br>
+                                <br>
                                 @foreach($d->barang as $barang_bom)
                                 @if($barang_bom->jenis == "Bahan Baku")
+                                Nama :
                                 {{$barang_bom->nama}}
+                                <br>
+                                Kuantitas :
+                                {{$barang_bom->pivot->kuantitas_bahan_baku}}
+                                <br>
                                 <br>
                                 @endif
                                 @endforeach

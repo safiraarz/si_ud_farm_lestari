@@ -10,7 +10,10 @@ class Barang extends Model
 
     public function notapembelian()
     {
-        return $this->hasMany('App\NotaPembelian', 'barang_id', 'id');
+        return $this->hasMany('App\NotaPembelian', 'nota_pembelian_id', 'id');
+    }
+    public function notapembelian2(){
+        return $this->belongsToMany('App\NotaPembelian','d_nota_pembelian','nota_pembelian_id','barang_id')->withPivot('kuantitas','harga');;
     }
     public function notapenjualan()
     {

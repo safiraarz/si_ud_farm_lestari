@@ -52,22 +52,22 @@ class HasilProduksiController extends Controller
         //
         $user = Auth::user();
         // dd($request->get('barang'));
-        foreach ($request->get('barang') as  $value) {
-            # code...
-            $data = new HasilProduksi();
-            $data->tgl_pencatatan = $request->get('tgl_pencatatan');
-            $data->kuantitas_reject = $request->get('input_kn_reject');
-            $data->kuantitas_bersih = $request->get('input_kn_bersih');
-            $data->total_kuantitas = $request->get('input_kn_total');
-            $data->keterangan = $request->get('keterangan');
-            $data->pengguna_id = $user->id;
 
-            $spk = SPK::find($request->get('no_surat_perintah_kerja'));
+            # code...
+        $data = new HasilProduksi();
+        $data->tgl_pencatatan = $request->get('tgl_pencatatan');
+        $data->kuantitas_reject = $request->get('input_kn_reject');
+        $data->kuantitas_bersih = $request->get('input_kn_bersih');
+        $data->total_kuantitas = $request->get('input_kn_total');
+        $data->keterangan = $request->get('keterangan');
+        $data->pengguna_id = $user->id;
+
+        $spk = SPK::find($request->get('no_surat_perintah_kerja'));
             // dd($spk);
-            $spk->hasilproduksi()->save($data);
-            $barang = Barang::find($value['barang_id']);
-            $barang->hasilproduksi()->save($data);
-        }
+        $spk->hasilproduksi()->save($data);
+        $barang = Barang::find($request->get('bahan_baku'));
+        $barang->hasilproduksi()->save($data);
+        
         return redirect()->route('hasilproduksi.index')->with('status', 'Success Add Hasil Produksi');
         
 

@@ -105,12 +105,12 @@
                                     <input type="number" name="kuantitas_reject" id="kuantitas_reject" min="0" value="0" class="form-control">
                                 </td>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <th>Kuantitas Total</th>
                                 <td>
                                     <input type="number" name="kuantitas_total" id="kuantitas_total" min="0" value="0" class="form-control">
                                 </td>
-                            </tr>
+                            </tr> --}}
                             <td><button id="tambah" class="btn btn-success">Tambah</button></td>
                         </tbody>
                     </table>
@@ -187,7 +187,7 @@
             var nama_telur = $('#nama_telur').val();
             var kuantitas_bersih = $('#kuantitas_bersih').val();
             var kuantitas_reject = $('#kuantitas_reject').val();
-            var kuantitas_total = $('#kuantitas_total').val();
+            var kuantitas_total = parseInt(kuantitas_bersih) + parseInt(kuantitas_reject);
             var satuan = $('#nama_telur').find(':selected').attr('satuan');
             // alert(nama_telur + kuantitas_total + satuan);
 

@@ -42,20 +42,15 @@ class MPSController extends Controller
      */
     public function store(Request $request)
     {
-        foreach($request->get('barang') as $value){
-            $data = new MPS();
-            $data->tgl_mulai_produksi = $request->get('tgl_mulai_produksi');
-            $data->tgl_selesai_produksi = $request->get('tgl_selesai_produksi');
-            $data->kuantitas_barang_jadi = $request->get('kuantitas_barang_jadi');
-            $data->kuantitas_barang_jadi = $request->get('kuantitas_barang_jadi');
-            // $data->surat_perintah = $request->get('kuantitas_barang_jadi')
-            // dd($request->get('barang'));
-            $spk = SPK::find($request->get('spk'));
-            // dd($spk);
-            $spk->mps2()->save($data);
-            $barang = Barang::find($value['barang_id']);
-            $barang->mps()->save($data);
-        }
+        $data = new MPS();
+        $data->tgl_mulai_produksi = $request->get('tgl_mulai_produksi');
+        $data->tgl_selesai_produksi = $request->get('tgl_selesai_produksi');
+        $data->kuantitas_barang_jadi = $request->get('kuantitas_barang_jadi');
+        $spk = SPK::find($request->get('spk'));
+        // dd($spk);
+        $spk->mps2()->save($data);
+        $barang = Barang::find($request->get('bahan_baku'));
+        $barang->mps()->save($data);
         
         return redirect()->route('mps.index')->with('status', 'Success Add MPS');
     }
