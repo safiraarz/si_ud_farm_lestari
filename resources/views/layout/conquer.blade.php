@@ -19,14 +19,15 @@ License: You must have a valid license purchased only from themeforest(the above
 
 <head>
 	<meta charset="utf-8" />
-	<title>@yield('title', 'Sistem Informasi UD Farm Lestari')</title>
+	<title>UD FARM LESTARI</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
 	<meta name="MobileOptimized" content="320">
 	<!-- BEGIN GLOBAL MANDATORY STYLES -->
-	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
+		type="text/css" />
 	<link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 	<link href="assets/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
 	<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -45,14 +46,8 @@ License: You must have a valid license purchased only from themeforest(the above
 	<link href="assets/css/pages/tasks.css" rel="stylesheet" type="text/css" />
 	<link href="assets/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color" />
 	<link href="assets/css/custom.css" rel="stylesheet" type="text/css" />
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
-
-	<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css"> -->
-	<!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script> -->
-	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
 	<!-- END THEME STYLES -->
 	<link rel="shortcut icon" href="favicon.ico" />
-
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -60,27 +55,39 @@ License: You must have a valid license purchased only from themeforest(the above
 <body class="page-header-fixed">
 	<!-- BEGIN HEADER -->
 	<div class="header navbar navbar-fixed-top">
-		<!-- BEGIN TOP NAVIGATION MENU -->
-		<ul class="nav navbar-nav pull-right">
-			<!-- BEGIN USER LOGIN DROPDOWN -->
-			<li class="dropdown user">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-					{{-- <img alt="" src="{{ asset('conquer2/img/avatar3_small.jpg') }}"/> --}}
-					<span class="username username-hide-on-mobile">
-
-					</span>
-					<i class="fa fa-angle-down"></i>
-				</a>
-				<ul class="dropdown-menu">
-					<li>
-						<a><i class="fa fa-user"></i> </a>
-					</li>
-
-				</ul>
-			</li>
-			<!-- END USER LOGIN DROPDOWN -->
-		</ul>
-		<!-- END TOP NAVIGATION MENU -->
+		<!-- BEGIN TOP NAVIGATION BAR -->
+		<div class="header-inner">
+			<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+			<a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<img src="assets/img/menu-toggler.png" alt="" />
+			</a>
+			<!-- END RESPONSIVE MENU TOGGLER -->
+			<!-- BEGIN TOP NAVIGATION MENU -->
+			<ul class="nav navbar-nav pull-right">
+				<!-- BEGIN TODO DROPDOWN -->
+				<!-- END TODO DROPDOWN -->
+				<li class="devider">
+					&nbsp;
+				</li>
+				<!-- BEGIN USER LOGIN DROPDOWN -->
+				<li class="dropdown user">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+						data-close-others="true">
+						<img alt="" src="assets/img/avatar3_small.jpg" />
+						<span class="username username-hide-on-mobile">Nick </span>
+						<i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<a href="login.html"><i class="fa fa-key"></i> Log Out</a>
+						</li>
+					</ul>
+				</li>
+				<!-- END USER LOGIN DROPDOWN -->
+			</ul>
+			<!-- END TOP NAVIGATION MENU -->
+		</div>
+		<!-- END TOP NAVIGATION BAR -->
 	</div>
 	<!-- END HEADER -->
 	<div class="clearfix">
@@ -101,14 +108,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						</div>
 						<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
 					</li>
-					<li class="sidebar-search-wrapper">
-						<form class="search-form" role="form" action="index.html" method="get">
-							<div class="input-icon right">
-								<i class="icon-magnifier"></i>
-								<input type="text" class="form-control" name="query" placeholder="Search...">
-							</div>
-						</form>
-					</li>
+
 					<li class="start active ">
 						<a href="">
 							<i class="icon-home"></i>
@@ -161,7 +161,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						</a>
 						<ul class="sub-menu blank">
 							<li>
-								<a href="{{route('nota.index')}}">Tambah Nota
+								<a href="{{route('notapemesanan.index')}}">Tambah Nota
 								</a>
 							</li>
 							<li>
@@ -266,26 +266,32 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!-- BEGIN CONTENT -->
 		<div class="page-content-wrapper">
 			<div class="page-content">
-				<div class="page-bar">
-					<ul class="page-breadcrumb">
-						<li>
-							<i class="fa fa-home"></i>
-							<a href="index.html">Home</a>
-							<i class="fa fa-angle-right"></i>
-						</li>
-					</ul>
-				</div>
-				<div id='showinfo'></div>
-				<div class="page-toolbar">
-					<div class="btn-group pull-right">
-					</div>
-				</div>
+				<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+				<!-- <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
 
+							
+						</div>
+					</div>
+				</div> -->
 				@yield('content')
+				<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+				<!-- BEGIN STYLE CUSTOMIZER -->
+
+				<!-- END BEGIN STYLE CUSTOMIZER -->
+				<!-- BEGIN PAGE HEADER-->
+
+				<!-- END PAGE HEADER-->
+				<!-- BEGIN OVERVIEW STATISTIC BARS-->
+
+				<!-- END OVERVIEW STATISTIC BARS-->
+				<!-- BEGIN OVERVIEW STATISTIC BLOCKS-->
+				<!-- END OVERVIEW STATISTIC BLOCKS-->
 			</div>
 		</div>
-	</div>
-	<!-- END CONTENT -->
+		<!-- END CONTENT -->
 	</div>
 	<!-- END CONTAINER -->
 	<!-- BEGIN FOOTER -->
@@ -302,14 +308,13 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!-- END FOOTER -->
 	<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 	<!-- BEGIN CORE PLUGINS -->
-
-
 	<script src="assets/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
 	<script src="assets/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
 	<!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
 	<script src="assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
 	<script src="assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+	<script src="assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"
+		type="text/javascript"></script>
 	<script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 	<script src="assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>
 	<script src="assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
@@ -339,13 +344,9 @@ License: You must have a valid license purchased only from themeforest(the above
 	<script src="assets/scripts/app.js" type="text/javascript"></script>
 	<script src="assets/scripts/index.js" type="text/javascript"></script>
 	<script src="assets/scripts/tasks.js" type="text/javascript"></script>
-	<!-- <script src="{{ asset('assets/plugins/jquery.editable.min.js')}}" type="text/javascript"></script> -->
-	<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.4.1/css/buttons.dataTables.min.css">
-
 	<!-- END PAGE LEVEL SCRIPTS -->
 	<script>
-		jQuery(document).ready(function() {
+		jQuery(document).ready(function () {
 			App.init(); // initlayout and core plugins
 			Index.init();
 			Index.initJQVMAP(); // init index page's custom scripts
@@ -359,8 +360,6 @@ License: You must have a valid license purchased only from themeforest(the above
 			Tasks.initDashboardWidget();
 		});
 	</script>
-	@yield('javascript')
-	@yield('initialscript')
 	<!-- END JAVASCRIPTS -->
 </body>
 <!-- END BODY -->

@@ -221,7 +221,7 @@
                             <td>
                                 <select name="barang" id="barang_penjualan" class="form-control barang">
                                     @foreach($barang as $row )
-                                    @if ($row->jenis == "Bahan Baku")
+                                    @if ($row->jenis == "Barang Jadi")
                                     <option id={{$row->id}} value="{{$row->nama}}" harga="{{$row->harga}}"
                                         satuan="{{$row->satuan}}" class="barang custom-select">
                                         {{$row->nama}}
