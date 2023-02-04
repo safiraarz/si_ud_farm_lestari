@@ -19,15 +19,14 @@ License: You must have a valid license purchased only from themeforest(the above
 
 <head>
 	<meta charset="utf-8" />
-	<title>UD FARM LESTARI</title>
+	<title>@yield('title', 'Sistem Informasi UD Farm Lestari')</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
 	<meta name="MobileOptimized" content="320">
 	<!-- BEGIN GLOBAL MANDATORY STYLES -->
-	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
-		type="text/css" />
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
 	<link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 	<link href="assets/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
 	<link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -71,15 +70,28 @@ License: You must have a valid license purchased only from themeforest(the above
 				</li>
 				<!-- BEGIN USER LOGIN DROPDOWN -->
 				<li class="dropdown user">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
-						data-close-others="true">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 						<img alt="" src="assets/img/avatar3_small.jpg" />
-						<span class="username username-hide-on-mobile">Nick </span>
+						<span class="username username-hide-on-mobile">
+							{{-- {{ Auth::user()->name }} --}}
+						</span>
 						<i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="dropdown-menu">
 						<li>
-							<a href="login.html"><i class="fa fa-key"></i> Log Out</a>
+							<a><i class="fa fa-user"></i> {{ Auth::user()->name }}</a>
+						</li>
+						<li>
+							@if(Auth::user())
+							<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+								@csrf
+								<input type="submit" value="Log Out">
+							</form>
+							@else
+							<a href="{{ route('login') }}" class="btn btn-primary">Login</a>
+							@endif
+							<!-- <a href="{{ route('login') }}"><i class="fa fa-key"></i> Log Out</a> -->
+
 						</li>
 					</ul>
 				</li>
@@ -161,7 +173,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						</a>
 						<ul class="sub-menu blank">
 							<li>
-								<a href="{{route('notapemesanan.index')}}">Tambah Nota
+								<a href="{{route('nota.index')}}">Tambah Nota
 								</a>
 							</li>
 							<li>
@@ -266,29 +278,8 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!-- BEGIN CONTENT -->
 		<div class="page-content-wrapper">
 			<div class="page-content">
-				<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
-				<!-- <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-					aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-
-							
-						</div>
-					</div>
-				</div> -->
 				@yield('content')
-				<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
-				<!-- BEGIN STYLE CUSTOMIZER -->
 
-				<!-- END BEGIN STYLE CUSTOMIZER -->
-				<!-- BEGIN PAGE HEADER-->
-
-				<!-- END PAGE HEADER-->
-				<!-- BEGIN OVERVIEW STATISTIC BARS-->
-
-				<!-- END OVERVIEW STATISTIC BARS-->
-				<!-- BEGIN OVERVIEW STATISTIC BLOCKS-->
-				<!-- END OVERVIEW STATISTIC BLOCKS-->
 			</div>
 		</div>
 		<!-- END CONTENT -->
@@ -313,8 +304,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
 	<script src="assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
 	<script src="assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"
-		type="text/javascript"></script>
+	<script src="assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
 	<script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 	<script src="assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>
 	<script src="assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
@@ -346,7 +336,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	<script src="assets/scripts/tasks.js" type="text/javascript"></script>
 	<!-- END PAGE LEVEL SCRIPTS -->
 	<script>
-		jQuery(document).ready(function () {
+		jQuery(document).ready(function() {
 			App.init(); // initlayout and core plugins
 			Index.init();
 			Index.initJQVMAP(); // init index page's custom scripts
@@ -360,6 +350,8 @@ License: You must have a valid license purchased only from themeforest(the above
 			Tasks.initDashboardWidget();
 		});
 	</script>
+	@yield('javascript')
+	@yield('initialscript')
 	<!-- END JAVASCRIPTS -->
 </body>
 <!-- END BODY -->
