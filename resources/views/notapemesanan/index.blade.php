@@ -36,9 +36,9 @@
                     <tr id='tr_{{$d->id}}'>
                         <td>{{$d->id}}</td>
                         <td id='td_no_nota_{{$d->id}}'>{{$d->no_nota}}</td>
-                        <td id='td_tanggal_pembuatan_nota_{{$d->id}}'>{{$d->tgl_pembuatan_nota}}</td>
-                        <td id='td_supplier_{{$d->id}}'>{{$d->supplier->nama}}</td>
-                        <td id='td_total_harga_{{$d->id}}'>Rp{{number_format($d->total_harga,2)}}</td>
+                        <td class='editable' id='td_tanggal_pembuatan_nota_{{$d->id}}'>{{$d->tgl_pembuatan_nota}}</td>
+                        <td class='editable' id='td_supplier_{{$d->id}}'>{{$d->supplier->nama}}</td>
+                        <td class='editable' id='td_total_harga_{{$d->id}}'>Rp{{number_format($d->total_harga,2)}}</td>
                         <td>
                             {{-- <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a> --}}
                             <a class="btn btn-default edittable" data-toggle="modal" href="#detail_{{$d->id}}">
@@ -98,5 +98,36 @@
 @section('javascript')
 <script>
     $('#myTable').DataTable();
+</script>
+@endsection
+
+@section('initialscript')
+<script>
+    $('.editable').editable({
+        closeOnEnter: true,
+        callback: function(data) {
+            if (data.content) {
+                alert(data.content)
+            }
+        }
+    });
+
+    var s_id = data.$el[0].id
+    var fname = s_id.split('_')[1]
+    var id = s_id.split('_')[2]
+    $.ajax({
+        type: 'POST',
+        url: '{{route("notapemesanan.saveDataField")}}',
+        data: {
+            '_token': '<?php echo csrf_token() ?>',
+            'id': id,
+            'fname': fname,
+            'value': data.content
+
+        },
+        success: function(data){
+            alert(data.msg)
+        }
+    });
 </script>
 @endsection
