@@ -22,7 +22,7 @@ class LPBController extends Controller
         $queryBuilder = LPB::all();
         $barang = Barang::all();
         $user = User::all();
-        return view('lpb.index', ['data' => $queryBuilder, 'barang' => $barang,'user' => $user]);
+        return view('lpb.index', ['data' => $queryBuilder, 'barang' => $barang, 'user' => $user]);
     }
 
     /**
@@ -34,17 +34,16 @@ class LPBController extends Controller
     {
         $user = User::all();
         $barang = Barang::all();
-        $date_now = str_replace('-', '',Carbon::now()->toDateString());
-        $sqlmaxnota = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_surat, -3))+1 AS LPBMaxTanggal FROM `pengeluaran_bahan_baku` WHERE `no_surat` LIKE '". $date_now ."%';"));
-        $noSuratMax= 0;
-        if($sqlmaxnota[0]->LPBMaxTanggal == null){
-            $noSuratMax=1;
-        }
-        else{
+        $date_now = str_replace('-', '', Carbon::now()->toDateString());
+        $sqlmaxnota = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_surat, -3))+1 AS LPBMaxTanggal FROM `pengeluaran_bahan_baku` WHERE `no_surat` LIKE '" . $date_now . "%';"));
+        $noSuratMax = 0;
+        if ($sqlmaxnota[0]->LPBMaxTanggal == null) {
+            $noSuratMax = 1;
+        } else {
             $noSuratMax = $sqlmaxnota[0]->LPBMaxTanggal;
         }
-        $no_surat_generator = $date_now.'-'.'02'.'-'.'02'.'-'.str_pad($noSuratMax, 3, "0", STR_PAD_LEFT);
-        return view('lpb.create', ['date_now'=>Carbon::now()->toDateString(),'no_surat_generator'=>$no_surat_generator,'user' => $user,'barang' => $barang]);
+        $no_surat_generator = $date_now . '-' . '02' . '-' . '02' . '-' . str_pad($noSuratMax, 3, "0", STR_PAD_LEFT);
+        return view('lpb.create', ['date_now' => Carbon::now()->toDateString(), 'no_surat_generator' => $no_surat_generator, 'user' => $user, 'barang' => $barang]);
     }
 
     /**
@@ -65,14 +64,21 @@ class LPBController extends Controller
 
         // $barang = Barang::find($request->get('barang'));
         // dd($request->get('bahan_baku'));
-        foreach($request->get("bahan_baku") as $details) 
-        {   
-            $data->daftar_barang()->attach($details['id_bahan_baku'],['kuantitas' =>$details['kuantitas']]);
+        foreach ($request->get("bahan_baku") as $details) {
+            $barang_update = Barang::find($details['id_bahan_baku']);
+            $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
+            $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  - $details['kuantitas'];
+            $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
+            $total_kuantitas_stok_new  = $total_kuantitas_stok_old - $details['kuantitas'];
+
+            $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
+            $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
+            $barang_update->save();
+
+            $data->daftar_barang()->attach($details['id_bahan_baku'], ['kuantitas' => $details['kuantitas']]);
         }
         // $barang->notapembelian()->save($data);
-        return redirect()->route('lpb.index')->with('status', 'Berhasil menambah pencatatan '.$request->get('no_surat'));
-
-
+        return redirect()->route('lpb.index')->with('status', 'Berhasil menambah pencatatan ' . $request->get('no_surat'));
     }
 
     /**
@@ -127,7 +133,7 @@ class LPBController extends Controller
         $barang = Barang::all();
         return response()->json(array(
             'status' => 'oke',
-            'msg' => view('lpb.getEditForm', compact('data','barang'))->render()
+            'msg' => view('lpb.getEditForm', compact('data', 'barang'))->render()
         ), 200);
     }
 }

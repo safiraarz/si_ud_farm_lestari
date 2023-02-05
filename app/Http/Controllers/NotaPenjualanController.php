@@ -25,7 +25,7 @@ class NotaPenjualanController extends Controller
         $user = User::all();
         $customer = Customer::all();
         $barang = Barang::all();
-        return view('notapenjualan.index', ['data' => $queryBuilder,'user' => $user,'barang' => $barang,'customer' => $customer]);
+        return view('notapenjualan.index', ['data' => $queryBuilder, 'user' => $user, 'barang' => $barang, 'customer' => $customer]);
     }
 
     /**
@@ -38,17 +38,16 @@ class NotaPenjualanController extends Controller
         $user = User::all();
         $customer = Customer::all();
         $barang = Barang::all();
-        $date_now = str_replace('-', '',Carbon::now()->toDateString());
-        $sqlmaxnota = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_nota, -3))+1 AS PenjualanMaxTanggal FROM `nota_penjualan` WHERE `no_nota` LIKE '". $date_now ."%';"));
-        $jualMax= 0;
-        if($sqlmaxnota[0]->PenjualanMaxTanggal == null){
-            $jualMax=1;
-        }
-        else{
+        $date_now = str_replace('-', '', Carbon::now()->toDateString());
+        $sqlmaxnota = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_nota, -3))+1 AS PenjualanMaxTanggal FROM `nota_penjualan` WHERE `no_nota` LIKE '" . $date_now . "%';"));
+        $jualMax = 0;
+        if ($sqlmaxnota[0]->PenjualanMaxTanggal == null) {
+            $jualMax = 1;
+        } else {
             $jualMax = $sqlmaxnota[0]->PenjualanMaxTanggal;
         }
-        $no_nota_generator = $date_now.'-'.'01'.'-'.'03'.'-'.str_pad($jualMax, 3, "0", STR_PAD_LEFT);
-        return view('notapenjualan.create', ['date_now'=>Carbon::now()->toDateString(),'no_nota_generator'=>$no_nota_generator,'customer' => $customer,'user' => $user,'barang' => $barang]);
+        $no_nota_generator = $date_now . '-' . '01' . '-' . '03' . '-' . str_pad($jualMax, 3, "0", STR_PAD_LEFT);
+        return view('notapenjualan.create', ['date_now' => Carbon::now()->toDateString(), 'no_nota_generator' => $no_nota_generator, 'customer' => $customer, 'user' => $user, 'barang' => $barang]);
     }
 
     /**
@@ -73,20 +72,19 @@ class NotaPenjualanController extends Controller
         // // dd($customer);
         $customer->notapenjualan()->save($data);
         // dd($request->get("barang_penjualan"));
-        foreach($request->get("barang_penjualan") as $details) 
-        {   
-             // Update Kuantitas di barang
-             $barang_update = Barang::find($details['id_barang']);
-             $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
-             $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  - $details['kuantitas'];
-             $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
-             $total_kuantitas_stok_new  = $total_kuantitas_stok_old - $details['kuantitas'];
-             
-             $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
-             $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
-             $barang_update->save();
-             
-            $data->barang()->attach($details['id_barang'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga_barang']]);
+        foreach ($request->get("barang_penjualan") as $details) {
+            // Update Kuantitas di barang
+            $barang_update = Barang::find($details['id_barang']);
+            $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
+            $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  - $details['kuantitas'];
+            $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
+            $total_kuantitas_stok_new  = $total_kuantitas_stok_old - $details['kuantitas'];
+
+            $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
+            $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
+            $barang_update->save();
+
+            $data->barang()->attach($details['id_barang'], ['kuantitas' => $details['kuantitas'], 'harga' => $details['harga_barang']]);
         }
         // $data->save();
         return redirect()->route('notapenjualan.index')->with('status', 'Berhasil menambahkan nota ' . $request->get('no_nota_penjualan'));
@@ -111,7 +109,7 @@ class NotaPenjualanController extends Controller
      */
     public function edit(NotaPenjualan $notaPenjualan)
     {
-        return view('notapenjualan.edit', ['notapenjualan' => NotaPenjualan::find($notaPenjualan), 'customer' => Customer::All(),'barang' => Barang::All()]);
+        return view('notapenjualan.edit', ['notapenjualan' => NotaPenjualan::find($notaPenjualan), 'customer' => Customer::All(), 'barang' => Barang::All()]);
     }
 
     /**
@@ -144,7 +142,7 @@ class NotaPenjualanController extends Controller
         $barang = Barang::all();
         return response()->json(array(
             'status' => 'oke',
-            'msg' => view('notapenjualan.getEditForm', compact('data', 'customer','barang'))->render()
+            'msg' => view('notapenjualan.getEditForm', compact('data', 'customer', 'barang'))->render()
         ), 200);
     }
 }

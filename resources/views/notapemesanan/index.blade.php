@@ -36,9 +36,9 @@
                     <tr id='tr_{{$d->id}}'>
                         <td>{{$d->id}}</td>
                         <td id='td_no_nota_{{$d->id}}'>{{$d->no_nota}}</td>
-                        <td class='editable' id='td_tanggal_pembuatan_nota_{{$d->id}}'>{{$d->tgl_pembuatan_nota}}</td>
-                        <td class='editable' id='td_supplier_{{$d->id}}'>{{$d->supplier->nama}}</td>
-                        <td class='editable' id='td_total_harga_{{$d->id}}'>Rp{{number_format($d->total_harga,2)}}</td>
+                        <td id='td_tanggal_pembuatan_nota_{{$d->id}}'>{{$d->tgl_pembuatan_nota}}</td>
+                        <td id='td_supplier_{{$d->id}}'>{{$d->supplier->nama}}</td>
+                        <td id='td_total_harga_{{$d->id}}'>Rp{{number_format($d->total_harga,2)}}</td>
                         <td>
                             {{-- <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a> --}}
                             <a class="btn btn-default edittable" data-toggle="modal" href="#detail_{{$d->id}}">
@@ -79,7 +79,7 @@
                             </div>
                         </td>
                         <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
-                        <td id='td_status_{{$d->id}}'>{{$d->status}}</td>
+                        <td class='editable' id='td_status_{{$d->id}}'>{{$d->status}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -105,6 +105,8 @@
 <script>
     $('.editable').editable({
         closeOnEnter: true,
+        // cbox
+        source:[{value: "Belum Diproses", text: "Belum Diproses"}, {value: "Beli", text: "Beli"}, {value: "Batal", text: "Batal"}],
         callback: function(data) {
             if (data.content) {
                 alert(data.content)

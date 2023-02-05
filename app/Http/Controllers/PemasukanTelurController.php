@@ -30,7 +30,7 @@ class PemasukanTelurController extends Controller
 
         // }
 
-        return view('pemasukantelur.index', ['data' => $queryBuilder,'barang'=>$barang,'flok'=>$flok, 'user' => $user]);
+        return view('pemasukantelur.index', ['data' => $queryBuilder, 'barang' => $barang, 'flok' => $flok, 'user' => $user]);
     }
 
     /**
@@ -43,8 +43,8 @@ class PemasukanTelurController extends Controller
         $barang = Barang::all();
         $user = User::all();
         $flok = Flok::all();
-        $date_now = str_replace('-', '',Carbon::now()->toDateString());
-        return view('pemasukantelur.create', ['date_now'=>Carbon::now()->toDateString(),'barang' => $barang, 'user' => $user,'flok' => $flok]);
+        $date_now = str_replace('-', '', Carbon::now()->toDateString());
+        return view('pemasukantelur.create', ['date_now' => Carbon::now()->toDateString(), 'barang' => $barang, 'user' => $user, 'flok' => $flok]);
     }
 
     /**
@@ -63,25 +63,35 @@ class PemasukanTelurController extends Controller
         $data->afkir = $request->get('afkir');
         $data->kematian = $request->get('kematian');
         $data->keterangan = $request->get('keterangan');
-        $data->pengguna_id= $user->id;
-        $data->flok_id= $request->get('flok');
+        $data->pengguna_id = $user->id;
+        $data->flok_id = $request->get('flok');
         $data->tgl_pencatatan = Carbon::now()->toDateString();
         // dd($request->get('tanggal_pencatatan'));
         // dd($request->get('telur'));
         $data->save();
-
+        // nambah kuantitas
         // $barang = Barang::find($request->get('barang'));
-        foreach($request->get("telur") as $details) 
-        {
-            $data->daftar_barang()->attach($details['id_telur'],[
-                'kuantitas_bersih' =>$details['kuantitas_bersih'],
-                'kuantitas_reject' =>$details['kuantitas_reject'],
-                'total_kuantitas' =>$details['kuantitas_total']
+        foreach ($request->get("telur") as $details) {
+            $barang_update = Barang::find($details['id_telur']);
+            $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
+            $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  + $details['kuantitas_bersih'];
+            $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
+            $total_kuantitas_stok_new  = $total_kuantitas_stok_old + $details['kuantitas_bersih'];
+
+            $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
+            $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
+            $barang_update->save();
+
+            $data->daftar_barang()->attach($details['id_telur'], [
+                'kuantitas_bersih' => $details['kuantitas_bersih'],
+                'kuantitas_reject' => $details['kuantitas_reject'],
+                'total_kuantitas' => $details['kuantitas_total']
             ]);
+
+
         }
         // $barang->pemasukantelur()->save($data);
         return redirect()->route('pemasukantelur.index')->with('status', 'Berhasil menambah pencatatan');
-
     }
 
     /**
@@ -103,7 +113,7 @@ class PemasukanTelurController extends Controller
      */
     public function edit(PemasukanTelur $pemasukanTelur)
     {
-        return view('pemasukantelur.edit', ['pemasukantelur' => PemasukanTelur::find($pemasukanTelur),'barang' => Barang::All(), 'flok' => Flok::All()]);
+        return view('pemasukantelur.edit', ['pemasukantelur' => PemasukanTelur::find($pemasukanTelur), 'barang' => Barang::All(), 'flok' => Flok::All()]);
     }
 
     /**
@@ -120,7 +130,7 @@ class PemasukanTelurController extends Controller
             ->where('created_at', $pemasukanTelur)
             ->update([
                 'barang_id' => $request->get('barang_id'),
-                'flok_id' =>$request->get('flok_id'),
+                'flok_id' => $request->get('flok_id'),
                 'kuantitas_bersih' => $request->get('kuantitas_bersih'),
                 'kuantitas_reject' => $request->get('kuantitas_reject'),
                 'total_kuantitas' => $request->get('total_kuantitas'),

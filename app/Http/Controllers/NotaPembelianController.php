@@ -85,7 +85,7 @@ class NotaPembelianController extends Controller
                     $barang_update->total_kuantitas_stok = ($barang_update->total_kuantitas_stok - $kuantitas_old) + $details['kuantitas'];
                     $barang_update->kuantitas_stok_ready = $barang_update->kuantitas_stok_ready + $details['kuantitas'];
                     $barang_update->save();
-                }
+                }D
             }
             $total += $details['kuantitas'] * $details['harga'];
             $data->barang()->attach($details['barang_id'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga']]);

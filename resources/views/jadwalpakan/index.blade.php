@@ -100,7 +100,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Keterangan</label>
-                                <input type="text" name="kuantitas" class="form-control" id='kuantitas' required>
+                                <input type="text" name="keterangan" class="form-control" id='keterangan' required>
                                 </input>
                             </div>
                         </div>
