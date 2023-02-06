@@ -15,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
-Route::get('/home', 'HomeController@index')->name('home');
+
+// Route::get('/home', 'HomeController@index')->name('home');
 //supplier
 Route::resource('supplier', 'SupplierController');
 Route::post('/supplier/getEditForm', 'SupplierController@getEditForm')->name('supplier.getEditForm');

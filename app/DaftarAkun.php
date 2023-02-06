@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class DaftarAkun extends Model
 {
-    protected $connection = 'inventory';
-    protected $table = "daftar_akun";
+    protected $connection = 'akuntansi';
+    protected $table = "akun";
 }
