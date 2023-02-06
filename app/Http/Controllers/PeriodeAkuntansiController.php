@@ -14,7 +14,8 @@ class PeriodeAkuntansiController extends Controller
      */
     public function index()
     {
-        //
+        $queryBuilder = PeriodeAkuntansi::all();
+        return view('periode.index', ['data' => $queryBuilder]);
     }
 
     /**

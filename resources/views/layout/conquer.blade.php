@@ -167,7 +167,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								</a>
 							</li>
 							<li>
-								<a href="{{route('daftarakun.index')}}">Daftar Akun
+								<a href="{{route('akun.index')}}">Daftar Akun
 								</a>
 							</li>
 						</ul>
@@ -230,6 +230,10 @@ License: You must have a valid license purchased only from themeforest(the above
 								</a>
 							</li>
 							<li>
+								<a>Kebutuhan Bahan Baku
+								</a>
+							</li>
+							<li>
 								<a href="{{route('lpb.index')}}">Laporan Pengeluaran Barang
 								</a>
 							</li>
@@ -251,32 +255,42 @@ License: You must have a valid license purchased only from themeforest(the above
 						</a>
 						<ul class="sub-menu blank">
 							<li>
-								<a href="{{route('akun_akuntansi.index')}}" class="title">Akun
+								<a href="{{route('akun.index')}}" class="title">Akun
 								</a>
 							</li>
 							<li>
-								<a>
+								<a href="{{route('jurnal_akuntansi.index')}}">
+									<span class="title">Jurnal</span>
+								</a>
+							</li>
+							<li>
+								<a href="{{route('bukubesar.index')}}">
 									<span class="title">Buku Besar</span>
 								</a>
 							</li>
 							<li>
-								<a>
+								<a href="{{route('labarugi.index')}}">
 									<span class="title">Laporan Laba Rugi</span>
 								</a>
 							</li>
 							<li>
-								<a>
+								<a href="{{route('perubahanekuitas.index')}}">
 									<span class="title">Laporan Perubahan Ekuitas</span>
 								</a>
 							</li>
 							<li>
-								<a>
+								<a href="{{route('neraca.index')}}">
 									<span class="title">Laporan Neraca</span>
 								</a>
 							</li>
 							<li>
-								<a>
+								<a href="{{route('aruskas.index')}}">
 									<span class="title">Laporan Arus Kas</span>
+								</a>
+							</li>
+							<li>
+								<a href="{{route('periode_akuntansi.index')}}">
+									<span class="title">Penutupan Periode</span>
 								</a>
 							</li>
 						</ul>

@@ -37,14 +37,7 @@ CREATE TABLE IF NOT EXISTS `farmlestari_akuntansi_db`.`akun` (
   `nama` VARCHAR(45) NULL,
   `jenis_akun` ENUM('aset', 'kewajiban', 'ekuitas', 'pendapatan', 'biaya') NULL,
   `saldo_awal` INT NULL,
-  `periode_id` INT NOT NULL,
-  PRIMARY KEY (`no_akun`),
-  INDEX `fk_akun_periode1_idx` (`periode_id` ASC),
-  CONSTRAINT `fk_akun_periode1`
-    FOREIGN KEY (`periode_id`)
-    REFERENCES `farmlestari_akuntansi_db`.`periode` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`no_akun`))
 ENGINE = InnoDB;
 
 

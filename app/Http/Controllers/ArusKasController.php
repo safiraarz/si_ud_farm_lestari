@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\AkunAkuntansi;
+use App\JurnalAkuntansi;
+use App\PeriodeAkuntansi;
 use Illuminate\Http\Request;
 
-class AkunAkuntansiController extends Controller
+class ArusKasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +15,9 @@ class AkunAkuntansiController extends Controller
      */
     public function index()
     {
-        $queryBuilder = AkunAkuntansi::all();
-        return view('akun.index', ['data' => $queryBuilder]);
+        $periode = PeriodeAkuntansi::all();
+        $queryBuilder = JurnalAkuntansi::all();
+        return view('aruskas.index', ['data' => $queryBuilder,'periode'=>$periode]);
     }
 
     /**
@@ -25,8 +27,7 @@ class AkunAkuntansiController extends Controller
      */
     public function create()
     {
-        $jenis = ['aset','kewajiban','ekuitas','kewajiban','biaya'];
-        return view("akun.create", compact('data','jenis'));
+        //
     }
 
     /**
@@ -37,23 +38,16 @@ class AkunAkuntansiController extends Controller
      */
     public function store(Request $request)
     {
-        $data = new AkunAkuntansi();
-        $data->no_akun = $request->get('no_akun');
-        $data->nama = $request->get('nama');
-        $data->jenis_akun = $request->get('jenis_akun');
-        $data->saldo_awal = $request->get('saldo_awal');
-        $data->save();
-
-        return redirect()->route('akun.index')->with('status', 'Akun berhasil ditambahkan');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\AkunAkuntansi  $akunAkuntansi
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(AkunAkuntansi $akunAkuntansi)
+    public function show($id)
     {
         //
     }
@@ -61,10 +55,10 @@ class AkunAkuntansiController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\AkunAkuntansi  $akunAkuntansi
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(AkunAkuntansi $akunAkuntansi)
+    public function edit($id)
     {
         //
     }
@@ -73,10 +67,10 @@ class AkunAkuntansiController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\AkunAkuntansi  $akunAkuntansi
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AkunAkuntansi $akunAkuntansi)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -84,10 +78,10 @@ class AkunAkuntansiController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\AkunAkuntansi  $akunAkuntansi
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AkunAkuntansi $akunAkuntansi)
+    public function destroy($id)
     {
         //
     }
