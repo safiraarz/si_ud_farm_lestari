@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\MPS;
 use App\MRP;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,8 @@ class MRPController extends Controller
     public function index()
     {
         //
+        $mps = MPS::all();
+        return view('mrp.index',compact('mps'));
     }
 
     /**
