@@ -30,7 +30,7 @@
                         <th>Nama Barang Jadi</th>
                         <th>Total Hasil Produksi</th>
                         <th>Satuan</th>
-                        <th>Detail Kuantitas</th>
+                        <th>Daftar Barang</th>
                         <th>Pembuat Surat</th>
                         <!-- <th>Action</th> -->
                     </tr>
@@ -106,21 +106,14 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div id="barang_spk">
+                        <div id="selected_bahan_baku" style="display: none;">
+                        <div class="form-group"  >
+                            <label>Nama Bahan Baku</label>
+                            <select class="form-control" name="bahan_baku" id="bahan_baku">
 
-                        </div>
-                       
-                        {{-- <div class="form-group">
-                            <label>Nama Barang Jadi:</label>
-                            <select class="form-control" name="barang_jadi" id="barang_jadi">
-                                @foreach ($barang as $item)
-                                @if ($item->jenis == "Barang Jadi")
-                                <option value="{{ $item->id }}">{{ $item->nama}}</option>
-                                @endif
-                                @endforeach
                             </select>
-                        </div> --}}
-
+                        </div> 
+                       
                         <div class="form-group">
                             <label>Kuantitas Barang Reject:</label>
                             <input type="text" name="input_kn_reject" class="form-control" id='input_kn_reject' required>
@@ -140,6 +133,9 @@
                             <label>Keterangan:</label>
                             <textarea type="text" class="form-control" name="keterangan" id='keterangan'></textarea>
                         </div>
+                        </div>
+
+
                     </div>
                     <div class="modal-footer">
                         <div class="col-md-offset-3 col-md-9">
@@ -165,34 +161,7 @@
 
 @section('javascript')
 <script>
-    // function getEditForm(id) {
-    //     $.ajax({
-    //             type: 'POST',
-    //             url: '{{route("hasilproduksi.getEditForm")}}',
-    //             data: {
-    //                 '_token': '<?php echo csrf_token() ?>',
-    //                 'id': id
-    //             },
-    //             success: function(data) {
-    //                 $('#modalContent').html(data.msg)
-    //             }
-    //         },
-
-    //     );
-    // }
-    $("#input_kn_reject").on('change', function() {
-        // alert($("#input_kn_reject").val());
-        $("#input_kn_bersih").on('change', function() {
-            // alert($("#input_kn_bersih").val());
-
-            var total = parseInt($("#input_kn_reject").val()) + parseInt($("#input_kn_bersih").val());
-
-            $('#input_kn_total').val(total);
-        })
-    })
-    $("#no_surat_perintah_kerja").on('change', function() {
-        $('#barang_spk').html("");
-        var spkbarang = [
+     var spkbarang = [
         @foreach($surat_perintah_kerja as $item)[
             "{{ $item->id }}",
                 [
@@ -207,9 +176,20 @@
             ],
             @endforeach
         ];
+    $("#input_kn_reject").on('change', function() {
+        // alert($("#input_kn_reject").val());
+        $("#input_kn_bersih").on('change', function() {
+            // alert($("#input_kn_bersih").val());
+
+            var total = parseInt($("#input_kn_reject").val()) + parseInt($("#input_kn_bersih").val());
+
+            $('#input_kn_total').val(total);
+        })
+    })
+    $("#no_surat_perintah_kerja").on('change', function() {
+        $("#selected_bahan_baku").show();
+        $('#bahan_baku').html("");
         var id_spk= $(this).val();
-        var label = '<div class="form-group"><label>Bahan Baku</label></div> ' ;
-        $('#barang_spk').append(label);
         spkbarang.forEach(element => {
             if (id_spk == element[0]) {
                 // Show Supplier
@@ -217,15 +197,8 @@
                     const elements = element[1][index];
                     var barang_id = elements[0];
                     var barang_name = elements[1];
-                    var harga = elements[2];
-                    var kuantitas = elements[3];
-                    var barang_pesanan =  
-                        '<div class="form-group">'+
-                        '<label>- Bahan Baku '+ parseInt(index+1) +" : "+ barang_name +'</label>'+
-                        '<input type="hidden" name="barang[' + index + '][' + "barang_id" + ']" value=' +barang_id + '>'+
-                        '</div>' ;
-                    // alert(barang_pesanan);
-                    $('#barang_spk').append(barang_pesanan);
+                    var barang_pesanan =  '<option value="' + barang_id + '" >' + barang_name + '</option>';
+                    $('#bahan_baku').append(barang_pesanan);
 
                 }
             }
@@ -233,6 +206,7 @@
         });
 
     });
+
 
     $('#myTable').DataTable();
 </script>

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class MPS extends Model
 {
+    protected $connection = 'inventory';
+
     protected $table = "mps";
     public function barang()
     {

@@ -42,7 +42,7 @@ class FlokController extends Controller
         $data->cage = $request->get('cage');
         $data->strain = $request->get('strain');
         $data->populasi = $request->get('populasi');
-        $data->usia_hari = $request->get('usia_hari');
+        $data->usia = $request->get('usia');
         $data->save();
 
         return redirect()->route('flok.index')->with('status', 'Flok berhasil ditambahkan');
@@ -84,7 +84,7 @@ class FlokController extends Controller
         $flok->cage = $request->get('cage');
         $flok->strain = $request->get('strain');
         $flok->populasi = $request->get('populasi');
-        $flok->usia_hari = $request->get('usia_hari');
+        $flok->usia = $request->get('usia');
 
         $flok->save();
         return redirect()->route('flok.index')->with('status', 'Flok berhasil diupdate');
@@ -126,7 +126,7 @@ class FlokController extends Controller
         $Flok->cage = $request->get('cage');
         $Flok->strain = $request->get('strain');
         $Flok->populasi = $request->get('populasi');
-        $Flok->usia_hari = $request->get('usia_hari');
+        $Flok->usia = $request->get('usia');
         $Flok->save();
         return response()->json(
             array(

@@ -7,6 +7,7 @@ use App\Flok;
 use App\JadwalPakan;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class JadwalPakanController extends Controller
@@ -47,15 +48,27 @@ class JadwalPakanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
         $data = new JadwalPakan();
     
         $data->tgl_pemberian = $request->get('tgl_pemberian');
         $data->barang_id= $request->get('jenis_pakan');
         $data->flok_id= $request->get('asal_flok');
         $data->kuantitas = $request->get('kuantitas');
+        $data->keterangan = $request->get('keterangan');
+        $data->pengguna_id = $user->id;
         $data->save();
 
+        //berkurang stok
+        $barang_update = Barang::find($request->get('jenis_pakan'));
+        $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
+        $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  - $request->get('kuantitas');
+        $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
+        $total_kuantitas_stok_new  = $total_kuantitas_stok_old - $request->get('kuantitas');
+
+        $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
+        $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
+        $barang_update->save();
 
         return redirect()->route('jadwalpakan.index')->with('status', 'Berhasil Menambahkan Jadwal Pakan');
     }

@@ -79,7 +79,14 @@
                             </div>
                         </td>
                         <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
-                        <td id='td_status_{{$d->id}}'>{{$d->status}}</td>
+                        <td class='editable' id='td_status_{{$d->id}}'>
+                            <select class="form-control status_option" name="status_option" notaid="{{ $d->id }}">
+                                @foreach(["dalam proses" => "Dalam Proses", "beli" => "Beli", "batal" => "Batal"] AS $value => $Label)    
+                                <option value="{{ $value }}" {{  $d->status == $value ? "selected" : "" }}>{{ $Label }}</option>
+                                @endforeach
+                            </select>
+                            {{-- {{$d->status}} --}}
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -98,5 +105,58 @@
 @section('javascript')
 <script>
     $('#myTable').DataTable();
+    $('.status_option').change(function() {
+        var id_nota = $(this).attr('notaid');
+        var value_change = $(this).val();
+        $.ajax({
+        type: 'POST',
+        url: '{{route("notapemesanan.saveDataField")}}',
+        data: {
+            '_token': '<?php echo csrf_token() ?>',
+            'id': id_nota,
+            'fnama': 'status',
+            'value': value_change
+
+        },
+        success: function(data){
+            alert(data.msg)
+        }
+    });
+        // $('#harga').val(ids);
+        // alert(ids);
+    });
+</script>
+@endsection
+
+@section('initialscript')
+<script>
+    // $('.editable').editable({
+    //     closeOnEnter: true,
+    //     // cbox
+    //     source:[{value: "Belum Diproses", text: "Belum Diproses"}, {value: "Beli", text: "Beli"}, {value: "Batal", text: "Batal"}],
+    //     callback: function(data) {
+    //         if (data.content) {
+    //             alert(data.content)
+    //         }
+    //     }
+    // });
+
+    var s_id = data.$el[0].id
+    var fname = s_id.split('_')[1]
+    var id = s_id.split('_')[2]
+    $.ajax({
+        type: 'POST',
+        url: '{{route("notapemesanan.saveDataField")}}',
+        data: {
+            '_token': '<?php echo csrf_token() ?>',
+            'id': id,
+            'fnama': fname,
+            'value': data.content
+
+        },
+        success: function(data){
+            alert(data.msg)
+        }
+    });
 </script>
 @endsection

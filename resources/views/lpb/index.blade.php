@@ -14,7 +14,7 @@
     <div class="portlet">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-reorder"></i>Master Laporan Pengeluaran Barang
+                <i class="fa fa-reorder"></i>Laporan Pengeluaran Barang
             </div>
             <div class="actions">
                 <a href="{{url('lpb/create')}}" class="btn btn-info" type="button">Tambah Data</a>

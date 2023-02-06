@@ -97,6 +97,11 @@ Route::post('/mrp/saveData', 'MRPController@saveData')->name('mrp.saveData');
 Route::post('/mrp/saveDataField', 'MRPController@saveDataField')->name('mrp.saveDataField');
 Route::post('/mrp/deleteData', 'MRPController@deleteData')->name('mmrpps.deleteData');
 
+
+// Nota Universal
+Route::resource('nota', 'NotaController');
+
+
 //notapembelian
 Route::resource('notapembelian', 'NotaPembelianController');
 Route::post('/notapembelian/getEditForm', 'NotaPembelianController@getEditForm')->name('notapembelian.getEditForm');
@@ -161,5 +166,11 @@ Route::post('/user/deleteData', 'UserController@deleteData')->name('user.deleteD
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+
+// akuntansi
+Route::resource('akun_akuntansi', 'AkunAkuntansiController');
+Route::resource('jurnal_akuntansi', 'JurnalAkuntansiController');
+Route::resource('periode_akuntansi', 'PeriodeAkuntansiController');
+Route::resource('transaksi_akuntansi', 'TransaksiAkuntansiController');
 
 Auth::routes();

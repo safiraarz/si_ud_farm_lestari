@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class NotaPembelian extends Model
 {
-    protected $table = "nota_pembelian";
+    protected $connection = 'inventory';
 
+    protected $table = "nota_pembelian";
+    public $timestamps = false;
     public function supplier(){
         return $this->belongsTo('App\Supplier','supplier_id');
     }

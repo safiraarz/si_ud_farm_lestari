@@ -29,7 +29,7 @@
             </div>
             <div class="form-group">
                 <label>Usia</label>
-                <input type="text" min="0" name="usia_hari" class="form-control" id='eUsia' value='{{$data->usia_hari}}' required>
+                <input type="text" min="0" name="usia" class="form-control" id='eUsia' value='{{$data->usia}}' required>
             </div>
         </div>
         <div class="modal-footer">

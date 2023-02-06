@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class SPK extends Model
 {
+    protected $connection = 'inventory';
+
     protected $table = "surat_perintah_kerja";
     public $timestamps = false;
 

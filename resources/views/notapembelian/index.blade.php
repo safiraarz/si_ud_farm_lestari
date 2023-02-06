@@ -76,7 +76,6 @@
                             {{-- <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a> --}}
                         </td>
                         <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
-
                     </tr>
                     @endforeach
                 </tbody>
@@ -100,7 +99,7 @@
 
                             <div class="form-group">
                                 <label>Nomor Nota Pembelian</label>
-                                <input type="text" name="no_nota" class="form-control" value="{{  $no_nota_generator }}" id='kuantitas' readonly required>
+                                {{-- <input type="text" name="no_nota" class="form-control" value="{{  $no_nota_generator }}" id='kuantitas' readonly required> --}}
                                 </input>
                             </div>
                             <div class="form-group">
@@ -233,6 +232,7 @@
         });
 
     });
+    
     document.cookie = "var1=22";
     function getEditForm(id) {
         $.ajax({

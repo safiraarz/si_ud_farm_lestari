@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class BOM extends Model
 {
+    protected $connection = 'inventory';
+
     protected $table = "bom";
     public $timestamps = false;
 

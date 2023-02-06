@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class NotaPenjualan extends Model
 {
-    protected $table = "nota_penjualan";
+    protected $connection = 'inventory';
 
+    protected $table = "nota_penjualan";
+    public $timestamps = false;
     public function customer(){
         return $this->belongsTo('App\Customer','customer_id');
     }

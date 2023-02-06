@@ -10,6 +10,7 @@ use App\Barang;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class NotaPembelianController extends Controller
 {
@@ -25,17 +26,17 @@ class NotaPembelianController extends Controller
         $supplier = Supplier::all();
         $barang = Barang::all();
         $notapemesanan = NotaPemesanan::all();
-        $date_now = str_replace('-', '',Carbon::now()->toDateString());
-        $sqlmaxnota = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_nota, -3))+1 AS PembelianMaxTanggal FROM `nota_pembelian` WHERE `no_nota` LIKE '". $date_now ."%';"));
-        $pembelianMax= 0;
-        if($sqlmaxnota[0]->PembelianMaxTanggal == null){
-            $pembelianMax=1;
-        }
-        else{
-            $pembelianMax = $sqlmaxnota[0]->PembelianMaxTanggal;
-        }
-        $no_nota_generator = $date_now.'-'.'01'.'-'.'02'.'-'.str_pad($pembelianMax, 3, "0", STR_PAD_LEFT);
-        return view('notapembelian.index', ['no_nota_generator'=> $no_nota_generator,'data' => $queryBuilder, 'user' => $user,'supplier' => $supplier,'barang' => $barang,'notapemesanan' => $notapemesanan]);
+        // $date_now = str_replace('-', '',Carbon::now()->toDateString());
+        // $sqlmaxnota = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_nota, -3))+1 AS PembelianMaxTanggal FROM `nota_pembelian` WHERE `no_nota` LIKE '". $date_now ."%';"));
+        // $pembelianMax= 0;
+        // if($sqlmaxnota[0]->PembelianMaxTanggal == null){
+        //     $pembelianMax=1;
+        // }
+        // else{
+        //     $pembelianMax = $sqlmaxnota[0]->PembelianMaxTanggal;
+        // }
+        // $no_nota_generator = $date_now.'-'.'01'.'-'.'02'.'-'.str_pad($pembelianMax, 3, "0", STR_PAD_LEFT);
+        return view('notapembelian.index', ['data' => $queryBuilder, 'user' => $user,'supplier' => $supplier,'barang' => $barang,'notapemesanan' => $notapemesanan]);
     }
 
     /**
@@ -62,20 +63,32 @@ class NotaPembelianController extends Controller
     public function store(Request $request)
     {
         // dd($request->barang);
+        $user = Auth::user();
         $data = new NotaPembelian();
         $data->no_nota = $request->get('no_nota');
-
-        $data->nota_pemesanan_id = $request->get('no_pesanan');
+        $data->nota_pemesanan_id = $request->get('no_pesanan_pembelian');
         $data->tgl_pembuatan_nota = $request->get('tanggal_pembuatan_nota');
-        
+        $data->pengguna_id = $user->id;
         $supplier = Supplier::find($request->get('supplier_id'));
         $supplier->notapembelian()->save($data);
-        $idNotaNew = $data->id;
+        // $idNotaNew = $data->id;
         $total = 0;
+        $pemesanan = NotaPemesanan::find($request->get('no_pesanan_pembelian'));
+        // dd($pemesanan->barang);
         foreach($request->get("barang") as $details) 
         {
+            foreach ($pemesanan->barang as $value) {
+                if($value->id == $details['barang_id']){
+                    $kuantitas_old = $value->pivot->kuantitas;
+                    $barang_update = Barang::find($details['barang_id']);
+                    $barang_update->kuantitas_stok_onorder_supplier = $barang_update->kuantitas_stok_onorder_supplier - $kuantitas_old;
+                    $barang_update->total_kuantitas_stok = ($barang_update->total_kuantitas_stok - $kuantitas_old) + $details['kuantitas'];
+                    $barang_update->kuantitas_stok_ready = $barang_update->kuantitas_stok_ready + $details['kuantitas'];
+                    $barang_update->save();
+                }
+            }
             $total += $details['kuantitas'] * $details['harga'];
-            $data->barang()->attach($details['bahan_baku'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga']]);
+            $data->barang()->attach($details['barang_id'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga']]);
         }
 
         $data->total_harga = $total;

@@ -44,7 +44,7 @@
                         <td>{{$d->cage}}</td>
                         <td>{{$d->strain}}</td>
                         <td>{{number_format($d->populasi)}}</td>
-                        <td>{{$d->usia_hari}}</td>
+                        <td>{{$d->usia}}</td>
                         <!-- <td class='editable' id='td_nama_{{$d->id}}'>{{$d->nama}}</td> -->
                         <td>
                             <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
@@ -99,7 +99,7 @@
                         </div>
                         <div class="form-group">
                             <label>Usia</label>
-                            <input type="type" min="0" name="usia_hari" class="form-control" id='usia_hari' required>
+                            <input type="type" min="0" name="usia" class="form-control" id='usia' required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -156,7 +156,7 @@
                 'cage': eCage,
                 'strain': eStrain,
                 'populasi': ePopulasi,
-                'usia_hari': eUsia
+                'usia': eUsia
             },
             success: function(data) {
                 if (data.status == 'ok') {

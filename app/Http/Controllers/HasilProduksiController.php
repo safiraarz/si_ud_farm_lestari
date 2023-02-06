@@ -22,10 +22,10 @@ class HasilProduksiController extends Controller
         $barang = Barang::all();
         $surat_perintah_kerja = SPK::all();
         $user = User::all();
-        
+
         // dd($queryBuilder);
 
-        return view('hasilproduksi.index', ['data' => $queryBuilder,'barang'=>$barang,'surat_perintah_kerja'=>$surat_perintah_kerja,'user'=>$user]);
+        return view('hasilproduksi.index', ['data' => $queryBuilder, 'barang' => $barang, 'surat_perintah_kerja' => $surat_perintah_kerja, 'user' => $user]);
     }
 
     /**
@@ -38,7 +38,7 @@ class HasilProduksiController extends Controller
         $barang = Barang::all();
         $user = User::all();
         $spk = SPK::all();
-        return view('pemasukantelur.create', ['barang' => $barang, 'user' => $user,'spk' => $spk]);
+        return view('pemasukantelur.create', ['barang' => $barang, 'user' => $user, 'spk' => $spk]);
     }
 
     /**
@@ -52,27 +52,35 @@ class HasilProduksiController extends Controller
         //
         $user = Auth::user();
         // dd($request->get('barang'));
-        foreach ($request->get('barang') as  $value) {
-            # code...
-            $data = new HasilProduksi();
-            $data->tgl_pencatatan = $request->get('tgl_pencatatan');
-            $data->kuantitas_reject = $request->get('input_kn_reject');
-            $data->kuantitas_bersih = $request->get('input_kn_bersih');
-            $data->total_kuantitas = $request->get('input_kn_total');
-            $data->keterangan = $request->get('keterangan');
-            $data->pengguna_id = $user->id;
 
-            $spk = SPK::find($request->get('no_surat_perintah_kerja'));
-            // dd($spk);
-            $spk->hasilproduksi()->save($data);
-            $barang = Barang::find($value['barang_id']);
-            $barang->hasilproduksi()->save($data);
-        }
+        # code...
+        $data = new HasilProduksi();
+        $data->tgl_pencatatan = $request->get('tgl_pencatatan');
+        $data->kuantitas_reject = $request->get('input_kn_reject');
+        $data->kuantitas_bersih = $request->get('input_kn_bersih');
+        $data->total_kuantitas = $request->get('input_kn_total');
+        $data->keterangan = $request->get('keterangan');
+        $data->pengguna_id = $user->id;
+
+        //bertambah stok
+        $barang_update = Barang::find($request->get('bahan_baku'));
+        // dd($barang_update);
+        $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
+        $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  + $request->get('input_kn_bersih');
+        $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
+        $total_kuantitas_stok_new  = $total_kuantitas_stok_old + $request->get('input_kn_bersih');
+
+        $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
+        $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
+        $barang_update->save();
+
+        $spk = SPK::find($request->get('no_surat_perintah_kerja'));
+        // dd($spk);
+        $spk->hasilproduksi()->save($data);
+        $barang = Barang::find($request->get('bahan_baku'));
+        $barang->hasilproduksi()->save($data);
+
         return redirect()->route('hasilproduksi.index')->with('status', 'Success Add Hasil Produksi');
-        
-
-
-
     }
 
     /**
@@ -128,7 +136,7 @@ class HasilProduksiController extends Controller
         $surat_perintah_kerja = SPK::all();
         return response()->json(array(
             'status' => 'oke',
-            'msg' => view('hasilproduksi.getEditForm', compact('data', 'barang','surat_perintah_kerja'))->render()
+            'msg' => view('hasilproduksi.getEditForm', compact('data', 'barang', 'surat_perintah_kerja'))->render()
         ), 200);
     }
 }
