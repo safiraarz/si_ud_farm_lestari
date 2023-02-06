@@ -348,10 +348,11 @@
         // Pemesanan
 
         var count = 1;
+        var total_pesanan = 0;
+        var subTotal_pesanan = 0;
         $('#tambah_pemesanan').on('click', function() {
             $("#supplier").disable = true;
             var name = $('#barang').val();
-
             var kuantitas = $('#kuantitas').val();
             var harga = $('#harga').val();
             var satuan = $('#satuan').val();
@@ -366,7 +367,7 @@
             }
 
             function billFunction() {
-                var total = 0;
+                
                 // $('#no_nota_span').html(no_nota);
                 // $('#tgl_transaksi_span').html(tgl_transaksi);
                 $('#supplier_span').html(supplier);
@@ -378,9 +379,9 @@
                 $('#new').append(notainput);
 
                 $("#receipt_bill").each(function() {
-                    var total = harga * kuantitas;
-                    var subTotal = 0;
-                    subTotal += parseInt(total);
+                    var total_pesanan = harga * kuantitas;
+                    
+                    subTotal_pesanan += parseInt(total_pesanan);
                     var satuan = $('#barang').find(':selected').attr('satuan');
                     var id_barang = $('#barang').find(':selected').attr('id');
 
@@ -390,27 +391,28 @@
                         id_barang + '></td><td>' + thousands_separators(kuantitas) + '<input type="hidden" name="barang[' +
                         count + '][' + "kuantitas" + ']" value=' + thousands_separators(kuantitas) + '></td><td>' + satuan +
                         '</td><td>' + thousands_separators(harga) + '<input type="hidden" name="barang[' + count + '][' +
-                        "harga_barang" + ']" value=' + thousands_separators(harga) +
-                        '></td><td><strong><input type="hidden" id="total" value="' + thousands_separators(total) + '">' + thousands_separators(total) +
+                        "harga_barang" + ']" value=' + harga +
+                        '></td><td><strong><input type="hidden" id="total" value="' +total_pesanan + '">' + thousands_separators(total_pesanan) +
                         '</strong></td></tr>';
                     $('#new').append(table);
 
                     // Code for Sub Total of Vegitables 
-                    var total = 0;
-                    $('tbody tr td:last-child').each(function() {
-                        var value = parseInt($('#total', this).val());
-                        if (!isNaN(value)) {
-                            total += value;
-                        }
-                    });
-                    $('#subTotal').text(total);
+                    // var total = 0;
+                    // $('tbody tr td:last-child').each(function() {
+                    //     var value = parseInt($('#total', this).val());
+                    //     if (!isNaN(value)) {
+                    //         total += value;
+                    //     }
+                    // });
+                    
 
 
-                    var Subtotal = $('#subTotal').text();
+                    // var Subtotal = $('#subTotal').text();
 
-                    var totalPayment = parseFloat(Subtotal);
-                    alert(Subtotal);
-                    $('#total_harga').val(total); // Showing using ID 
+                    var totalPayment = parseFloat(subTotal_pesanan);
+                    $('#subTotal').text(thousands_separators(totalPayment));
+                    // alert(t);
+                    $('#total_harga').val(totalPayment); // Showing using ID 
 
                 });
                 count++;
@@ -544,11 +546,11 @@
                         "id_barang" + ']" value=' + id_barang + '></td><td>' + kuantitas +
                         '<input type="hidden" name="barang_penjualan[' + count_penjualan + '][' +
                         "kuantitas" + ']" value=' + kuantitas + '></td><td>' + satuan + '</td><td>' +
-                        harga + '<input type="hidden" name="barang_penjualan[' + count_penjualan + '][' +
+                            thousands_separators(harga) + '<input type="hidden" name="barang_penjualan[' + count_penjualan + '][' +
                         "harga_barang" + ']" value=' + harga +
                         '></td><td><strong><input type="hidden" id="total" name="barang_penjualan[' +
                         count_penjualan + '][' + "total_harga_barang" + ']" value="' + total + '">' +
-                        total + '</strong></td></tr>';
+                        thousands_separators(total) + '</strong></td></tr>';
                     $('#new_penjualan').append(table);
 
                     // Code for Sub Total of Vegitables 
@@ -559,12 +561,12 @@
                     //         total += value;
                     //     }
                     // });
-                    $('#subTotal_penjualan').text(subTotal_penjualan);
+                    $('#subTotal_penjualan').text(thousands_separators(subTotal_penjualan));
 
 
-                    var Subtotal = $('#subTotal_penjualan').text();
+                    // var Subtotal = $('#subTotal_penjualan').text();
 
-                    var totalPayment = parseFloat(Subtotal);
+                    var totalPayment = parseFloat(subTotal_penjualan);
                     $('#total_harga_penjualan').val(totalPayment); // Showing using ID 
 
                 });
