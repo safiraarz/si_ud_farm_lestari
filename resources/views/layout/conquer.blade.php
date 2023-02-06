@@ -250,6 +250,10 @@ License: You must have a valid license purchased only from themeforest(the above
 						</a>
 						<ul class="sub-menu blank">
 							<li>
+								<a href="{{route('akun_akuntansi.index')}}" class="title">Akun
+								</a>
+							</li>
+							<li>
 								<a>
 									<span class="title">Buku Besar</span>
 								</a>

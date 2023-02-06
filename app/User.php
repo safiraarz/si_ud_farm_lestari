@@ -10,6 +10,8 @@ class User extends Authenticatable
 {
     
     use Notifiable;
+    protected $connection = 'inventory';
+
     
     protected $table = "pengguna";
     /**

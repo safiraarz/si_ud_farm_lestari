@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class SuratJalan extends Model
 {
+    protected $connection = 'inventory';
+
     protected $table = "surat_jalan";
     public $timestamps = false;
     public function suratjalan(){

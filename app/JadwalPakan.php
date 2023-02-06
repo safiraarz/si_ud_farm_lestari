@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class JadwalPakan extends Model
 {
+    protected $connection = 'inventory';
+
     protected $table = "jadwal_pakan";
 
     public function barang(){

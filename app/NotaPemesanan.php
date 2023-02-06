@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class NotaPemesanan extends Model
 {
+    protected $connection = 'inventory';
     protected $table = "nota_pemesanan";
+    protected $status_field = ['dalam proses', 'beli','batal'];
+    
 
     public function supplier(){
         return $this->belongsTo('App\Supplier','supplier_id');

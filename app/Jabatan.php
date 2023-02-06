@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Jabatan extends Model
 {
+    protected $connection = 'inventory';
+
     protected $table = "jabatan";
     public function user()
     {

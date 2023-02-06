@@ -99,7 +99,7 @@
 
                             <div class="form-group">
                                 <label>Nomor Nota Pembelian</label>
-                                <input type="text" name="no_nota" class="form-control" value="{{  $no_nota_generator }}" id='kuantitas' readonly required>
+                                {{-- <input type="text" name="no_nota" class="form-control" value="{{  $no_nota_generator }}" id='kuantitas' readonly required> --}}
                                 </input>
                             </div>
                             <div class="form-group">

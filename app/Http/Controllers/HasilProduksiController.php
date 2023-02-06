@@ -63,11 +63,12 @@ class HasilProduksiController extends Controller
         $data->pengguna_id = $user->id;
 
         //bertambah stok
-        $barang_update = Barang::find('bahan_baku');
+        $barang_update = Barang::find($request->get('bahan_baku'));
+        // dd($barang_update);
         $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
-        $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  + 'input_kn_bersih';
+        $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  + $request->get('input_kn_bersih');
         $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
-        $total_kuantitas_stok_new  = $total_kuantitas_stok_old + 'input_kn_bersih';
+        $total_kuantitas_stok_new  = $total_kuantitas_stok_old + $request->get('input_kn_bersih');
 
         $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
         $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Flok extends Model
 {
+    protected $connection = 'inventory';
+
     protected $table = "flok";
     public function pemasukanTelur(){
         return $this->belongsTo('App\PemasukanTelur','flok_id');

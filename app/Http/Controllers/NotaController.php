@@ -26,7 +26,7 @@ class NotaController extends Controller
         $notapemesanan = NotaPemesanan::all();
         $date_now = str_replace('-', '',Carbon::now()->toDateString());
         // Generate No Nota Pemesanan
-        $sqlmaxnota_pemesanan = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_nota, -3))+1 AS PemesananMaxTanggal FROM `nota_pemesanan` WHERE `no_nota` LIKE '". $date_now ."%';"));
+        $sqlmaxnota_pemesanan = DB::connection('inventory')->select(DB::raw(" SELECT MAX(SUBSTRING(no_nota, -3))+1 AS PemesananMaxTanggal FROM `nota_pemesanan` WHERE `no_nota` LIKE '". $date_now ."%';"));
         $pembelianMaxPemesanan= 0;
         if($sqlmaxnota_pemesanan[0]->PemesananMaxTanggal == null){
             $pembelianMaxPemesanan=1;
@@ -36,7 +36,7 @@ class NotaController extends Controller
         }
         $no_nota_generator_pemesanan = $date_now.'-'.'01'.'-'.str_pad($pembelianMaxPemesanan, 3, "0", STR_PAD_LEFT);
         // Generate No Nota Pembelian
-        $sqlmaxnota_pembelian = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_nota, -3))+1 AS PembelianMaxTanggal FROM `nota_pembelian` WHERE `no_nota` LIKE '". $date_now ."%';"));
+        $sqlmaxnota_pembelian = DB::connection('inventory')->select(DB::raw(" SELECT MAX(SUBSTRING(no_nota, -3))+1 AS PembelianMaxTanggal FROM `nota_pembelian` WHERE `no_nota` LIKE '". $date_now ."%';"));
         $pembelianMax_pembelian= 0;
       
         if($sqlmaxnota_pembelian[0]->PembelianMaxTanggal == null){
@@ -47,7 +47,7 @@ class NotaController extends Controller
         }
         $no_nota_generator_pembelian = $date_now.'-'.'02'.'-'.str_pad($pembelianMax_pembelian, 3, "0", STR_PAD_LEFT);
          // Generate No Nota Penjualan
-        $sqlmaxnota_penjualan = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_nota, -3))+1 AS PenjualanMaxTanggal FROM `nota_penjualan` WHERE `no_nota` LIKE '". $date_now ."%';"));
+        $sqlmaxnota_penjualan = DB::connection('inventory')->select(DB::raw(" SELECT MAX(SUBSTRING(no_nota, -3))+1 AS PenjualanMaxTanggal FROM `nota_penjualan` WHERE `no_nota` LIKE '". $date_now ."%';"));
         $pembelianMax_penjualan= 0;
       
         if($sqlmaxnota_penjualan[0]->PenjualanMaxTanggal == null){

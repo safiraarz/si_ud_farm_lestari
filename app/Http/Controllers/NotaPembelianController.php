@@ -26,17 +26,17 @@ class NotaPembelianController extends Controller
         $supplier = Supplier::all();
         $barang = Barang::all();
         $notapemesanan = NotaPemesanan::all();
-        $date_now = str_replace('-', '',Carbon::now()->toDateString());
-        $sqlmaxnota = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_nota, -3))+1 AS PembelianMaxTanggal FROM `nota_pembelian` WHERE `no_nota` LIKE '". $date_now ."%';"));
-        $pembelianMax= 0;
-        if($sqlmaxnota[0]->PembelianMaxTanggal == null){
-            $pembelianMax=1;
-        }
-        else{
-            $pembelianMax = $sqlmaxnota[0]->PembelianMaxTanggal;
-        }
-        $no_nota_generator = $date_now.'-'.'01'.'-'.'02'.'-'.str_pad($pembelianMax, 3, "0", STR_PAD_LEFT);
-        return view('notapembelian.index', ['no_nota_generator'=> $no_nota_generator,'data' => $queryBuilder, 'user' => $user,'supplier' => $supplier,'barang' => $barang,'notapemesanan' => $notapemesanan]);
+        // $date_now = str_replace('-', '',Carbon::now()->toDateString());
+        // $sqlmaxnota = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_nota, -3))+1 AS PembelianMaxTanggal FROM `nota_pembelian` WHERE `no_nota` LIKE '". $date_now ."%';"));
+        // $pembelianMax= 0;
+        // if($sqlmaxnota[0]->PembelianMaxTanggal == null){
+        //     $pembelianMax=1;
+        // }
+        // else{
+        //     $pembelianMax = $sqlmaxnota[0]->PembelianMaxTanggal;
+        // }
+        // $no_nota_generator = $date_now.'-'.'01'.'-'.'02'.'-'.str_pad($pembelianMax, 3, "0", STR_PAD_LEFT);
+        return view('notapembelian.index', ['data' => $queryBuilder, 'user' => $user,'supplier' => $supplier,'barang' => $barang,'notapemesanan' => $notapemesanan]);
     }
 
     /**
@@ -85,7 +85,7 @@ class NotaPembelianController extends Controller
                     $barang_update->total_kuantitas_stok = ($barang_update->total_kuantitas_stok - $kuantitas_old) + $details['kuantitas'];
                     $barang_update->kuantitas_stok_ready = $barang_update->kuantitas_stok_ready + $details['kuantitas'];
                     $barang_update->save();
-                }D
+                }
             }
             $total += $details['kuantitas'] * $details['harga'];
             $data->barang()->attach($details['barang_id'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga']]);

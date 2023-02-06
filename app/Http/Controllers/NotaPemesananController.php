@@ -25,7 +25,8 @@ class NotaPemesananController extends Controller
         $user = User::all();
         $supplier = Supplier::all();
         $barang = Barang::all();
-
+        // $enumoption_status = NotaPemesanan::getEnumValues('nota_pemesanan','status') ;
+        // dd(NotaPemesanan::cases());
         return view('notapemesanan.index', ['data' => $queryBuilder,'user' => $user,'supplier' => $supplier,'barang' => $barang]);
     }
 
@@ -203,15 +204,15 @@ class NotaPemesananController extends Controller
         $id = $request->get('id');
         $fnama = $request->get('fnama');
         $value = $request->get('value');
-
-
+        // dd($fnama);
         $NotaPemesanan = NotaPemesanan::find($id);
+        // dd($NotaPemesanan);
         $NotaPemesanan->$fnama = $value;
         $NotaPemesanan->save();
         return response()->json(
             array(
                 'status' => 'ok',
-                'msg' => 'NotaPemesanan berhasil diupdate'
+                'msg' => strtoupper($fnama).' Nota Pemesanan berhasil diupdate'
             ),
             200
         );

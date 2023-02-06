@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PemasukanTelur extends Model
 {
+    protected $connection = 'inventory';
+
     protected $table = "pemasukan_telur";
     // protected $primaryKey = null;
     // public $incrementing = false;

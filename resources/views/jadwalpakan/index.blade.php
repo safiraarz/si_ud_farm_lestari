@@ -53,7 +53,8 @@
             </table>
         </div>
     </div>
-    @endsection
+
+
 
     <!-- tambah jadwalpakan -->
 
@@ -122,6 +123,9 @@
             </div>
         </div>
     </div>
+
+    @endsection
+
     @section('javascript')
     <script>
         function getEditForm(id) {

@@ -160,4 +160,10 @@ Route::post('/user/deleteData', 'UserController@deleteData')->name('user.deleteD
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
+// akuntansi
+Route::resource('akun_akuntansi', 'AkunAkuntansiController');
+Route::resource('jurnal_akuntansi', 'JurnalAkuntansiController');
+Route::resource('periode_akuntansi', 'PeriodeAkuntansiController');
+Route::resource('transaksi_akuntansi', 'TransaksiAkuntansiController');
+
 Auth::routes();

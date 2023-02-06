@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class LPB extends Model
 {
+    protected $connection = 'inventory';
+
     protected $table = "pengeluaran_bahan_baku";
     public $timestamps = false;
 
