@@ -46,6 +46,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	<link href="assets/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color" />
 	<link href="assets/css/custom.css" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+	<script src= "https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.js"></script>
 	<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css"> -->

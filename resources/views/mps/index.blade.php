@@ -143,7 +143,11 @@
 
 @section('javascript')
     <script>
-        $('#myTable').DataTable();
+        $('#myTable').DataTable({
+            order: [
+                [0, 'desc']
+            ]
+        });
         var spkbarang = [
             @foreach ($spk as $item)
                 [

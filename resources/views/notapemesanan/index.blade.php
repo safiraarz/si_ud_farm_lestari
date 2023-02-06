@@ -19,6 +19,28 @@
             </div>
             <div class="portlet-body">
                 <table id='myTable' class="table table-bordered">
+                    <form method="post">
+                        @csrf
+                        <br>
+                        <div class="container">
+                            <div class="row">
+                                <div class="container-fluid">
+                                    <div class="form-group row">
+                                        <label for="date" class="col-form-label col-sm-2">Dari Tanggal</label>
+                                        <div class="col-sm-3">
+                                            <input type="date" class="form-control input-sm" id="date_range_filter_min"
+                                                name="dariTgl" required />
+                                        </div>
+                                        <label for="date" class="col-form-label col-sm-2">Sampai Tanggal</label>
+                                        <div class="col-sm-3">
+                                            <input type="date" class="form-control input-sm" id="date_range_filter_max"
+                                                name="sampaiTgl" required />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -38,7 +60,8 @@
                                 <td id='td_no_nota_{{ $d->id }}'>{{ $d->no_nota }}</td>
                                 <td id='td_tanggal_pembuatan_nota_{{ $d->id }}'>{{ $d->tgl_pembuatan_nota }}</td>
                                 <td id='td_supplier_{{ $d->id }}'>{{ $d->supplier->nama }}</td>
-                                <td id='td_total_harga_{{ $d->id }}'>Rp{{ number_format($d->total_harga, 2) }}</td>
+                                <td id='td_total_harga_{{ $d->id }}'>Rp{{ number_format($d->total_harga, 2) }}
+                                </td>
                                 <td>
                                     {{-- <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a> --}}
                                     <a class="btn btn-default edittable" data-toggle="modal"
@@ -60,7 +83,8 @@
 
                                                         </p>
                                                         <p>
-                                                            <span>Nama Barang</span> : <span> {{ $item->nama }}</span>
+                                                            <span>Nama Barang</span> : <span>
+                                                                {{ $item->nama }}</span>
 
                                                         </p>
                                                         <p>
@@ -89,7 +113,8 @@
                                         notaid="{{ $d->id }}">
                                         @foreach (['dalam proses' => 'Dalam Proses', 'beli' => 'Beli', 'batal' => 'Batal'] as $value => $Label)
                                             <option value="{{ $value }}"
-                                                {{ $d->status == $value ? 'selected' : '' }}>{{ $Label }}</option>
+                                                {{ $d->status == $value ? 'selected' : '' }}>
+                                                {{ $Label }}</option>
                                         @endforeach
                                     </select>
                                     {{-- {{$d->status}} --}}
@@ -111,7 +136,30 @@
 
 @section('javascript')
     <script>
-        $('#myTable').DataTable();
+        $('#myTable').DataTable({
+            order: [
+                [0, 'desc']
+            ]
+        });
+
+        $('#date_range_filter_min, #date_range_filter_max').on('change', function() {
+            $.fn.dataTable.ext.search.pop();
+            if ($('#date_range_filter_min').val() != '' && $('#date_range_filter_max').val() != '') {
+                $.fn.dataTable.ext.search.push(
+                    function(settings, data, dataIndex) {
+                        min = new Date($('#date_range_filter_min').val());
+                        max = new Date($('#date_range_filter_max').val());
+
+                        var date = new Date(data[1]);
+                        if ((min === null && max === null) || (min === null && date <= max) || (min <= date &&
+                                max === null) || (min <= date && date <= max)) {
+                            return true;
+                        }
+                        return false;
+                    });
+            }
+            table.draw();
+        });
         $('.status_option').change(function() {
             var id_nota = $(this).attr('notaid');
             var value_change = $(this).val();
@@ -132,6 +180,17 @@
             // $('#harga').val(ids);
             // alert(ids);
         });
+
+        // $(document).ready(function() {
+        //     $('#tableID').DataTable({
+
+        //         // Set the 3rd column of the
+        //         // DataTable to ascending order
+        //         order: [
+        //             [2, 'desc']
+        //         ]
+        //     });
+        // });
     </script>
 @endsection
 

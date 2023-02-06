@@ -21,7 +21,10 @@ class NotaPemesananController extends Controller
      */
     public function index()
     {
-        $queryBuilder = NotaPemesanan::all();
+        $queryBuilder = NotaPemesanan::orderby('id','DESC')->get();
+        // dd($queryBuilder);
+        // $queryBuilder = DB::table('nota_pemesanan')->orderByDesc('id')->get();
+        // $queryBuilder = DB::table('nota_pemesanan')->orderBy('id','DESC')->get();
         $user = User::all();
         $supplier = Supplier::all();
         $barang = Barang::all();
@@ -61,6 +64,9 @@ class NotaPemesananController extends Controller
      */
     public function store(Request $request)
     {
+        $dariTgl = $request->input('dariTgl');
+        $sampaiTgl = $request->input('sampaiTgl');
+        
         $user = Auth::user();
         // dd($request->get('barang'));
 
