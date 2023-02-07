@@ -15,11 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //test
-Route::get('/testmrp',function(){
-    $mrp = new MRP;
-    $mrp->perhitungan();
-    // dd($mrp);
-});
+// Route::get('/testmrp',function(){
+//     $mrp = new MRP;
+//     dd($mrp->perhitungan());
+// });
 
 Route::get('/', function () {
     return view('auth.login');
@@ -93,6 +92,7 @@ Route::post('/mps/deleteData', 'MPSController@deleteData')->name('mps.deleteData
 
 //MRP
 Route::resource('mrp', 'MRPController');
+Route::post('/mrp/getPerhitunganMRP', 'MRPController@getPerhitungMRP')->name('mrp.getPerhitungMRP');
 Route::post('/mrp/getEditForm', 'MRPController@getEditForm')->name('mrp.getEditForm');
 Route::post('/mrp/saveData', 'MRPController@saveData')->name('mrp.saveData');
 Route::post('/mrp/saveDataField', 'MRPController@saveDataField')->name('mrp.saveDataField');

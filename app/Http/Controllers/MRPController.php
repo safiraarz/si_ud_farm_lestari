@@ -20,6 +20,22 @@ class MRPController extends Controller
         return view('mrp.index',compact('mps'));
     }
 
+    public function getPerhitungMRP(Request $request)
+    {
+        $idmps = $request->idmps;
+        $mrp = new MRP();
+        $mrp = $mrp->perhitungan($idmps);
+        // dd($mrp);
+        $lfl = $mrp[0];
+        $total_produksi = $mrp[1];
+        $nama_bahan = $mrp[2];
+        $periods = $mrp[3];
+        return response()->json(array(
+            'status' => 'oke',
+            'msg' => view('mrp.getPerhitunganMRP',compact('mps','lfl','total_produksi','nama_bahan','periods'))->render()
+        ), 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -85,4 +101,5 @@ class MRPController extends Controller
     {
         //
     }
+
 }
