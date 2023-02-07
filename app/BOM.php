@@ -16,6 +16,6 @@ class BOM extends Model
     // }
 
     public function barang(){
-        return $this->belongsToMany('App\Barang','d_BOM','BOM_id','barang_id')->withPivot('kuantitas_bahan_baku');;
+        return $this->belongsToMany('App\Barang','d_BOM','BOM_id','barang_id')->withPivot('kuantitas_bahan_baku');
     }
 }
