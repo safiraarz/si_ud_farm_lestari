@@ -176,5 +176,6 @@ Route::resource('perubahanekuitas', 'PerubahanEkuitasController');
 Route::resource('bukubesar', 'BukuBesarController');
 Route::resource('labarugi', 'LabaRugiController');
 Route::resource('aruskas', 'ArusKasController');
+Route::resource('aset', 'AsetController');
 
 Auth::routes();
