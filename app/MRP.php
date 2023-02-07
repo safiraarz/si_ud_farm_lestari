@@ -90,7 +90,7 @@ class MRP extends Model
         $jumlah_periode = count($mps[1]);
 
         $lfl= [];
-
+        $penampung_perhitungan = [];
         foreach ($bom as $bahan ) {         
             $perhitungan = [];//membuat array setiap bahan
             
@@ -132,26 +132,29 @@ class MRP extends Model
                 }
 
                 $perhitungan['POR'][] = $perhitungan['NR'][$counter];
-
                 $counter++;
             }
+            $penampung_perhitungan[] = $perhitungan;
             
         }
+        // dd($penampung_perhitungan);
 
+        $counter = 0;
         foreach ($bom as $bahan) {
             for ($i=0; $i < $jumlah_periode; $i++) { 
-                if(isset($perhitungan['POR'][$i+$bahan['leadtime']] ))
-                    $perhitungan['PORel'][] = $perhitungan['POR'][$i+$bahan['leadtime']];
+                if(isset($penampung_perhitungan[$counter]['POR'][$i+$bahan['leadtime']] ))
+                    $penampung_perhitungan[$counter]['PORel'][] = $penampung_perhitungan[$counter]['POR'][$i+$bahan['leadtime']];
                 else
-                    $perhitungan['PORel'][] = 0;
+                    $penampung_perhitungan[$counter]['PORel'][] = 0;
             }
             $lfl[] = [
                 'nama bahan baku'=>$bahan['nama'],
                 'kebutuhan bahan baku per produksi' => $bahan['kuantitas'], 
                 'leadtime'=> $bahan['leadtime'],
-                'perhitungan' => $perhitungan
+                'perhitungan' => $penampung_perhitungan[$counter]
             ];
             $perhitungan['PORel'] = [];
+            $counter++;
         }
 
         //membuat array setiap bahan
