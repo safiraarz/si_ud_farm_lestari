@@ -162,7 +162,7 @@ class MRP extends Model
             $array[] = $date->format($format); 
         }
 
-        // Return the array elements
+        // Return the array element
         return $array;
     }
 }
