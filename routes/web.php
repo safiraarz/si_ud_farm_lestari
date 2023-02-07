@@ -22,9 +22,10 @@ Route::get('/testmrp',function(){
 });
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
-Route::get('/home', 'HomeController@index')->name('home');
+
+// Route::get('/home', 'HomeController@index')->name('home');
 //supplier
 Route::resource('supplier', 'SupplierController');
 Route::post('/supplier/getEditForm', 'SupplierController@getEditForm')->name('supplier.getEditForm');
@@ -101,7 +102,6 @@ Route::post('/mrp/deleteData', 'MRPController@deleteData')->name('mmrpps.deleteD
 // Nota Universal
 Route::resource('nota', 'NotaController');
 
-
 //notapembelian
 Route::resource('notapembelian', 'NotaPembelianController');
 Route::post('/notapembelian/getEditForm', 'NotaPembelianController@getEditForm')->name('notapembelian.getEditForm');
@@ -152,25 +152,29 @@ Route::post('/jadwalpakan/saveData', 'JadwalPakanController@saveData')->name('ja
 Route::post('/jadwalpakan/saveDataField', 'JadwalPakanController@saveDataField')->name('jadwalpakan.saveDataField');
 Route::post('/jadwalpakan/deleteData', 'JadwalPakanController@deleteData')->name('jadwalpakan.deleteData');
 
-Route::resource('daftarakun', 'DaftarAkunController');
-Route::post('/daftarakun/getEditForm', 'DaftarAkunController@getEditForm')->name('daftarakun.getEditForm');
-Route::post('/daftarakun/saveData', 'DaftarAkunController@saveData')->name('daftarakun.saveData');
-Route::post('/daftarakun/saveDataField', 'DaftarAkunController@saveDataField')->name('daftarakun.saveDataField');
-Route::post('/daftarakun/deleteData', 'DaftarAkunController@deleteData')->name('daftarakun.deleteData');
-
 Route::resource('user', 'UserController');
 Route::post('/user/getEditForm', 'UserController@getEditForm')->name('user.getEditForm');
 Route::post('/user/saveData', 'UserController@saveData')->name('user.saveData');
 Route::post('/user/saveDataField', 'UserController@saveDataField')->name('user.saveDataField');
 Route::post('/user/deleteData', 'UserController@deleteData')->name('user.deleteData');
 
-Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
 // akuntansi
-Route::resource('akun_akuntansi', 'AkunAkuntansiController');
+Route::resource('akun', 'AkunAkuntansiController');
+Route::post('/akun/getEditForm', 'AkunAkuntansiController@getEditForm')->name('akun.getEditForm');
+Route::post('/akun/saveData', 'AkunAkuntansiController@saveData')->name('akun.saveData');
+Route::post('/akun/saveDataField', 'AkunAkuntansiController@saveDataField')->name('akun.saveDataField');
+Route::post('/akun/deleteData', 'AkunAkuntansiController@deleteData')->name('akun.deleteData');
+
 Route::resource('jurnal_akuntansi', 'JurnalAkuntansiController');
 Route::resource('periode_akuntansi', 'PeriodeAkuntansiController');
 Route::resource('transaksi_akuntansi', 'TransaksiAkuntansiController');
+
+Route::resource('neraca', 'NeracaController');
+Route::resource('perubahanekuitas', 'PerubahanEkuitasController');
+Route::resource('bukubesar', 'BukuBesarController');
+Route::resource('labarugi', 'LabaRugiController');
+Route::resource('aruskas', 'ArusKasController');
 
 Auth::routes();

@@ -34,7 +34,7 @@ class SPKController extends Controller
         $user = User::all();
         $barang = Barang::all();
         $date_now = str_replace('-', '',Carbon::now()->toDateString());
-        $sqlmaxsurat = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_surat, -3))+1 AS SPKMaxTanggal FROM `surat_perintah_kerja` WHERE `no_surat` LIKE '". $date_now ."%';"));
+        $sqlmaxsurat = DB::connection('inventory')->select(DB::raw(" SELECT MAX(SUBSTRING(no_surat, -3))+1 AS SPKMaxTanggal FROM `surat_perintah_kerja` WHERE `no_surat` LIKE '". $date_now ."%';"));
         $noSuratMax= 0;
         if($sqlmaxsurat[0]->SPKMaxTanggal == null){
             $noSuratMax=1;

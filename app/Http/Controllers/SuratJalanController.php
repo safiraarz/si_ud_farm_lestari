@@ -35,7 +35,7 @@ class SuratJalanController extends Controller
         $user = User::all();
         $barang = Barang::all();
         $date_now = str_replace('-', '',Carbon::now()->toDateString());
-        $sqlmaxnota = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_surat, -3))+1 AS SuratJalanMaxTanggal FROM `surat_jalan` WHERE `no_surat` LIKE '". $date_now ."%';"));
+        $sqlmaxnota = DB::connection('inventory')->select(DB::raw(" SELECT MAX(SUBSTRING(no_surat, -3))+1 AS SuratJalanMaxTanggal FROM `surat_jalan` WHERE `no_surat` LIKE '". $date_now ."%';"));
         $suratMax= 0;
         if($sqlmaxnota[0]->SuratJalanMaxTanggal == null){
             $suratMax=1;

@@ -35,7 +35,7 @@ class LPBController extends Controller
         $user = User::all();
         $barang = Barang::all();
         $date_now = str_replace('-', '', Carbon::now()->toDateString());
-        $sqlmaxnota = DB::select(DB::raw(" SELECT MAX(SUBSTRING(no_surat, -3))+1 AS LPBMaxTanggal FROM `pengeluaran_bahan_baku` WHERE `no_surat` LIKE '" . $date_now . "%';"));
+        $sqlmaxnota = DB::connection('inventory')->select(DB::raw(" SELECT MAX(SUBSTRING(no_surat, -3))+1 AS LPBMaxTanggal FROM `pengeluaran_bahan_baku` WHERE `no_surat` LIKE '" . $date_now . "%';"));
         $noSuratMax = 0;
         if ($sqlmaxnota[0]->LPBMaxTanggal == null) {
             $noSuratMax = 1;

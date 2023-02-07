@@ -100,15 +100,22 @@ class MPSController extends Controller
         //
     }
 
-    public function getEditForm(Request $request)
+    public function saveDataField(Request $request)
     {
         $id = $request->get('id');
-        $data = MPS::find($id);
-        $barang = Barang::all();
-        $spk = SPK::all();
-        return response()->json(array(
-            'status' => 'oke',
-            'msg' => view('mps.getEditForm', compact('data', 'barang','spk'))->render()
-        ), 200);
+        $fnama = $request->get('fnama');
+        $value = $request->get('value');
+        // dd($fnama);
+        $MPS = MPS::find($id);
+        // dd($mPS);
+        $MPS->$fnama = $value;
+        $MPS->save();
+        return response()->json(
+            array(
+                'status' => 'ok',
+                'msg' => strtoupper($fnama).' MPS berhasil diupdate'
+            ),
+            200
+        );
     }
 }
