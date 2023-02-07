@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\JurnalAkuntansi;
+use App\PeriodeAkuntansi;
 use Illuminate\Http\Request;
 
 class JurnalAkuntansiController extends Controller
@@ -14,7 +15,9 @@ class JurnalAkuntansiController extends Controller
      */
     public function index()
     {
-        //
+        $periode = PeriodeAkuntansi::all();
+        $queryBuilder = JurnalAkuntansi::all();
+        return view('jurnal.index', ['data' => $queryBuilder,'periode'=>$periode]);
     }
 
     /**
