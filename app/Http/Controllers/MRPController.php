@@ -32,7 +32,7 @@ class MRPController extends Controller
         $periods = $mrp[3];
         return response()->json(array(
             'status' => 'oke',
-            'msg' => view('mrp.getPerhitunganMRP',compact('mps','lfl','total_produksi','nama_bahan','periods'))->render()
+            'msg' => view('mrp.getPerhitunganMRP',compact('lfl','total_produksi','nama_bahan','periods'))->render()
         ), 200);
     }
 
