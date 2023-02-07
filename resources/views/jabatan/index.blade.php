@@ -36,13 +36,17 @@
                         <td>{{$d->id}}</td>
                         <td class='editable' id='td_nama_{{$d->id}}'>{{$d->nama}}</td>
                         <td>
-                            <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
+                            <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs'
+                                onclick="getEditForm({{$d->id}})">EDIT</a>
                             <form method='POST' action="{{url('jabatans/'.$d->id)}}">
                                 @csrf
                                 @method('DELETE')
-                                <input type="submit" value="delete" class='btn btn-danger btn-xs' onclick="if(!confirm('Are you sure you wanna delete this data?')) return false;">
+                                <input type="submit" value="delete" class='btn btn-danger btn-xs'
+                                    onclick="if(!confirm('Are you sure you wanna delete this data?')) return false;">
                             </form>
-                            <a class='btn btn-danger btn-xs' onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{$d->id}})">Delete 2</a>
+                            <a class='btn btn-danger btn-xs'
+                                onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{$d->id}})">Delete
+                                2</a>
                         </td>
                     </tr>
                     @endforeach
@@ -99,7 +103,7 @@
                     '_token': '<?php echo csrf_token() ?>',
                     'id': id
                 },
-                success: function(data) {
+                success: function (data) {
                     $('#modalContent').html(data.msg)
                 }
             },
@@ -117,7 +121,7 @@
                 'id': id,
                 'nama': eNama,
             },
-            success: function(data) {
+            success: function (data) {
                 if (data.status == 'ok') {
                     alert(data.msg)
                     $('#td_nama_' + id).html(eNama);
@@ -134,7 +138,7 @@
                 '_token': '<?php echo csrf_token() ?>',
                 'id': id
             },
-            success: function(data) {
+            success: function (data) {
                 if (data.status == 'ok') {
                     alert(data.msg)
                     $('#tr_' + id).remove();
@@ -145,5 +149,6 @@
         });
     }
     $('#myTable').DataTable();
+
 </script>
 @endsection

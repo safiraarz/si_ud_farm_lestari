@@ -16,15 +16,17 @@ class MRP extends Model
         return $this->belongsTo('App\Barang','barang_id');
     }
 
-    public function perhitungan()
+    public function perhitungan($idmps)
     {
         $mps = [];
-        $queryMPS = MPS::find(11202);
+        // $queryMPS = MPS::find(11202);
+        $queryMPS = MPS::find($idmps);
         $bahan_jadi = $queryMPS->barang->nama;
         $mps[] = $bahan_jadi;
         $tgl_mulai_produksi = $queryMPS->tgl_mulai_produksi;
         $tgl_selesai_produksi = $queryMPS->tgl_selesai_produksi;
         $kuantitas_barang_jadi = $queryMPS->kuantitas_barang_jadi;
+        $total_produksi = $kuantitas_barang_jadi;
 
         $periods = $this->getDatesFromRange($tgl_mulai_produksi,$tgl_selesai_produksi);
 
@@ -88,62 +90,73 @@ class MRP extends Model
 
         $lfl= [];
 
-        foreach ($bom as $bahan ) {
-            $lfl[$bahan['nama']] = [];//membuat array setiap bahan
+        foreach ($bom as $bahan ) {         
+            $perhitungan = [];//membuat array setiap bahan
             
             $counter = 0;//counter
             foreach ($mps[1] as $qty) {
-                $lfl[$bahan['nama']]['GR'][] = ($qty[1] / $kuantitas_barang_jadi_bom) * $bahan['kuantitas'];
-                $lfl[$bahan['nama']]['SR'][] = 0;
+                $perhitungan['GR'][] = ($qty[1] / $kuantitas_barang_jadi_bom) * $bahan['kuantitas'];
+                $perhitungan['SR'][] = 0;
 
                 if ($counter == 0) {
-                    $total = $bahan['ohi'] - $lfl[$bahan['nama']]['GR'][$counter];
+                    $total = $bahan['ohi'] - $perhitungan['GR'][$counter];
                     if($total> 0){
-                        $lfl[$bahan['nama']]['OHI'][] = $total;
+                        $perhitungan['OHI'][] = $total;
                     }else{
-                        $lfl[$bahan['nama']]['OHI'][] = 0;
+                        $perhitungan['OHI'][] = 0;
                     }
                 }else{
-                    $total = $lfl[$bahan['nama']]['OHI'][$counter-1] - $lfl[$bahan['nama']]['GR'][$counter];
+                    $total = $perhitungan['OHI'][$counter-1] - $perhitungan['GR'][$counter];
                     if($total> 0){
-                        $lfl[$bahan['nama']]['OHI'][] = $total;
+                        $perhitungan['OHI'][] = $total;
                     }else{
-                        $lfl[$bahan['nama']]['OHI'][] = 0;
+                        $perhitungan['OHI'][] = 0;
                     }
                 }
 
                 if ($counter == 0) {//ambil dari ohi
-                    $total = $lfl[$bahan['nama']]['GR'][$counter] - $lfl[$bahan['nama']]['SR'][$counter] - $bahan['ohi'];
+                    $total = $perhitungan['GR'][$counter] - $perhitungan['SR'][$counter] - $bahan['ohi'];
                     if($total> 0){
-                        $lfl[$bahan['nama']]['NR'][] = $total;
+                        $perhitungan['NR'][] = $total;
                     }else{
-                        $lfl[$bahan['nama']]['NR'][] = 0;
+                        $perhitungan['NR'][] = 0;
                     }
                 }else{
-                    $total = $lfl[$bahan['nama']]['GR'][$counter] - $lfl[$bahan['nama']]['SR'][$counter] - $lfl[$bahan['nama']]['OHI'][$counter - 1];
+                    $total = $perhitungan['GR'][$counter] - $perhitungan['SR'][$counter] - $perhitungan['OHI'][$counter - 1];
                     if($total> 0){
-                        $lfl[$bahan['nama']]['NR'][] = $total;
+                        $perhitungan['NR'][] = $total;
                     }else{
-                        $lfl[$bahan['nama']]['NR'][] = 0;
+                        $perhitungan['NR'][] = 0;
                     }
                 }
 
-                $lfl[$bahan['nama']]['POR'][] = $lfl[$bahan['nama']]['NR'][$counter];
+                $perhitungan['POR'][] = $perhitungan['NR'][$counter];
 
                 $counter++;
             }
+            
         }
 
         foreach ($bom as $bahan) {
             for ($i=0; $i < $jumlah_periode; $i++) { 
-                if(isset($lfl[$bahan['nama']]['POR'][$i+$bahan['leadtime']] ))
-                    $lfl[$bahan['nama']]['PORel'][] = $lfl[$bahan['nama']]['POR'][$i+$bahan['leadtime']];
+                if(isset($perhitungan['POR'][$i+$bahan['leadtime']] ))
+                    $perhitungan['PORel'][] = $perhitungan['POR'][$i+$bahan['leadtime']];
                 else
-                    $lfl[$bahan['nama']]['PORel'][] = 0;
+                    $perhitungan['PORel'][] = 0;
             }
+            $lfl[] = [
+                'nama bahan baku'=>$bahan['nama'],
+                'kebutuhan bahan baku per produksi' => $bahan['kuantitas'], 
+                'leadtime'=> $bahan['leadtime'],
+                'perhitungan' => $perhitungan
+            ];
+            $perhitungan['PORel'] = [];
         }
-        dd($mps,$bom,$lfl);
-        return $lfl;
+
+        //membuat array setiap bahan
+
+        // dd($mps,$bom,$lfl);
+        return [$lfl, $total_produksi, $bahan_jadi,$periods];
     }
 
     private function getDatesFromRange($start, $end, $format = 'y/m') {
