@@ -54,7 +54,7 @@ class Barang extends Model
     }
     public function bom()
     {
-        return $this->hasMany('App\BOM', 'barang_id', 'id');
+        return $this->belongsToMany('App\BOM','d_bom', 'BOM_id','barang_id');
     }
     public function lpb()
     {

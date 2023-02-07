@@ -1,5 +1,6 @@
 <?php
 
+use App\MRP;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//test
+Route::get('/testmrp',function(){
+    $mrp = new MRP;
+    $mrp->perhitungan();
+    // dd($mrp);
+});
 
 Route::get('/', function () {
     return view('auth.login');
