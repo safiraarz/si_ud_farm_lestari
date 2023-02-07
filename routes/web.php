@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //test
-// Route::get('/testmrp',function(){
-//     $mrp = new MRP;
-//     dd($mrp->perhitungan());
-// });
+Route::get('/testmrp',function(){
+    $mrp = new MRP;
+    dd($mrp->perhitungan(11202));
+});
 
 Route::get('/', function () {
     return view('auth.login');

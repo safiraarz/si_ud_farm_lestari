@@ -26,6 +26,7 @@ class MRP extends Model
         $tgl_mulai_produksi = $queryMPS->tgl_mulai_produksi;
         $tgl_selesai_produksi = $queryMPS->tgl_selesai_produksi;
         $kuantitas_barang_jadi = $queryMPS->kuantitas_barang_jadi;
+        // dd($tgl_mulai_produksi,$tgl_selesai_produksi);
         $total_produksi = $kuantitas_barang_jadi;
 
         $periods = $this->getDatesFromRange($tgl_mulai_produksi,$tgl_selesai_produksi);
@@ -159,7 +160,7 @@ class MRP extends Model
         return [$lfl, $total_produksi, $bahan_jadi,$periods];
     }
 
-    private function getDatesFromRange($start, $end, $format = 'y/m') {
+    private function getDatesFromRange($start, $end, $format = 'd/m') {
         // Declare an empty array
         $array = [];
 
