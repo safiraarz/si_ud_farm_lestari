@@ -162,6 +162,11 @@
 
 <script>
     $(document).ready(function() {
+        function thousands_separators(num) {
+        var num_parts = num.toString().split(".");
+        num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return num_parts.join(".");
+    }
         // $('#barang').change(function() {
         //     var ids = $(this).find(':selected').attr('harga');
         //     $('#harga').val(ids);
@@ -212,7 +217,7 @@
                         '<td>' + nama_telur + '<input type="hidden" name="telur[' + count + '][' + "id_telur" + ']" value=' + id_telur + '></td>'+
                         '<td>' + kuantitas_bersih + '<input type="hidden" name="telur[' + count + '][' + "kuantitas_bersih" + ']" value=' + kuantitas_bersih + '></td>'+
                         '<td>' + kuantitas_reject + '<input type="hidden" name="telur[' + count + '][' + "kuantitas_reject" + ']" value=' + kuantitas_reject + '></td>'+
-                        '<td>' + kuantitas_total + '<input type="hidden" name="telur[' + count + '][' + "kuantitas_total" + ']" value=' + kuantitas_total + '></td>'+
+                        '<td>' + thousands_separators(kuantitas_total) + '<input type="hidden" name="telur[' + count + '][' + "kuantitas_total" + ']" value=' + kuantitas_total + '></td>'+
                         '<td>' + satuan + '<input type="hidden" name="telur[' + count + '][' + "satuan" + ']" value=' + satuan+ '></td>'
                         +'</tr>';
                     // alert(table);
