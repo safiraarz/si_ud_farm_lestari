@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SuratJalan extends Model
 {
     protected $connection = 'inventory';
-
+    protected $dates = ['tgl_pengiriman_barang'];
     protected $table = "surat_jalan";
     public $timestamps = false;
     public function suratjalan(){

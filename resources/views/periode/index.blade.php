@@ -26,13 +26,6 @@
             </div>
 
         </div>
-
-        <div class="modal fade" id="modalEdit" tabindex="-1" role="basic" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content" id='modalContent'>
-                </div>
-            </div>
-        </div>
     @endsection
 </div>
 @section('javascript')

@@ -135,14 +135,12 @@
 
 <script>
     $(document).ready(function() {
-        // $('#barang').change(function() {
-        //     var ids = $(this).find(':selected').attr('harga');
-        //     $('#harga').val(ids);
-        // });
+        function thousands_separators(num) {
+            var num_parts = num.toString().split(".");
+            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return num_parts.join(".");
+        }
         var count = 1;
-        // if (count != 1) {
-
-        // };
         
         $('#tambah').on('click', function() {
             $("#pakan_ayam").disable = true;
@@ -161,9 +159,6 @@
             }
 
             function billFunction() {
-                // $('#nama_pakan_span').html(supplier);
-                // var id_pakan_ayam = $('#nama_pakan').find(':selected').attr('id');
-
                 var spkinput = '<input type="hidden" name="barang_id" value=' + name + '> ';
                 $('#new').append(spkinput);
 
@@ -177,7 +172,7 @@
                         '<td>' + date_start +'<input type="hidden" name="barang[' + count + '][' + "tanggal_mulai" + ']" value=' +date_start + '></td>'+
                         '<td>' + date_end +'<input type="hidden" name="barang[' + count + '][' + "tanggal_akhir" + ']" value=' +date_end + '></td>'+
 
-                        '<td>' + kuantitas + '<input type="hidden" name="barang[' + count +'][' + "kuantitas" + ']" value=' + kuantitas + '></td>'
+                        '<td>' + thousands_separators(kuantitas) + '<input type="hidden" name="barang[' + count +'][' + "kuantitas" + ']" value=' + kuantitas + '></td>'
                         +'<td>' + satuan + '</td></tr>';
                     $('#new').append(table);
                 });

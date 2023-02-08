@@ -40,7 +40,7 @@
                         @foreach ($data as $d)
                             <tr id='tr_{{ $d->id }}'>
                                 <td>{{ $d->id }}</td>
-                                <td id='td_tgl_pencatatan_'>{{ $d->tgl_pencatatan }}</td>
+                                <td id='td_tgl_pencatatan_'>{{ $d->tgl_pencatatan->format('d/m/Y') }}</td>
                                 <td id='td_karantina_'>{{ $d->karantina }} ekor</td>
                                 <td id='td_afkir_'>{{ $d->afkir }} ekor</td>
                                 <td id='td_kematian_'>{{ $d->kematian }} ekor</td>
@@ -198,8 +198,8 @@
                 </div>
             </div>
         </div>
-    @endsection
-</div>
+    </div>
+@endsection
 @section('javascript')
     <script>
         // Generate Total 

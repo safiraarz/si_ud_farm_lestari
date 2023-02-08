@@ -119,14 +119,12 @@
 
 <script>
     $(document).ready(function() {
-        // $('#barang').change(function() {
-        //     var ids = $(this).find(':selected').attr('harga');
-        //     $('#harga').val(ids);
-        // });
+        function thousands_separators(num) {
+            var num_parts = num.toString().split(".");
+            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return num_parts.join(".");
+        }
         var count = 1;
-        // if (count != 1) {
-
-        // };
         $('#tambah').on('click', function() {
             $("#pakan_ayam").disable = true;
             $("#keterangan_input").val( $("#keterangan").val())
@@ -148,7 +146,7 @@
                     var table = '<tr>'+
                         '<td>' + count + '</td>'+
                         '<td>' + nama_barang_jadi + '<input type="hidden" name="barang_jadi[' + count +'][' + "id_barang_jadi" + ']" value=' + id_barang_jadi + '></td>'+
-                        '<td>' + kuantitas_barang_jadi +'<input type="hidden" name="barang_jadi[' + count + '][' + "kuantitas" + ']" value=' + kuantitas_barang_jadi +'></td>'+
+                        '<td>' + thousands_separators(kuantitas_barang_jadi) +'<input type="hidden" name="barang_jadi[' + count + '][' + "kuantitas" + ']" value=' + kuantitas_barang_jadi +'></td>'+
                         '<td>' + satuan_barang_jadi + '</td>'+
                         '</tr>';
                     $('#new').append(table);

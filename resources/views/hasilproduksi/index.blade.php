@@ -32,7 +32,6 @@
                             <th>Satuan</th>
                             <th>Daftar Barang</th>
                             <th>Pembuat Surat</th>
-                            <!-- <th>Action</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -41,7 +40,7 @@
                                 <td>{{ $d->id }}</td>
                                 <td id='td_surat_perintah_kerja_{{ $d->id }}'>
                                     {{ $d->surat_perintah_kerja->no_surat }}</td>
-                                <td id='td_tgl_pencatatan_{{ $d->id }}'>{{ $d->tgl_pencatatan }}</td>
+                                <td id='td_tgl_pencatatan_{{ $d->id }}'>{{ $d->tgl_pencatatan->format('d/m/Y')  }}</td>
                                 <td id='td_barang_{{ $d->id }}'>{{ $d->barang->nama }}</td>
 
                                 <td id='td_total_kuantitas_{{ $d->id }}'>{{ number_format($d->total_kuantitas) }}

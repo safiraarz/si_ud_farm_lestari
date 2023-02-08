@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class JadwalPakan extends Model
 {
     protected $connection = 'inventory';
-
+    protected $dates = ['tgl_pemberian'];
     protected $table = "jadwal_pakan";
 
     public function barang(){

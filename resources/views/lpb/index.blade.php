@@ -30,7 +30,6 @@
                             <th>Keterangan</th>
                             <th>Daftar Barang</th>
                             <th>Pembuat Surat</th>
-                            <!-- <th>Action</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -38,10 +37,9 @@
                             <tr id='tr_{{ $d->id }}'>
                                 <td>{{ $d->id }}</td>
                                 <td id='td_no_surat_{{ $d->id }}'>{{ $d->no_surat }}</td>
-                                <td id='td_tgl_pengeluaran_barang_{{ $d->id }}'>{{ $d->tgl_pengeluaran_barang }}</td>
+                                <td id='td_tgl_pengeluaran_barang_{{ $d->id }}'>{{ $d->tgl_pengeluaran_barang->format('d/m/Y') }}</td>
                                 <td id='td_keterangan_{{ $d->id }}'>{{ $d->keterangan }}</td>
                                 <td>
-                                    {{-- <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a> --}}
                                     <a class="btn btn-default edittable" data-toggle="modal"
                                         href="#detail_{{ $d->id }}">
                                         Detail
@@ -54,12 +52,11 @@
                                                     <h4 class="modal-title">Nomor Nota : {{ $d->no_nota }}</h4>
                                                 </div>
                                                 <div class="modal-body">
-
                                                     @foreach ($d->daftar_barang as $key => $item)
-                                                        <p>
+                                                        <b>
                                                             <span>- Barang {{ $key + 1 }}</span>
 
-                                                        </p>
+                                                        </b>
                                                         <p>
                                                             <span>Nama Barang</span> : <span> {{ $item->nama }}</span>
 
@@ -80,9 +77,6 @@
                                     </div>
                                 </td>
                                 <td id='td_pengguna_{{ $d->id }}'>{{ $d->pengguna->nama }}</td>
-                                <!-- <td>
-                            <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{ $d->id }})">EDIT</a>
-                        </td> -->
                             </tr>
                         @endforeach
                     </tbody>

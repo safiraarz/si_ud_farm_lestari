@@ -35,7 +35,7 @@
                     <tr id='tr_{{$d->id}}'>
                         <td>{{$d->id}}</td>
                         <td id='td_no_nota_{{$d->id}}'>{{$d->no_nota}}</td>
-                        <td id='td_tgl_pembuatan_nota_{{$d->id}}'>{{$d->tgl_pembuatan_nota}}</td>
+                        <td id='td_tgl_pembuatan_nota_{{$d->id}}'>{{$d->tgl_pembuatan_nota->format('d/m/Y')}}</td>
                         <td id='td_supplier_{{$d->id}}'>{{$d->supplier->nama}}</td>
                         <td id='td_total_harga_{{$d->id}}'>Rp{{number_format($d->total_harga,2)}}</td>
                         <td>
@@ -48,10 +48,10 @@
                                         </div>
                                         <div class="modal-body">
                                             @foreach ($d->barang as $key =>$item)
-                                            <p>
+                                            <b>
                                                 <span>- Barang {{ $key+1 }}</span>
 
-                                            </p>
+                                            </b>
                                             <p>
                                                 <span>Nama Barang</span> : <span> {{$item->nama}}</span>
 
@@ -72,106 +72,12 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- Edit --}}
-                            {{-- <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a> --}}
                         </td>
                         <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
-        </div>
-    </div>
-
-
-    <!-- add new data -->
-    <div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h4 class="modal-title">Tambah Nota Pembelian</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('notapembelian.store') }}" class="form-horizontal" method='POST'>
-                        @csrf
-                        <div class="form-body">
-
-                            <div class="form-group">
-                                <label>Nomor Nota Pembelian</label>
-                                {{-- <input type="text" name="no_nota" class="form-control" value="{{  $no_nota_generator }}" id='kuantitas' readonly required> --}}
-                                </input>
-                            </div>
-                            <div class="form-group">
-                                <label>Tanggal Pembuatan Nota</label>
-                                {{-- <td>
-                                <div class="input-group input-group-sm date date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
-                                    <input type="text" class="form-control form-filter" readonly name="order_date_from" placeholder="Pilih tanggal">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
-                                    </span>
-                                </div>
-                            </td> --}}
-                                <div>
-                                    <input type="date" name="tanggal_pembuatan_nota" class="form-control input-sm" required />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>No Nota Pemesanan</label>
-                                <select class="form-control" name="no_pesanan" id="no_pesanan">
-                                    <option value="">Silahkan Pilih Nomor Pesanan</option>
-                                    @foreach ($notapemesanan as $item)
-                                    <option value="{{ $item->id }}">{{ $item->no_nota}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            {{-- <div class="form-group">
-                            <label>Nama Supplier</label>
-                            <select class="form-control" name="supplier" id="supplier" readonly>
-                                @foreach ($supplier as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama}}</option>
-                            @endforeach
-                            </select>
-                        </div> --}}
-                        <div id="bahan_pesanan">
-
-                        </div>
-                        {{-- <div class="form-group">
-                            <label>Nama Bahan Baku</label>
-                            <select class="form-control" name="bahan_baku" id="bahan_baku">
-                                <!-- seharusnya dikasih where jenis==bahan baku -->
-                                @foreach ($barang as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama}}</option>
-                        @endforeach
-                        </select>
-                </div>
-                <div class="form-group">
-                    <label>Harga per-satuan</label>
-                    <input type="text" name="harga" class="form-control" id='harga' required>
-                    </input>
-                </div>
-
-                <div class="form-group">
-                    <label>Kuantitas</label>
-                    <input type="text" name="kuantitas" class="form-control" id='kuantitas' required>
-                    </input>
-                </div> --}}
-                {{-- <button type="tambah" class="btn btn-success">Tambah ke Nota</button> --}}
-            </div>
-            <div class="modal-footer">
-                <div class="col-md-offset-3 col-md-9">
-                    <button type="submit" class="btn btn-success">Submit</button>
-                    <a href="{{url('notapembelian')}}" class="btn btn-default" data-dismiss="modal">Cancel</a>
-                </div>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
-</div>
-<div class="modal fade" id="modalEdit" tabindex="-1" role="basic" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content" id='modalContent'>
         </div>
     </div>
 </div>

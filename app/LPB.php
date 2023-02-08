@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class LPB extends Model
 {
     protected $connection = 'inventory';
-
+    
+    protected $dates = ['tgl_pengeluaran_barang'];
     protected $table = "pengeluaran_bahan_baku";
     public $timestamps = false;
 

@@ -489,7 +489,6 @@
             }
 
             function billFunction() {
-
                 // $('#no_nota_span').html(no_nota);
                 // $('#tgl_transaksi_span').html(tgl_transaksi);
                 $('#supplier_span').html(supplier);
@@ -669,7 +668,7 @@
 
                     var table = '<tr><td>' + count_penjualan + '</td><td>' + name +
                         '<input type="hidden" name="barang_penjualan[' + count_penjualan + '][' +
-                        "id_barang" + ']" value=' + id_barang + '></td><td>' + kuantitas +
+                        "id_barang" + ']" value=' + id_barang + '></td><td>' + thousands_separators(kuantitas) +
                         '<input type="hidden" name="barang_penjualan[' + count_penjualan + '][' +
                         "kuantitas" + ']" value=' + kuantitas + '></td><td>' + satuan + '</td><td>' +
                         thousands_separators(harga) + '<input type="hidden" name="barang_penjualan[' +

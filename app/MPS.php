@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class MPS extends Model
 {
     protected $connection = 'inventory';
-
+    protected $dates = ['tgl_mulai_produksi','tgl_selesai_produksi'];
     protected $table = "mps";
     public function barang()
     {

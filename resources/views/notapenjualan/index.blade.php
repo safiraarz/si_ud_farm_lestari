@@ -36,11 +36,10 @@
                             <tr id='tr_{{ $d->id }}'>
                                 <td>{{ $d->id }}</td>
                                 <td id='td_no_nota_{{ $d->id }}'>{{ $d->no_nota }}</td>
-                                <td id='td_tgl_pembuatan_nota{{ $d->id }}'>{{ $d->tgl_pembuatan_nota }}</td>
+                                <td id='td_tgl_pembuatan_nota{{ $d->id }}'>{{ $d->tgl_pembuatan_nota->format('d/m/Y') }}</td>
                                 <td id='td_customer_{{ $d->id }}'>{{ $d->customer->nama }}</td>
                                 <td id='td_total_harga_{{ $d->id }}'>Rp{{ number_format($d->total_harga, 2) }}</td>
                                 <td>
-                                    {{-- <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a> --}}
                                     <a class="btn btn-default edittable" data-toggle="modal"
                                         href="#detail_{{ $d->id }}">
                                         Detail
@@ -55,10 +54,10 @@
                                                 <div class="modal-body">
 
                                                     @foreach ($d->barang as $key => $item)
-                                                        <p>
+                                                        <b>
                                                             <span>- Barang {{ $key + 1 }}</span>
 
-                                                        </p>
+                                                        </b>
                                                         <p>
                                                             <span>Nama Barang</span> : <span> {{ $item->nama }}</span>
                                                         </p>
@@ -89,12 +88,6 @@
             </div>
         </div>
     @endsection
-    <div class="modal fade" tabindex="-1" role="basic" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content" id='modalContent'>
-            </div>
-        </div>
-    </div>
     @section('javascript')
         <script>
             $('#myTable').DataTable({

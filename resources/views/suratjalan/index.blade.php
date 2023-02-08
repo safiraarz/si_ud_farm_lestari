@@ -38,10 +38,9 @@
                             <tr id='tr_{{ $d->id }}'>
                                 <td>{{ $d->id }}</td>
                                 <td id='td_no_surat_{{ $d->id }}'>{{ $d->no_surat }}</td>
-                                <td id='td_tgl_pengiriman_barang_{{ $d->id }}'>{{ $d->tgl_pengiriman_barang }}</td>
+                                <td id='td_tgl_pengiriman_barang_{{ $d->id }}'>{{ $d->tgl_pengiriman_barang->format('d/m/Y')  }}</td>
                                 <td id='td_keterangan_{{ $d->id }}'>{{ $d->keterangan }}</td>
                                 <td>
-                                    {{-- <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a> --}}
                                     <a class="btn btn-default edittable" data-toggle="modal"
                                         href="#detail_{{ $d->id }}">
                                         Detail
@@ -67,7 +66,6 @@
                                                         <p>
                                                             <span>Kuantitas</span> : <span>
                                                                 {{ number_format($item->pivot->kuantitas) }}</span>
-
                                                         </p>
                                                     @endforeach
                                                 </div>
@@ -80,9 +78,6 @@
                                     </div>
                                 </td>
                                 <td id='td_pengguna_{{ $d->id }}'>{{ $d->pengguna->nama }}</td>
-                                <!-- <td>
-                            <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{ $d->id }})">EDIT</a>
-                        </td> -->
                             </tr>
                         @endforeach
                     </tbody>

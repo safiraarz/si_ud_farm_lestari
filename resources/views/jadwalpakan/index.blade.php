@@ -31,30 +31,24 @@
                         <th>Flok Tujuan</th>
                         <th>Keterangan</th>
                         <th>Pencatat Transaksi</th>
-                        <!-- <th>Action</th> -->
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($data as $d)
                     <tr>
-                        <td id='td_tgl_pemberian_'>{{$d->tgl_pemberian}}</td>
+                        <td id='td_tgl_pemberian_'>{{$d->tgl_pemberian->format('d/m/Y')}}</td>
                         <td id='td_jenis_telur_'>{{$d->barang->nama}}</td>
                         <td id='td_kuantitas'>{{number_format($d->kuantitas)}}</td>
                         <td id='td_satuan'>{{$d->barang->satuan}}</td>
                         <td id='td_flok_tujuan_'>{{$d->flok->nama}}</td>
                         <td id='td_keterangan_'>{{$d->keterangan}}</td>
                         <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
-                        <!-- <td>
-                        <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm('{{ $d->created_at }}')">EDIT</a>
-                    </td> -->
                     </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
     </div>
-
-
 
     <!-- tambah jadwalpakan -->
 
