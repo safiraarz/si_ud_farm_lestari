@@ -29,7 +29,7 @@
                                 <td>
                                     <select name="supplier" id="supplier" class="form-control">
                                         @foreach ($supplier as $row)
-                                            <option id={{ $row->id }} value="{{ $row->nama }}""
+                                            <option id={{ $row->id }} value="{{ $row->nama }}"
                                                 class=" barang custom-select">
                                                 {{ $row->nama }}
                                             </option>
@@ -143,8 +143,7 @@
 
     {{-- Pembelian --}}
     <section class=" mt-3 margin-right-10" id="nota_pembelian_section" style="display: none;">
-        <div class="">
-            {{-- <h4 class="text-center" style="color:green"> UD Farm Lestari </h4> --}}
+        {{-- <div class="">
             <form action="{{ route('notapembelian.store') }}" method="post" enctype="multipart/form-data"
                 class="form-horizontal">
                 @csrf
@@ -184,7 +183,131 @@
                 </div>
 
             </form>
-        </div>
+        </div> --}}
+        <div class="">
+            {{-- <h4 class="text-center" style="color:green"> UD Farm Lestari </h4> --}}
+            <div class="row">
+                <div class="col-md-5  mt-4 ">
+                    <table class="table" style="background-color:#e0e0e0;">
+                        @csrf
+                        <thead>
+                            <tr>
+                                <th>No. Nota Pemesanan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <select class="form-control" name="no_pesanan_pembelian" id="no_pesanan_pembelian">
+                                        <option value="">Silahkan Pilih Nomor Pesanan</option>
+                                        @foreach ($notapemesanan as $item)
+                                            <option value="{{ $item->id }}">{{ $item->no_nota }}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table" style="background-color:#e0e0e0;">
+                        <thead>
+                            <tr>
+                                <th style="width:35%">Nama Barang</th>
+                                <th style="width:25%">Kuantitas</th>
+                                <th>Harga</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <select name="barang" id="barang" class="form-control barang">
+                                        @foreach ($barang as $row)
+                                            @if ($row->jenis == 'Bahan Baku')
+                                                <option id={{ $row->id }} value="{{ $row->nama }}"
+                                                    harga="{{ $row->harga }}" satuan="{{ $row->satuan }}"
+                                                    class="barang custom-select">
+                                                    {{ $row->nama }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" id="kuantitas" min="0" value="0"
+                                        class="form-control kuantitas">
+                                </td>
+                                <td>
+                                    <input type="number" id="harga" min="0" value="0"
+                                        class="form-control harga">
+                                </td>
+                                <td><button id="tambah_pembelian" class="btn btn-success">Tambah</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div role="alert" id="errorMsg" class="mt-5">
+                        <!-- Error msg  -->
+                    </div>
+                </div>
+
+                <div class="col-md-7  mt-4" style="background-color:#f5f5f5;">
+                    <form action="{{ route('notapembelian.store') }}" method="post" enctype="multipart/form-data"
+                        class="form-horizontal">
+                        @csrf
+                        <input type="hidden" name="jenis_nota" value="nota_pemesanan">
+                        <div class="p-4">
+                            <div class="text-center">
+                                <h4>Nota Pembelian</h4>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 ">
+                                    <span>No. Nota</span> : <span id="no_nota_span">{{ $no_nota_pembelian }}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6 ">
+                                    <span>Tanggal Transaksi</span> : <span
+                                        id="tgl_transaksi_span">{{ $date_now }}</span>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                                    <span>Nama Supplier</span> : <span id="supplier_span"></span>
+                                </div>
+                            </div>
+                            <div class="row" id="bahan_pesanan">
+                                <table id="receipt_bill" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Nama Barang</th>
+                                            <th>Kuantitas</th>
+                                            <th>Satuan</th>
+                                            <th>Harga</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="new">
+                                    </tbody>
+                                    <tr id="bahan_pesanan_row">
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td class="text-right text-dark">
+                                            <h5><strong>Sub Total: Rp </strong></h5>
+                                        </td>
+                                        <td class="text-center text-dark">
+                                            <input type="hidden" name="total_harga" id="total_harga">
+                                            <h5> <strong><span id="subTotal"></strong></h5>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div>
+                                <td><button id="proses" class="btn btn-success">Proses</button></td>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
     </section>
 
     {{-- Penjualan --}}
@@ -201,7 +324,6 @@
                         </thead>
                         <tbody>
                             <tr>
-
                                 <td>
                                     <select name="customer" id="customer" class="form-control">
                                         @foreach ($customer as $row)
@@ -367,7 +489,7 @@
             }
 
             function billFunction() {
-                
+
                 // $('#no_nota_span').html(no_nota);
                 // $('#tgl_transaksi_span').html(tgl_transaksi);
                 $('#supplier_span').html(supplier);
@@ -380,7 +502,7 @@
 
                 $("#receipt_bill").each(function() {
                     var total_pesanan = harga * kuantitas;
-                    
+
                     subTotal_pesanan += parseInt(total_pesanan);
                     var satuan = $('#barang').find(':selected').attr('satuan');
                     var id_barang = $('#barang').find(':selected').attr('id');
@@ -388,11 +510,15 @@
 
                     var table = '<tr><td>' + count + '</td><td>' + name +
                         '<input type="hidden" name="barang[' + count + '][' + "id_barang" + ']" value=' +
-                        id_barang + '></td><td>' + thousands_separators(kuantitas) + '<input type="hidden" name="barang[' +
-                        count + '][' + "kuantitas" + ']" value=' + thousands_separators(kuantitas) + '></td><td>' + satuan +
-                        '</td><td>' + thousands_separators(harga) + '<input type="hidden" name="barang[' + count + '][' +
+                        id_barang + '></td><td>' + thousands_separators(kuantitas) +
+                        '<input type="hidden" name="barang[' +
+                        count + '][' + "kuantitas" + ']" value=' + thousands_separators(kuantitas) +
+                        '></td><td>' + satuan +
+                        '</td><td>' + thousands_separators(harga) + '<input type="hidden" name="barang[' +
+                        count + '][' +
                         "harga_barang" + ']" value=' + harga +
-                        '></td><td><strong><input type="hidden" id="total" value="' +total_pesanan + '">' + thousands_separators(total_pesanan) +
+                        '></td><td><strong><input type="hidden" id="total" value="' + total_pesanan + '">' +
+                        thousands_separators(total_pesanan) +
                         '</strong></td></tr>';
                     $('#new').append(table);
 
@@ -404,7 +530,7 @@
                     //         total += value;
                     //     }
                     // });
-                    
+
 
 
                     // var Subtotal = $('#subTotal').text();
@@ -546,7 +672,8 @@
                         "id_barang" + ']" value=' + id_barang + '></td><td>' + kuantitas +
                         '<input type="hidden" name="barang_penjualan[' + count_penjualan + '][' +
                         "kuantitas" + ']" value=' + kuantitas + '></td><td>' + satuan + '</td><td>' +
-                            thousands_separators(harga) + '<input type="hidden" name="barang_penjualan[' + count_penjualan + '][' +
+                        thousands_separators(harga) + '<input type="hidden" name="barang_penjualan[' +
+                        count_penjualan + '][' +
                         "harga_barang" + ']" value=' + harga +
                         '></td><td><strong><input type="hidden" id="total" name="barang_penjualan[' +
                         count_penjualan + '][' + "total_harga_barang" + ']" value="' + total + '">' +
@@ -574,14 +701,9 @@
             }
         });
 
-
-
-
-
         $("#no_pesanan_pembelian").on('change', function() {
             // alert("aa");
             $('#bahan_pesanan').html("");
-
             var notapemesanan = [
                 @foreach ($notapemesanan as $item)
                     [
@@ -611,6 +733,8 @@
             notapemesanan.forEach(element => {
                 if (id_nota_pesanan == element[0]) {
                     // Show Supplier
+
+                    // lama
                     var supplier_html =
                         '<div class="form-group p-3"><label>Nama Supplier</label><select class="form-control" name="supplier_id" id="supplier"  readonly><option value="' +
                         element[1][0] + '" >' + element[1][1] + '</option></select></div>';
@@ -647,28 +771,23 @@
                             '</div>' +
                             '</div>';
                         // alert(barang_pesanan);
+                        // lama
+
                         $('#bahan_pesanan_row').append(barang_pesanan);
-
-
                     }
-
-
-
                 }
-
             });
-
         });
     </script>
 @endsection
 
 {{-- seperator ribuan --}}
 @section('initialscript')
-<script>
-    function thousands_separators(num) {
-        var num_parts = num.toString().split(".");
-        num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        return num_parts.join(".");
-    }
-</script>
+    <script>
+        function thousands_separators(num) {
+            var num_parts = num.toString().split(".");
+            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return num_parts.join(".");
+        }
+    </script>
 @endsection
