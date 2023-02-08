@@ -12,7 +12,7 @@
     </div>
 
     {{-- Pemesanan --}}
-    <section class="mt-3 margin-right-10" id="nota_pemesanan_section">
+    <section class="mt-3 margin-right-10" id="nota_pemesanan_section" style="display: none;">
         <div class="">
             {{-- <h4 class="text-center" style="color:green"> UD Farm Lestari </h4> --}}
             <div class="row">
@@ -107,12 +107,12 @@
                                 <table id="receipt_bill" class="table">
                                     <thead>
                                         <tr>
-                                            <th>No.</th>
                                             <th>Nama Barang</th>
                                             <th>Kuantitas</th>
                                             <th>Satuan</th>
                                             <th>Harga</th>
                                             <th>Total</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="new">
@@ -133,6 +133,7 @@
                             </div>
                             <div>
                                 <td><button id="proses" class="btn btn-success">Proses</button></td>
+                                {{-- <button type="button" class="btn btn-succes delete_barang">Proses</button> --}}
                             </div>
                         </div>
                     </form>
@@ -142,7 +143,7 @@
     </section>
 
     {{-- Pembelian --}}
-    <section class=" mt-3 margin-right-10" id="nota_pembelian_section" style="display: none;">
+    <section class=" mt-3 margin-right-10" id="nota_pembelian_section" >
         {{-- <div class="">
             <form action="{{ route('notapembelian.store') }}" method="post" enctype="multipart/form-data"
                 class="form-horizontal">
@@ -253,7 +254,7 @@
                     <form action="{{ route('notapembelian.store') }}" method="post" enctype="multipart/form-data"
                         class="form-horizontal">
                         @csrf
-                        <input type="hidden" name="jenis_nota" value="nota_pemesanan">
+                        
                         <div class="p-4">
                             <div class="text-center">
                                 <h4>Nota Pembelian</h4>
@@ -261,32 +262,33 @@
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 ">
                                     <span>No. Nota</span> : <span id="no_nota_span">{{ $no_nota_pembelian }}</span>
+                                    <input type="hidden" name="no_nota" class="form-control" value="{{ $no_nota_pembelian }}">
                                 </div>
                             </div>
                             <div class="row">
+                                <input type="hidden" value="{{ $date_now }}" name="tanggal_pembuatan_nota"
+                                class="form-control input-sm" required />
                                 <div class="col-xs-6 col-sm-6 col-md-6 ">
                                     <span>Tanggal Transaksi</span> : <span
                                         id="tgl_transaksi_span">{{ $date_now }}</span>
                                 </div>
                                 <div class="col-xs-6 col-sm-6 col-md-6 text-right">
-                                    <span>Nama Supplier</span> : <span id="supplier_span"></span>
+                                    <span>Nama Supplier</span> : <span id="supplier_span_pem"></span>
                                 </div>
                             </div>
                             <div class="row" id="bahan_pesanan">
                                 <table id="receipt_bill" class="table">
                                     <thead>
                                         <tr>
-                                            <th>No.</th>
                                             <th>Nama Barang</th>
                                             <th>Kuantitas</th>
-                                            <th>Satuan</th>
                                             <th>Harga</th>
-                                            <th>Total</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="new">
+                                    <tbody id="new__">
                                     </tbody>
-                                    <tr id="bahan_pesanan_row">
+                                    <tr>
                                         <td> </td>
                                         <td> </td>
                                         <td> </td>
@@ -407,12 +409,13 @@
                                 <table id="receipt_bill_penjualan" class="table">
                                     <thead>
                                         <tr>
-                                            <th>No.</th>
+             
                                             <th>Nama Barang</th>
                                             <th>Kuantitas</th>
                                             <th>Satuan</th>
                                             <th>Harga</th>
                                             <th>Total</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="new_penjualan">
@@ -445,6 +448,8 @@
 
 @section('javascript')
     <script>
+     
+       
         $("#pilih_nota").on('change', function() {
             var pilihan = $(this).val();
             if (pilihan == "nota_pembelian") {
@@ -472,6 +477,17 @@
         var count = 1;
         var total_pesanan = 0;
         var subTotal_pesanan = 0;
+        function deleteDataPemesanan(id)
+        {
+            $('#row_'+id).html("");
+            harga = $('#row_'+id).attr("harga");
+            sub_new = parseInt(subTotal_pesanan) - parseInt(harga);
+            subTotal_pesanan = sub_new;
+            var totalPayment = parseFloat(subTotal_pesanan);
+            $('#subTotal').text(thousands_separators(totalPayment));
+            $('#total_harga').val(totalPayment); 
+            // alert(sub_new);
+        };
         $('#tambah_pemesanan').on('click', function() {
             $("#supplier").disable = true;
             var name = $('#barang').val();
@@ -508,7 +524,7 @@
                     var id_barang = $('#barang').find(':selected').attr('id');
 
 
-                    var table = '<tr><td>' + count + '</td><td>' + name +
+                    var table = '<tr class="list" id="row_'+ count+'" harga="'+harga+'"><td>' + name +
                         '<input type="hidden" name="barang[' + count + '][' + "id_barang" + ']" value=' +
                         id_barang + '></td><td>' + thousands_separators(kuantitas) +
                         '<input type="hidden" name="barang[' +
@@ -519,7 +535,10 @@
                         "harga_barang" + ']" value=' + harga +
                         '></td><td><strong><input type="hidden" id="total" value="' + total_pesanan + '">' +
                         thousands_separators(total_pesanan) +
-                        '</strong></td></tr>';
+                        '</strong></td>'+
+                        '<td>'+
+                        '<a class="btn btn-danger barang_delete" onclick="deleteDataPemesanan('+count+')">Hapus</a><td>'+
+                        '</tr>';
                     $('#new').append(table);
 
                     // Code for Sub Total of Vegitables 
@@ -548,10 +567,20 @@
 
 
 
-
+        function deleteDataPembelian(id)
+        {
+            $('#row_'+id).html("");
+            // harga = $('#row_'+id).attr("harga");
+            // sub_new = parseInt(subTotal_pesanan) - parseInt(harga);
+            // subTotal_pesanan = sub_new;
+            // var totalPayment = parseFloat(subTotal_pesanan);
+            // $('#subTotal').text(thousands_separators(totalPayment));
+            // $('#total_harga').val(totalPayment); 
+            // alert(sub_new);
+        };
         $("#no_pesanan_pembelian").on('change', function() {
             // alert("aa");
-            $('#bahan_pesanan').html("");
+            $('#new__').html("");
 
             var notapemesanan = [
                 @foreach ($notapemesanan as $item)
@@ -581,45 +610,68 @@
             var id_nota_pesanan = $(this).val();
             notapemesanan.forEach(element => {
                 if (id_nota_pesanan == element[0]) {
+               
+                    $('#supplier_span_pem').html(element[1][1]);
                     // Show Supplier
-                    var supplier_html =
-                        '<div class="form-group p-3"><label>Nama Supplier</label><select class="form-control" name="supplier_id" id="supplier"  readonly><option value="' +
-                        element[1][0] + '" >' + element[1][1] + '</option></select></div>';
+                    // var supplier_html =
+                    //     '<div class="form-group p-3"><label>Nama Supplier</label><select class="form-control" name="supplier_id" id="supplier"  readonly><option value="' +
+                    //     element[1][0] + '" >' + element[1][1] + '</option></select></div>';
+                    $('#new__').append('<input type="hidden" name="no_pesanan_pembelian" id="no_pesanan_pembelian" value="' + element[0]+'">');
 
-                    $('#bahan_pesanan').append(supplier_html);
-                    $('#bahan_pesanan').append(
-                        '<div id="bahan_pesanan_row" class="row justify-content-around"></div>');
+                    $('#new__').append('<input type="hidden" name="supplier_id" class="form-control" id="supplier" value="' + element[1][0] +'">');
+                    // $('#bahan_pesanan').append(
+                    //     '<div id="bahan_pesanan_row" class="row justify-content-around"></div>');
                     for (let index = 0; index < element[2].length; index++) {
                         const elements = element[2][index];
                         var barang_id = elements[0];
                         var barang_name = elements[1];
                         var harga = elements[2];
                         var kuantitas = elements[3];
-                        var barang_pesanan =
-                            // '<div class="row">'+
-                            '<div class="col-md-3">' +
-                            '<div class="col-md-12">' +
-                            '<div class="form-group bahan_' + index + '">' +
-                            '<label>Bahan ' + parseInt(index + 1) + '</label>' +
-                            '</div> ' +
-                            '<div class="form-group">' +
-                            '<label>Nama Bahan Baku : ' + barang_name + '</label> ' +
-                            '<input type="hidden" name="barang[' + index + '][' + "barang_id" +
-                            ']" class="form-control" id="harga" value="' + barang_id +
-                            '" required  readonly>' +
-                            '</div>' +
-                            '<div class="form-group"><label>Harga per-satuan : ' + harga +
-                            '</label>' +
-                            '<input type="hidden" name="barang[' + index + '][' + "harga" +
-                            ']" class="form-control" id="harga" value="' + harga + '" required  readonly>' +
-                            '</div>' +
-                            '<div class="form-group"><label>Kuantitas</label><input type="number" name="barang[' +
-                            index + '][' + "kuantitas" + ']" class="form-control" id="kuantitas" value="' +
-                            kuantitas + '" required></div>' +
-                            '</div>' +
-                            '</div>';
+                        // var barang_pesanan =
+                        //     // '<div class="row">'+
+                        //     '<div class="col-md-3">' +
+                        //     '<div class="col-md-12">' +
+                        //     '<div class="form-group bahan_' + index + '">' +
+                        //     '<label>Bahan ' + parseInt(index + 1) + '</label>' +
+                        //     '</div> ' +
+                        //     '<div class="form-group">' +
+                        //     '<label>Nama Bahan Baku : ' + barang_name + '</label> ' +
+                        //     '<input type="hidden" name="barang[' + index + '][' + "barang_id" +
+                        //     ']" class="form-control" id="harga" value="' + barang_id +
+                        //     '" required  readonly>' +
+                        //     '</div>' +
+                        //     '<div class="form-group"><label>Harga per-satuan : ' + harga +
+                        //     '</label>' +
+                        //     '<input type="hidden" name="barang[' + index + '][' + "harga" +
+                        //     ']" class="form-control" id="harga" value="' + harga + '" required  readonly>' +
+                        //     '</div>' +
+                        //     '<div class="form-group"><label>Kuantitas</label><input type="number" name="barang[' +
+                        //     index + '][' + "kuantitas" + ']" class="form-control" id="kuantitas" value="' +
+                        //     kuantitas + '" required></div>' +
+                        //     '</div>' +
+                        //     '</div>';
                         // alert(barang_pesanan);
-                        $('#bahan_pesanan_row').append(barang_pesanan);
+
+                        var table = '<tr class="list" id="row_'+index+'">'+
+                            '<td>' + barang_name +
+                        '<input type="hidden" name="barang[' + index + '][' + "barang_id" + ']" value=' +barang_id + '>'+
+                        '</td>'+
+
+                        '<td>'+
+                        '<input type="number" name="barang[' +index + '][' + "kuantitas" + ']" value=' + thousands_separators(kuantitas) +'>'+
+                        '</td>'+
+
+                        '<td>'+
+                        '<input type="number" name="barang[' +index + '][' + "harga" + ']" value="' + harga +'"">'+
+                        '</td>'+
+                        '<td>'+
+                        '<a class="btn btn-danger barang_delete" onclick="deleteDataPembelian('+index+')">Hapus</a>'+
+                        '</td>'+
+                        
+                        '</tr>';
+                        alert(table);
+                        $('#new__').append(table);
+                        // $('#bahan_pesanan_row').append(table);
 
 
                     }
@@ -634,6 +686,17 @@
 
         var count_penjualan = 1;
         var subTotal_penjualan = 0;
+        function deleteDataPenjualan(id)
+        {
+            $('#row_'+id).html("");
+            harga = $('#row_'+id).attr("harga");
+            sub_new = parseInt(subTotal_penjualan) - parseInt(harga);
+            subTotal_penjualan = sub_new;
+            var totalPayment = parseFloat(subTotal_penjualan);
+            $('#subTotal').text(thousands_separators(totalPayment));
+            $('#total_harga').val(totalPayment); 
+            // alert(sub_new);
+        };
         $('#tambah_penjualan').on('click', function() {
             $("#customer").disable = true;
             var name = $('#barang_penjualan').val();
@@ -667,7 +730,7 @@
                     var id_barang = $('#barang_penjualan').find(':selected').attr('id');
 
 
-                    var table = '<tr><td>' + count_penjualan + '</td><td>' + name +
+                    var table = '<tr id="row_'+ count_penjualan+'" harga="'+harga+'" ><td>' + name +
                         '<input type="hidden" name="barang_penjualan[' + count_penjualan + '][' +
                         "id_barang" + ']" value=' + id_barang + '></td><td>' + kuantitas +
                         '<input type="hidden" name="barang_penjualan[' + count_penjualan + '][' +
@@ -677,7 +740,9 @@
                         "harga_barang" + ']" value=' + harga +
                         '></td><td><strong><input type="hidden" id="total" name="barang_penjualan[' +
                         count_penjualan + '][' + "total_harga_barang" + ']" value="' + total + '">' +
-                        thousands_separators(total) + '</strong></td></tr>';
+                        thousands_separators(total) + '</strong></td>'+
+                        '<td><a class="btn btn-danger barang_delete" onclick="deleteDataPemesanan('+count_penjualan+')">Hapus</a></td>'+
+                        '</tr>';
                     $('#new_penjualan').append(table);
 
                     // Code for Sub Total of Vegitables 
@@ -701,83 +766,83 @@
             }
         });
 
-        $("#no_pesanan_pembelian").on('change', function() {
-            // alert("aa");
-            $('#bahan_pesanan').html("");
-            var notapemesanan = [
-                @foreach ($notapemesanan as $item)
-                    [
-                        "{{ $item->id }}",
-                        [
-                            @foreach ($supplier as $sup)
-                                @if ($item->supplier_id == $sup->id)
-                                    "{{ $item->supplier_id }}",
-                                    "{{ $sup->nama }}",
-                                @endif
-                            @endforeach
-                        ],
-                        [
-                            @foreach ($item->barang as $barangs)
-                                [
-                                    "{{ $barangs->id }}",
-                                    "{{ $barangs->nama }}",
-                                    "{{ $barangs->pivot->harga }}",
-                                    "{{ $barangs->pivot->kuantitas }}",
-                                ],
-                            @endforeach
-                        ]
-                    ],
-                @endforeach
-            ];
-            var id_nota_pesanan = $(this).val();
-            notapemesanan.forEach(element => {
-                if (id_nota_pesanan == element[0]) {
-                    // Show Supplier
+        // $("#no_pesanan_pembelian").on('change', function() {
+        //     // alert("aa");
+        //     $('#bahan_pesanan').html("");
+        //     var notapemesanan = [
+        //         @foreach ($notapemesanan as $item)
+        //             [
+        //                 "{{ $item->id }}",
+        //                 [
+        //                     @foreach ($supplier as $sup)
+        //                         @if ($item->supplier_id == $sup->id)
+        //                             "{{ $item->supplier_id }}",
+        //                             "{{ $sup->nama }}",
+        //                         @endif
+        //                     @endforeach
+        //                 ],
+        //                 [
+        //                     @foreach ($item->barang as $barangs)
+        //                         [
+        //                             "{{ $barangs->id }}",
+        //                             "{{ $barangs->nama }}",
+        //                             "{{ $barangs->pivot->harga }}",
+        //                             "{{ $barangs->pivot->kuantitas }}",
+        //                         ],
+        //                     @endforeach
+        //                 ]
+        //             ],
+        //         @endforeach
+        //     ];
+        //     var id_nota_pesanan = $(this).val();
+        //     notapemesanan.forEach(element => {
+        //         if (id_nota_pesanan == element[0]) {
+        //             // Show Supplier
 
-                    // lama
-                    var supplier_html =
-                        '<div class="form-group p-3"><label>Nama Supplier</label><select class="form-control" name="supplier_id" id="supplier"  readonly><option value="' +
-                        element[1][0] + '" >' + element[1][1] + '</option></select></div>';
+        //             // lama
+        //             var supplier_html =
+        //                 '<div class="form-group p-3"><label>Nama Supplier</label><select class="form-control" name="supplier_id" id="supplier"  readonly><option value="' +
+        //                 element[1][0] + '" >' + element[1][1] + '</option></select></div>';
 
-                    $('#bahan_pesanan').append(supplier_html);
-                    $('#bahan_pesanan').append(
-                        '<div id="bahan_pesanan_row" class="row justify-content-around"></div>');
-                    for (let index = 0; index < element[2].length; index++) {
-                        const elements = element[2][index];
-                        var barang_id = elements[0];
-                        var barang_name = elements[1];
-                        var harga = elements[2];
-                        var kuantitas = elements[3];
-                        var barang_pesanan =
-                            // '<div class="row">'+
-                            '<div class="col-md-4">' +
-                            '<div class="col-md-12">' +
-                            '<div class="form-group bahan_' + index + '">' +
-                            '<label>Bahan ' + parseInt(index + 1) + '</label>' +
-                            '</div> ' +
-                            '<div class="form-group">' +
-                            '<label>Nama Bahan Baku : ' + barang_name + '</label> ' +
-                            '<input type="hidden" name="barang[' + index + '][' + "barang_id" +
-                            ']" class="form-control" id="harga" value="' + barang_id +
-                            '" required  readonly>' +
-                            '</div>' +
-                            '<div class="form-group"><label>Harga per-satuan : </label>' +
-                            '<input type="number" name="barang[' + index + '][' + "harga" +
-                            ']" class="form-control" id="harga" value="' + harga + '" required >' +
-                            '</div>' +
-                            '<div class="form-group"><label>Kuantitas</label><input type="number" name="barang[' +
-                            index + '][' + "kuantitas" + ']" class="form-control" id="kuantitas" value="' +
-                            kuantitas + '" required></div>' +
-                            '</div>' +
-                            '</div>';
-                        // alert(barang_pesanan);
-                        // lama
+        //             $('#bahan_pesanan').append(supplier_html);
+        //             $('#bahan_pesanan').append(
+        //                 '<div id="bahan_pesanan_row" class="row justify-content-around"></div>');
+        //             for (let index = 0; index < element[2].length; index++) {
+        //                 const elements = element[2][index];
+        //                 var barang_id = elements[0];
+        //                 var barang_name = elements[1];
+        //                 var harga = elements[2];
+        //                 var kuantitas = elements[3];
+        //                 var barang_pesanan =
+        //                     // '<div class="row">'+
+        //                     '<div class="col-md-4">' +
+        //                     '<div class="col-md-12">' +
+        //                     '<div class="form-group bahan_' + index + '">' +
+        //                     '<label>Bahan ' + parseInt(index + 1) + '</label>' +
+        //                     '</div> ' +
+        //                     '<div class="form-group">' +
+        //                     '<label>Nama Bahan Baku : ' + barang_name + '</label> ' +
+        //                     '<input type="hidden" name="barang[' + index + '][' + "barang_id" +
+        //                     ']" class="form-control" id="harga" value="' + barang_id +
+        //                     '" required  readonly>' +
+        //                     '</div>' +
+        //                     '<div class="form-group"><label>Harga per-satuan : </label>' +
+        //                     '<input type="number" name="barang[' + index + '][' + "harga" +
+        //                     ']" class="form-control" id="harga" value="' + harga + '" required >' +
+        //                     '</div>' +
+        //                     '<div class="form-group"><label>Kuantitas</label><input type="number" name="barang[' +
+        //                     index + '][' + "kuantitas" + ']" class="form-control" id="kuantitas" value="' +
+        //                     kuantitas + '" required></div>' +
+        //                     '</div>' +
+        //                     '</div>';
+        //                 // alert(barang_pesanan);
+        //                 // lama
 
-                        $('#bahan_pesanan_row').append(barang_pesanan);
-                    }
-                }
-            });
-        });
+        //                 $('#bahan_pesanan_row').append(barang_pesanan);
+        //             }
+        //         }
+        //     });
+        // });
     </script>
 @endsection
 
