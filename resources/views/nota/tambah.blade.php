@@ -7,7 +7,6 @@
             <option value="nota_pemesanan">Nota Pemesanan</option>
             <option value="nota_pembelian">Nota Pembelian</option>
             <option value="nota_penjualan">Nota Penjualan</option>
-
         </select>
     </div>
 
@@ -441,7 +440,6 @@
                         </div>
                     </form>
                 </div>
-
             </div>
     </section>
 @endsection

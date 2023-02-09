@@ -28,9 +28,8 @@
                             <th>Nama Barang Jadi</th>
                             <th>Kuantitas</th>
                             <th>Satuan</th>
-                            <th></th>
+                            <th>Daftar Barang</th>
                             <th>Action</th>
-                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,19 +48,10 @@
                                                 href="#detail_{{ $d->id }}">Detail</a>
                                         </td>
                                         <td>
-                                            <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs'
-                                                onclick="getEditForm({{ $d->id }})">EDIT</a>
-                                        </td>
-                                        <td>
-                                            <form method='POST' action="{{ url('bom/' . $d->id) }}">
-                                                @csrf
-                                                @method('DELETE')
-                                                <input type="submit" value="delete" class='btn btn-danger btn-xs'
-                                                    onclick="if(!confirm('Are you sure you wanna delete this data?')) return false;">
-                                            </form>
                                             <a class='btn btn-danger btn-xs'
-                                                onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{ $d->id }})">Delete
-                                                2</a>
+                                                onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{ $d->id }})">
+                                                <i class="fa fa-minus"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endif
@@ -73,8 +63,6 @@
                                         <div class="modal-header">
                                             @foreach ($d->barang as $barang_bom)
                                                 @if ($barang_bom->jenis == 'Barang Jadi')
-                                                    {{-- {{$barang_bom->nama}} --}}
-                                                    {{-- aa --}}
                                                     <h4 class="modal-title">{{ $barang_bom->nama }}</h4>
                                                 @endif
                                             @endforeach
@@ -107,24 +95,6 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- add new data -->
-    <div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                    <h4 class="modal-title">Tambah Nota</h4>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="modalEdit" tabindex="-1" role="basic" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content" id='modalContent'>
             </div>
         </div>
     </div>
