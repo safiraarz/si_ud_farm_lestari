@@ -55,7 +55,8 @@ $arr_penampung_gr =[];
                 <td style="width: 10%">Total</td>
             </tr>
             <tr>
-                <td style="width: 5%">GR</td>
+                <td style="width: 5%" data-toggle="tooltip" data-placement="top"
+                    title="Gross Requirement (Kebutuhan Kotor)">GR</td>
                 @php
                 $total_gr = 0;
                 @endphp
@@ -67,37 +68,43 @@ $arr_penampung_gr =[];
                 <td>{{ $total_gr }}</td>
             </tr>
             <tr>
-                <td style="width: 5%">SR</td>
+                <td style="width: 5%" data-toggle="tooltip" data-placement="top"
+                    title="Schedule Receipt (Penerimaan yang Dijadwalkan)">SR</td>
                 @foreach ($bahanbaku['perhitungan']['SR'] as $sr)
                 <td style="width: 10%">{{ $sr }}</td>
                 @endforeach
                 <td></td>
             </tr>
             <tr>
-                <td style="width: 5%">OHI</td>
+                <td style="width: 5%" data-toggle="tooltip" data-placement="top" title="On Hand Inventory (Persediaan)">
+                    OHI</td>
                 @foreach ($bahanbaku['perhitungan']['OHI'] as $ohi)
                 <td style="width: 10%">{{ $ohi }}</td>
                 @endforeach
                 <td></td>
             </tr>
             <tr>
-                <td style="width: 5%">NR</td>
+                <td style="width: 5%" data-toggle="tooltip" data-placement="top"
+                    title="Net Requirement (Kebutuhan Bersih)">NR</td>
                 @foreach ($bahanbaku['perhitungan']['NR'] as $nr)
                 <td style="width: 10%">{{ $nr }}</td>
                 @endforeach
                 <td></td>
             </tr>
             <tr>
-                <td style="width: 5%">POR</td>
+                <td style="width: 5%" data-toggle="tooltip" data-placement="top"
+                    title="Plan Order Receipt (Penerimaan Pemesayang yand Direncanaakan)">POR</td>
                 @foreach ($bahanbaku['perhitungan']['POR'] as $por)
                 <td style="width: 10%">{{ $por }}</td>
                 @endforeach
                 <td></td>
             </tr>
             <tr>
-                <td style="width: 5%">PORel</td>
+                <td style="width: 5%" data-toggle="tooltip" data-placement="top"
+                    title="Plan Order Release (Pelepasan Pemesayang yand Direncanaakan)">PORel
+                </td>
                 @foreach ($bahanbaku['perhitungan']['PORel'] as $porel)
-                <td style="width: 10%">{{ $porel }}</td>
+                <td style=" width: 10%">{{ $porel }}</td>
                 @endforeach
                 <td></td>
             </tr>
