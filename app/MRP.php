@@ -33,26 +33,27 @@ class MRP extends Model
 
         foreach ($periods as $period) {
             if($kuantitas_barang_jadi >= 3200){
-                $mps[1][] = [$period , 3200];
+                $mps[1][] = 3200;
                 $kuantitas_barang_jadi = $kuantitas_barang_jadi - 3200;
             }else{
-                $mps[1][] = [$period, $kuantitas_barang_jadi];
+                $mps[1][] = $kuantitas_barang_jadi;
                 $kuantitas_barang_jadi = $kuantitas_barang_jadi - $kuantitas_barang_jadi;
             }
         }
 
+
         // $mps = [
         //     'Pakan Super' , [
-        //         ['21/12', 3120],
-        //         ['22/12', 2987],
-        //         ['23/12', 3189],
-        //         ['24/12', 2998],
-        //         ['25/12', 3176],
-        //         ['26/12', 3018],
-        //         ['27/12', 2886],
-        //         ['28/12', 2790],
-        //         ['29/12', 3170],
-        //         ['30/12', 3195],
+        //         3120,
+        //         2987,
+        //         3189,
+        //         2998,
+        //         3176,
+        //         3018,
+        //         2886,
+        //         2790,
+        //         3170,
+        //         3195,
         //     ]
         //     ];
 
@@ -91,76 +92,102 @@ class MRP extends Model
 
         $lfl= [];
         $penampung_perhitungan = [];
-        foreach ($bom as $bahan ) {         
-            $perhitungan = [];//membuat array setiap bahan
-            
-            $counter = 0;//counter
-            foreach ($mps[1] as $qty) {
-                $perhitungan['GR'][] = ($qty[1] / $kuantitas_barang_jadi_bom) * $bahan['kuantitas'];
-                $perhitungan['SR'][] = 0;
+        foreach ($bom as $bahan) {
+            // mencari tgl leadtime
+            $leadtime = $bahan['leadtime'];
+            $timestamp_mulai_produksi = strtotime($tgl_mulai_produksi);
+            $lead_day_produksi = date('Y-m-d', strtotime("-$leadtime day", $timestamp_mulai_produksi));
+            $range_produksi = $this->getDatesFromRange($lead_day_produksi,$tgl_selesai_produksi,'Y-m-d');
 
-                if ($counter == 0) {
-                    $total = $bahan['ohi'] - $perhitungan['GR'][$counter];
-                    if($total> 0){
-                        $perhitungan['OHI'][] = $total;
-                    }else{
-                        $perhitungan['OHI'][] = 0;
-                    }
+            $perhitungan = [];
+            $counter = 0;
+            foreach ($range_produksi as $tanggal) {
+                if ($tanggal < $tgl_mulai_produksi) {
+                    $perhitungan['GR'][] = 0;
+                    $perhitungan['SR'][] = 0;
+                    $perhitungan['OHI'][] = 0;
+                    $perhitungan['NR'][] = 0;
+                    $perhitungan['POR'][] = 0;
                 }else{
-                    $total = $perhitungan['OHI'][$counter-1] - $perhitungan['GR'][$counter];
-                    if($total> 0){
-                        $perhitungan['OHI'][] = $total;
-                    }else{
-                        $perhitungan['OHI'][] = 0;
-                    }
-                }
+                    // menghitung Gr
+                    $kuantitas_produksi = $mps[1][$counter];
+                    $kuantitas_bahan_baku = $bahan['kuantitas'];
+                    $gr = ($kuantitas_produksi / $kuantitas_barang_jadi_bom) * $kuantitas_bahan_baku;
+                    $perhitungan['GR'][] = $gr;
+                    
+                    // menghitung sr
+                    $perhitungan['SR'][] = 0;
 
-                if ($counter == 0) {//ambil dari ohi
-                    $total = $perhitungan['GR'][$counter] - $perhitungan['SR'][$counter] - $bahan['ohi'];
-                    if($total> 0){
-                        $perhitungan['NR'][] = $total;
+                    // menghitung OHI
+                    if ($counter == 0) {
+                        $total = $bahan['ohi'] - $perhitungan['GR'][$counter + $leadtime];
+                        if($total> 0){
+                            $perhitungan['OHI'][] = $total;
+                        }else{
+                            $perhitungan['OHI'][] = 0;
+                        }
                     }else{
-                        $perhitungan['NR'][] = 0;
+                        $total = $perhitungan['OHI'][$counter + $leadtime -1] - $perhitungan['GR'][$counter + $leadtime];
+                        if($total> 0){
+                            $perhitungan['OHI'][] = $total;
+                        }else{
+                            $perhitungan['OHI'][] = 0;
+                        }
                     }
-                }else{
-                    $total = $perhitungan['GR'][$counter] - $perhitungan['SR'][$counter] - $perhitungan['OHI'][$counter - 1];
-                    if($total> 0){
-                        $perhitungan['NR'][] = $total;
-                    }else{
-                        $perhitungan['NR'][] = 0;
-                    }
-                }
 
-                $perhitungan['POR'][] = $perhitungan['NR'][$counter];
-                $counter++;
+                    // menghitung nr
+                    if ($counter == 0) {//ambil dari ohi
+                        $total = $perhitungan['GR'][$counter + $leadtime] - $perhitungan['SR'][$counter + $leadtime] - $bahan['ohi'];
+                        if($total> 0){
+                            $perhitungan['NR'][] = $total;
+                        }else{
+                            $perhitungan['NR'][] = 0;
+                        }
+                    }else{
+                        $total = $perhitungan['GR'][$counter + $leadtime] - $perhitungan['SR'][$counter + $leadtime] - $perhitungan['OHI'][$counter + $leadtime - 1];
+                        if($total> 0){
+                            $perhitungan['NR'][] = $total;
+                        }else{
+                            $perhitungan['NR'][] = 0;
+                        }
+                    }
+
+                    // menghitung por
+                    $perhitungan['POR'][] = $perhitungan['NR'][$counter + $leadtime];
+
+                    $counter++;
+                }
             }
             $penampung_perhitungan[] = $perhitungan;
-            
         }
-        // dd($penampung_perhitungan);
 
         $counter = 0;
         foreach ($bom as $bahan) {
-            for ($i=0; $i < $jumlah_periode; $i++) { 
-                if(isset($penampung_perhitungan[$counter]['POR'][$i+$bahan['leadtime']] ))
+            $leadtime = $bahan['leadtime'];
+            $timestamp_mulai_produksi = strtotime($tgl_mulai_produksi);
+            $lead_day_produksi = date('Y-m-d', strtotime("-$leadtime day", $timestamp_mulai_produksi));
+            $range_produksi = $this->getDatesFromRange($lead_day_produksi,$tgl_selesai_produksi,'Y-m-d');
+
+            $i = 0;
+            foreach ($range_produksi as $tanggal) {
+                if(isset($penampung_perhitungan[$counter]['POR'][$i+$leadtime] ))
                     $penampung_perhitungan[$counter]['PORel'][] = $penampung_perhitungan[$counter]['POR'][$i+$bahan['leadtime']];
                 else
                     $penampung_perhitungan[$counter]['PORel'][] = 0;
+                $i++;
             }
             $lfl[] = [
                 'nama bahan baku'=>$bahan['nama'],
                 'kebutuhan bahan baku per produksi' => $bahan['kuantitas'], 
                 'leadtime'=> $bahan['leadtime'],
+                'range_produksi' => $range_produksi,
                 'perhitungan' => $penampung_perhitungan[$counter]
             ];
-            $perhitungan['PORel'] = [];
             $counter++;
         }
-
-        //membuat array setiap bahan
-
+        // dd($penampung_perhitungan);
         // dd($mps,$bom,$lfl);
-        return [$lfl, $total_produksi, $bahan_jadi,$periods];
+        return [$lfl, $total_produksi, $bahan_jadi];
     }
 
     private function getDatesFromRange($start, $end, $format = 'd/m') {

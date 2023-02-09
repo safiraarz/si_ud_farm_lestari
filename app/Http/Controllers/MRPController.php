@@ -29,10 +29,9 @@ class MRPController extends Controller
         $lfl = $mrp[0];
         $total_produksi = $mrp[1];
         $nama_bahan = $mrp[2];
-        $periods = $mrp[3];
         return response()->json(array(
             'status' => 'oke',
-            'msg' => view('mrp.getPerhitunganMRP',compact('lfl','total_produksi','nama_bahan','periods'))->render()
+            'msg' => view('mrp.getPerhitunganMRP',compact('lfl','total_produksi','nama_bahan'))->render()
         ), 200);
     }
 
