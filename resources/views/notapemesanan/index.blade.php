@@ -28,12 +28,12 @@
                                     <div class="form-group row">
                                         <label for="date" class="col-form-label col-sm-2">Dari Tanggal</label>
                                         <div class="col-sm-3">
-                                            <input type="date" class="form-control input-sm" id="date_range_filter_min"
+                                            <input type="date" class="form-control input-sm" id="date_range_filter_min_"
                                                 name="dariTgl" required />
                                         </div>
                                         <label for="date" class="col-form-label col-sm-2">Sampai Tanggal</label>
                                         <div class="col-sm-3">
-                                            <input type="date" class="form-control input-sm" id="date_range_filter_max"
+                                            <input type="date" class="form-control input-sm" id="date_range_filter_max_"
                                                 name="sampaiTgl" required />
                                         </div>
                                     </div>
@@ -133,9 +133,9 @@
                 [0, 'desc']
             ]
         });
-
-        $('#date_range_filter_min, #date_range_filter_max').on('change', function() {
+        $('#date_range_filter_min_, #date_range_filter_max_').on('change', function() {
             // alert("a");
+            // alert("masuk");
             $.fn.dataTable.ext.search.pop();
             if ($('#date_range_filter_min').val() != '' && $('#date_range_filter_max').val() != '') {
                 $.fn.dataTable.ext.search.push(
@@ -143,9 +143,9 @@
                         // alert(data);
                         min = new Date($('#date_range_filter_min').val());
                         max = new Date($('#date_range_filter_max').val());
-                        ;
 
                         var date = new Date(data[2]);
+                        // alert(date);
                         if ((min === null && max === null) || (min === null && date <= max) || (min <= date &&
                                 max === null) || (min <= date && date <= max)) {
                             return true;
@@ -155,6 +155,9 @@
             }
             table.draw();
         });
+       
+
+       
         $('.status_option').change(function() {
             var id_nota = $(this).attr('notaid');
             var value_change = $(this).val();
@@ -185,28 +188,6 @@
         //             [2, 'desc']
         //         ]
         //     });
-        // });
-    </script>
-@endsection
-
-@section('initialscript')
-    <script>
-        // var s_id = data.$el[0].id
-        // var fname = s_id.split('_')[1]
-        // var id = s_id.split('_')[2]
-        // $.ajax({
-        //     type: 'POST',
-        //     url: '{{ route('notapemesanan.saveDataField') }}',
-        //     data: {
-        //         '_token': '<?php echo csrf_token(); ?>',
-        //         'id': id,
-        //         'fnama': fname,
-        //         'value': data.content
-
-        //     },
-        //     success: function(data) {
-        //         alert(data.msg)
-        //     }
         // });
     </script>
 @endsection
