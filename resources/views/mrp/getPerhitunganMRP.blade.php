@@ -6,29 +6,33 @@
     <label class="col-sm-2 control-label bold">Jumlah Produksi</label>
     <label class="col-sm2 control-label ">: {{ $total_produksi }}</label>
 </div>
-
+@php
+$arr_penampung_gr =[];
+@endphp
 @foreach ($lfl as $bahanbaku)
 <div class="table-responsive">
     <table class="table table-bordered table-hover">
         <thead>
-            @php
-            $total_hari_produksi = count($bahanbaku['range_produksi']);
-            $total_kolom = $total_hari_produksi + 2;
+            <?php
+                
+
+                $total_hari_produksi = count($bahanbaku['range_produksi']);
+                $total_kolom = $total_hari_produksi + 2;
             if ($total_kolom % 3 == 0) {
-            $colnama = $total_kolom / 3;
-            $colkebutuhan = $total_kolom / 3;
-            $collead = $total_kolom / 3;
+                $colnama = $total_kolom / 3;
+                $colkebutuhan = $total_kolom / 3;
+                $collead = $total_kolom / 3;
             }else{
-            if ($total_kolom % 3 == 1) {
-            $colnama = (int)$total_kolom / 3;
-            $colkebutuhan = (int)($total_kolom / 3) + 1;
-            }elseif ($total_kolom % 3 == 2) {
-            $colnama = (int)($total_kolom / 3) + 1;
-            $colkebutuhan = (int)($total_kolom / 3) + 1;
+                if ($total_kolom % 3 == 1) {
+                    $colnama = (int)$total_kolom / 3;
+                    $colkebutuhan = (int)($total_kolom / 3) + 1;
+                }elseif ($total_kolom % 3 == 2) {
+                    $colnama = (int)($total_kolom / 3) + 1;
+                    $colkebutuhan = (int)($total_kolom / 3) + 1;
+                }
+                $collead = (int)$total_kolom / 3;
             }
-            $collead = (int)$total_kolom / 3;
-            }
-            @endphp
+            ?>
             <tr>
                 <td colspan="{{ $colnama }}">
                     <span class="bold">Nama Bahan Baku :</span> {{ $bahanbaku['nama bahan baku'] }}
@@ -59,6 +63,7 @@
                 <td style="width: 10%">{{ $gr }}</td>
                 <?php $total_gr = $total_gr + $gr; ?>
                 @endforeach
+                <?php $arr_penampung_gr[] = $total_gr; ?>
                 <td>{{ $total_gr }}</td>
             </tr>
             <tr>
@@ -100,3 +105,17 @@
     </table>
 </div>
 @endforeach
+<div>
+    @php
+    $counter = 0;
+    $total = 0;
+    @endphp
+    @foreach ($lfl as $bahanbaku)
+    <p>Gross Requirement (Kebutuhan Kotor) {{ $bahanbaku['nama bahan baku'] }} : {{ $arr_penampung_gr[$counter] }}</p>
+    @php
+    $total += $arr_penampung_gr[$counter];
+    $counter++;
+    @endphp
+    @endforeach
+    <p>Total Gross Requirement (Kebutuhan Kotor) : {{ $total }}</p>
+</div>

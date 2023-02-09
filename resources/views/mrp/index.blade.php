@@ -8,7 +8,8 @@
         <div class="col-sm-3">
             <select name="mps" id="mps" class="form-control">
                 @foreach ($mps as $item)
-                <option value="{{ $item->id }}" class="custom-select">{{ $item->id }}</option>
+                <option value="{{ $item->id }}" class="custom-select">{{ $item->id }} - {{ $item->barang->nama }}
+                </option>
                 @endforeach
             </select>
         </div>

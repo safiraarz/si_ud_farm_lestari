@@ -23,13 +23,14 @@ class MRP extends Model
         $queryMPS = MPS::find($idmps);
         $bahan_jadi = $queryMPS->barang->nama;
         $mps[] = $bahan_jadi;
-        $tgl_mulai_produksi = $queryMPS->tgl_mulai_produksi;
-        $tgl_selesai_produksi = $queryMPS->tgl_selesai_produksi;
+        $tgl_mulai_produksi = $queryMPS->tgl_mulai_produksi->format('Y-m-d');
+        $tgl_selesai_produksi = $queryMPS->tgl_selesai_produksi->format('Y-m-d');
         $kuantitas_barang_jadi = $queryMPS->kuantitas_barang_jadi;
-        // dd($tgl_mulai_produksi,$tgl_selesai_produksi);
         $total_produksi = $kuantitas_barang_jadi;
-
+        
+        // dd($tgl_mulai_produksi);
         $periods = $this->getDatesFromRange($tgl_mulai_produksi,$tgl_selesai_produksi);
+        
 
         foreach ($periods as $period) {
             if($kuantitas_barang_jadi >= 3200){
@@ -41,7 +42,7 @@ class MRP extends Model
             }
         }
 
-
+        // dd($mps);
         // $mps = [
         //     'Pakan Super' , [
         //         3120,
@@ -98,7 +99,7 @@ class MRP extends Model
             $timestamp_mulai_produksi = strtotime($tgl_mulai_produksi);
             $lead_day_produksi = date('Y-m-d', strtotime("-$leadtime day", $timestamp_mulai_produksi));
             $range_produksi = $this->getDatesFromRange($lead_day_produksi,$tgl_selesai_produksi,'Y-m-d');
-
+            // dd($range_produksi);
             $perhitungan = [];
             $counter = 0;
             foreach ($range_produksi as $tanggal) {
@@ -158,6 +159,7 @@ class MRP extends Model
                     $counter++;
                 }
             }
+            // dd($perhitungan);
             $penampung_perhitungan[] = $perhitungan;
         }
 
