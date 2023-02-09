@@ -137,12 +137,12 @@
             // alert("a");
             // alert("masuk");
             $.fn.dataTable.ext.search.pop();
-            if ($('#date_range_filter_min').val() != '' && $('#date_range_filter_max').val() != '') {
+            if ($('#date_range_filter_min_').val() != '' && $('#date_range_filter_max_').val() != '') {
                 $.fn.dataTable.ext.search.push(
                     function(settings, data, dataIndex) {
                         // alert(data);
-                        min = new Date($('#date_range_filter_min').val());
-                        max = new Date($('#date_range_filter_max').val());
+                        min = new Date($('#date_range_filter_min_').val());
+                        max = new Date($('#date_range_filter_max_').val());
 
                         var date = new Date(data[2]);
                         // alert(date);
