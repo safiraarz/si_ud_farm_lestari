@@ -142,6 +142,22 @@ class NotaPembelianController extends Controller
     {
         //
     }
+    public function saveDataField(Request $request)
+    {
+        $id = $request->get('id');
+        $fnama = $request->get('fnama');
+        $value = $request->get('value');
+        $notaPembelian = NotaPembelian::find($id);
+        $notaPembelian->$fnama = $value;
+        $notaPembelian->save();
+        return response()->json(
+            array(
+                'status' => 'ok',
+                'msg' => strtoupper($fnama).' Nota Pembelian berhasil diupdate'
+            ),
+            200
+        );
+    }
 
     public function getEditForm(Request $request)
     {

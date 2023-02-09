@@ -118,14 +118,12 @@
 
 <script>
     $(document).ready(function() {
-        // $('#barang').change(function() {
-        //     var ids = $(this).find(':selected').attr('harga');
-        //     $('#harga').val(ids);
-        // });
+        function thousands_separators(num) {
+            var num_parts = num.toString().split(".");
+            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return num_parts.join(".");
+        }
         var count = 1;
-        // if (count != 1) {
-
-        // };
         $('#tambah').on('click', function() {
             $("#pakan_ayam").disable = true;
             // Ketergangan
@@ -143,19 +141,13 @@
             }
 
             function billFunction() {
-                // $('#nama_pakan_span').html(supplier);
-                // var id_pakan_ayam = $('#nama_pakan').find(':selected').attr('id');
-
-                // var bominput = '<input type="hidden" name="barang_id" value=' + id_pakan_ayam + '> ';
-                // $('#new').append(bominput);
-
 
                 $("#receipt_bill").each(function() {
 
                     var table = '<tr>'+
                         '<td>' + count + '</td>'+
                         '<td>' + nama_bahan_baku + '<input type="hidden" name="bahan_baku[' + count +'][' + "id_bahan_baku" + ']" value=' + id_bahan_baku + '></td>'+
-                        '<td>' + kuantitas_bahan_baku +'<input type="hidden" name="bahan_baku[' + count + '][' + "kuantitas" + ']" value=' + kuantitas_bahan_baku +'></td>'+
+                        '<td>' + thousands_separators(kuantitas_bahan_baku) +'<input type="hidden" name="bahan_baku[' + count + '][' + "kuantitas" + ']" value=' + kuantitas_bahan_baku +'></td>'+
                         '<td>' + satuan_bahan_baku + '</td>'+
                         '</tr>';
                     $('#new').append(table);

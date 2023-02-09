@@ -43,7 +43,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <link rel="stylesheet" type="text/css"
         href="assets/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css" />
     <link rel="stylesheet" type="text/css"
-        href="assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css" />
+        {{-- href="assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css" /> --}}
     <!-- END PAGE LEVEL PLUGIN STYLES -->
     <!-- BEGIN THEME STYLES -->
     <link href="assets/css/style-conquer.css" rel="stylesheet" type="text/css" />
@@ -56,7 +56,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css"
         href="assets/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css" />
-    {{-- <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    {{-- <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script> --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css"
         rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.js">

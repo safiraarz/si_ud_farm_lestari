@@ -1,62 +1,57 @@
 @extends('layout.conquer')
 @section('content')
-
-<div class="container">
-    @if(session('status'))
-    <div class="alert alert-success">
-        {{session('status')}}
-    </div>
-    @endif
-    @if(session('error'))
-    <div class="alert alert-danger">
-        {{session('error')}}
-    </div>
-    @endif
-    <div class="portlet">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="fa fa-reorder"></i>Master Jabatan
+    <div class="container">
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
             </div>
-            <div class="actions">
-                <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Jabatan</a>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-reorder"></i>Master Jabatan
+                </div>
+                <div class="actions">
+                    <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Jabatan</a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table id='myTable' class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($data as $d)
+                            <tr id='tr_{{ $d->id }}'>
+                                <td>{{ $d->id }}</td>
+                                <td id='td_nama_{{ $d->id }}'>{{ $d->nama }}</td>
+                                <td>
+                                    <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs'
+                                        onclick="getEditForm({{ $d->id }})">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a class='btn btn-danger btn-xs'
+                                        onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{ $d->id }})">
+                                        <i class="fa fa-minus"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="portlet-body">
-            <table id='myTable' class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nama</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($data as $d)
-                    <tr id='tr_{{$d->id}}'>
-                        <td>{{$d->id}}</td>
-                        <td class='editable' id='td_nama_{{$d->id}}'>{{$d->nama}}</td>
-                        <td>
-                            <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs'
-                                onclick="getEditForm({{$d->id}})">EDIT</a>
-                            <form method='POST' action="{{url('jabatans/'.$d->id)}}">
-                                @csrf
-                                @method('DELETE')
-                                <input type="submit" value="delete" class='btn btn-danger btn-xs'
-                                    onclick="if(!confirm('Are you sure you wanna delete this data?')) return false;">
-                            </form>
-                            <a class='btn btn-danger btn-xs'
-                                onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{$d->id}})">Delete
-                                2</a>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
     </div>
-</div>
-<br>
-
+    <br>
 @endsection
 <!-- modal add new -->
 <div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
@@ -78,7 +73,7 @@
                     <div class="modal-footer">
                         <div class="col-md-offset-3 col-md-9">
                             <button type="submit" class="btn btn-success">Submit</button>
-                            <a href="{{url('jabatan')}}" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                            <a href="{{ url('jabatan') }}" class="btn btn-default" data-dismiss="modal">Cancel</a>
                         </div>
                     </div>
                 </form>
@@ -94,61 +89,60 @@
 </div>
 
 @section('javascript')
-<script>
-    function getEditForm(id) {
-        $.ajax({
+    <script>
+        function getEditForm(id) {
+            $.ajax({
+                    type: 'POST',
+                    url: '{{ route('jabatan.getEditForm') }}',
+                    data: {
+                        '_token': '<?php echo csrf_token(); ?>',
+                        'id': id
+                    },
+                    success: function(data) {
+                        $('#modalContent').html(data.msg)
+                    }
+                },
+
+            );
+        }
+
+        function saveDataUpdateTD(id) {
+            var eNama = $('#eNama').val();
+            $.ajax({
                 type: 'POST',
-                url: '{{route("jabatan.getEditForm")}}',
+                url: '{{ route('jabatan.saveData') }}',
                 data: {
-                    '_token': '<?php echo csrf_token() ?>',
+                    '_token': '<?php echo csrf_token(); ?>',
+                    'id': id,
+                    'nama': eNama,
+                },
+                success: function(data) {
+                    if (data.status == 'ok') {
+                        alert(data.msg)
+                        $('#td_nama_' + id).html(eNama);
+                    }
+                }
+            });
+        }
+
+        function deleteDataRemoveTR(id) {
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('jabatan.deleteData') }}',
+                data: {
+                    '_token': '<?php echo csrf_token(); ?>',
                     'id': id
                 },
-                success: function (data) {
-                    $('#modalContent').html(data.msg)
+                success: function(data) {
+                    if (data.status == 'ok') {
+                        alert(data.msg)
+                        $('#tr_' + id).remove();
+                    } else {
+                        alert(data.msg)
+                    }
                 }
-            },
-
-        );
-    }
-
-    function saveDataUpdateTD(id) {
-        var eNama = $('#eNama').val();
-        $.ajax({
-            type: 'POST',
-            url: '{{route("jabatan.saveData")}}',
-            data: {
-                '_token': '<?php echo csrf_token() ?>',
-                'id': id,
-                'nama': eNama,
-            },
-            success: function (data) {
-                if (data.status == 'ok') {
-                    alert(data.msg)
-                    $('#td_nama_' + id).html(eNama);
-                }
-            }
-        });
-    }
-
-    function deleteDataRemoveTR(id) {
-        $.ajax({
-            type: 'POST',
-            url: '{{route("jabatan.deleteData")}}',
-            data: {
-                '_token': '<?php echo csrf_token() ?>',
-                'id': id
-            },
-            success: function (data) {
-                if (data.status == 'ok') {
-                    alert(data.msg)
-                    $('#tr_' + id).remove();
-                } else {
-                    alert(data.msg)
-                }
-            }
-        });
-    }
-    $('#myTable').DataTable();
-
-</script>
+            });
+        }
+        $('#myTable').DataTable();
+    </script>
 @endsection

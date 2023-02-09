@@ -10,6 +10,7 @@ class NotaPembelian extends Model
 
     protected $table = "nota_pembelian";
     public $timestamps = false;
+    protected $dates = ['tgl_pembuatan_nota'];
     public function supplier(){
         return $this->belongsTo('App\Supplier','supplier_id');
     }

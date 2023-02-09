@@ -32,7 +32,6 @@
                             <th>Tanggal Mulai Produksi</th>
                             <th>Tanggal Selesai Produksi</th>
                             <th>Status</th>
-                            <!-- <th>Action</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -44,9 +43,9 @@
                                 <td id='td_kuantitas_{{ $d->id }}'>{{ number_format($d->kuantitas_barang_jadi) }}
                                 </td>
                                 <td id='td_satuan_{{ $d->id }}'>{{ $d->barang->satuan }}</td>
-                                <td id='td_tgl_mulai_produksi{{ $d->id }}'>{{ $d->tgl_mulai_produksi }}</td>
-                                <td id='td_tgl_selesai_produksi{{ $d->id }}'>{{ $d->tgl_selesai_produksi }}</td>
-                                <td class='editable' id='td_status_{{ $d->id }}'>
+                                <td id='td_tgl_mulai_produksi{{ $d->id }}'>{{ $d->tgl_mulai_produksi->format('d/m/Y') }}</td>
+                                <td id='td_tgl_selesai_produksi{{ $d->id }}'>{{ $d->tgl_selesai_produksi->format('d/m/Y') }}</td>
+                                {{-- <td class='editable' id='td_status_{{ $d->id }}'>
                                     <select class="form-control status_option" name="status_option"
                                         mpsid="{{ $d->id }}">
                                         @foreach (['belum diproses' => 'Belum Diproses', 'proses produksi' => 'Proses Produksi', 'selesai produksi' => 'Selesai Produksi'] as $value => $Label)
@@ -54,7 +53,9 @@
                                                 {{ $d->status == $value ? 'selected' : '' }}>{{ $Label }}</option>
                                         @endforeach
                                     </select>
-                                    {{-- {{$d->status}} --}}
+                                </td> --}}
+                                <td id='td_status_{{ $d->id }}'>{{ $d->status }}
+                                    </select>
                                 </td>
                             </tr>
                         @endforeach
@@ -129,12 +130,6 @@
                         </div>
                     </form>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="modalEdit" tabindex="-1" role="basic" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content" id='modalContent'>
             </div>
         </div>
     </div>

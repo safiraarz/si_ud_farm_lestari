@@ -19,6 +19,28 @@
             </div>
             <div class="portlet-body">
                 <table id='myTable' class="table table-bordered">
+                    <form method="post">
+                        @csrf
+                        <br>
+                        <div class="container">
+                            <div class="row">
+                                <div class="container-fluid">
+                                    <div class="form-group row">
+                                        <label for="date" class="col-form-label col-sm-2">Dari Tanggal</label>
+                                        <div class="col-sm-3">
+                                            <input type="date" class="form-control input-sm date_filter_min"
+                                                id="date_filter_min" name="dariTgl" />
+                                        </div>
+                                        <label for="date" class="col-form-label col-sm-2">Sampai Tanggal</label>
+                                        <div class="col-sm-3">
+                                            <input type="date" class="form-control input-sm date_filter_max"
+                                                id="date_filter_max" name="sampaiTgl" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -36,11 +58,11 @@
                             <tr id='tr_{{ $d->id }}'>
                                 <td>{{ $d->id }}</td>
                                 <td id='td_no_nota_{{ $d->id }}'>{{ $d->no_nota }}</td>
-                                <td id='td_tgl_pembuatan_nota{{ $d->id }}'>{{ $d->tgl_pembuatan_nota }}</td>
+                                <td id='td_tgl_pembuatan_nota{{ $d->id }}'>
+                                    {{ $d->tgl_pembuatan_nota->format('d/m/Y') }}</td>
                                 <td id='td_customer_{{ $d->id }}'>{{ $d->customer->nama }}</td>
                                 <td id='td_total_harga_{{ $d->id }}'>Rp{{ number_format($d->total_harga, 2) }}</td>
                                 <td>
-                                    {{-- <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a> --}}
                                     <a class="btn btn-default edittable" data-toggle="modal"
                                         href="#detail_{{ $d->id }}">
                                         Detail
@@ -55,10 +77,10 @@
                                                 <div class="modal-body">
 
                                                     @foreach ($d->barang as $key => $item)
-                                                        <p>
+                                                        <b>
                                                             <span>- Barang {{ $key + 1 }}</span>
 
-                                                        </p>
+                                                        </b>
                                                         <p>
                                                             <span>Nama Barang</span> : <span> {{ $item->nama }}</span>
                                                         </p>
@@ -89,18 +111,31 @@
             </div>
         </div>
     @endsection
-    <div class="modal fade" tabindex="-1" role="basic" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content" id='modalContent'>
-            </div>
-        </div>
-    </div>
     @section('javascript')
         <script>
-            $('#myTable').DataTable({
+            var table = $('#myTable').DataTable({
                 order: [
                     [0, 'desc']
                 ]
+            });
+            $('.date_filter_min, .date_filter_max').on('change', function() {
+                $.fn.dataTable.ext.search.pop();
+                if ($('.date_filter_min').val() != '' && $('.date_filter_max').val() != '') {
+
+                    min = new Date($('.date_filter_min').val());
+                    max = new Date($('.date_filter_max').val());
+                    $.fn.dataTable.ext.search.push(
+                        function(settings, data, dataIndex) {
+                            var date = new Date(data[2].split("/")[2] + "-" + data[2].split("/")[1] + "-" + data[2]
+                                .split("/")[0]);
+                            if ((min === null && max === null) || (min === null && date <= max) || (min <= date &&
+                                    max === null) || (min <= date && date <= max)) {
+                                return true;
+                            }
+                            return false;
+                        });
+                }
+                table.draw();
             });
         </script>
     @endsection

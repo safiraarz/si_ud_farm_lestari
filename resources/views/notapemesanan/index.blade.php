@@ -28,13 +28,13 @@
                                     <div class="form-group row">
                                         <label for="date" class="col-form-label col-sm-2">Dari Tanggal</label>
                                         <div class="col-sm-3">
-                                            <input type="date" class="form-control input-sm" id="date_range_filter_min"
-                                                name="dariTgl" required />
+                                            <input type="date" class="form-control input-sm date_filter_min"
+                                                id="date_filter_min" name="dariTgl" />
                                         </div>
                                         <label for="date" class="col-form-label col-sm-2">Sampai Tanggal</label>
                                         <div class="col-sm-3">
-                                            <input type="date" class="form-control input-sm" id="date_range_filter_max"
-                                                name="sampaiTgl" required />
+                                            <input type="date" class="form-control input-sm date_filter_max"
+                                                id="date_filter_max" name="sampaiTgl" />
                                         </div>
                                     </div>
                                 </div>
@@ -58,12 +58,12 @@
                             <tr id='tr_{{ $d->id }}'>
                                 <td>{{ $d->id }}</td>
                                 <td id='td_no_nota_{{ $d->id }}'>{{ $d->no_nota }}</td>
-                                <td id='td_tanggal_pembuatan_nota_{{ $d->id }}'>{{ $d->tgl_pembuatan_nota }}</td>
+                                <td id='td_tanggal_pembuatan_nota_{{ $d->id }}'>
+                                    {{ $d->tgl_pembuatan_nota->format('d/m/Y') }}</td>
                                 <td id='td_supplier_{{ $d->id }}'>{{ $d->supplier->nama }}</td>
                                 <td id='td_total_harga_{{ $d->id }}'>Rp{{ number_format($d->total_harga, 2) }}
                                 </td>
                                 <td>
-                                    {{-- <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a> --}}
                                     <a class="btn btn-default edittable" data-toggle="modal"
                                         href="#detail_{{ $d->id }}">
                                         Detail
@@ -78,10 +78,10 @@
                                                 <div class="modal-body">
 
                                                     @foreach ($d->barang as $key => $item)
-                                                        <p>
+                                                        <b>
                                                             <span>- Barang {{ $key + 1 }}</span>
 
-                                                        </p>
+                                                        </b>
                                                         <p>
                                                             <span>Nama Barang</span> : <span>
                                                                 {{ $item->nama }}</span>
@@ -117,7 +117,6 @@
                                                 {{ $Label }}</option>
                                         @endforeach
                                     </select>
-                                    {{-- {{$d->status}} --}}
                                 </td>
                             </tr>
                         @endforeach
@@ -126,31 +125,25 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" tabindex="-1" role="basic" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content" id='modalContent'>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('javascript')
     <script>
-        $('#myTable').DataTable({
+        var table = $('#myTable').DataTable({
             order: [
                 [0, 'desc']
             ]
         });
-
-        $('#date_range_filter_min, #date_range_filter_max').on('change', function() {
+        $('.date_filter_min, .date_filter_max').on('change', function() {
             $.fn.dataTable.ext.search.pop();
-            if ($('#date_range_filter_min').val() != '' && $('#date_range_filter_max').val() != '') {
+            if ($('.date_filter_min').val() != '' && $('.date_filter_max').val() != '') {
+
+                min = new Date($('.date_filter_min').val());
+                max = new Date($('.date_filter_max').val());
                 $.fn.dataTable.ext.search.push(
                     function(settings, data, dataIndex) {
-                        min = new Date($('#date_range_filter_min').val());
-                        max = new Date($('#date_range_filter_max').val());
-
-                        var date = new Date(data[1]);
+                        var date = new Date(data[2].split("/")[2] + "-" + data[2].split("/")[1] + "-" + data[2]
+                            .split("/")[0]);
                         if ((min === null && max === null) || (min === null && date <= max) || (min <= date &&
                                 max === null) || (min <= date && date <= max)) {
                             return true;
@@ -160,6 +153,7 @@
             }
             table.draw();
         });
+
         $('.status_option').change(function() {
             var id_nota = $(this).attr('notaid');
             var value_change = $(this).val();
@@ -177,41 +171,6 @@
                     alert(data.msg)
                 }
             });
-            // $('#harga').val(ids);
-            // alert(ids);
-        });
-
-        // $(document).ready(function() {
-        //     $('#tableID').DataTable({
-
-        //         // Set the 3rd column of the
-        //         // DataTable to ascending order
-        //         order: [
-        //             [2, 'desc']
-        //         ]
-        //     });
-        // });
-    </script>
-@endsection
-
-@section('initialscript')
-    <script>
-        var s_id = data.$el[0].id
-        var fname = s_id.split('_')[1]
-        var id = s_id.split('_')[2]
-        $.ajax({
-            type: 'POST',
-            url: '{{ route('notapemesanan.saveDataField') }}',
-            data: {
-                '_token': '<?php echo csrf_token(); ?>',
-                'id': id,
-                'fnama': fname,
-                'value': data.content
-
-            },
-            success: function(data) {
-                alert(data.msg)
-            }
         });
     </script>
 @endsection

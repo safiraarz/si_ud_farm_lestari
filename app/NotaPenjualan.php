@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class NotaPenjualan extends Model
 {
     protected $connection = 'inventory';
-
+    protected $dates = ['tgl_pembuatan_nota'];
     protected $table = "nota_penjualan";
     public $timestamps = false;
     public function customer(){

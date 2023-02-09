@@ -1,69 +1,67 @@
 @extends('layout.conquer')
 @section('content')
-
-<div class="container">
-    @if(session('status'))
-    <div class="alert alert-success">
-        {{session('status')}}
-    </div>
-    @endif
-    @if(session('error'))
-    <div class="alert alert-danger">
-        {{session('error')}}
-    </div>
-    @endif
-    <div class="portlet">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="fa fa-reorder"></i>Master Flok
+    <div class="container">
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
             </div>
-            <div class="actions">
-                <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Flok</a>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-reorder"></i>Master Flok
+                </div>
+                <div class="actions">
+                    <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Flok</a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table id='myTable' class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nama</th>
+                            <th>Keterangan</th>
+                            <th>Cage</th>
+                            <th>Strain</th>
+                            <th>Populasi</th>
+                            <th>Usia</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($data as $d)
+                            <tr id='tr_{{ $d->id }}'>
+                                <td>{{ $d->id }}</td>
+                                <td>{{ $d->nama }}</td>
+                                <td>{{ $d->keterangan }}</td>
+                                <td>{{ $d->cage }}</td>
+                                <td>{{ $d->strain }}</td>
+                                <td>{{ number_format($d->populasi) }}</td>
+                                <td>{{ $d->usia }}</td>
+                                <td>
+                                    <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs'
+                                        onclick="getEditForm({{ $d->id }})">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a class='btn btn-danger btn-xs'
+                                        onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{ $d->id }})">
+                                        <i class="fa fa-minus"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="portlet-body">
-            <table id='myTable' class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nama</th>
-                        <th>Keterangan</th>
-                        <th>Cage</th>
-                        <th>Strain</th>
-                        <th>Populasi</th>
-                        <th>Usia</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($data as $d)
-                    <tr id='tr_{{$d->id}}'>
-                        <td>{{$d->id}}</td>
-                        <td>{{$d->nama}}</td>
-                        <td>{{$d->keterangan}}</td>
-                        <td>{{$d->cage}}</td>
-                        <td>{{$d->strain}}</td>
-                        <td>{{number_format($d->populasi)}}</td>
-                        <td>{{$d->usia}}</td>
-                        <!-- <td class='editable' id='td_nama_{{$d->id}}'>{{$d->nama}}</td> -->
-                        <td>
-                            <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
-                            <form method='POST' action="{{url('flok/'.$d->id)}}">
-                                @csrf
-                                @method('DELETE')
-                                <input type="submit" value="delete" class='btn btn-danger btn-xs' onclick="if(!confirm('Are you sure you wanna delete this data?')) return false;">
-                            </form>
-                            <a class='btn btn-danger btn-xs' onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{$d->id}})">Delete 2</a>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
     </div>
-</div>
-<br>
-
+    <br>
 @endsection
 <!-- modal add new -->
 <div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
@@ -95,17 +93,19 @@
                         </div>
                         <div class="form-group">
                             <label>Populasi</label>
-                            <input type="number" min="0" name="populasi" class="form-control" id='populasi' required>
+                            <input type="number" min="0" name="populasi" class="form-control" id='populasi'
+                                required>
                         </div>
                         <div class="form-group">
-                            <label>Usia</label>
-                            <input type="type" min="0" name="usia" class="form-control" id='usia' required>
+                            <label>Usia/Hari</label>
+                            <input type="type" min="0" name="usia" class="form-control" id='usia'
+                                required>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <div class="col-md-offset-3 col-md-9">
                             <button type="submit" class="btn btn-success">Submit</button>
-                            <a href="{{url('flok')}}" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                            <a href="{{ url('flok') }}" class="btn btn-default" data-dismiss="modal">Cancel</a>
                         </div>
                     </div>
                 </form>
@@ -121,71 +121,70 @@
 </div>
 
 @section('javascript')
-<script>
-    function getEditForm(id) {
-        $.ajax({
+    <script>
+        function getEditForm(id) {
+            $.ajax({
+                    type: 'POST',
+                    url: '{{ route('flok.getEditForm') }}',
+                    data: {
+                        '_token': '<?php echo csrf_token(); ?>',
+                        'id': id
+                    },
+                    success: function(data) {
+                        $('#modalContent').html(data.msg)
+                    }
+                },
+            );
+        }
+
+        function saveDataUpdateTD(id) {
+            var eNama = $('#eNama').val();
+            var eKeterangan = $('#eKeterangan').val();
+            var eCage = $('#eCage').val();
+            var eStrain = $('#eStrain').val();
+            var ePopulasi = $('#ePopulasi').val();
+            var eUsia = $('#eUsia').val();
+            $.ajax({
                 type: 'POST',
-                url: '{{route("flok.getEditForm")}}',
+                url: '{{ route('flok.saveData') }}',
                 data: {
-                    '_token': '<?php echo csrf_token() ?>',
+                    '_token': '<?php echo csrf_token(); ?>',
+                    'id': id,
+                    'nama': eNama,
+                    'keterangan': eKeterangan,
+                    'cage': eCage,
+                    'strain': eStrain,
+                    'populasi': ePopulasi,
+                    'usia': eUsia
+                },
+                success: function(data) {
+                    if (data.status == 'ok') {
+                        alert(data.msg)
+                        $('#td_nama_' + id).html(eNama);
+                    }
+                }
+            });
+        }
+
+        function deleteDataRemoveTR(id) {
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('flok.deleteData') }}',
+                data: {
+                    '_token': '<?php echo csrf_token(); ?>',
                     'id': id
                 },
                 success: function(data) {
-                    $('#modalContent').html(data.msg)
+                    if (data.status == 'ok') {
+                        alert(data.msg)
+                        $('#tr_' + id).remove();
+                    } else {
+                        alert(data.msg)
+                    }
                 }
-            },
+            });
+        }
 
-        );
-    }
-
-    function saveDataUpdateTD(id) {
-        var eNama = $('#eNama').val();
-        var eKeterangan = $('#eKeterangan').val();
-        var eCage = $('#eCage').val();
-        var eStrain = $('#eStrain').val();
-        var ePopulasi = $('#ePopulasi').val();
-        var eUsia = $('#eUsia').val();
-        $.ajax({
-            type: 'POST',
-            url: '{{route("flok.saveData")}}',
-            data: {
-                '_token': '<?php echo csrf_token() ?>',
-                'id': id,
-                'nama': eNama,
-                'keterangan': eKeterangan,
-                'cage': eCage,
-                'strain': eStrain,
-                'populasi': ePopulasi,
-                'usia': eUsia
-            },
-            success: function(data) {
-                if (data.status == 'ok') {
-                    alert(data.msg)
-                    $('#td_nama_' + id).html(eNama);
-                }
-            }
-        });
-    }
-
-    function deleteDataRemoveTR(id) {
-        $.ajax({
-            type: 'POST',
-            url: '{{route("flok.deleteData")}}',
-            data: {
-                '_token': '<?php echo csrf_token() ?>',
-                'id': id
-            },
-            success: function(data) {
-                if (data.status == 'ok') {
-                    alert(data.msg)
-                    $('#tr_' + id).remove();
-                } else {
-                    alert(data.msg)
-                }
-            }
-        });
-    }
-
-    $('#myTable').DataTable();
-</script>
+        $('#myTable').DataTable();
+    </script>
 @endsection

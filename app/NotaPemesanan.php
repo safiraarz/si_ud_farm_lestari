@@ -9,6 +9,7 @@ class NotaPemesanan extends Model
     protected $connection = 'inventory';
     protected $table = "nota_pemesanan";
     protected $status_field = ['dalam proses', 'beli','batal'];
+    protected $dates = ['tgl_pembuatan_nota'];
     
 
     public function supplier(){

@@ -22,6 +22,28 @@
             </div>
             <div class="portlet-body">
                 <table id='myTable' class="table table-bordered">
+                    <form method="post">
+                        @csrf
+                        <br>
+                        <div class="container">
+                            <div class="row">
+                                <div class="container-fluid">
+                                    <div class="form-group row">
+                                        <label for="date" class="col-form-label col-sm-2">Dari Tanggal</label>
+                                        <div class="col-sm-3">
+                                            <input type="date" class="form-control input-sm date_filter_min"
+                                                id="date_filter_min" name="dariTgl" />
+                                        </div>
+                                        <label for="date" class="col-form-label col-sm-2">Sampai Tanggal</label>
+                                        <div class="col-sm-3">
+                                            <input type="date" class="form-control input-sm date_filter_max"
+                                                id="date_filter_max" name="sampaiTgl" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -30,7 +52,7 @@
                             <th>Keterangan</th>
                             <th>Daftar Barang</th>
                             <th>Pembuat Surat</th>
-                            <!-- <th>Action</th> -->
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,10 +60,10 @@
                             <tr id='tr_{{ $d->id }}'>
                                 <td>{{ $d->id }}</td>
                                 <td id='td_no_surat_{{ $d->id }}'>{{ $d->no_surat }}</td>
-                                <td id='td_tgl_pengiriman_barang_{{ $d->id }}'>{{ $d->tgl_pengiriman_barang }}</td>
+                                <td id='td_tgl_pengiriman_barang_{{ $d->id }}'>
+                                    {{ $d->tgl_pengiriman_barang->format('d/m/Y') }}</td>
                                 <td id='td_keterangan_{{ $d->id }}'>{{ $d->keterangan }}</td>
                                 <td>
-                                    {{-- <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a> --}}
                                     <a class="btn btn-default edittable" data-toggle="modal"
                                         href="#detail_{{ $d->id }}">
                                         Detail
@@ -67,7 +89,6 @@
                                                         <p>
                                                             <span>Kuantitas</span> : <span>
                                                                 {{ number_format($item->pivot->kuantitas) }}</span>
-
                                                         </p>
                                                     @endforeach
                                                 </div>
@@ -80,9 +101,15 @@
                                     </div>
                                 </td>
                                 <td id='td_pengguna_{{ $d->id }}'>{{ $d->pengguna->nama }}</td>
-                                <!-- <td>
-                            <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{ $d->id }})">EDIT</a>
-                        </td> -->
+                                <td class='editable' id='td_status_{{ $d->id }}'>
+                                    <select class="form-control status_option" name="status_option"
+                                        suratjalanid="{{ $d->id }}">
+                                        @foreach (['dalam pengiriman' => 'Dalam Pengiriman', 'sudah diterima' => 'Sudah Diterima'] as $value => $Label)
+                                            <option value="{{ $value }}"
+                                                {{ $d->status == $value ? 'selected' : '' }}>{{ $Label }}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -141,7 +168,8 @@
                         <div class="modal-footer">
                             <div class="col-md-offset-3 col-md-9">
                                 <button type="submit" class="btn btn-success">Submit</button>
-                                <a href="{{ url('suratjalan') }}" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                                <a href="{{ url('suratjalan') }}" class="btn btn-default"
+                                    data-dismiss="modal">Cancel</a>
                             </div>
                         </div>
                     </form>
@@ -160,10 +188,69 @@
 
 @section('javascript')
     <script>
-        $('#myTable').DataTable({
+        var table = $('#myTable').DataTable({
             order: [
                 [0, 'desc']
             ]
+        });
+        $('.date_filter_min, .date_filter_max').on('change', function() {
+            $.fn.dataTable.ext.search.pop();
+            if ($('.date_filter_min').val() != '' && $('.date_filter_max').val() != '') {
+
+                min = new Date($('.date_filter_min').val());
+                max = new Date($('.date_filter_max').val());
+                $.fn.dataTable.ext.search.push(
+                    function(settings, data, dataIndex) {
+                        var date = new Date(data[2].split("/")[2] + "-" + data[2].split("/")[1] + "-" + data[2]
+                            .split("/")[0]);
+                        if ((min === null && max === null) || (min === null && date <= max) || (min <= date &&
+                                max === null) || (min <= date && date <= max)) {
+                            return true;
+                        }
+                        return false;
+                    });
+            }
+            table.draw();
+        });
+        $('.status_option').change(function() {
+            var id_surat_jalan = $(this).attr('suratjalanid');
+            var value_change = $(this).val();
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('suratjalan.saveDataField') }}',
+                data: {
+                    '_token': '<?php echo csrf_token(); ?>',
+                    'id': id_surat_jalan,
+                    'fnama': 'status',
+                    'value': value_change
+
+                },
+                success: function(data) {
+                    alert(data.msg)
+                }
+            });
+        });
+    </script>
+@endsection
+
+@section('initialscript')
+    <script>
+        var s_id = data.$el[0].id
+        var fname = s_id.split('_')[1]
+        var id = s_id.split('_')[2]
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('suratjalan.saveDataField') }}',
+            data: {
+                '_token': '<?php echo csrf_token(); ?>',
+                'id': id,
+                'fnama': fname,
+                'value': data.content
+
+            },
+            success: function(data) {
+                alert(data.msg)
+            }
         });
     </script>
 @endsection

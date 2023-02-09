@@ -36,17 +36,18 @@
                     @foreach($data as $d)
                     <tr id='tr_{{$d->id}}'>
                         <td>{{$d->id}}</td>
-                        <td class='editable' id='td_nama_{{$d->id}}'>{{$d->nama}}</td>
-                        <td class='editable' id='td_alamat_{{$d->id}}'>{{$d->alamat}}</td>
-                        <td class='editable' id='td_no_telepon_{{$d->id}}'>{{$d->no_telepon}}</td>
+                        <td id='td_nama_{{$d->id}}'>{{$d->nama}}</td>
+                        <td id='td_alamat_{{$d->id}}'>{{$d->alamat}}</td>
+                        <td id='td_no_telepon_{{$d->id}}'>{{$d->no_telepon}}</td>
                         <td>
-                            <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{$d->id}})">EDIT</a>
-                            <form method='POST' action="{{url('supplier/'.$d->id)}}">
-                                @csrf
-                                @method('DELETE')
-                                <input type="submit" value="delete" class='btn btn-danger btn-xs' onclick="if(!confirm('Are you sure you wanna delete this data?')) return false;">
-                            </form>
-                            <a class='btn btn-danger btn-xs' onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{$d->id}})">Delete 2</a>
+                            <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs'
+                                onclick="getEditForm({{ $d->id }})">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a class='btn btn-danger btn-xs'
+                                onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{ $d->id }})">
+                                <i class="fa fa-minus"></i>
+                            </a>
                         </td>
                     </tr>
                     @endforeach
