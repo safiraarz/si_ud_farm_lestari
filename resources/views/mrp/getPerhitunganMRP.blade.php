@@ -93,7 +93,7 @@ $arr_penampung_gr =[];
             </tr>
             <tr>
                 <td style="width: 5%" data-toggle="tooltip" data-placement="top"
-                    title="Plan Order Receipt (Penerimaan Pemesayang yand Direncanaakan)">POR</td>
+                    title="Plan Order Receipt (Penerimaan Pemesanan yang Direncanaakan)">POR</td>
                 @foreach ($bahanbaku['perhitungan']['POR'] as $por)
                 <td style="width: 10%">{{ $por }}</td>
                 @endforeach
@@ -101,7 +101,7 @@ $arr_penampung_gr =[];
             </tr>
             <tr>
                 <td style="width: 5%" data-toggle="tooltip" data-placement="top"
-                    title="Plan Order Release (Pelepasan Pemesayang yand Direncanaakan)">PORel
+                    title="Plan Order Release (Pelepasan Pemesanan yang Direncanaakan)">PORel
                 </td>
                 @foreach ($bahanbaku['perhitungan']['PORel'] as $porel)
                 <td style=" width: 10%">{{ $porel }}</td>
