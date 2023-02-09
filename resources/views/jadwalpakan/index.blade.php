@@ -172,7 +172,7 @@
                     max = new Date($('.date_filter_max').val());
                     $.fn.dataTable.ext.search.push(
                         function(settings, data, dataIndex) {
-                            var date = new Date(data[2].split("/")[2] + "-" + data[2].split("/")[1] + "-" + data[2]
+                            var date = new Date(data[0].split("/")[2] + "-" + data[0].split("/")[1] + "-" + data[0]
                                 .split("/")[0]);
                             if ((min === null && max === null) || (min === null && date <= max) || (min <= date &&
                                     max === null) || (min <= date && date <= max)) {
