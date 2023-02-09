@@ -219,14 +219,17 @@
             ]
         });
         $('.date_filter_min, .date_filter_max').on('change', function() {
+            // alert("masuk");
             $.fn.dataTable.ext.search.pop();
             if ($('.date_filter_min').val() != '' && $('.date_filter_max').val() != '') {
+                // alert("masuk2");
 
                 min = new Date($('.date_filter_min').val());
                 max = new Date($('.date_filter_max').val());
+                // alert($('.date_filter_min').val());
                 $.fn.dataTable.ext.search.push(
                     function(settings, data, dataIndex) {
-                        var date = new Date(data[2].split("/")[2] + "-" + data[2].split("/")[1] + "-" + data[2]
+                        var date = new Date(data[1].split("/")[2] + "-" + data[1].split("/")[1] + "-" + data[1]
                             .split("/")[0]);
                         if ((min === null && max === null) || (min === null && date <= max) || (min <= date &&
                                 max === null) || (min <= date && date <= max)) {
