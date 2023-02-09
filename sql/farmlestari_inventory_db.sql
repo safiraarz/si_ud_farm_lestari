@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 05, 2023 at 09:05 AM
+-- Generation Time: Feb 09, 2023 at 03:56 PM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.1
 
@@ -33,8 +33,19 @@ CREATE TABLE `aset` (
   `nama` varchar(45) NOT NULL,
   `nominal` int(11) NOT NULL,
   `estimasi_bulan` int(11) NOT NULL,
-  `nota_pembelian_id` int(11) NOT NULL
+  `nilai_residu` int(11) NOT NULL,
+  `nota_pembelian_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updateed_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `aset`
+--
+
+INSERT INTO `aset` (`id`, `nama`, `nominal`, `estimasi_bulan`, `nilai_residu`, `nota_pembelian_id`, `created_at`, `updateed_at`, `deleted_at`) VALUES
+(11801, 'Mesin produksi', 2000000000, 60, 0, 10809, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -64,11 +75,11 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`id`, `nama`, `harga`, `lead_time`, `kuantitas_stok_onorder_supplier`, `kuantitas_stok_onorder_produksi`, `kuantitas_stok_pengaman`, `kuantitas_stok_ready`, `total_kuantitas_stok`, `jenis`, `satuan`, `deleted_at`, `updated_at`, `created_at`) VALUES
-(10501, 'Jagung A', 5850, 1, 10474, 500, 200, 10424, 23171, 'Bahan Baku', 'kg', NULL, '2023-02-04 09:31:30', NULL),
-(10502, 'Katul', 4600, 1, 607, 1200, 9200, 547, 10966, 'Bahan Baku', 'kg', NULL, '2023-02-04 08:06:52', NULL),
+(10501, 'Jagung A', 5850, 1, 10614, 500, 200, -9989566, -9976679, 'Bahan Baku', 'kg', NULL, '2023-02-09 00:13:49', NULL),
+(10502, 'Katul', 4600, 2, 602, 1200, 9200, 552, 10966, 'Bahan Baku', 'kg', NULL, '2023-02-08 00:38:07', NULL),
 (10503, 'K 36 SPR', 9550, 1, 5010, 6500, 0, 5000, 23500, 'Bahan Baku', 'kg', NULL, '2023-02-04 07:46:04', NULL),
-(10504, 'Telur A3', 25200, NULL, NULL, NULL, 0, NULL, 12000, 'Barang Jadi', 'kg', NULL, NULL, NULL),
-(10505, 'Telur A1', 24300, NULL, NULL, NULL, 0, NULL, 50000, 'Barang Jadi', 'kg', NULL, NULL, NULL),
+(10504, 'Telur A3', 25200, NULL, NULL, NULL, 0, 44990, 44990, 'Bahan Baku', 'kg', NULL, '2023-02-08 22:25:29', NULL),
+(10505, 'Telur A1', 24300, NULL, NULL, NULL, 0, -9988, 40012, 'Barang Jadi', 'kg', NULL, '2023-02-06 00:50:41', NULL),
 (10506, 'Pakan Jadi Super', 7035, NULL, NULL, 4000, 41000, 41000, 45000, 'Barang Jadi', 'kg', NULL, NULL, NULL),
 (10507, 'Premix (Metabolizer)', 45000, 1, 1208, 8200, 3000, 3002, 12410, 'Bahan Baku', 'kg', NULL, '2023-02-04 08:07:30', NULL),
 (10508, 'Ciromecyne 10%', 88000, 1, 6500, 3000, 1000, 1000, 10500, 'Bahan Baku', 'kg', NULL, NULL, NULL),
@@ -76,7 +87,7 @@ INSERT INTO `barang` (`id`, `nama`, `harga`, `lead_time`, `kuantitas_stok_onorde
 (10510, 'Tes Tambah', 10000, 1, 30, 10, 10, 10, 50, 'Bahan Baku', '15', NULL, '2023-02-04 08:06:52', '2022-12-21 07:24:22'),
 (10511, 'Tes Tambah 2', 30000, 1, 10, 11, 12, 12, 13, 'Bahan Baku', 'kg', NULL, '2022-12-21 07:24:49', '2022-12-21 07:24:49'),
 (10512, 'Test barang masuk edit', 20000, 100, 111, 111, 10000, 100, 322, 'Barang Jadi', 'kg', NULL, '2023-02-04 09:35:20', '2023-01-31 17:56:42'),
-(10513, '111', 1000000, 111, 21, 11, 1000, 19, 51, 'Bahan Baku', 'kg', NULL, '2023-02-04 09:48:41', '2023-01-31 18:18:37');
+(10513, 'Tes Edit2', 1000000, 111, 21, 11, 1000, 0, 32, 'Bahan Baku', 'kg', NULL, '2023-02-08 04:57:58', '2023-01-31 18:18:37');
 
 -- --------------------------------------------------------
 
@@ -121,7 +132,8 @@ CREATE TABLE `customer` (
 INSERT INTO `customer` (`id`, `nama`, `alamat`, `no_telepon`, `deleted_at`, `updated_at`, `created_at`) VALUES
 (10301, 'CV Bakery', 'Jalan Karya Abadi gg 5, Surabaya', '08123216369', NULL, '2022-12-20 01:08:06', NULL),
 (10302, 'UD Roti Bakar', 'Jalan Sentosa Abadi, Malang', '0217064521', NULL, NULL, NULL),
-(10303, 'Tes Tambah', 'Tes Tambah', 'Tes Tambah Cust', NULL, '2022-12-23 07:19:23', '2022-12-20 01:08:20');
+(10303, 'Tes Tambah', 'Tes Tambah', 'Tes Tambah Cust', NULL, '2022-12-23 07:19:23', '2022-12-20 01:08:20'),
+(10304, 'Tes Tambah', 'Tes', '0812', NULL, '2023-02-08 04:57:44', '2023-02-08 04:57:31');
 
 -- --------------------------------------------------------
 
@@ -220,8 +232,10 @@ INSERT INTO `d_nota_pembelian` (`barang_id`, `nota_pembelian_id`, `kuantitas`, `
 (10501, 10801, 10448, 5450),
 (10501, 10802, 1500, 5850),
 (10501, 10808, 7, 5850),
+(10501, 10810, 10, 5850),
 (10502, 10802, 1300, 4600),
 (10502, 10808, 5, 4600),
+(10502, 10810, 5, 4600),
 (10503, 10802, 1150, 9550),
 (10506, 10802, 10, 10),
 (10513, 10809, 8, 20000);
@@ -249,6 +263,7 @@ INSERT INTO `d_nota_pemesanan` (`barang_id`, `nota_pemesanan_id`, `kuantitas`, `
 (10501, 10708, 10, 5850),
 (10501, 10711, 10, 90),
 (10501, 10712, 10, 10000),
+(10501, 10717, 150, 15000),
 (10502, 10702, 1300, 4600),
 (10502, 10708, 5, 4600),
 (10502, 10709, 10, 4600),
@@ -287,7 +302,10 @@ INSERT INTO `d_nota_penjualan` (`barang_id`, `nota_penjualan_id`, `kuantitas`, `
 (10502, 10912, 20, 4600),
 (10502, 10913, 10, 4600),
 (10504, 10901, 42000, 25200),
+(10504, 10915, 10000, 10000),
+(10504, 10916, 10000, 5850),
 (10505, 10901, 1100, 24300),
+(10505, 10916, 10000, 24300),
 (10512, 10914, 11, 1111);
 
 -- --------------------------------------------------------
@@ -312,9 +330,11 @@ INSERT INTO `d_pemasukan_telur` (`barang_id`, `pemasukan_telur_id`, `kuantitas_b
 (10504, 11601, 65200, 300, 65500),
 (10504, 11605, 1, 1, 1),
 (10504, 11606, 1, 1, 1),
+(10504, 11608, 10, 2, 12),
 (10505, 11604, 1, 1, 1),
 (10505, 11605, 1, 2, 3),
 (10505, 11606, 1, 2, 1),
+(10505, 11608, 12, 2, 14),
 (10509, 11604, 1, 1, 2),
 (10509, 11606, 1, 2, 5),
 (10512, 11604, 4, 1, 2);
@@ -339,6 +359,7 @@ INSERT INTO `d_pengeluaran_bahan_baku` (`barang_id`, `pengeluaran_bahan_baku_id`
 (10501, 11404, 2),
 (10501, 11405, 1),
 (10501, 11406, 1),
+(10501, 11409, 10000000),
 (10503, 11401, 1200),
 (10503, 11402, 10448),
 (10503, 11404, 4),
@@ -349,7 +370,9 @@ INSERT INTO `d_pengeluaran_bahan_baku` (`barang_id`, `pengeluaran_bahan_baku_id`
 (10508, 11401, 100),
 (10508, 11405, 3),
 (10510, 11404, 8),
-(10513, 11406, 2);
+(10513, 11406, 2),
+(10513, 11407, 19),
+(10513, 11408, 38);
 
 -- --------------------------------------------------------
 
@@ -399,9 +422,12 @@ INSERT INTO `d_surat_perintah_kerja` (`barang_id`, `surat_perintah_kerja_id`, `t
 (10506, 11101, '2023-01-21', '2023-01-31', 4000),
 (10506, 11102, '2023-01-11', '2023-01-18', 17800),
 (10506, 11103, '2023-02-02', '2023-02-09', 4),
+(10506, 11105, '2023-02-09', '2023-02-19', 31000),
+(10506, 11106, '2023-02-09', '2023-02-16', 10000),
 (10509, 11101, '2023-01-06', '2023-01-17', 4280),
 (10509, 11102, '2023-01-11', '2023-01-18', 10448),
 (10509, 11104, '2023-02-01', '2023-02-03', 3),
+(10509, 11106, '2023-02-16', '2023-02-23', 30000),
 (10512, 11104, '2023-02-01', '2023-02-04', 8);
 
 -- --------------------------------------------------------
@@ -417,7 +443,7 @@ CREATE TABLE `flok` (
   `cage` varchar(45) NOT NULL,
   `strain` varchar(100) NOT NULL,
   `populasi` int(11) NOT NULL,
-  `usia_hari` varchar(45) NOT NULL,
+  `usia` varchar(45) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -427,14 +453,15 @@ CREATE TABLE `flok` (
 -- Dumping data for table `flok`
 --
 
-INSERT INTO `flok` (`id`, `nama`, `keterangan`, `cage`, `strain`, `populasi`, `usia_hari`, `created_at`, `updated_at`, `deleted_at`) VALUES
+INSERT INTO `flok` (`id`, `nama`, `keterangan`, `cage`, `strain`, `populasi`, `usia`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (10601, 'Flok I', 'Ayam DOC Gel. 05', 'Cage 1-6	', 'Lohman Platinum	', 11330, '26 mg/6\r\n', NULL, NULL, NULL),
 (10602, 'Flok II', 'Ayam DOC Gel. 02', 'Cage 1-4	', 'Lohman Platinum', 7239, '50 mg/6\r\n', NULL, NULL, NULL),
 (10603, 'Flok III', 'Ayam DOC Gel. 02', 'Cage 1-4	', 'Lohman Platinum', 7239, '78 mg/6\r\n', NULL, NULL, NULL),
 (10604, 'Flok IV', 'Ayam DOC Gel. 03', 'Cage 1-6', 'Lohman Platinum', 10867, '63 mg/3\r\n', NULL, NULL, NULL),
 (10605, 'Flok V', 'Ayam DOC Gel. 04', 'Cage 1-8	', 'Lohman Platinum', 11579, '44 mg/1', NULL, NULL, NULL),
 (10606, 'Flok AB Edited', '', '', '', 0, '0', NULL, NULL, NULL),
-(10607, 'Flok Coba Edit', 'Gelombang 1', 'Cage 5', 'Longham', 1200, '2 mg/3', '2023-01-25 10:06:09', '2023-01-25 10:10:28', NULL);
+(10607, 'Flok Coba Edit', 'Gelombang 1', 'Cage 5', 'Longham', 1200, '2 mg/3', '2023-01-25 10:06:09', '2023-01-25 10:10:28', NULL),
+(10608, 'Tes editable', 'Tes diedt', 'Cage 1-10', 'Longham', 1500, 'edit', '2023-02-08 04:52:11', '2023-02-08 05:01:18', NULL);
 
 -- --------------------------------------------------------
 
@@ -462,7 +489,8 @@ INSERT INTO `jabatan` (`id`, `nama`, `deleted_at`, `updated_at`, `created_at`) V
 (10105, 'Mandor Gudang Logistik', NULL, NULL, NULL),
 (10106, 'Kepala Produksi', NULL, NULL, NULL),
 (10107, 'Admin Keuangan', NULL, NULL, NULL),
-(10108, 'Mandor Gudang Pakan', NULL, '2022-12-20 01:22:13', '2022-12-20 01:21:11');
+(10108, 'Mandor Gudang Pakan', NULL, '2022-12-20 01:22:13', '2022-12-20 01:21:11'),
+(10109, 'Cek Edited', NULL, '2023-02-08 04:59:19', '2023-02-08 04:59:12');
 
 -- --------------------------------------------------------
 
@@ -487,8 +515,10 @@ CREATE TABLE `jadwal_pakan` (
 --
 
 INSERT INTO `jadwal_pakan` (`tgl_pemberian`, `barang_id`, `kuantitas`, `keterangan`, `pengguna_id`, `flok_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+('2023-02-01', 10504, 15000, 'Tes tambah', 10201, 10601, '2023-02-06 07:34:40', '2023-02-06 07:34:40', NULL),
 ('2022-12-15', 10506, 17800, NULL, 10205, 10604, NULL, NULL, NULL),
-('2022-12-13', 10509, 16900, NULL, 10205, 10601, NULL, NULL, NULL);
+('2022-12-13', 10509, 16900, NULL, 10205, 10601, NULL, NULL, NULL),
+('2023-02-05', 10512, 322, 'Gatau', 10201, 10601, '2023-02-05 08:11:51', '2023-02-05 08:11:51', NULL);
 
 -- --------------------------------------------------------
 
@@ -501,6 +531,7 @@ CREATE TABLE `mps` (
   `tgl_mulai_produksi` date NOT NULL,
   `tgl_selesai_produksi` date NOT NULL,
   `kuantitas_barang_jadi` int(11) NOT NULL,
+  `status` enum('belum diproses','proses produksi','selesai produksi') NOT NULL,
   `surat_perintah_kerja_id` int(11) DEFAULT NULL,
   `barang_id` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -512,12 +543,13 @@ CREATE TABLE `mps` (
 -- Dumping data for table `mps`
 --
 
-INSERT INTO `mps` (`id`, `tgl_mulai_produksi`, `tgl_selesai_produksi`, `kuantitas_barang_jadi`, `surat_perintah_kerja_id`, `barang_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(11201, '2022-12-19', '2022-12-23', 4280, 11101, 10509, NULL, NULL, NULL),
-(11202, '2022-12-19', '2022-12-23', 4000, 11101, 10506, NULL, NULL, NULL),
-(11206, '2023-02-01', '2023-02-02', 10, 11103, 10505, '2023-01-31 23:39:13', '2023-01-31 23:39:13', NULL),
-(11207, '2023-02-01', '2023-02-02', 10, 11103, 10506, '2023-01-31 23:39:13', '2023-01-31 23:39:13', NULL),
-(11208, '2023-02-01', '2023-02-04', 10, 11104, 10512, '2023-02-04 00:26:47', '2023-02-04 00:26:47', NULL);
+INSERT INTO `mps` (`id`, `tgl_mulai_produksi`, `tgl_selesai_produksi`, `kuantitas_barang_jadi`, `status`, `surat_perintah_kerja_id`, `barang_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(11201, '2022-12-19', '2022-12-23', 4280, 'belum diproses', 11101, 10509, NULL, '2023-02-05 22:08:35', NULL),
+(11202, '2022-12-19', '2022-12-29', 30000, 'belum diproses', 11101, 10506, NULL, NULL, NULL),
+(11206, '2023-02-01', '2023-02-02', 10, 'belum diproses', 11103, 10505, '2023-01-31 23:39:13', '2023-01-31 23:39:13', NULL),
+(11207, '2023-02-01', '2023-02-02', 10, 'belum diproses', 11103, 10506, '2023-01-31 23:39:13', '2023-01-31 23:39:13', NULL),
+(11208, '2023-02-01', '2023-02-04', 10, 'belum diproses', 11104, 10512, '2023-02-04 00:26:47', '2023-02-04 00:26:47', NULL),
+(11209, '2023-02-16', '2023-02-23', 30000, 'selesai produksi', 11106, 10509, '2023-02-08 23:59:28', '2023-02-09 02:07:49', NULL);
 
 -- --------------------------------------------------------
 
@@ -544,6 +576,7 @@ CREATE TABLE `nota_pembelian` (
   `total_harga` int(11) DEFAULT NULL,
   `cara_bayar` enum('tunai','transfer') NOT NULL,
   `keterangan` varchar(150) DEFAULT NULL,
+  `status` enum('belum bayar','sudah bayar') NOT NULL,
   `pengguna_id` int(11) NOT NULL,
   `nota_pemesanan_id` int(11) NOT NULL,
   `supplier_id` int(11) NOT NULL
@@ -553,11 +586,12 @@ CREATE TABLE `nota_pembelian` (
 -- Dumping data for table `nota_pembelian`
 --
 
-INSERT INTO `nota_pembelian` (`id`, `no_nota`, `tgl_pembuatan_nota`, `total_harga`, `cara_bayar`, `keterangan`, `pengguna_id`, `nota_pemesanan_id`, `supplier_id`) VALUES
-(10801, '19.12.19.01', '2022-12-19', 56941600, 'tunai', NULL, 10204, 10701, 10402),
-(10802, '51.20-52.20', '2022-12-26', 25737000, 'tunai', NULL, 10209, 10702, 10401),
-(10808, '20230204-02-001', '2023-02-04', 63950, 'tunai', NULL, 10201, 10708, 10401),
-(10809, '20230204-02-002', '2023-02-04', 160000, 'tunai', NULL, 10201, 10713, 10402);
+INSERT INTO `nota_pembelian` (`id`, `no_nota`, `tgl_pembuatan_nota`, `total_harga`, `cara_bayar`, `keterangan`, `status`, `pengguna_id`, `nota_pemesanan_id`, `supplier_id`) VALUES
+(10801, '19.12.19.01', '2022-12-19', 56941600, 'tunai', NULL, 'belum bayar', 10204, 10701, 10402),
+(10802, '51.20-52.20', '2022-12-26', 25737000, 'tunai', NULL, 'belum bayar', 10209, 10702, 10401),
+(10808, '20230204-02-001', '2023-02-04', 63950, 'tunai', NULL, 'belum bayar', 10201, 10708, 10401),
+(10809, '20230204-02-002', '2023-02-04', 160000, 'tunai', NULL, 'belum bayar', 10201, 10713, 10402),
+(10810, '20230208-02-001', '2023-02-08', 81500, 'tunai', NULL, 'sudah bayar', 10201, 10708, 10401);
 
 -- --------------------------------------------------------
 
@@ -583,7 +617,7 @@ CREATE TABLE `nota_pemesanan` (
 --
 
 INSERT INTO `nota_pemesanan` (`id`, `no_nota`, `tgl_pembuatan_nota`, `total_harga`, `status`, `pengguna_id`, `supplier_id`, `deleted_at`, `updated_at`, `created_at`) VALUES
-(10701, '12.12-12.03', '2022-12-12', 56941600, 'dalam proses', 10204, 10402, NULL, NULL, NULL),
+(10701, '12.12-12.03', '2022-12-12', 56941600, 'beli', 10204, 10402, NULL, '2023-02-05 22:08:01', NULL),
 (10702, '11.01-12.01', '2022-12-20', 25737000, 'dalam proses', 10209, 10401, NULL, NULL, NULL),
 (10708, '20230204-01-001', '2023-02-04', 81500, '', 10201, 10401, NULL, '2023-02-04 07:56:27', '2023-02-04 07:56:27'),
 (10709, '20230204-01-002', '2023-02-04', 246000, '', 10201, 10401, NULL, '2023-02-04 08:06:52', '2023-02-04 08:06:52'),
@@ -591,7 +625,10 @@ INSERT INTO `nota_pemesanan` (`id`, `no_nota`, `tgl_pembuatan_nota`, `total_harg
 (10711, '20230204-01-004', '2023-02-04', 900, '', 10201, 10401, NULL, '2023-02-04 08:08:11', '2023-02-04 08:08:11'),
 (10712, '20230204-01-005', '2023-02-04', 100000, '', 10201, 10401, NULL, '2023-02-04 09:31:30', '2023-02-04 09:31:30'),
 (10713, '20230204-01-006', '2023-02-04', 200000, '', 10201, 10402, NULL, '2023-02-04 09:32:42', '2023-02-04 09:32:42'),
-(10714, '20230204-01-007', '2023-02-04', 10000000, '', 10201, 10401, NULL, '2023-02-04 09:48:41', '2023-02-04 09:48:41');
+(10714, '20230204-01-007', '2023-02-04', 10000000, '', 10201, 10401, NULL, '2023-02-04 09:48:41', '2023-02-04 09:48:41'),
+(10715, '20230206-01-001', '2023-02-06', 19550000, 'dalam proses', 10201, 10401, NULL, '2023-02-06 00:48:12', '2023-02-06 00:48:12'),
+(10716, '20230206-01-002', '2023-02-06', 11550000, 'dalam proses', 10201, 10401, NULL, '2023-02-06 00:49:34', '2023-02-06 00:49:34'),
+(10717, '20230206-01-003', '2023-02-06', 2250000, 'dalam proses', 10201, 10401, NULL, '2023-02-06 00:51:04', '2023-02-06 00:51:04');
 
 -- --------------------------------------------------------
 
@@ -620,7 +657,9 @@ INSERT INTO `nota_penjualan` (`id`, `no_nota`, `tgl_pembuatan_nota`, `total_harg
 (10911, '20230204-03-002', '2023-02-04', 92000, 'tunai', NULL, 10201, 10302),
 (10912, '20230204-03-003', '2023-02-04', 92000, 'tunai', NULL, 10201, 10303),
 (10913, '20230204-03-004', '2023-02-04', 104500, 'tunai', NULL, 10201, 10302),
-(10914, '20230204-03-005', '2023-02-04', 12221, 'tunai', NULL, 10201, 10301);
+(10914, '20230204-03-005', '2023-02-04', 12221, 'tunai', NULL, 10201, 10301),
+(10915, '20230206-03-001', '2023-02-06', 300000000, 'tunai', NULL, 10201, 10301),
+(10916, '20230206-03-002', '2023-02-06', 301500000, 'tunai', NULL, 10201, 10301);
 
 -- --------------------------------------------------------
 
@@ -650,7 +689,10 @@ INSERT INTO `pemasukan_telur` (`id`, `tgl_pencatatan`, `karantina`, `afkir`, `ke
 (11601, '2023-01-25', 4, 1, 1, 'Telur reject dibuang', 10206, 10601, '2023-01-25 10:00:00', NULL, NULL),
 (11604, '2023-02-01', 3, 1, 1, NULL, 10201, 10601, '2023-01-31 21:53:23', NULL, '2023-01-31 21:53:23'),
 (11605, '2023-02-01', 3, 1, 5, 'Rusak', 10201, 10601, '2023-01-31 21:54:08', NULL, '2023-01-31 21:54:08'),
-(11606, '2023-02-01', 2, 2, 3, 'Test Keterangan', 10201, 10607, '2023-01-31 22:00:42', NULL, '2023-01-31 22:00:42');
+(11606, '2023-02-01', 2, 2, 3, 'Test Keterangan', 10201, 10607, '2023-01-31 22:00:42', NULL, '2023-01-31 22:00:42'),
+(11607, '2023-02-05', 0, 0, 0, 'Belum ada', 10201, 10601, '2023-02-05 06:46:53', NULL, '2023-02-05 06:46:53'),
+(11608, '2023-02-05', 0, 0, 0, 'Tidak ada', 10201, 10602, '2023-02-05 06:52:21', NULL, '2023-02-05 06:52:21'),
+(11609, '2023-02-08', 0, 0, 0, NULL, 10201, 10601, '2023-02-08 02:02:13', NULL, '2023-02-08 02:02:13');
 
 -- --------------------------------------------------------
 
@@ -675,7 +717,10 @@ INSERT INTO `pengeluaran_bahan_baku` (`id`, `no_surat`, `tgl_pengeluaran_barang`
 (11402, '13.05-12.12', '2022-12-13', NULL, 10206),
 (11404, '20230201-02-02-001', '2023-02-01', '20230201-02-02-001', 10201),
 (11405, '20230201-02-02-002', '2023-02-01', NULL, 10201),
-(11406, '20230201-02-02-003', '2023-02-01', 'Test Tambah LPB 3', 10201);
+(11406, '20230201-02-02-003', '2023-02-01', 'Test Tambah LPB 3', 10201),
+(11407, '20230205-02-02-001', '2023-02-05', NULL, 10201),
+(11408, '20230205-02-02-002', '2023-02-05', NULL, 10201),
+(11409, '20230209-02-02-001', '2023-02-09', NULL, 10201);
 
 -- --------------------------------------------------------
 
@@ -730,7 +775,8 @@ CREATE TABLE `supplier` (
 
 INSERT INTO `supplier` (`id`, `nama`, `alamat`, `no_telepon`, `deleted_at`, `updated_at`, `created_at`) VALUES
 (10401, 'UD Karya Sentosa', 'Jalan Suka Karya no 141, Malang', '08932102001', NULL, '2022-12-21 07:55:11', NULL),
-(10402, 'Manunggal Jaya', 'Jl Kyai Radiman RT. 06, RW. 02, Krajan Bantur, Malang', '081334325774', NULL, NULL, NULL);
+(10402, 'Manunggal Jaya', 'Jl Kyai Radiman RT. 06, RW. 02, Krajan Bantur, Malang', '081334325774', NULL, NULL, NULL),
+(10403, 'Tes Tambah', 'Tes gatau', '0812', NULL, '2023-02-08 04:54:34', '2023-02-08 04:54:14');
 
 -- --------------------------------------------------------
 
@@ -743,6 +789,7 @@ CREATE TABLE `surat_jalan` (
   `no_surat` varchar(45) NOT NULL,
   `tgl_pengiriman_barang` date NOT NULL,
   `keterangan` varchar(100) DEFAULT NULL,
+  `status` enum('dalam pengiriman','sudah diterima') NOT NULL,
   `pengguna_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -750,11 +797,11 @@ CREATE TABLE `surat_jalan` (
 -- Dumping data for table `surat_jalan`
 --
 
-INSERT INTO `surat_jalan` (`id`, `no_surat`, `tgl_pengiriman_barang`, `keterangan`, `pengguna_id`) VALUES
-(11601, '13.05-12.12', '2022-12-26', NULL, 10208),
-(11603, '13.05-12.12', '2022-12-24', 'Coba', 10206),
-(11604, '20230201-02-03-001', '2023-02-01', NULL, 10201),
-(11605, '20230201-02-03-002', '2023-02-01', 'Test input surat jalan', 10201);
+INSERT INTO `surat_jalan` (`id`, `no_surat`, `tgl_pengiriman_barang`, `keterangan`, `status`, `pengguna_id`) VALUES
+(11601, '13.05-12.12', '2022-12-26', NULL, 'dalam pengiriman', 10208),
+(11603, '13.05-12.12', '2022-12-24', 'Coba', 'dalam pengiriman', 10206),
+(11604, '20230201-02-03-001', '2023-02-01', NULL, 'dalam pengiriman', 10201),
+(11605, '20230201-02-03-002', '2023-02-01', 'Test input surat jalan', 'sudah diterima', 10201);
 
 -- --------------------------------------------------------
 
@@ -778,7 +825,9 @@ INSERT INTO `surat_perintah_kerja` (`id`, `no_surat`, `tgl_pembuatan_surat`, `ke
 (11101, '12.123-13.021', '2022-12-01', NULL, 10208),
 (11102, '13.06.01-12.12.01', '2022-12-01', NULL, 10208),
 (11103, '20230201-02-01-001', '2023-02-01', NULL, 10201),
-(11104, '20230201-02-01-002', '2023-02-01', 'jjj', 10201);
+(11104, '20230201-02-01-002', '2023-02-01', 'jjj', 10201),
+(11105, '20230209-02-01-001', '2023-02-09', 'Belum ada', 10201),
+(11106, '20230209-02-01-002', '2023-02-09', NULL, 10201);
 
 --
 -- Indexes for dumped tables
@@ -1002,7 +1051,7 @@ ALTER TABLE `surat_perintah_kerja`
 -- AUTO_INCREMENT for table `aset`
 --
 ALTER TABLE `aset`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11802;
 
 --
 -- AUTO_INCREMENT for table `barang`
@@ -1020,7 +1069,7 @@ ALTER TABLE `bom`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10304;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10305;
 
 --
 -- AUTO_INCREMENT for table `daftar_hasil_produksi`
@@ -1032,19 +1081,19 @@ ALTER TABLE `daftar_hasil_produksi`
 -- AUTO_INCREMENT for table `flok`
 --
 ALTER TABLE `flok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10608;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10609;
 
 --
 -- AUTO_INCREMENT for table `jabatan`
 --
 ALTER TABLE `jabatan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10109;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10110;
 
 --
 -- AUTO_INCREMENT for table `mps`
 --
 ALTER TABLE `mps`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11209;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11210;
 
 --
 -- AUTO_INCREMENT for table `mrp`
@@ -1056,31 +1105,31 @@ ALTER TABLE `mrp`
 -- AUTO_INCREMENT for table `nota_pembelian`
 --
 ALTER TABLE `nota_pembelian`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10810;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10811;
 
 --
 -- AUTO_INCREMENT for table `nota_pemesanan`
 --
 ALTER TABLE `nota_pemesanan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10715;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10718;
 
 --
 -- AUTO_INCREMENT for table `nota_penjualan`
 --
 ALTER TABLE `nota_penjualan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10915;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10917;
 
 --
 -- AUTO_INCREMENT for table `pemasukan_telur`
 --
 ALTER TABLE `pemasukan_telur`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11607;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11610;
 
 --
 -- AUTO_INCREMENT for table `pengeluaran_bahan_baku`
 --
 ALTER TABLE `pengeluaran_bahan_baku`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11407;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11410;
 
 --
 -- AUTO_INCREMENT for table `pengguna`
@@ -1092,7 +1141,7 @@ ALTER TABLE `pengguna`
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10403;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10404;
 
 --
 -- AUTO_INCREMENT for table `surat_jalan`
@@ -1104,7 +1153,7 @@ ALTER TABLE `surat_jalan`
 -- AUTO_INCREMENT for table `surat_perintah_kerja`
 --
 ALTER TABLE `surat_perintah_kerja`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11105;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11107;
 
 --
 -- Constraints for dumped tables
