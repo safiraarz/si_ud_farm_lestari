@@ -28,13 +28,13 @@
                                     <div class="form-group row">
                                         <label for="date" class="col-form-label col-sm-2">Dari Tanggal</label>
                                         <div class="col-sm-3">
-                                            <input type="date" class="form-control input-sm" id="date_range_filter_min_"
-                                                name="dariTgl" required />
+                                            <input type="date" class="form-control input-sm date_filter_min" id="date_filter_min"
+                                                name="dariTgl" />
                                         </div>
                                         <label for="date" class="col-form-label col-sm-2">Sampai Tanggal</label>
                                         <div class="col-sm-3">
-                                            <input type="date" class="form-control input-sm" id="date_range_filter_max_"
-                                                name="sampaiTgl" required />
+                                            <input type="date" class="form-control input-sm date_filter_max" id="date_filter_max"
+                                                name="sampaiTgl" />
                                         </div>
                                     </div>
                                 </div>
@@ -133,19 +133,24 @@
                 [0, 'desc']
             ]
         });
-        $('#date_range_filter_min_, #date_range_filter_max_').on('change', function() {
+        $('.date_filter_min, .date_filter_max').on('change', function() {
             // alert("a");
             // alert("masuk");
             $.fn.dataTable.ext.search.pop();
-            if ($('#date_range_filter_min_').val() != '' && $('#date_range_filter_max_').val() != '') {
+            if ($('.date_filter_min').val() != '' && $('.date_filter_max').val() != '') {
+            
+                min = new Date($('.date_filter_min').val());
+                max = new Date($('.date_filter_max').val());
+                // alert(max);
+                // alert(min);
                 $.fn.dataTable.ext.search.push(
                     function(settings, data, dataIndex) {
-                        // alert(data);
-                        min = new Date($('#date_range_filter_min_').val());
-                        max = new Date($('#date_range_filter_max_').val());
-
-                        var date = new Date(data[2]);
-                        // alert(date);
+                        // alert("masuk");
+                        // alert($('#date_range_filter_min_').val());
+                        
+                        
+                        // var date = new Date(data[2]);
+                        var date = new Date(data[2].split("/")[2]+"-"+data[2].split("/")[1]+"-"+data[2].split("/")[0]);
                         if ((min === null && max === null) || (min === null && date <= max) || (min <= date &&
                                 max === null) || (min <= date && date <= max)) {
                             return true;
