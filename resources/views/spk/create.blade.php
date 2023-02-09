@@ -1,28 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layout.conquer')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Surat Perintah Kerja</title>
-    <style>
-        .result {
-            color: red;
-        }
-
-        td {
-            text-align: center;
-        }
-    </style>
-</head>
-
-
-<body>
+@section('content')
     <section class="mt-3">
         <div class="container-fluid">
             <h4 class="text-center" style="color:green"> UD Farm Lestari </h4>
@@ -82,7 +60,9 @@
                             </tr>
                         </tbody>
                     </table>
-
+                    <div role="alert" id="errorMsg" class="mt-5">
+                        <!-- Error msg  -->
+                    </div>
                 </div>
                 <div class="col-md-7  mt-4" style="background-color:#f5f5f5;">
                     <form action="{{ route('spk.store') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
@@ -110,9 +90,9 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
+                                            <th>Nama Pakan Ayam</th>
                                             <th>Tgl Mulai Produksi</th>
                                             <th>Tgl Selesai Produksi</th>
-                                            <th>Nama Pakan Ayam</th>
                                             <th>Kuantitas</th>
                                             <th>Satuan</th>
                                         </tr>
@@ -131,10 +111,12 @@
     </section>
 </body>
 
-</html>
+@endsection
+
+
+@section('javascript')
 
 <script>
-    $(document).ready(function() {
         function thousands_separators(num) {
             var num_parts = num.toString().split(".");
             num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -143,6 +125,7 @@
         var count = 1;
         
         $('#tambah').on('click', function() {
+            
             $("#pakan_ayam").disable = true;
             // var keterangan = ('#keterangan').val();
             $('#keterangan_input').val($('#keterangan').val());
@@ -151,10 +134,17 @@
             var satuan = $('#barang').find(':selected').attr('satuan');
             var date_start = $('#tgl_mulai_prod').val();
             var date_end = $('#tgl_selesai_prod').val();
-            if (kuantitas == 0) {
-                var erroMsg = '<span class="alert alert-danger ml-5">Minimum Qty should be 1 or More than 1</span>';
+            if (kuantitas <= 0) {
+                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Kurang Dari 1 Atau Huruf</span>';
+                $('#errorMsg').show();
                 $('#errorMsg').html(erroMsg).fadeOut(9000);
-            } else {
+            }
+            else if(date_start == '' && date_end == ''){
+                var erroMsg = '<span class="alert alert-danger ml-5">Tanggal Tidak Boleh Kosong</span>';
+                $('#errorMsg').show();
+                $('#errorMsg').html(erroMsg).fadeOut(9000);
+            } 
+            else {
                 billFunction(); // Below Function passing here 
             }
 
@@ -179,5 +169,6 @@
                 count++;
             }
         });
-    });
 </script>
+
+@endsection

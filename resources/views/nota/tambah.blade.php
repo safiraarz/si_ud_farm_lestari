@@ -11,7 +11,7 @@
     </div>
 
     {{-- Pemesanan --}}
-    <section class="mt-3 margin-right-10" id="nota_pemesanan_section" style="display: none;">
+    <section class="mt-3 margin-right-10" id="nota_pemesanan_section" >
         <div class="">
             {{-- <h4 class="text-center" style="color:green"> UD Farm Lestari </h4> --}}
             <div class="row">
@@ -142,7 +142,7 @@
     </section>
 
     {{-- Pembelian --}}
-    <section class=" mt-3 margin-right-10" id="nota_pembelian_section" >
+    <section class=" mt-3 margin-right-10" id="nota_pembelian_section" style="display: none;">
         {{-- <div class="">
             <form action="{{ route('notapembelian.store') }}" method="post" enctype="multipart/form-data"
                 class="form-horizontal">
@@ -561,8 +561,18 @@
                 count++;
             }
         });
+       
+        function maxminvalue(jenis,idx,value_){
+            var id = jenis+"_"+idx;
+            
+            var valueset = $("#"+id).val();
+            if(value_ <  valueset){
+                $("#"+id).val(value_);
+            }
+         
+        }
 
-
+         
 
 
         function deleteDataPembelian(id)
@@ -576,6 +586,7 @@
             // $('#total_harga').val(totalPayment); 
             // alert(sub_new);
         };
+        // Generete Subtotal
         $("#no_pesanan_pembelian").on('change', function() {
             // alert("aa");
             $('#new__').html("");
@@ -656,18 +667,18 @@
                         '</td>'+
 
                         '<td>'+
-                        '<input type="number" name="barang[' +index + '][' + "kuantitas" + ']" value=' + thousands_separators(kuantitas) +'>'+
+                        '<input id="kuantitas_'+index+'" type="number" onchange="maxminvalue(' + "'kuantitas'"+ "," +index + "," + kuantitas + ')" min="1" max="'+kuantitas  +'" name="barang[' +index + '][' + "kuantitas" + ']" value=' + thousands_separators(kuantitas) +'>'+
                         '</td>'+
 
                         '<td>'+
-                        '<input type="number" name="barang[' +index + '][' + "harga" + ']" value="' + harga +'"">'+
+                        '<input id="harga_'+index+'" type="number" onchange="maxminvalue(' + "'harga'"+ "," +index + "," + harga + ')"  min="1" max="'+ harga  +'" name="barang[' +index + '][' + "harga" + ']" value="' + harga +'"">'+
                         '</td>'+
                         '<td>'+
                         '<a class="btn btn-danger barang_delete" onclick="deleteDataPembelian('+index+')">Hapus</a>'+
                         '</td>'+
                         
                         '</tr>';
-                        alert(table);
+                        // alert(table);
                         $('#new__').append(table);
                         // $('#bahan_pesanan_row').append(table);
 
@@ -745,12 +756,7 @@
 
                     // Code for Sub Total of Vegitables 
                     // var total = 0;
-                    // $('#receipt_bill_penjualan tbody tr td:last-child').each(function() {
-                    //     var value = parseInt($('#total', this).val());
-                    //     if (!isNaN(value)) {
-                    //         total += value;
-                    //     }
-                    // });
+                  
                     $('#subTotal_penjualan').text(thousands_separators(subTotal_penjualan));
 
 

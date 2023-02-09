@@ -1,28 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layout.conquer')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Pemasukan Telur</title>
-    <style>
-        .result {
-            color: red;
-        }
-
-        td {
-            text-align: center;
-        }
-    </style>
-</head>
-
-
-<body>
+@section('content')
     <section class="mt-3">
         <div class="container-fluid">
             <h4 class="text-center" style="color:green"> UD Farm Lestari </h4>
@@ -157,19 +135,11 @@
                 </div>
             </div>
     </section>
-</body>
+@endsection
 
-</html>
-
+@section('javascript')
 <script>
-    $(document).ready(function() {
         function thousands_separators(num) {
-<<<<<<< HEAD
-            var num_parts = num.toString().split(".");
-            num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            return num_parts.join(".");
-        }
-=======
         var num_parts = num.toString().split(".");
         num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         return num_parts.join(".");
@@ -182,7 +152,6 @@
         // if (count != 1) {
 
         // };
->>>>>>> 9abea29373419cc0f8d252d3103c5fbbfd6895b2
         var count = 1;
         $('#tambah').on('click', function() {
 
@@ -221,7 +190,6 @@
                     var id_telur = $('#nama_telur').find(':selected').attr('id');
                     // alert(satuan+id_telur);
                     // masi error
-<<<<<<< HEAD
                     var table = '<tr>' +
                         '<td>' + count + '</td>' +
                         '<td>' + nama_telur + '<input type="hidden" name="telur[' + count +
@@ -238,21 +206,11 @@
                         '<td>' + satuan + '<input type="hidden" name="telur[' + count + '][' +
                         "satuan" + ']" value=' + satuan + '></td>' +
                         '</tr>';
-=======
-                    var table = '<tr>'+
-                        '<td>' + count + '</td>'+
-                        '<td>' + nama_telur + '<input type="hidden" name="telur[' + count + '][' + "id_telur" + ']" value=' + id_telur + '></td>'+
-                        '<td>' + kuantitas_bersih + '<input type="hidden" name="telur[' + count + '][' + "kuantitas_bersih" + ']" value=' + kuantitas_bersih + '></td>'+
-                        '<td>' + kuantitas_reject + '<input type="hidden" name="telur[' + count + '][' + "kuantitas_reject" + ']" value=' + kuantitas_reject + '></td>'+
-                        '<td>' + thousands_separators(kuantitas_total) + '<input type="hidden" name="telur[' + count + '][' + "kuantitas_total" + ']" value=' + kuantitas_total + '></td>'+
-                        '<td>' + satuan + '<input type="hidden" name="telur[' + count + '][' + "satuan" + ']" value=' + satuan+ '></td>'
-                        +'</tr>';
->>>>>>> 9abea29373419cc0f8d252d3103c5fbbfd6895b2
                     // alert(table);
                     $('#new').append(table);
                 });
                 count++;
             }
         });
-    });
 </script>
+@endsection

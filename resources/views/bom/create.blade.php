@@ -1,7 +1,7 @@
 @extends('layout.conquer')
 
 @section('content')
-    <section class="mt-3"style="display: none;">
+    <section class="mt-3 p-5">
         <div class="">
             {{-- <h4 class="text-center" style="color:green"> UD Farm Lestari </h4> --}}
             <div class="row">
@@ -109,8 +109,9 @@
     </section>
 @endsection
 
+
+@section('javascript')
 <script>
-    $(document).ready(function() {
         function thousands_separators(num) {
             var num_parts = num.toString().split(".");
             num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -165,5 +166,6 @@
                 count++;
             }
         });
-    });
+
 </script>
+@endsection
