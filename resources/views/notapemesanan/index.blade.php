@@ -128,21 +128,24 @@
 
 @section('javascript')
     <script>
-        $('#myTable').DataTable({
+        var table = $('#myTable').DataTable({
             order: [
                 [0, 'desc']
             ]
         });
 
         $('#date_range_filter_min, #date_range_filter_max').on('change', function() {
+            // alert("a");
             $.fn.dataTable.ext.search.pop();
             if ($('#date_range_filter_min').val() != '' && $('#date_range_filter_max').val() != '') {
                 $.fn.dataTable.ext.search.push(
                     function(settings, data, dataIndex) {
+                        // alert(data);
                         min = new Date($('#date_range_filter_min').val());
                         max = new Date($('#date_range_filter_max').val());
+                        ;
 
-                        var date = new Date(data[1]);
+                        var date = new Date(data[2]);
                         if ((min === null && max === null) || (min === null && date <= max) || (min <= date &&
                                 max === null) || (min <= date && date <= max)) {
                             return true;
@@ -188,22 +191,22 @@
 
 @section('initialscript')
     <script>
-        var s_id = data.$el[0].id
-        var fname = s_id.split('_')[1]
-        var id = s_id.split('_')[2]
-        $.ajax({
-            type: 'POST',
-            url: '{{ route('notapemesanan.saveDataField') }}',
-            data: {
-                '_token': '<?php echo csrf_token(); ?>',
-                'id': id,
-                'fnama': fname,
-                'value': data.content
+        // var s_id = data.$el[0].id
+        // var fname = s_id.split('_')[1]
+        // var id = s_id.split('_')[2]
+        // $.ajax({
+        //     type: 'POST',
+        //     url: '{{ route('notapemesanan.saveDataField') }}',
+        //     data: {
+        //         '_token': '<?php echo csrf_token(); ?>',
+        //         'id': id,
+        //         'fnama': fname,
+        //         'value': data.content
 
-            },
-            success: function(data) {
-                alert(data.msg)
-            }
-        });
+        //     },
+        //     success: function(data) {
+        //         alert(data.msg)
+        //     }
+        // });
     </script>
 @endsection
