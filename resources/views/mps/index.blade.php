@@ -91,7 +91,7 @@
                             </div>
                             <div class="form-group" id="selected_bahan_baku" style="display: none;">
                                 <label>Nama Bahan Baku</label>
-                                <select class="form-control" name="bahan_baku" id="bahan_baku">
+                                <select class="form-control" name="bahan_baku" id="bahan_baku" >
 
                                 </select>
                             </div>
@@ -99,7 +99,7 @@
                                 <div class="form-group">
                                     <label>Kuantitas</label>
                                     <input type="text" name="kuantitas_barang_jadi" class="form-control" id='kuantitas'
-                                        required>
+                                        required readonly>
                                     </input>
                                 </div>
                                 <div class="form-group">
@@ -165,25 +165,40 @@
         $("#spk").on('change', function() {
             $("#data_bahan_baku").hide();
             $("#selected_bahan_baku").show();
+            $('#data_bahan_baku').show();
             $('#bahan_baku').html("");
             var id_spk = $(this).val();
             spkbarang.forEach(element => {
                 if (id_spk == element[0]) {
                     // Show Supplier
+                    
                     for (let index = 0; index < element[1].length; index++) {
                         const elements = element[1][index];
                         var barang_id = elements[0];
                         var barang_name = elements[1];
-                        var barang_pesanan = '<option value="' + barang_id + '" >' + barang_name +
-                            '</option>';
+                        var barang_pesanan = '<option value="' + barang_id + '" selected >' + barang_name +
+                            '  </option>';
                         $('#bahan_baku').append(barang_pesanan);
 
                     }
+              
+                    
                 }
             });
+           
+
         });
 
-        $("#bahan_baku").on('change', function() {
+        // if( $("#bahan_baku").find(':selected').val() != ''){
+        //     alert('aa');
+        // };
+
+        // $("#bahan_baku").on('focus', function() {
+        //     // alert("aa");
+            
+        // });
+        // $('#bahan_baku').first().focus();
+        function data(){
             spkbarang.forEach(element => {
                 if ($('#spk').val() == element[0]) {
                     // Show Supplier
@@ -200,7 +215,14 @@
                     }
                 }
             });
-        });
+        };
+        $("#bahan_baku").on('focus', function () {
+  
+            data()
+    }).change(function() {
+        data()
+  
+    });
         $('.status_option').change(function() {
             var id_mps = $(this).attr('mpsid');
             var value_change = $(this).val();

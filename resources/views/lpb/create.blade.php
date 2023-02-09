@@ -1,28 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layout.conquer')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Laporan Pengeluaran Barang</title>
-    <style>
-        .result {
-            color: red;
-        }
-
-        td {
-            text-align: center;
-        }
-    </style>
-</head>
-
-
-<body>
+@section('content')
     <section class="mt-3">
         <div class="container-fluid">
             <h4 class="text-center" style="color:green"> UD Farm Lestari </h4>
@@ -53,9 +31,12 @@
                             <tr>
                                 <td>
                                     <select name="bahan_baku" id="bahan_baku" class="form-control">
+                                        <option class="barang custom-select">
+                                            Pilih Bahan Baku
+                                        </option>
                                         @foreach($barang as $row )
                                         @if ($row->jenis == "Bahan Baku")
-                                        <option id={{$row->id}} value="{{$row->nama}}" satuan="{{$row->satuan}}" class="barang custom-select">
+                                        <option id={{$row->id}} value="{{$row->nama}}" satuan="{{$row->satuan}}" ready="{{$row->kuantitas_stok_ready}}" class="barang custom-select">
                                             {{$row->nama}}
                                         </option>
                                         @endif
@@ -69,6 +50,9 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div role="alert" id="errorMsg" class="mt-5">
+                        <!-- Error msg  -->
+                    </div>
                 </div>
                 <div class="col-md-7  mt-4" style="background-color:#f5f5f5;">
                     <form action="{{ route('lpb.store') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
@@ -112,12 +96,11 @@
                 </div>
             </div>
     </section>
-</body>
 
-</html>
+@endsection
 
+@section('javascript')
 <script>
-    $(document).ready(function() {
         function thousands_separators(num) {
             var num_parts = num.toString().split(".");
             num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -132,11 +115,20 @@
             var satuan_bahan_baku = $('#bahan_baku').find(':selected').attr('satuan');
             var nama_bahan_baku = $('#bahan_baku').val();
             var kuantitas_bahan_baku = $('#kuantitas_bahan_baku').val();
+            var kuantitas_bahan_baku_ready = $('#bahan_baku').find(':selected').attr('ready');
+            // alert(kuantitas_bahan_baku_ready)
          
-            if (kuantitas_bahan_baku == 0) {
-                var erroMsg = '<span class="alert alert-danger ml-5">Minimum Qty should be 1 or More than 1</span>';
+            if ( kuantitas_bahan_baku <=0) {
+                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Bahan Baku Kurang Dari 0 Atau Berupa Huruf</span>';
+                $('#errorMsg').show();
                 $('#errorMsg').html(erroMsg).fadeOut(9000);
-            } else {
+            }
+            else if(kuantitas_bahan_baku_ready < kuantitas_bahan_baku ){
+                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Melebihi Total Stock Bahan Baku</span>';
+                $('#errorMsg').show();
+                $('#errorMsg').html(erroMsg).fadeOut(9000);
+            }
+            else {
                 billFunction(); // Below Function passing here 
             }
 
@@ -155,5 +147,6 @@
                 count++;
             }
         });
-    });
 </script>
+
+@endsection

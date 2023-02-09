@@ -28,34 +28,34 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
         type="text/css" />
-    <link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <link href="assets/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
-    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/plugins/simple-line-icons/simple-line-icons.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/plugins/uniform/css/uniform.default.css')}}" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
     <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
-    <link href="assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
-    <link href="assets/plugins/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css" />
-    <link href="assets/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="assets/plugins/select2/select2.css" />
+    <link href="{{asset('assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/plugins/fullcalendar/fullcalendar/fullcalendar.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/plugins/jqvmap/jqvmap/jqvmap.css')}}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/select2/select2.css')}}" />
     <link rel="stylesheet" type="text/css"
-        href="assets/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css" />
+        href="{{asset('assets/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css')}}" />
     <link rel="stylesheet" type="text/css"
-        href="assets/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css" />
+        href="{{asset('assets/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css')}}" />
     <link rel="stylesheet" type="text/css"
-        {{-- href="assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css" /> --}}
+        {{-- href="{{asset('assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css" /> --}}
     <!-- END PAGE LEVEL PLUGIN STYLES -->
     <!-- BEGIN THEME STYLES -->
-    <link href="assets/css/style-conquer.css" rel="stylesheet" type="text/css" />
-    <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
-    <link href="assets/css/style-responsive.css" rel="stylesheet" type="text/css" />
-    <link href="assets/css/plugins.css" rel="stylesheet" type="text/css" />
-    <link href="assets/css/pages/tasks.css" rel="stylesheet" type="text/css" />
-    <link href="assets/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color" />
-    <link href="assets/css/custom.css" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/css/style-conquer.cs')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/css/style.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/css/style-responsive.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/css/plugins.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/css/pages/tasks.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/css/themes/default.css')}}" rel="stylesheet" type="text/css" id="style_color" />
+    <link href="{{asset('assets/css/custom.css')}}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
     <link rel="stylesheet" type="text/css"
-        href="assets/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css" />
+        href="{{asset('assets/plugins/datatables/extensions/Scroller/css/dataTables.scroller.min.css')}}" />
     {{-- <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script> --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css"
         rel="stylesheet">
@@ -77,7 +77,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <div class="header-inner">
             <!-- BEGIN RESPONSIVE MENU TOGGLER -->
             <a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <img src="assets/img/menu-toggler.png" alt="" />
+                <img src="{{asset('assets/img/menu-toggler.png')}}" alt="" />
             </a>
             <!-- END RESPONSIVE MENU TOGGLER -->
             <!-- BEGIN TOP NAVIGATION MENU -->
@@ -91,7 +91,7 @@ License: You must have a valid license purchased only from themeforest(the above
                 <li class="dropdown user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
                         data-close-others="true">
-                        <img alt="" src="assets/img/avatar3_small.jpg" />
+                        <img alt="" src="{{asset('assets/img/avatar3_small.jpg')}}" />
                         <span class="username username-hide-on-mobile">
                             {{-- {{ Auth::user()->name }} --}}
                         </span>
@@ -341,58 +341,58 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- END FOOTER -->
     <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
     <!-- BEGIN CORE PLUGINS -->
-    <script src="assets/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jquery-1.11.0.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jquery-migrate-1.2.1.min.js')}}" type="text/javascript"></script>
     <!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
-    <script src="assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/bootstrap/js/bootstrap.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jquery.blockui.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/uniform/jquery.uniform.min.js')}}" type="text/javascript"></script>
     <!-- END CORE PLUGINS -->
     <!-- BEGIN PAGE LEVEL PLUGINS -->
-    <script src="assets/plugins/jqvmap/jqvmap/jquery.vmap.js" type="text/javascript"></script>
-    <script src="assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js" type="text/javascript"></script>
-    <script src="assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js" type="text/javascript"></script>
-    <script src="assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.europe.js" type="text/javascript"></script>
-    <script src="assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js" type="text/javascript"></script>
-    <script src="assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js" type="text/javascript"></script>
-    <script src="assets/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery.peity.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery.pulsate.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery-knob/js/jquery.knob.js" type="text/javascript"></script>
-    <script src="assets/plugins/flot/jquery.flot.js" type="text/javascript"></script>
-    <script src="assets/plugins/flot/jquery.flot.resize.js" type="text/javascript"></script>
-    <script src="assets/plugins/bootstrap-daterangepicker/moment.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
-    <script src="assets/plugins/gritter/js/jquery.gritter.js" type="text/javascript"></script>
-    <script type="text/javascript" src="assets/plugins/select2/select2.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js">
+    <script src="{{asset('assets/plugins/jqvmap/jqvmap/jquery.vmap.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.europe.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jquery.peity.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jquery.pulsate.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jquery-knob/js/jquery.knob.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/flot/jquery.flot.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/flot/jquery.flot.resize.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/bootstrap-daterangepicker/moment.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/bootstrap-daterangepicker/daterangepicker.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/gritter/js/jquery.gritter.js')}}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('assets/plugins/datatables/media/js/jquery.dataTables.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('assets/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js')}}">
     </script>
-    <script type="text/javascript" src="assets/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js">
+    <script type="text/javascript" src="{{asset('assets/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js')}}">
     </script>
-    <script type="text/javascript" src="assets/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js">
+    <script type="text/javascript" src="{{asset('assets/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js')}}">
     </script>
-    <script type="text/javascript" src="assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
+    <script type="text/javascript" src="{{asset('assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js')}}"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- IMPORTANT! fullcalendar depends on jquery-ui-1.10.3.custom.min.js for drag & drop support -->
-    <script src="assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery-easypiechart/jquery.easypiechart.min.js" type="text/javascript"></script>
-    <script src="assets/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jquery-easypiechart/jquery.easypiechart.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jquery.sparkline.min.js')}}" type="text/javascript"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
-    <script src="assets/scripts/app.js" type="text/javascript"></script>
-    <script src="assets/scripts/index.js" type="text/javascript"></script>
-    <script src="assets/scripts/tasks.js" type="text/javascript"></script>
+    <script src="{{asset('assets/scripts/app.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/scripts/index.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/scripts/tasks.js')}}" type="text/javascript"></script>
     <script src="{{ asset('assets/plugins/jquery.editable.min.js') }}" type="text/javascript"></script>
     <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="assets/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js">
+    <script type="text/javascript" src="{{ asset('assets/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js')}}">
     </script>
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.4.1/css/buttons.dataTables.min.css">
-    <script src="assets/scripts/app.js"></script>
-    <script src="assets/scripts/table-advanced.js"></script>
+    <script src="{{ asset('assets/scripts/app.js') }}"></script>
+    <script src="{{ asset('assets/scripts/table-advanced.js') }}"></script>
     <script>
         jQuery(document).ready(function() {
             App.init();

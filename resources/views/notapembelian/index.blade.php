@@ -134,6 +134,11 @@ $('.status_option').change(function() {
                 }
             });
         });
+        var table = $('#myTable').DataTable({
+            order: [
+                [0, 'desc']
+            ]
+        });
             $('.date_filter_min, .date_filter_max').on('change', function() {
             $.fn.dataTable.ext.search.pop();
             if ($('.date_filter_min').val() != '' && $('.date_filter_max').val() != '') {
@@ -222,11 +227,7 @@ $('.status_option').change(function() {
 
         );
     };
-    var table = $('#myTable').DataTable({
-            order: [
-                [0, 'desc']
-            ]
-        });
+  
 </script>
 @endsection
 @section('initialscript')
