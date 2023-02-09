@@ -22,6 +22,28 @@
             </div>
             <div class="portlet-body">
                 <table id='myTable' class="table table-bordered">
+                    <form method="post">
+                        @csrf
+                        <br>
+                        <div class="container">
+                            <div class="row">
+                                <div class="container-fluid">
+                                    <div class="form-group row">
+                                        <label for="date" class="col-form-label col-sm-2">Dari Tanggal</label>
+                                        <div class="col-sm-3">
+                                            <input type="date" class="form-control input-sm date_filter_min"
+                                                id="date_filter_min" name="dariTgl" />
+                                        </div>
+                                        <label for="date" class="col-form-label col-sm-2">Sampai Tanggal</label>
+                                        <div class="col-sm-3">
+                                            <input type="date" class="form-control input-sm date_filter_max"
+                                                id="date_filter_max" name="sampaiTgl" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -40,7 +62,8 @@
                                 <td>{{ $d->id }}</td>
                                 <td id='td_surat_perintah_kerja_{{ $d->id }}'>
                                     {{ $d->surat_perintah_kerja->no_surat }}</td>
-                                <td id='td_tgl_pencatatan_{{ $d->id }}'>{{ $d->tgl_pencatatan->format('d/m/Y')  }}</td>
+                                <td id='td_tgl_pencatatan_{{ $d->id }}'>{{ $d->tgl_pencatatan->format('d/m/Y') }}
+                                </td>
                                 <td id='td_barang_{{ $d->id }}'>{{ $d->barang->nama }}</td>
 
                                 <td id='td_total_kuantitas_{{ $d->id }}'>{{ number_format($d->total_kuantitas) }}
@@ -74,9 +97,6 @@
                                     </div>
                                 </td>
                                 <td id='td_pengguna_{{ $d->id }}'>{{ $d->pengguna->nama }}</td>
-                                <!-- <td>
-                            <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs' onclick="getEditForm({{ $d->id }})">EDIT</a>
-                        </td> -->
                             </tr>
                         @endforeach
                     </tbody>
@@ -128,8 +148,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Kuantitas Barang Bersih:</label>
-                                    <input type="text" name="input_kn_bersih" class="form-control" id='input_kn_bersih'
-                                        required>
+                                    <input type="text" name="input_kn_bersih" class="form-control"
+                                        id='input_kn_bersih' required>
                                     </input>
                                 </div>
                                 <div class="form-group">
@@ -158,17 +178,35 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalEdit" tabindex="-1" role="basic" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content" id='modalContent'>
-            </div>
-        </div>
-    </div>
 @endsection
 
 
 @section('javascript')
     <script>
+        var table = $('#myTable').DataTable({
+            order: [
+                [0, 'desc']
+            ]
+        });
+        $('.date_filter_min, .date_filter_max').on('change', function() {
+            $.fn.dataTable.ext.search.pop();
+            if ($('.date_filter_min').val() != '' && $('.date_filter_max').val() != '') {
+
+                min = new Date($('.date_filter_min').val());
+                max = new Date($('.date_filter_max').val());
+                $.fn.dataTable.ext.search.push(
+                    function(settings, data, dataIndex) {
+                        var date = new Date(data[2].split("/")[2] + "-" + data[2].split("/")[1] + "-" + data[2]
+                            .split("/")[0]);
+                        if ((min === null && max === null) || (min === null && date <= max) || (min <= date &&
+                                max === null) || (min <= date && date <= max)) {
+                            return true;
+                        }
+                        return false;
+                    });
+            }
+            table.draw();
+        });
         var spkbarang = [
             @foreach ($surat_perintah_kerja as $item)
                 [
@@ -187,12 +225,8 @@
             @endforeach
         ];
         $("#input_kn_reject").on('change', function() {
-            // alert($("#input_kn_reject").val());
             $("#input_kn_bersih").on('change', function() {
-                // alert($("#input_kn_bersih").val());
-
                 var total = parseInt($("#input_kn_reject").val()) + parseInt($("#input_kn_bersih").val());
-
                 $('#input_kn_total').val(total);
             })
         })
@@ -216,11 +250,6 @@
 
             });
 
-        });
-        $('#myTable').DataTable({
-            order: [
-                [0, 'desc']
-            ]
         });
     </script>
 @endsection

@@ -1,3 +1,4 @@
+{{-- cek --}}
 @extends('layout.conquer')
 @section('content')
 <div class="container">
@@ -19,6 +20,28 @@
         </div>
         <div class="portlet-body">
             <table id='myTable' class="table table-bordered">
+                <form method="post">
+                    @csrf
+                    <br>
+                    <div class="container">
+                        <div class="row">
+                            <div class="container-fluid">
+                                <div class="form-group row">
+                                    <label for="date" class="col-form-label col-sm-2">Dari Tanggal</label>
+                                    <div class="col-sm-3">
+                                        <input type="date" class="form-control input-sm date_filter_min" id="date_filter_min"
+                                            name="dariTgl" />
+                                    </div>
+                                    <label for="date" class="col-form-label col-sm-2">Sampai Tanggal</label>
+                                    <div class="col-sm-3">
+                                        <input type="date" class="form-control input-sm date_filter_max" id="date_filter_max"
+                                            name="sampaiTgl" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -28,6 +51,7 @@
                         <th>Total Harga</th>
                         <th>Daftar Barang</th>
                         <th>Pembuat Nota</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -74,6 +98,13 @@
                             </div>
                         </td>
                         <td id='td_pengguna_{{$d->id}}'>{{$d->pengguna->nama}}</td>
+                        <td class='editable' id='td_status_{{ $d->id }}'>
+                            <select class="form-control status_option" name="status_option"
+                            notapembelianid="{{ $d->id }}">
+                            @foreach (['belum bayar' => 'Belum Bayar', 'sudah bayar' => 'Sudah Bayar'] as $value => $Label)
+                            <option value="{{ $value }}" {{ $d->status == $value ? 'selected' : '' }}>{{ $Label }}</option>
+                            @endforeach</select>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -81,11 +112,47 @@
         </div>
     </div>
 </div>
-
 @endsection
 
 @section('javascript')
 <script>
+$('.status_option').change(function() {
+    var id_nota_pembelian = $(this).attr('notapembelianid');
+            var value_change = $(this).val();
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('notapembelian.saveDataField') }}',
+                data: {
+                    '_token': '<?php echo csrf_token(); ?>',
+                    'id': id_nota_pembelian,
+                    'fnama': 'status',
+                    'value': value_change
+
+                },
+                success: function(data) {
+                    alert(data.msg)
+                }
+            });
+        });
+            $('.date_filter_min, .date_filter_max').on('change', function() {
+            $.fn.dataTable.ext.search.pop();
+            if ($('.date_filter_min').val() != '' && $('.date_filter_max').val() != '') {
+
+                min = new Date($('.date_filter_min').val());
+                max = new Date($('.date_filter_max').val());
+                $.fn.dataTable.ext.search.push(
+                    function(settings, data, dataIndex) {
+                        var date = new Date(data[2].split("/")[2] + "-" + data[2].split("/")[1] + "-" + data[2]
+                            .split("/")[0]);
+                        if ((min === null && max === null) || (min === null && date <= max) || (min <= date &&
+                                max === null) || (min <= date && date <= max)) {
+                            return true;
+                        }
+                        return false;
+                    });
+            }
+            table.draw();
+        });
     $("#no_pesanan").on('change', function() {
         $('#bahan_pesanan').html("");
         var notapemesanan = [
@@ -155,10 +222,31 @@
 
         );
     };
-    $('#myTable').DataTable({
+    var table = $('#myTable').DataTable({
             order: [
                 [0, 'desc']
             ]
         });
 </script>
+@endsection
+@section('initialscript')
+    <script>
+        var s_id = data.$el[0].id
+        var fname = s_id.split('_')[1]
+        var id = s_id.split('_')[2]
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('notapembelian.saveDataField') }}',
+            data: {
+                '_token': '<?php echo csrf_token(); ?>',
+                'id': id,
+                'fnama': fname,
+                'value': data.content
+
+            },
+            success: function(data) {
+                alert(data.msg)
+            }
+        });
+    </script>
 @endsection

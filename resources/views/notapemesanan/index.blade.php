@@ -28,13 +28,13 @@
                                     <div class="form-group row">
                                         <label for="date" class="col-form-label col-sm-2">Dari Tanggal</label>
                                         <div class="col-sm-3">
-                                            <input type="date" class="form-control input-sm date_filter_min" id="date_filter_min"
-                                                name="dariTgl" />
+                                            <input type="date" class="form-control input-sm date_filter_min"
+                                                id="date_filter_min" name="dariTgl" />
                                         </div>
                                         <label for="date" class="col-form-label col-sm-2">Sampai Tanggal</label>
                                         <div class="col-sm-3">
-                                            <input type="date" class="form-control input-sm date_filter_max" id="date_filter_max"
-                                                name="sampaiTgl" />
+                                            <input type="date" class="form-control input-sm date_filter_max"
+                                                id="date_filter_max" name="sampaiTgl" />
                                         </div>
                                     </div>
                                 </div>
@@ -58,7 +58,8 @@
                             <tr id='tr_{{ $d->id }}'>
                                 <td>{{ $d->id }}</td>
                                 <td id='td_no_nota_{{ $d->id }}'>{{ $d->no_nota }}</td>
-                                <td id='td_tanggal_pembuatan_nota_{{ $d->id }}'>{{ $d->tgl_pembuatan_nota->format('d/m/Y') }}</td>
+                                <td id='td_tanggal_pembuatan_nota_{{ $d->id }}'>
+                                    {{ $d->tgl_pembuatan_nota->format('d/m/Y') }}</td>
                                 <td id='td_supplier_{{ $d->id }}'>{{ $d->supplier->nama }}</td>
                                 <td id='td_total_harga_{{ $d->id }}'>Rp{{ number_format($d->total_harga, 2) }}
                                 </td>
@@ -134,23 +135,15 @@
             ]
         });
         $('.date_filter_min, .date_filter_max').on('change', function() {
-            // alert("a");
-            // alert("masuk");
             $.fn.dataTable.ext.search.pop();
             if ($('.date_filter_min').val() != '' && $('.date_filter_max').val() != '') {
-            
+
                 min = new Date($('.date_filter_min').val());
                 max = new Date($('.date_filter_max').val());
-                // alert(max);
-                // alert(min);
                 $.fn.dataTable.ext.search.push(
                     function(settings, data, dataIndex) {
-                        // alert("masuk");
-                        // alert($('#date_range_filter_min_').val());
-                        
-                        
-                        // var date = new Date(data[2]);
-                        var date = new Date(data[2].split("/")[2]+"-"+data[2].split("/")[1]+"-"+data[2].split("/")[0]);
+                        var date = new Date(data[2].split("/")[2] + "-" + data[2].split("/")[1] + "-" + data[2]
+                            .split("/")[0]);
                         if ((min === null && max === null) || (min === null && date <= max) || (min <= date &&
                                 max === null) || (min <= date && date <= max)) {
                             return true;
@@ -160,9 +153,7 @@
             }
             table.draw();
         });
-       
 
-       
         $('.status_option').change(function() {
             var id_nota = $(this).attr('notaid');
             var value_change = $(this).val();
@@ -180,19 +171,6 @@
                     alert(data.msg)
                 }
             });
-            // $('#harga').val(ids);
-            // alert(ids);
         });
-
-        // $(document).ready(function() {
-        //     $('#tableID').DataTable({
-
-        //         // Set the 3rd column of the
-        //         // DataTable to ascending order
-        //         order: [
-        //             [2, 'desc']
-        //         ]
-        //     });
-        // });
     </script>
 @endsection

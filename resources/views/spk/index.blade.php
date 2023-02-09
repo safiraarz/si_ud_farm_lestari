@@ -22,6 +22,28 @@
             </div>
             <div class="portlet-body">
                 <table id='myTable' class="table table-bordered">
+                    <form method="post">
+                        @csrf
+                        <br>
+                        <div class="container">
+                            <div class="row">
+                                <div class="container-fluid">
+                                    <div class="form-group row">
+                                        <label for="date" class="col-form-label col-sm-2">Dari Tanggal</label>
+                                        <div class="col-sm-3">
+                                            <input type="date" class="form-control input-sm date_filter_min"
+                                                id="date_filter_min" name="dariTgl" />
+                                        </div>
+                                        <label for="date" class="col-form-label col-sm-2">Sampai Tanggal</label>
+                                        <div class="col-sm-3">
+                                            <input type="date" class="form-control input-sm date_filter_max"
+                                                id="date_filter_max" name="sampaiTgl" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -38,7 +60,8 @@
                             <tr id='tr_{{ $d->id }}'>
                                 <td>{{ $d->id }}</td>
                                 <td id='td_no_spk_{{ $d->id }}'>{{ $d->no_surat }}</td>
-                                <td id='td_tgl_pembuatan_spk_{{ $d->id }}'>{{ $d->tgl_pembuatan_surat->format('d/m/Y')}}</td>
+                                <td id='td_tgl_pembuatan_spk_{{ $d->id }}'>
+                                    {{ $d->tgl_pembuatan_surat->format('d/m/Y') }}</td>
                                 <td>
                                     <a class="btn btn-default edittable" data-toggle="modal"
                                         href="#detail_{{ $d->id }}">
@@ -63,11 +86,11 @@
                                                         {{-- formatkan tgl ->format('d/m/Y')  --}}
                                                         <p>
                                                             <span>Tanggal Mulai Produksi</span> : <span>
-                                                                {{ $item->pivot->tgl_mulai_produksi}}</span>
+                                                                {{ $item->pivot->tgl_mulai_produksi }}</span>
                                                         </p>
                                                         <p>
                                                             <span>Tanggal Selesai Produksi</span> : <span>
-                                                                {{ $item->pivot->tgl_selesai_produksi}}</span>
+                                                                {{ $item->pivot->tgl_selesai_produksi }}</span>
                                                         </p>
                                                         <p>
                                                             <span>Kuantitas</span> : <span>
@@ -112,10 +135,29 @@
 
             );
         }
-        $('#myTable').DataTable({
+        var table = $('#myTable').DataTable({
             order: [
                 [0, 'desc']
             ]
+        });
+        $('.date_filter_min, .date_filter_max').on('change', function() {
+            $.fn.dataTable.ext.search.pop();
+            if ($('.date_filter_min').val() != '' && $('.date_filter_max').val() != '') {
+
+                min = new Date($('.date_filter_min').val());
+                max = new Date($('.date_filter_max').val());
+                $.fn.dataTable.ext.search.push(
+                    function(settings, data, dataIndex) {
+                        var date = new Date(data[2].split("/")[2] + "-" + data[2].split("/")[1] + "-" + data[2]
+                            .split("/")[0]);
+                        if ((min === null && max === null) || (min === null && date <= max) || (min <= date &&
+                                max === null) || (min <= date && date <= max)) {
+                            return true;
+                        }
+                        return false;
+                    });
+            }
+            table.draw();
         });
     </script>
 @endsection

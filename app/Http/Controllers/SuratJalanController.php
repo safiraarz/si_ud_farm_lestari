@@ -117,6 +117,24 @@ class SuratJalanController extends Controller
     {
         //
     }
+
+    public function saveDataField(Request $request)
+    {
+        $id = $request->get('id');
+        $fnama = $request->get('fnama');
+        $value = $request->get('value');
+        $suratjalan = SuratJalan::find($id);
+        $suratjalan->$fnama = $value;
+        $suratjalan->save();
+        return response()->json(
+            array(
+                'status' => 'ok',
+                'msg' => strtoupper($fnama).' Surat Jalan berhasil diupdate'
+            ),
+            200
+        );
+    }
+
     public function getEditForm(Request $request)
     {
         $id = $request->get('id');

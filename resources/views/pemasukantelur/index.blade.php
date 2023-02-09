@@ -22,6 +22,28 @@
             </div>
             <div class="portlet-body">
                 <table id='myTable' class="table table-bordered">
+                    <form method="post">
+                        @csrf
+                        <br>
+                        <div class="container">
+                            <div class="row">
+                                <div class="container-fluid">
+                                    <div class="form-group row">
+                                        <label for="date" class="col-form-label col-sm-2">Dari Tanggal</label>
+                                        <div class="col-sm-3">
+                                            <input type="date" class="form-control input-sm date_filter_min"
+                                                id="date_filter_min" name="dariTgl" />
+                                        </div>
+                                        <label for="date" class="col-form-label col-sm-2">Sampai Tanggal</label>
+                                        <div class="col-sm-3">
+                                            <input type="date" class="form-control input-sm date_filter_max"
+                                                id="date_filter_max" name="sampaiTgl" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -33,7 +55,6 @@
                             <th>Flok Asal</th>
                             <th>Daftar Barang</th>
                             <th>Pencatat Transaksi</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -98,16 +119,6 @@
                                     </div>
                                 </td>
                                 <td id='td_pengguna_{{ $d->id }}'>{{ $d->pengguna->nama }}</td>
-                                <td>
-                                    {{-- {{$d->created_at}} --}}
-                                    {{-- @php
-                            $create = strval($d->created_at);
-                            $created = str_replace(" ","",$create);
-                            echo $created;
-                        @endphp --}}
-                                    <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs'
-                                        onclick="getEditForm('{{ $d->created_at }}')">EDIT</a>
-                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -202,113 +213,43 @@
 @endsection
 @section('javascript')
     <script>
+        var table = $('#myTable').DataTable({
+            order: [
+                [0, 'desc']
+            ]
+        });
+        $('.date_filter_min, .date_filter_max').on('change', function() {
+            $.fn.dataTable.ext.search.pop();
+            if ($('.date_filter_min').val() != '' && $('.date_filter_max').val() != '') {
+
+                min = new Date($('.date_filter_min').val());
+                max = new Date($('.date_filter_max').val());
+                $.fn.dataTable.ext.search.push(
+                    function(settings, data, dataIndex) {
+                        var date = new Date(data[2].split("/")[2] + "-" + data[2].split("/")[1] + "-" + data[2]
+                            .split("/")[0]);
+                        if ((min === null && max === null) || (min === null && date <= max) || (min <= date &&
+                                max === null) || (min <= date && date <= max)) {
+                            return true;
+                        }
+                        return false;
+                    });
+            }
+            table.draw();
+        });
         // Generate Total 
         $("#kuantitas_bersih").on('change', function() {
             $("#kuantitas_reject").on('change', function() {
                 var total = parseInt($("#kuantitas_reject").val()) + parseInt($("#kuantitas_bersih").val());
-                // alert(total);
                 $('#total_kuantitas').val(total);
             })
         })
-        // $('').onChange(function() {
-        //         $('#kuantitas_reject').onChange(function() {
-        //             var total = $("#kuantitas_reject").val() + $("#kuantitas_bersih").val();
-        //             // alert(total);
-        //             $('#total_kuantitas').val(total);
 
-
-        //         });
-        //     });
         $(document).ready(function() {
 
             if ($("#kuantitas_bersih").val() != 0 && $("#kuantitas_reject").val() != 0) {
 
             }
-        });
-
-        function getEditForm(id) {
-
-            $.ajax({
-                    type: 'POST',
-                    url: '{{ route('pemasukantelur.getEditForm') }}',
-                    data: {
-                        '_token': '<?php echo csrf_token(); ?>',
-                        'id': id
-                    },
-                    success: function(data) {
-                        $('#modalContent').html(data.msg)
-                    }
-                },
-
-            );
-        }
-
-        // function saveDataUpdateTD(id) {
-        //     var eNama = $('#eNama').val();
-        //     var eHarga = $('#eHarga').val();
-        //     var eLeadTime = $('#eLeadTime').val();
-        //     var eKuantitas_stok_onorder_supplier = $('#eKuantitas_stok_onorder_supplier').val();
-        //     var eKuantitas_stok_onorder_produksi = $('#eKuantitas_stok_onorder_produksi').val();
-        //     var eKuantitas_stok_ready = $('#eKuantitas_stok_ready').val();
-        //     var eTotal_kuantitas_stok = $('#eTotal_kuantitas_stok').val();
-        //     var eJenis = $('#eJenis').val();
-        //     var eSatuan = $('#eSatuan').val();
-
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: '{{ route('pemasukantelur.saveData') }}',
-        //         data: {
-        //             '_token': '<?php echo csrf_token(); ?>',
-        //             'id': id,
-        //             'nama': eNama,
-        //             'harga': eHarga,
-        //             'lead_time': eLeadTime,
-        //             'kuantitas_stok_onorder_supplier': eKuantitas_stok_onorder_supplier,
-        //             'kuantitas_stok_onorder_produksi': eKuantitas_stok_onorder_produksi,
-        //             'kuantitas_stok_ready': eKuantitas_stok_ready,
-        //             'total_kuantitas_stok': eTotal_kuantitas_stok,
-        //             'jenis': eJenis,
-        //             'satuan': eSatuan,
-        //         },
-        //         success: function(data) {
-        //             if (data.status == 'ok') {
-        //                 alert(data.msg)
-        //                 $('#td_nama_' + id).html(eNama);
-        //                 $('#td_harga_' + id).html(eHarga);
-        //                 $('#td_lead_time_' + id).html(eLead_time);
-        //                 $('#td_kuantitas_stok_onorder_supplier_' + id).html(eKuantitas_stok_onorder_supplier);
-        //                 $('#td_kuantitas_stok_onorder_produksi_' + id).html(eKuantitas_stok_onorder_produksi);
-        //                 $('#td_kuantitas_stok_ready_' + id).html(eKuantitas_stok_ready);
-        //                 $('#td_total_kuantitas_stok_' + id).html(eTotal_kuantitas_stok);
-        //                 $('#td_jenis_' + id).html(eJenis);
-        //                 $('#td_satuan' + id).html(eSatuan);
-        //             }
-        //         }
-        //     });
-        // }
-
-        // function deleteDataRemoveTR(id) {
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: '{{ route('pemasukantelur.deleteData') }}',
-        //         data: {
-        //             '_token': '<?php echo csrf_token(); ?>',
-        //             'id': id
-        //         },
-        //         success: function(data) {
-        //             if (data.status == 'ok') {
-        //                 alert(data.msg)
-        //                 $('#tr_' + id).remove();
-        //             } else {
-        //                 alert(data.msg)
-        //             }
-        //         }
-        //     });
-        // }
-        $('#myTable').DataTable({
-            order: [
-                [0, 'desc']
-            ]
         });
     </script>
 @endsection

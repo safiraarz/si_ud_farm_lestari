@@ -24,10 +24,6 @@
                 <input type="text" name="strain" class="form-control" id='eStrain' value='{{$data->strain}}' required>
             </div>
             <div class="form-group">
-                <label>Populasi</label>
-                <input type="number" min="0" name="populasi" class="form-control" id='ePopulasi' value='{{$data->populasi}}' required>
-            </div>
-            <div class="form-group">
                 <label>Usia</label>
                 <input type="text" min="0" name="usia" class="form-control" id='eUsia' value='{{$data->usia}}' required>
             </div>
