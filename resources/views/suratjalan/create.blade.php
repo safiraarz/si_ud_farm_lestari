@@ -1,10 +1,6 @@
 @extends('layout.conquer')
 
 @section('content')
-<<<<<<< HEAD
-=======
-
->>>>>>> bfa4283e94946775ac0fdb78628d16b6344c6b07
     <section class="mt-3">
         <div class="container-fluid">
             <h4 class="text-center" style="color:green"> UD Farm Lestari </h4>
@@ -98,10 +94,6 @@
                 </div>
             </div>
     </section>
-<<<<<<< HEAD
-    @endsection
-=======
->>>>>>> bfa4283e94946775ac0fdb78628d16b6344c6b07
 
 @endsection
 

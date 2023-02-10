@@ -82,7 +82,7 @@
                         </div>
                         <div class="form-group">
                             <label>Nomor Telepon</label>
-                            <input type="text" name="no_telepon" class="form-control" id='no_telepon' required>
+                            <input type="number" min="0" name="no_telepon" class="form-control" id='no_telepon' required>
                             </input>
                         </div>
                     </div>

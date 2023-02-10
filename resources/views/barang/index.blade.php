@@ -124,32 +124,32 @@
                             </div>
                             <div class="form-group">
                                 <label>Kuantitas Stok on Order Supplier</label>
-                                <input type="text" name="kuantitas_stok_onorder_supplier" id="kuantitas_supplier"
+                                <input type="number" min="0" name="kuantitas_stok_onorder_supplier" id="kuantitas_supplier"
                                     class="form-control" placeholder="Kuantitas Stok on Order Supplier">
                             </div>
                             <div class="form-group">
                                 <label>Kuantitas Stok on Order Produksi</label>
-                                <input type="text" name="kuantitas_stok_onorder_produksi" id="kuantitas_produksi"
+                                <input type="number" min="0" name="kuantitas_stok_onorder_produksi" id="kuantitas_produksi"
                                     class="form-control" placeholder="Kuantitas Stok on Order Produksi">
                             </div>
                             <div class="form-group">
                                 <label>Kuantitas Stok Pengaman</label>
-                                <input type="text" name="kuantitas_stok_pengaman" id="kuantitas_pengaman"
+                                <input type="number" min="0" name="kuantitas_stok_pengaman" id="kuantitas_pengaman"
                                     class="form-control" placeholder="Kuantitas Stok Pengaman">
                             </div>
                             <div class="form-group">
                                 <label>Kuantitas Stok Ready</label>
-                                <input type="text" name="kuantitas_stok_ready" id="kuantitas_ready"
+                                <input type="number" min="0" name="kuantitas_stok_ready" id="kuantitas_ready"
                                     class="form-control" placeholder="Kuantitas Stok Ready">
                             </div>
                             <div class="form-group">
                                 <label>Total Kuantitas Stok</label>
-                                <input type="text" name="total_kuantitas_stok" id="total_kuantitas"
+                                <input type="number" min="0" name="total_kuantitas_stok" id="total_kuantitas"
                                     class="form-control" placeholder="Total Kuantitas Stok" readonly="true">
                             </div>
                             <div class="form-group">
                                 <label>Harga per-Satuan</label>
-                                <input type="text" name="harga" class="form-control"
+                                <input type="number" min="0" name="harga" class="form-control"
                                     placeholder="Harga per-Satuan">
                             </div>
                             <div class="form-group">

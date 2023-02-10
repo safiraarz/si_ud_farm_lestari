@@ -98,7 +98,7 @@
                         </div>
                         <div class="form-group">
                             <label>Usia/Hari</label>
-                            <input type="type" min="0" name="usia" class="form-control" id='usia'
+                            <input type="text" name="usia" class="form-control" id='usia'
                                 required>
                         </div>
                     </div>

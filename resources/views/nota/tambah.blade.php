@@ -546,7 +546,7 @@
                         thousands_separators(total_pesanan) +
                         '</strong></td>'+
                         '<td>'+
-                        '<a class="btn btn-danger barang_delete" onclick="deleteDataPemesanan('+count+')">Hapus</a><td>'+
+                        '<a class="btn btn-danger barang_delete" onclick="deleteDataPemesanan('+count+')"><i class="fa fa-trash-o"></i></a><td>'+
                         '</tr>';
                     $('#new').append(table);
 
@@ -686,7 +686,7 @@
                         '<input id="harga_'+index+'" type="number" onchange="maxminvalue(' + "'harga'"+ "," +index + "," + harga + ')"  min="1" max="'+ harga  +'" name="barang[' +index + '][' + "harga" + ']" value="' + harga +'"">'+
                         '</td>'+
                         '<td>'+
-                        '<a class="btn btn-danger barang_delete" onclick="deleteDataPembelian('+index+')">Hapus</a>'+
+                        '<a class="btn btn-danger barang_delete" onclick="deleteDataPembelian('+index+')"><i class="fa fa-trash-o"></i></a></a>'+
                         '</td>'+
                         
                         '</tr>';
@@ -776,7 +776,7 @@
                         '></td><td><strong><input type="hidden" id="total" name="barang_penjualan[' +
                         count_penjualan + '][' + "total_harga_barang" + ']" value="' + total + '">' +
                         thousands_separators(total) + '</strong></td>'+
-                        '<td><a class="btn btn-danger barang_delete" onclick="deleteDataPemesanan('+count_penjualan+')">Hapus</a></td>'+
+                        '<td><a class="btn btn-danger barang_delete" onclick="deleteDataPemesanan('+count_penjualan+')"><i class="fa fa-trash-o"></i></a></a></td>'+
                         '</tr>';
                     $('#new_penjualan').append(table);
 

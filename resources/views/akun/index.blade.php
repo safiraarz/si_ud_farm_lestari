@@ -88,7 +88,7 @@
                         </div>
                         <div class="form-group">
                             <label>Saldo Awal</label>
-                            <input type="number" name="saldo_awal" class="form-control" id='saldo_awal' required>
+                            <input type="number" name="saldo_awal" class="form-control" id='saldo_awal' min="0" required>
                         </div>
                     </div>
                     <div class="modal-footer">

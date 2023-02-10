@@ -161,9 +161,9 @@
                         '<td>' + name +'<input type="hidden" name="barang[' + count + '][' + "id_barang" + ']" value=' +id_barang + '></td>'+
                         '<td>' + date_start +'<input type="hidden" name="barang[' + count + '][' + "tanggal_mulai" + ']" value=' +date_start + '></td>'+
                         '<td>' + date_end +'<input type="hidden" name="barang[' + count + '][' + "tanggal_akhir" + ']" value=' +date_end + '></td>'+
-
                         '<td>' + thousands_separators(kuantitas) + '<input type="hidden" name="barang[' + count +'][' + "kuantitas" + ']" value=' + kuantitas + '></td>'
-                        +'<td>' + satuan + '</td></tr>';
+                        +'<td>' + satuan + '</td><td>'+
+                        '<a class="btn btn-danger barang_delete" onclick="deleteDataPemesanan('+count+')"><i class="fa fa-trash-o"></i></a><td></tr>';
                     $('#new').append(table);
                 });
                 count++;
