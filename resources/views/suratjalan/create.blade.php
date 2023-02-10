@@ -50,6 +50,9 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div role="alert" id="errorMsg" class="mt-5">
+                        <!-- Error msg  -->
+                    </div>
                 </div>
                 <div class="col-md-7  mt-4" style="background-color:#f5f5f5;">
                     <form action="{{ route('suratjalan.store') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
@@ -112,13 +115,24 @@
             $("#keterangan_input").val( $("#keterangan").val())
             var nama_barang_jadi = $('#barang_jadi').val();
             var kuantitas_barang_jadi = $('#kuantitas_barang_jadi').val();
+            var kuantitas_barang_jadi_ready = $('#barang_jadi').find(':selected').attr('ready');
             var satuan_barang_jadi = $('#barang_jadi').find(':selected').attr('satuan');
             var id_barang_jadi = $('#barang_jadi').find(':selected').attr('id');
+            // alert(kuantitas_barang_jadi);
+            // alert(kuantitas_barang_jadi_ready);
 
-            if (kuantitas_barang_jadi <= 0) {
-                var erroMsg = '<span class="alert alert-danger ml-5">Minimum Qty should be 1 or More than 1</span>';
+            if (parseInt(kuantitas_barang_jadi) <= 0 || kuantitas_barang_jadi == null) {
+                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Barang Kurang Dari 0 Atau Huruf</span>';
+                $('#errorMsg').show();
                 $('#errorMsg').html(erroMsg).fadeOut(9000);
-            } else {
+            }
+            
+            else if(parseInt(kuantitas_barang_jadi_ready) < parseInt(kuantitas_barang_jadi)){
+                var erroMsg = '<span class="alert alert-danger ml-5">Total Stok Kurang</span>';
+                $('#errorMsg').show();
+                $('#errorMsg').html(erroMsg).fadeOut(9000);
+            }
+            else {
                 billFunction(); // Below Function passing here 
             }
 
