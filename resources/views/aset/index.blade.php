@@ -38,15 +38,9 @@
                                 <td id='td_nama_{{ $d->id }}'>{{ $d->estimasi_bulan }}</td>
                                 <td id='td_nama_{{ $d->id }}'>{{ $d->nilai_residu }}</td>
                                 <td>
-                                    <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs'
-                                        onclick="getEditForm({{ $d->id }})">EDIT</a>
-                                    <form method='POST' action="{{ url('aset/' . $d->id) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
                                     <a class='btn btn-danger btn-xs'
-                                        onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{ $d->id }})">Delete
-                                        2</a>
+                                        onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{ $d->id }})">
+                                        <i class="fa fa-trash-o"></i></a>
                                 </td>
                             </tr>
                         @endforeach

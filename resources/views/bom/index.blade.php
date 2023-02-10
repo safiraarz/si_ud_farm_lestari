@@ -50,7 +50,7 @@
                                         <td>
                                             <a class='btn btn-danger btn-xs'
                                                 onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{ $d->id }})">
-                                                <i class="fa fa-minus"></i>
+                                                <i class="fa fa-trash-o"></i>
                                             </a>
                                         </td>
                                     </tr>
@@ -66,7 +66,6 @@
                                                     <h4 class="modal-title">{{ $barang_bom->nama }}</h4>
                                                 @endif
                                             @endforeach
-
                                         </div>
                                         <div class="modal-body">
                                             <label for="">Bahan Baku</label>

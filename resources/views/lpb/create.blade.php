@@ -37,7 +37,7 @@
                                         @foreach($barang as $row )
                                         @if ($row->jenis == "Bahan Baku")
                                         <option id={{$row->id}} value="{{$row->nama}}" satuan="{{$row->satuan}}" ready="{{$row->kuantitas_stok_ready}}" class="barang custom-select">
-                                            {{$row->nama}}
+                                            {{$row->nama}} (Stok: {{ number_format($row->kuantitas_stok_ready) }})
                                         </option>
                                         @endif
                                         @endforeach

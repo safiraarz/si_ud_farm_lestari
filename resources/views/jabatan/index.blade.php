@@ -37,11 +37,11 @@
                                 <td>
                                     <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs'
                                         onclick="getEditForm({{ $d->id }})">
-                                        <i class="fa fa-edit"></i>
+                                        <i class="fa fa-pencil"></i>
                                     </a>
                                     <a class='btn btn-danger btn-xs'
                                         onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{ $d->id }})">
-                                        <i class="fa fa-minus"></i>
+                                        <i class="fa fa-trash-o"></i>
                                     </a>
                                 </td>
                             </tr>
