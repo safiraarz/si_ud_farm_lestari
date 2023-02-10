@@ -94,9 +94,10 @@
                                 <div class="form-group">
                                     <label>Nama Pakan Ternak</label>
                                     <select class="form-control" name="jenis_pakan" id="jenis_pakan">
+                                        <option value="">Silahkan Memilih Jenis Pakan</option>
                                         @foreach ($barang as $item)
                                             @if ($item->jenis == 'Barang Jadi')
-                                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                                <option value="{{ $item->id }}" ready="{{ $item->kuantitas_stok_ready }}">{{ $item->nama }}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -111,7 +112,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Kuantitas</label>
-                                    <input type="text" name="kuantitas" class="form-control" id='kuantitas' required>
+                                    <input type="number" min="1" name="kuantitas" class="form-control" id='kuantitas' required>
                                     </input>
                                 </div>
                                 <div class="form-group">
@@ -142,6 +143,30 @@
 
     @section('javascript')
         <script>
+
+            $("#kuantitas").on('change', function() {
+                var kuantitas_max = $(this).attr('max');
+                
+                var kuantitas =  $(this).val();
+
+                if(kuantitas <= 0){
+                    $(this).val(kuantitas_max);
+                }
+                else if(kuantitas_max < kuantitas) {
+                    $(this).val(kuantitas_max);
+                }
+
+            });
+
+            $("#jenis_pakan").on('change', function() {
+                
+                var kuantitas_bahan_baku_ready = $(this).find(':selected').attr('ready');
+                $("#kuantitas").attr("max",kuantitas_bahan_baku_ready);
+                $("#kuantitas").val(kuantitas_bahan_baku_ready);
+                // alert(kuantitas_bahan_baku_ready);
+
+            });
+
             function getEditForm(id) {
                 $.ajax({
                         type: 'POST',

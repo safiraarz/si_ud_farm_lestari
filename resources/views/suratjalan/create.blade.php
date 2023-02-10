@@ -1,28 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layout.conquer')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Surat Jalan</title>
-    <style>
-        .result {
-            color: red;
-        }
+@section('content')
 
-        td {
-            text-align: center;
-        }
-    </style>
-</head>
-
-
-<body>
     <section class="mt-3">
         <div class="container-fluid">
             <h4 class="text-center" style="color:green"> UD Farm Lestari </h4>
@@ -53,9 +32,12 @@
                             <tr>
                                 <td>
                                     <select name="barang_jadi" id="barang_jadi" class="form-control">
+                                        <option id="" value="" class="barang custom-select">
+                                            Silahkan Pilih Barang
+                                        </option>
                                         @foreach($barang as $row )
                                         @if ($row->jenis == "Barang Jadi")
-                                        <option id={{$row->id}} value="{{$row->nama}}" satuan="{{$row->satuan}}" class="barang custom-select">
+                                        <option id={{$row->id}} value="{{$row->nama}}" satuan="{{$row->satuan}}" ready="{{ $row->kuantitas_stok_ready }}" class="barang custom-select">
                                             {{$row->nama}}
                                         </option>
                                         @endif
@@ -113,12 +95,13 @@
                 </div>
             </div>
     </section>
-</body>
 
-</html>
+@endsection
+
+
+@section('javascript')
 
 <script>
-    $(document).ready(function() {
         function thousands_separators(num) {
             var num_parts = num.toString().split(".");
             num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -133,7 +116,7 @@
             var satuan_barang_jadi = $('#barang_jadi').find(':selected').attr('satuan');
             var id_barang_jadi = $('#barang_jadi').find(':selected').attr('id');
 
-            if (kuantitas_barang_jadi == 0) {
+            if (kuantitas_barang_jadi <= 0) {
                 var erroMsg = '<span class="alert alert-danger ml-5">Minimum Qty should be 1 or More than 1</span>';
                 $('#errorMsg').html(erroMsg).fadeOut(9000);
             } else {
@@ -154,5 +137,7 @@
                 count++;
             }
         });
-    });
+        
 </script>
+
+@endsection
