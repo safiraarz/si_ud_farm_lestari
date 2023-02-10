@@ -32,18 +32,18 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Kas di Tangan
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 15.000.000,00
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Kas di Bank
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 20.000.000,00
                                     </td>
                                 </tr>
@@ -52,28 +52,28 @@
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Peralatan
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 20.000.000,00
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Akumulasi Penyusutan Peralatan
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 5.000.000,00
                                     </td>
                                 </tr>
                             </tbody>
                             <thead>
                                 <tr>
-                                    <th>
+                                    <th style="width:65%">
                                         NILAI BUKU PERALATAN
                                     </th>
-                                    <th>Rp 15.000.000</th>
+                                    <th style="width:35%">Rp 15.000.000</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -82,10 +82,10 @@
                                     <th></th>
                                 </tr>
                                 <tr>
-                                    <th>
+                                    <th style="width:65%">
                                         TOTAL AKTIVA (ASET)
                                     </th>
-                                    <th>
+                                    <th style="width:35%">
                                         Rp 30.000.000
                                     </th>
                                 </tr>
@@ -106,28 +106,28 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Hutang Bahan Baku
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 2.000.000,00
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Hutang DOC
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 3.000.000,00
                                     </td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>
+                                    <th style="width:65%">
                                         TOTAL BIAYA
                                     </th>
-                                    <th>
+                                    <th style="width:35%">
                                         Rp 5.000.000
                                     </th>
                                 </tr>
@@ -147,20 +147,20 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Modal UD Farm Lestari
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 25.000.000,00
                                     </td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>
+                                    <th style="width:65%">
                                         TOTAL EKUITAS
                                     </th>
-                                    <th>
+                                    <th style="width:35%">
                                         Rp 25.000.000
                                     </th>
                                 </tr>
@@ -173,10 +173,10 @@
                         <table class="table">
                             <tfoot>
                                 <tr>
-                                    <th>
+                                    <th style="width:65%">
                                         TOTAL PASIVA (KEWAJIBAN+EKUITAS)
                                     </th>
-                                    <th>
+                                    <th style="width:35%">
                                         Rp 30.000.000
                                     </th>
                                 </tr>

@@ -26,37 +26,37 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>
+                                    <th style="width:65%">
                                         Ekuitas (Modal) pemilik per 1 Des 2022
                                     </th>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 15.000.000,00</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Laba/Rugi
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 15.000.000,00
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Prive
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 2.000.000,00
                                     </td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>
+                                    <th style="width:65%">
                                         Ekuitas (Modal) pemilik per 01 Mar 2023
                                     </th>
-                                    <th>
+                                    <th style="width:35%">
                                         Rp 28.000.000
                                     </th>
                                 </tr>

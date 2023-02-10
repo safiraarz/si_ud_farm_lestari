@@ -25,41 +25,41 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>
+                                    <th style="width:65%">
                                         Arus kas dari aktivitas operasional :
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Pembayaran ke Supplier
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 15.000.000,00
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Pembayaran ke Biaya
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 20.000.000,00
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Pengembalian Pribadi Pemilik
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 20.000.000,00
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Akumulasi Penyusutan Peralatan
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 5.000.000,00
                                     </td>
                                 </tr>
@@ -72,17 +72,17 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>
+                                    <th style="width:65%">
                                         Arus Kas dari Aktivitas Investasi :
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Pembelian Aset Tetap
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 2.000.000,00
                                     </td>
                                 </tr>
@@ -95,17 +95,17 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>
+                                    <th style="width:65%">
                                         Arus kas dari aktivitas lainnya :
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Koreksi
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 1.000.000,00
                                     </td>
                                 </tr>
@@ -118,10 +118,10 @@
                         <table class="table">
                             <tfoot>
                                 <tr>
-                                    <th>
+                                    <th style="width:65%">
                                         Saldo akhir kas per 31 Maret 2023 :
                                     </th>
-                                    <th>
+                                    <th style="width:35%">
                                         Rp 30.000.000
                                     </th>
                                 </tr>

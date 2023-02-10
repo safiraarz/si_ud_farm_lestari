@@ -42,28 +42,28 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Pendapatan penjualan telur
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 15.000.000,00
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Pendapatan penjualan ayam afkir
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 20.000.000,00
                                     </td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>
+                                    <th style="width:65%">
                                         TOTAL PENDAPATAN
                                     </th>
-                                    <th>
+                                    <th style="width:35%">
                                         Rp 30.000.000
                                     </th>
                                 </tr>
@@ -83,28 +83,28 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Biaya Produksi
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 6.000.000,00
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>
+                                    <td style="width:65%">
                                         Biaya PLN dan PDAM
                                     </td>
-                                    <td>
+                                    <td style="width:35%">
                                         Rp 10.000.000,00
                                     </td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>
+                                    <th style="width:65%">
                                         TOTAL BIAYA
                                     </th>
-                                    <th>
+                                    <th style="width:35%">
                                         Rp 16.000.000
                                     </th>
                                 </tr>
@@ -118,10 +118,10 @@
                         <table class="table">
                             <tfoot>
                                 <tr>
-                                    <th>
+                                    <th style="width:65%">
                                         LABA/RUGI
                                     </th>
-                                    <th>
+                                    <th style="width:35%">
                                         Rp 14.000.000
                                     </th>
                                 </tr>
