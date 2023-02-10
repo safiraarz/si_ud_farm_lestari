@@ -354,7 +354,7 @@
                                             @if ($row->jenis == 'Barang Jadi')
                                                 <option id={{ $row->id }} value="{{ $row->nama }}"
                                                     harga="{{ $row->harga }}" satuan="{{ $row->satuan }}"
-                                                    class="barang custom-select">
+                                                    class="barang custom-select" ready="{{$row->kuantitas_stok_ready}}">
                                                     {{ $row->nama }}
                                                 </option>
                                             @endif
@@ -442,6 +442,9 @@
                 </div>
             </div>
     </section>
+    <div role="alert" id="errorMsg" class="mt-5 errorMsg">
+        <!-- Error msg  -->
+    </div>
 @endsection
 
 @section('javascript')
@@ -495,10 +498,18 @@
             var no_nota = $('#no_nota_span').text();
             var tgl_transaksi = $('#tgl_transaksi_span').text();
             var supplier = $('#supplier').val();
-            if (kuantitas == 0) {
-                var erroMsg = '<span class="alert alert-danger ml-5">Minimum Qty should be 1 or More than 1</span>';
-                $('#errorMsg').html(erroMsg).fadeOut(9000);
-            } else {
+            if (kuantitas <= 0) {
+               var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Tidak Boleh Kurang Dari Satu Atau Huruf</span>';
+                $('.errorMsg').show();
+                $('.errorMsg').html(erroMsg).fadeOut(9000);
+
+            }
+            else if (harga <=0){
+                var erroMsg = '<span class="alert alert-danger ml-5">Harga Tidak Boleh Kurang Dari Satu Atau Huruf</span>';
+                $('.errorMsg').show();
+                $('.errorMsg').html(erroMsg).fadeOut(9000);
+            } 
+            else {
                 billFunction(); // Below Function passing here 
             }
 
@@ -566,9 +577,10 @@
             var id = jenis+"_"+idx;
             
             var valueset = $("#"+id).val();
-            if(value_ <  valueset){
+            if(value_ <  valueset || valueset <= 0){
                 $("#"+id).val(value_);
             }
+            
          
         }
 
@@ -710,15 +722,29 @@
             $("#customer").disable = true;
             var name = $('#barang_penjualan').val();
             var kuantitas = $('#kuantitas_penjualan').val();
+            var kuantitas_bahan_baku_ready = $('#barang_penjualan').find(':selected').attr('ready');
             var harga = $('#harga_penjualan').val();
             // alert(harga);
             var no_nota = $('#no_nota_penjualan_span').text();
             var tgl_transaksi = $('#tgl_transaksi_penjualan_span').text();
             var customer = $('#customer').val();
-            if (kuantitas == 0) {
-                var erroMsg = '<span class="alert alert-danger ml-5">Minimum Qty should be 1 or More than 1</span>';
-                $('#errorMsg').html(erroMsg).fadeOut(9000);
-            } else {
+           
+            if (kuantitas <= 0) {
+                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Kurang Dari 0 Atau Huruf</span>';
+                $('.errorMsg').show();
+                $('.errorMsg').html(erroMsg).fadeOut(9000);
+            }
+            else if(harga <= 0){
+                var erroMsg = '<span class="alert alert-danger ml-5">Harga Kurang Dari 0 Atau Huruf</span>';
+                $('.errorMsg').show();
+                $('.errorMsg').html(erroMsg).fadeOut(9000);
+            } 
+            else if(kuantitas_bahan_baku_ready < kuantitas ){
+                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Ready Bahan Kurang</span>';
+                $('.errorMsg').show();
+                $('.errorMsg').html(erroMsg).fadeOut(9000);
+            }
+            else {
                 billFunction(); // Below Function passing here 
             }
 

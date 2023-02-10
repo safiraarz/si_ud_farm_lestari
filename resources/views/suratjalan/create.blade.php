@@ -1,6 +1,10 @@
 @extends('layout.conquer')
 
 @section('content')
+<<<<<<< HEAD
+=======
+
+>>>>>>> bfa4283e94946775ac0fdb78628d16b6344c6b07
     <section class="mt-3">
         <div class="container-fluid">
             <h4 class="text-center" style="color:green"> UD Farm Lestari </h4>
@@ -31,9 +35,12 @@
                             <tr>
                                 <td>
                                     <select name="barang_jadi" id="barang_jadi" class="form-control">
+                                        <option id="" value="" class="barang custom-select">
+                                            Silahkan Pilih Barang
+                                        </option>
                                         @foreach($barang as $row )
                                         @if ($row->jenis == "Barang Jadi")
-                                        <option id={{$row->id}} value="{{$row->nama}}" satuan="{{$row->satuan}}" class="barang custom-select">
+                                        <option id={{$row->id}} value="{{$row->nama}}" satuan="{{$row->satuan}}" ready="{{ $row->kuantitas_stok_ready }}" class="barang custom-select">
                                             {{$row->nama}}
                                         </option>
                                         @endif
@@ -91,12 +98,17 @@
                 </div>
             </div>
     </section>
+<<<<<<< HEAD
     @endsection
+=======
+>>>>>>> bfa4283e94946775ac0fdb78628d16b6344c6b07
 
-</html>
+@endsection
+
+
+@section('javascript')
 
 <script>
-    $(document).ready(function() {
         function thousands_separators(num) {
             var num_parts = num.toString().split(".");
             num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -111,7 +123,7 @@
             var satuan_barang_jadi = $('#barang_jadi').find(':selected').attr('satuan');
             var id_barang_jadi = $('#barang_jadi').find(':selected').attr('id');
 
-            if (kuantitas_barang_jadi == 0) {
+            if (kuantitas_barang_jadi <= 0) {
                 var erroMsg = '<span class="alert alert-danger ml-5">Minimum Qty should be 1 or More than 1</span>';
                 $('#errorMsg').html(erroMsg).fadeOut(9000);
             } else {
@@ -132,5 +144,7 @@
                 count++;
             }
         });
-    });
+        
 </script>
+
+@endsection
