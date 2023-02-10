@@ -91,6 +91,9 @@
                             <td><button id="tambah" class="btn btn-success">Tambah</button></td>
                         </tbody>
                     </table>
+                    <div role="alert" id="errorMsg" class="mt-5 errorMsg">
+                        <!-- Error msg  -->
+                    </div>
                 </div>
                 <div class="col-md-7  mt-4" style="background-color:#f5f5f5;">
                     <form action="{{ route('pemasukantelur.store') }}" method="post" enctype="multipart/form-data"
@@ -176,10 +179,11 @@
             var tgl_pencatatan = $('#tgl_pencatatan').val();
             var keterangan = $('#keterangan').val();
 
-            if (kuantitas_total == 0) {
+            if (parseInt(kuantitas_total) <= 0 || kuantitas_total == '' || parseInt(kuantitas_bersih) <= 0 || kuantitas_bersih == '' || parseInt(kuantitas_reject) <= 0 || kuantitas_reject  == '') {
                 var erroMsg =
-                    '<span class="alert alert-danger ml-5">Minimum Qty should be 1 or More than 1</span>';
-                $('#errorMsg').html(erroMsg).fadeOut(9000);
+                    '<span class="alert alert-danger ml-5">Kuantitas Kurang Dari 0 Atau Huruf</span>';
+                    $('.errorMsg').show();
+                    $('.errorMsg').html(erroMsg).fadeOut(9000);
             } else {
                 // alert("masuk")
                 billFunction(); // Below Function passing here 

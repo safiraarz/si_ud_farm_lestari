@@ -50,7 +50,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div role="alert" id="errorMsg" class="mt-5">
+                    <div role="alert" id="errorMsg" class="mt-5 errorMsg">
                         <!-- Error msg  -->
                     </div>
                 </div>
@@ -118,15 +118,15 @@
             var kuantitas_bahan_baku_ready = $('#bahan_baku').find(':selected').attr('ready');
             // alert(kuantitas_bahan_baku_ready)
          
-            if ( kuantitas_bahan_baku <=0) {
+            if ( parseInt(kuantitas_bahan_baku) <=0 || kuantitas_bahan_baku == '' ){
                 var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Bahan Baku Kurang Dari 0 Atau Berupa Huruf</span>';
-                $('#errorMsg').show();
-                $('#errorMsg').html(erroMsg).fadeOut(9000);
+                $('.errorMsg').show();
+                $('.errorMsg').html(erroMsg).fadeOut(9000);
             }
-            else if(kuantitas_bahan_baku_ready < kuantitas_bahan_baku ){
+            else if( parseInt(kuantitas_bahan_baku_ready) < parseInt(kuantitas_bahan_baku) || kuantitas_bahan_baku_ready == '' ){
                 var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Melebihi Total Stock Bahan Baku</span>';
-                $('#errorMsg').show();
-                $('#errorMsg').html(erroMsg).fadeOut(9000);
+                $('.errorMsg').show();
+                $('.errorMsg').html(erroMsg).fadeOut(9000);
             }
             else {
                 billFunction(); // Below Function passing here 

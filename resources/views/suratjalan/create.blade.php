@@ -50,7 +50,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div role="alert" id="errorMsg" class="mt-5">
+                    <div role="alert" id="errorMsg" class="mt-5 errorMsg">
                         <!-- Error msg  -->
                     </div>
                 </div>
@@ -121,16 +121,16 @@
             // alert(kuantitas_barang_jadi);
             // alert(kuantitas_barang_jadi_ready);
 
-            if (parseInt(kuantitas_barang_jadi) <= 0 || kuantitas_barang_jadi == null) {
+            if (parseInt(kuantitas_barang_jadi) <= 0 || kuantitas_barang_jadi == '') {
                 var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Barang Kurang Dari 0 Atau Huruf</span>';
-                $('#errorMsg').show();
-                $('#errorMsg').html(erroMsg).fadeOut(9000);
+                $('.errorMsg').show();
+                $('.errorMsg').html(erroMsg).fadeOut(9000);
             }
             
-            else if(parseInt(kuantitas_barang_jadi_ready) < parseInt(kuantitas_barang_jadi)){
+            else if(parseInt(kuantitas_barang_jadi_ready) < parseInt(kuantitas_barang_jadi) || kuantitas_barang_jadi_ready == '' ){
                 var erroMsg = '<span class="alert alert-danger ml-5">Total Stok Kurang</span>';
-                $('#errorMsg').show();
-                $('#errorMsg').html(erroMsg).fadeOut(9000);
+                $('.errorMsg').show();
+                $('.errorMsg').html(erroMsg).fadeOut(9000);
             }
             else {
                 billFunction(); // Below Function passing here 

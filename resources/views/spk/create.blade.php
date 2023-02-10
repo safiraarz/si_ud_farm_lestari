@@ -60,7 +60,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div role="alert" id="errorMsg" class="mt-5">
+                    <div role="alert" id="errorMsg" class="mt-5 errorMsg">
                         <!-- Error msg  -->
                     </div>
                 </div>
@@ -134,15 +134,15 @@
             var satuan = $('#barang').find(':selected').attr('satuan');
             var date_start = $('#tgl_mulai_prod').val();
             var date_end = $('#tgl_selesai_prod').val();
-            if (kuantitas <= 0) {
+            if (parseInt(kuantitas) <= 0 || kuantitas == '') {
                 var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Kurang Dari 1 Atau Huruf</span>';
-                $('#errorMsg').show();
-                $('#errorMsg').html(erroMsg).fadeOut(9000);
+                $('.errorMsg').show();
+                $('.errorMsg').html(erroMsg).fadeOut(9000);
             }
             else if(date_start == '' && date_end == ''){
                 var erroMsg = '<span class="alert alert-danger ml-5">Tanggal Tidak Boleh Kosong</span>';
-                $('#errorMsg').show();
-                $('#errorMsg').html(erroMsg).fadeOut(9000);
+                $('.errorMsg').show();
+                $('.errorMsg').html(erroMsg).fadeOut(9000);
             } 
             else {
                 billFunction(); // Below Function passing here 

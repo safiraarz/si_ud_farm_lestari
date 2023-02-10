@@ -498,13 +498,13 @@
             var no_nota = $('#no_nota_span').text();
             var tgl_transaksi = $('#tgl_transaksi_span').text();
             var supplier = $('#supplier').val();
-            if (kuantitas <= 0) {
+            if (parseInt(kuantitas)  <= 0 || kuantitas == '') {
                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Tidak Boleh Kurang Dari Satu Atau Huruf</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
 
             }
-            else if (harga <=0){
+            else if (parseInt(harga) <=0 || harga == ''){
                 var erroMsg = '<span class="alert alert-danger ml-5">Harga Tidak Boleh Kurang Dari Satu Atau Huruf</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
@@ -729,17 +729,18 @@
             var tgl_transaksi = $('#tgl_transaksi_penjualan_span').text();
             var customer = $('#customer').val();
            
-            if (kuantitas <= 0) {
+            if (parseInt(kuantitas) <= 0 || kuantitas == '') {
+                // alert('dada');
                 var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Kurang Dari 0 Atau Huruf</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             }
-            else if(harga <= 0){
+            else if(parseInt(harga) <= 0 || harga == ''){
                 var erroMsg = '<span class="alert alert-danger ml-5">Harga Kurang Dari 0 Atau Huruf</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             } 
-            else if(kuantitas_bahan_baku_ready < kuantitas ){
+            else if(parseInt(kuantitas_bahan_baku_ready) < parseInt(kuantitas) || kuantitas_bahan_baku_ready == '' ){
                 var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Ready Bahan Kurang</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);

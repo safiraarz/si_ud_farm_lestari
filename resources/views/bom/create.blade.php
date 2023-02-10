@@ -64,6 +64,9 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div role="alert" id="errorMsg" class="mt-5 errorMsg">
+                        <!-- Error msg  -->
+                    </div>
                 </div>
                 <div class="col-md-7  mt-4" style="background-color:#f5f5f5;">
                     <form action="{{ route('bom.store') }}" method="post" enctype="multipart/form-data"
@@ -125,10 +128,6 @@
             var nama_pakan = $('#nama_pakan_jadi').val();
             var id_nama_pakan = $("#nama_pakan_jadi").find(':selected').attr('id');
             var kuantitas_pakan = $('#kuantitas_pakan_jadi').val();
-            $("#nama_pakan_span").html(nama_pakan);
-            $("#kuantitas_pakan_span").html(thousands_separators(kuantitas_pakan));
-            $("#nama_pakan_input").val(id_nama_pakan);
-            $("#kuantitas_pakan_input").val(kuantitas_pakan);
 
 
             //Get Bahan Baku 
@@ -138,11 +137,23 @@
             var id_bahan_baku = $("#nama_bahan_baku").find(':selected').attr('id');
 
 
-            if (kuantitas_bahan_baku == 0) {
-                var erroMsg =
-                    '<span class="alert alert-danger ml-5">Minimum Qty should be 1 or More than 1</span>';
-                $('#errorMsg').html(erroMsg).fadeOut(9000);
-            } else {
+            if (parseInt(kuantitas_bahan_baku) <= 0 || kuantitas_bahan_baku == '') {
+                var erroMsg ='<span class="alert alert-danger ml-5">Kuantitas Bahan Baku Kurang Dari 0 Atau Huruf</span>';
+                $('.errorMsg').show();
+                $('.errorMsg').html(erroMsg).fadeOut(9000);
+            } 
+            else if (parseInt(kuantitas_pakan) <= 0 || kuantitas_pakan == ''){
+                var erroMsg ='<span class="alert alert-danger ml-5">Kuantitas Bahan Pakan Kurang Dari 0 Atau Huruf</span>';
+                $('.errorMsg').show();
+                $('.errorMsg').html(erroMsg).fadeOut(9000);
+            }
+            
+            else {
+                
+            $("#nama_pakan_span").html(nama_pakan);
+            $("#kuantitas_pakan_span").html(thousands_separators(kuantitas_pakan));
+            $("#nama_pakan_input").val(id_nama_pakan);
+            $("#kuantitas_pakan_input").val(kuantitas_pakan);
                 billFunction(); // Below Function passing here 
             }
 
