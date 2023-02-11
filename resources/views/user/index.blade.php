@@ -77,12 +77,30 @@
                         </div>
                         <div class="form-group">
                             <label>Username</label>
-                            <input type="text" name="nama" class="form-control" id='username' required>
+                            <input type="text" name="username" class="form-control" id='username' required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="">Password</label>
+                            <input id="password" type="password"
+                                class="form-control @error('password') is-invalid @enderror" name="password" required
+                                autocomplete="new-password">
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password-confirm" class="">Confirm
+                                Password</label>
+
+                            <input id="password-confirm" type="password" class="form-control"
+                                name="password_confirmation" required autocomplete="new-password">
                         </div>
                         <div class="form-group">
                             <label>Jabatan</label>
-                            <input type="text" name="jabatan" class="form-control" id='jabatan' required>
-                            </input>
+                            <select name="jabatan_id" id="jabatan_id" class="form-control" required>
+                                @foreach ($jabatans as $jabatan)
+                                <option value="{{ $jabatan->id }}" class="custom-select">{{ $jabatan->nama }}
+                                </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -113,7 +131,7 @@
                     '_token': '<?php echo csrf_token() ?>',
                     'id': id
                 },
-                success: function(data) {
+                success: function (data) {
                     $('#modalContent').html(data.msg)
                 }
             },
@@ -135,7 +153,7 @@
                 'username': eAlamat,
                 'jabatan': eNoTelp,
             },
-            success: function(data) {
+            success: function (data) {
                 if (data.status == 'ok') {
                     alert(data.msg)
                     $('#td_nama_' + id).html(eNama);
@@ -154,7 +172,7 @@
                 '_token': '<?php echo csrf_token() ?>',
                 'id': id
             },
-            success: function(data) {
+            success: function (data) {
                 if (data.status == 'ok') {
                     alert(data.msg)
                     $('#tr_' + id).remove();
@@ -165,5 +183,6 @@
         });
     }
     $('#myTable').DataTable();
+
 </script>
 @endsection

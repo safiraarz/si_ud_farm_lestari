@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Jabatan;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -15,7 +18,8 @@ class UserController extends Controller
     public function index()
     {
         $data = User::all();
-        return view('user.index', compact('data'));
+        $jabatans = Jabatan::all();
+        return view('user.index', compact('data','jabatans'));
     }
 
     /**
@@ -37,6 +41,15 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        $this->validator($request->all())->validate();
+        User::create([
+            'nama' => $request->nama,
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+            'jabatan_id'=> $request->jabatan_id,
+        ]);
+
+        return redirect()->back()->with('status','Pengguna Berhasil Ditambahkan');
     }
 
     /**
@@ -82,5 +95,15 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    private function validator(array $data)
+    {
+        // dd($data);
+        return Validator::make($data, [
+            'nama' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
     }
 }
