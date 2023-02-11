@@ -118,12 +118,12 @@
                                 <table id="receipt_bill" class="table">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
                                             <th>Nama Telur</th>
                                             <th>Kuantitas Bersih</th>
                                             <th>Kuantitas Reject</th>
                                             <th>Kuantitas Total</th>
                                             <th>Satuan</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="new">
@@ -155,6 +155,10 @@
         // if (count != 1) {
 
         // };
+        function deleteData(id)
+        {
+            $('#row_'+id).html("");
+        };
         var count = 1;
         $('#tambah').on('click', function() {
 
@@ -194,8 +198,8 @@
                     var id_telur = $('#nama_telur').find(':selected').attr('id');
                     // alert(satuan+id_telur);
                     // masi error
-                    var table = '<tr>' +
-                        '<td>' + count + '</td>' +
+                    var table = '<tr id="row_'+ count+'">' +
+                        
                         '<td>' + nama_telur + '<input type="hidden" name="telur[' + count +
                         '][' + "id_telur" + ']" value=' + id_telur + '></td>' +
                         '<td>' + thousands_separators(kuantitas_bersih) +
@@ -209,6 +213,7 @@
                         ']" value=' + kuantitas_total + '></td>' +
                         '<td>' + satuan + '<input type="hidden" name="telur[' + count + '][' +
                         "satuan" + ']" value=' + satuan + '></td>' +
+                        '<td><a class="btn btn-danger barang_delete" onclick="deleteData('+count+')"><i class="fa fa-trash-o"></i></a></a></td>'+
                         '</tr>';
                     // alert(table);
                     $('#new').append(table);

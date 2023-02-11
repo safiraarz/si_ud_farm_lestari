@@ -89,12 +89,12 @@
                                 <table id="receipt_bill" class="table">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
                                             <th>Nama Pakan Ayam</th>
                                             <th>Tgl Mulai Produksi</th>
                                             <th>Tgl Selesai Produksi</th>
                                             <th>Kuantitas</th>
                                             <th>Satuan</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="new">
@@ -123,6 +123,11 @@
             return num_parts.join(".");
         }
         var count = 1;
+        function deleteData(id)
+        {
+            $('#row_'+id).html("");
+        };
+     
         
         $('#tambah').on('click', function() {
             
@@ -157,13 +162,13 @@
                     var satuan = $('#barang').find(':selected').attr('satuan');
                     var id_barang = $('#barang').find(':selected').attr('id');
 
-                    var table = '<tr><td>' + count + '</td>'+
+                    var table = '<tr id="row_'+ count+'" >'+
                         '<td>' + name +'<input type="hidden" name="barang[' + count + '][' + "id_barang" + ']" value=' +id_barang + '></td>'+
                         '<td>' + date_start +'<input type="hidden" name="barang[' + count + '][' + "tanggal_mulai" + ']" value=' +date_start + '></td>'+
                         '<td>' + date_end +'<input type="hidden" name="barang[' + count + '][' + "tanggal_akhir" + ']" value=' +date_end + '></td>'+
                         '<td>' + thousands_separators(kuantitas) + '<input type="hidden" name="barang[' + count +'][' + "kuantitas" + ']" value=' + kuantitas + '></td>'
                         +'<td>' + satuan + '</td><td>'+
-                        '<a class="btn btn-danger barang_delete" onclick="deleteDataPemesanan('+count+')"><i class="fa fa-trash-o"></i></a><td></tr>';
+                        '<a class="btn btn-danger barang_delete" onclick="deleteData('+count+')"><i class="fa fa-trash-o"></i></a><td></tr>';
                     $('#new').append(table);
                 });
                 count++;

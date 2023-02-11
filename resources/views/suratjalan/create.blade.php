@@ -79,10 +79,10 @@
                                 <table id="receipt_bill" class="table">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
                                             <th>Nama Barang Jadi</th>
                                             <th>Kuantitas</th>
                                             <th>Satuan</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="new">
@@ -110,6 +110,10 @@
             return num_parts.join(".");
         }
         var count = 1;
+        function deleteData(id)
+        {
+            $('#row_'+id).html("");
+        };
         $('#tambah').on('click', function() {
             $("#pakan_ayam").disable = true;
             $("#keterangan_input").val( $("#keterangan").val())
@@ -139,11 +143,11 @@
             function billFunction() {
                 $("#receipt_bill").each(function() {
 
-                    var table = '<tr>'+
-                        '<td>' + count + '</td>'+
+                    var table = '<tr id="row_'+ count+'" >'+
                         '<td>' + nama_barang_jadi + '<input type="hidden" name="barang_jadi[' + count +'][' + "id_barang_jadi" + ']" value=' + id_barang_jadi + '></td>'+
                         '<td>' + thousands_separators(kuantitas_barang_jadi) +'<input type="hidden" name="barang_jadi[' + count + '][' + "kuantitas" + ']" value=' + kuantitas_barang_jadi +'></td>'+
                         '<td>' + satuan_barang_jadi + '</td>'+
+                        '<td>' + '<a class="btn btn-danger barang_delete" onclick="deleteData('+count+')"><i class="fa fa-trash-o"></i></a><td>' +
                         '</tr>';
                     $('#new').append(table);
                 });
