@@ -40,9 +40,9 @@ class Barang extends Model
     {
         return $this->hasMany('App\SuratJalan', 'barang_id', 'id');
     }
-    public function mrp()
+    public function dmrp()
     {
-        return $this->hasMany('App\MRP', 'barang_id', 'id');
+        return $this->hasMany('App\d_MRP','barang_id','id');
     }
     public function jadwalpakan()
     {

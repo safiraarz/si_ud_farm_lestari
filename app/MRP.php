@@ -12,8 +12,9 @@ class MRP extends Model
     protected $connection = 'inventory';
 
     protected $table = "mrp";
-    public function mrp(){
-        return $this->belongsTo('App\Barang','barang_id');
+    public $timestamps = false;
+    public function dmrp(){
+        return $this->hasMany('App\d_MRP','MRP_id','id');
     }
 
     public function perhitungan($idmps)
@@ -71,6 +72,7 @@ class MRP extends Model
         foreach ($queryBOM->barang as $item) {
             if ($item->jenis != "Barang Jadi") {
                 $bom[] = [
+                    'id'=>$item->id,
                     'nama'=>$item->nama,
                     'kuantitas'=>$item->pivot->kuantitas_bahan_baku,
                     'satuan'=>$item->satuan,
@@ -90,7 +92,11 @@ class MRP extends Model
         // ];
         
         $jumlah_periode = count($mps[1]);
-
+        $mrp = new MRP();
+        $mrp->MPS_ID = $idmps;
+        $mrp->BOM_ID = $bom_id;
+        $mrp->save();
+        $idmrp = $mrp->id;
         $lfl= [];
         $penampung_perhitungan = [];
         foreach ($bom as $bahan) {
@@ -179,6 +185,7 @@ class MRP extends Model
                 $i++;
             }
             $lfl[] = [
+                'id_bahan_baku' =>$bahan['id'],
                 'nama bahan baku'=>$bahan['nama'],
                 'kebutuhan bahan baku per produksi' => $bahan['kuantitas'], 
                 'leadtime'=> $bahan['leadtime'],
@@ -189,6 +196,23 @@ class MRP extends Model
         }
         // dd($penampung_perhitungan);
         // dd($mps,$bom,$lfl);
+        // dd($idmps, $bom_id);
+        // dd($lfl);
+        foreach ($lfl as $bahan) {
+            for ($i=0; $i < count($bahan['range_produksi']); $i++) { 
+                $dMRP = new d_MRP();
+                $dMRP->periode = $bahan['range_produksi'][$i];
+                $dMRP->GR = $bahan['perhitungan']['GR'][$i];
+                $dMRP->SR = $bahan['perhitungan']['SR'][$i];
+                $dMRP->OHI = $bahan['perhitungan']['OHI'][$i];
+                $dMRP->NR = $bahan['perhitungan']['NR'][$i];
+                $dMRP->POR = $bahan['perhitungan']['POR'][$i];
+                $dMRP->PORel = $bahan['perhitungan']['PORel'][$i];
+                $dMRP->barang_id = $bahan['id_bahan_baku'];
+                $dMRP->MRP_id = $idmrp;
+                $dMRP->save();
+            }
+        }
         return [$lfl, $total_produksi, $bahan_jadi];
     }
 
