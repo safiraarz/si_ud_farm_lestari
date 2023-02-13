@@ -60,4 +60,16 @@ class Barang extends Model
     {
         return $this->hasMany('App\LPB', 'barang_id', 'id');
     }
+
+    public function updateTotalStok($idbarang)
+    {
+        $barang = Barang::find($idbarang);
+        $kuantitas_stok_onorder_supplier = $barang->kuantitas_stok_onorder_supplier;
+        $kuantitas_stok_onorder_produksi = $barang->kuantitas_stok_onorder_produksi;
+        $kuantitas_stok_pengaman = $barang->kuantitas_stok_pengaman;
+        $kuantitas_stok_ready = $barang->kuantitas_stok_ready;
+        $total_kuantitas_stok = $kuantitas_stok_onorder_supplier + $kuantitas_stok_onorder_produksi + $kuantitas_stok_pengaman + $kuantitas_stok_ready;
+        $barang->total_kuantitas_stok = $total_kuantitas_stok;
+        $barang->save();
+    }
 }

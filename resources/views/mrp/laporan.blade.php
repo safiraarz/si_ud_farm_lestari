@@ -1,7 +1,7 @@
 @extends('layout.conquer')
 @section('content')
 <div class="container">
-    <h2>Material Requirement Planning</h2>
+    <h2>Laporan Kebutuhan Bahan Baku</h2>
 
     <div class="form-group row">
         <label for="mps" class="col-sm-1 control-label">ID MPS</label>
@@ -13,10 +13,9 @@
                 @endforeach
             </select>
         </div>
-        <button id="btnhitung" class="btn btn-secondary col-sm-2 margin-right-10">HITUNG</button>
-        <button id="btnreset" class="btn btn-secondary col-sm-2 ">RESET</button>
+        <button id="btntampilkan" class="btn btn-secondary col-sm-2 margin-right-10">TAMPILKAN</button>
     </div>
-    <div id="perhitunganmrp">
+    <div id="laporankebutuhan">
 
     </div>
 
@@ -25,24 +24,21 @@
 
 @section('javascript')
 <script>
-    $('#btnhitung').click(function () {
+    $('#btntampilkan').click(function () {
         const idmps = $('#mps').val();
+
         $.ajax({
             type: 'POST',
-            url: '{{route("mrp.getPerhitungMRP")}}',
+            url: '{{route("mrp.getLaporanKebutuhan")}}',
             data: {
                 '_token': '<?php echo csrf_token() ?>',
                 'idmps': idmps
             },
             success: function (data) {
-                $('option:selected', '#mps').remove();
-                $('#perhitunganmrp').html(data.msg);
+                $('#laporankebutuhan').html(data.msg);
             }
         });
     });
-    $('#btnreset').click(function () {
-        $('#perhitunganmrp').html('');
-    })
 
 </script>
 @endsection

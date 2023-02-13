@@ -16,8 +16,10 @@ use Illuminate\Support\Facades\Route;
 */
 //test
 Route::get('/testmrp',function(){
-    $mrp = new MRP;
-    dd($mrp->perhitungan(11202));
+    $idmps = 11202;
+    $mrp = MRP::where('MPS_id', $idmps)->first();
+    $dmrp = $mrp->dmrp;
+    dd($mrp->dmrp->groupBy('barang_id'));
 });
 
 Route::get('/', function () {
@@ -91,6 +93,8 @@ Route::post('/mps/saveDataField', 'MPSController@saveDataField')->name('mps.save
 Route::post('/mps/deleteData', 'MPSController@deleteData')->name('mps.deleteData');
 
 //MRP
+Route::get('/mrp/laporan', 'MRPController@laporanKebutuhan')->name('mrp.laporanKebutuhan');
+Route::post('/mrp/getLaporan', 'MRPController@getLaporanKebutuhn')->name('mrp.getLaporanKebutuhan');
 Route::resource('mrp', 'MRPController');
 Route::post('/mrp/getPerhitunganMRP', 'MRPController@getPerhitungMRP')->name('mrp.getPerhitungMRP');
 Route::post('/mrp/getEditForm', 'MRPController@getEditForm')->name('mrp.getEditForm');

@@ -17,4 +17,9 @@ class MPS extends Model
     {
         return $this->belongsTo('App\SPK', 'surat_perintah_kerja_id');
     }
+
+    public function mrp()
+    {
+        return $this->hasMany('App\MRP','MPS_id','id');
+    }
 }

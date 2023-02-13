@@ -29,13 +29,16 @@ License: You must have a valid license purchased only from themeforest(the above
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
         type="text/css" />
     <link href="{{asset('assets/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/plugins/simple-line-icons/simple-line-icons.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/plugins/simple-line-icons/simple-line-icons.min.css')}}" rel="stylesheet"
+        type="text/css" />
     <link href="{{asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/plugins/uniform/css/uniform.default.css')}}" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
     <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
-    <link href="{{asset('assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{asset('assets/plugins/fullcalendar/fullcalendar/fullcalendar.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css')}}" rel="stylesheet"
+        type="text/css" />
+    <link href="{{asset('assets/plugins/fullcalendar/fullcalendar/fullcalendar.css')}}" rel="stylesheet"
+        type="text/css" />
     <link href="{{asset('assets/plugins/jqvmap/jqvmap/jqvmap.css')}}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="{{asset('assets/plugins/select2/select2.css')}}" />
     <link rel="stylesheet" type="text/css"
@@ -43,8 +46,8 @@ License: You must have a valid license purchased only from themeforest(the above
     <link rel="stylesheet" type="text/css"
         href="{{asset('assets/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.min.css')}}" />
     <link rel="stylesheet" type="text/css"
-        {{-- href="{{asset('assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css" /> --}}
-    <!-- END PAGE LEVEL PLUGIN STYLES -->
+        {{-- href="{{asset('assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css" /> --}} <!-- END PAGE
+        LEVEL PLUGIN STYLES -->
     <!-- BEGIN THEME STYLES -->
     <link href="{{asset('assets/css/style-conquer.cs')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/css/style.css')}}" rel="stylesheet" type="text/css" />
@@ -103,12 +106,12 @@ License: You must have a valid license purchased only from themeforest(the above
                         </li>
                         <li>
                             @if (Auth::user())
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                    <input type="submit" value="Log Out">
-                                </form>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                                <input type="submit" value="Log Out">
+                            </form>
                             @else
-                                <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
+                            <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
                             @endif
                             <!-- <a href="{{ route('login') }}"><i class="fa fa-key"></i> Log Out</a> -->
 
@@ -247,7 +250,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                 </a>
                             </li>
                             <li>
-                                <a>Kebutuhan Bahan Baku
+                                <a href="{{ route('mrp.laporanKebutuhan') }}">Kebutuhan Bahan Baku
                                 </a>
                             </li>
                             <li>
@@ -346,8 +349,10 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
     <script src="{{asset('assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/plugins/bootstrap/js/bootstrap.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js')}}"
+        type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js')}}" type="text/javascript">
+    </script>
     <script src="{{asset('assets/plugins/jquery.blockui.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/plugins/uniform/jquery.uniform.min.js')}}" type="text/javascript"></script>
     <!-- END CORE PLUGINS -->
@@ -358,28 +363,37 @@ License: You must have a valid license purchased only from themeforest(the above
     <script src="{{asset('assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.europe.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js')}}" type="text/javascript">
+    </script>
     <script src="{{asset('assets/plugins/jquery.peity.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/plugins/jquery.pulsate.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/plugins/jquery-knob/js/jquery.knob.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/plugins/flot/jquery.flot.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/plugins/flot/jquery.flot.resize.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/plugins/bootstrap-daterangepicker/moment.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/plugins/bootstrap-daterangepicker/daterangepicker.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/bootstrap-daterangepicker/daterangepicker.js')}}" type="text/javascript">
+    </script>
     <script src="{{asset('assets/plugins/gritter/js/jquery.gritter.js')}}" type="text/javascript"></script>
     <script type="text/javascript" src="{{asset('assets/plugins/select2/select2.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/plugins/datatables/media/js/jquery.dataTables.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('assets/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js')}}">
+    <script type="text/javascript" src="{{asset('assets/plugins/datatables/media/js/jquery.dataTables.min.js')}}">
     </script>
-    <script type="text/javascript" src="{{asset('assets/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js')}}">
+    <script type="text/javascript"
+        src="{{asset('assets/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js')}}">
     </script>
-    <script type="text/javascript" src="{{asset('assets/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js')}}">
+    <script type="text/javascript"
+        src="{{asset('assets/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.min.js')}}">
     </script>
-    <script type="text/javascript" src="{{asset('assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js')}}"></script>
+    <script type="text/javascript"
+        src="{{asset('assets/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js')}}">
+    </script>
+    <script type="text/javascript"
+        src="{{asset('assets/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js')}}"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- IMPORTANT! fullcalendar depends on jquery-ui-1.10.3.custom.min.js for drag & drop support -->
-    <script src="{{asset('assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/plugins/jquery-easypiechart/jquery.easypiechart.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js')}}" type="text/javascript">
+    </script>
+    <script src="{{asset('assets/plugins/jquery-easypiechart/jquery.easypiechart.min.js')}}" type="text/javascript">
+    </script>
     <script src="{{asset('assets/plugins/jquery.sparkline.min.js')}}" type="text/javascript"></script>
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
@@ -388,20 +402,22 @@ License: You must have a valid license purchased only from themeforest(the above
     <script src="{{asset('assets/scripts/tasks.js')}}" type="text/javascript"></script>
     <script src="{{ asset('assets/plugins/jquery.editable.min.js') }}" type="text/javascript"></script>
     <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="{{ asset('assets/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js')}}">
+    <script type="text/javascript"
+        src="{{ asset('assets/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js')}}">
     </script>
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.4.1/css/buttons.dataTables.min.css">
     <script src="{{ asset('assets/scripts/app.js') }}"></script>
     <script src="{{ asset('assets/scripts/table-advanced.js') }}"></script>
     <script>
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function () {
             App.init();
             TableAdvanced.init();
         });
+
     </script>
     <!-- END PAGE LEVEL SCRIPTS -->
     <script>
-        jQuery(document).ready(function() {
+        jQuery(document).ready(function () {
             App.init(); // initlayout and core plugins
             Index.init();
             Index.initJQVMAP(); // init index page's custom scripts
@@ -414,6 +430,7 @@ License: You must have a valid license purchased only from themeforest(the above
             Index.initDashboardDaterange();
             Tasks.initDashboardWidget();
         });
+
     </script>
     @yield('javascript')
     @yield('initialscript')

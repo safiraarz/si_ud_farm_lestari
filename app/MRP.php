@@ -17,17 +17,29 @@ class MRP extends Model
         return $this->hasMany('App\d_MRP','MRP_id','id');
     }
 
+    public function mps()
+    {
+        return $this->belongsTo('App\MPS','MPS_id','id');
+    }
+
+    public function bom()
+    {
+        return $this->belongsTo('App\BOM','BOM_id','id');
+    }
+
     public function perhitungan($idmps)
     {
         $mps = [];
         // $queryMPS = MPS::find(11202);
         $queryMPS = MPS::find($idmps);
         $bahan_jadi = $queryMPS->barang->nama;
+        $satuan_bahan_jadi = $queryMPS->barang->satuan;
         $mps[] = $bahan_jadi;
         $tgl_mulai_produksi = $queryMPS->tgl_mulai_produksi->format('Y-m-d');
         $tgl_selesai_produksi = $queryMPS->tgl_selesai_produksi->format('Y-m-d');
         $kuantitas_barang_jadi = $queryMPS->kuantitas_barang_jadi;
         $total_produksi = $kuantitas_barang_jadi;
+        // dd($queryMPS);
         
         // dd($tgl_mulai_produksi);
         $periods = $this->getDatesFromRange($tgl_mulai_produksi,$tgl_selesai_produksi);
@@ -131,16 +143,23 @@ class MRP extends Model
                         if($total> 0){
                             $perhitungan['OHI'][] = $total;
                         }else{
-                            $perhitungan['OHI'][] = 0;
+                            $total = 0;
+                            $perhitungan['OHI'][] = $total;
                         }
                     }else{
                         $total = $perhitungan['OHI'][$counter + $leadtime -1] - $perhitungan['GR'][$counter + $leadtime];
                         if($total> 0){
                             $perhitungan['OHI'][] = $total;
                         }else{
-                            $perhitungan['OHI'][] = 0;
+                            $total = 0;
+                            $perhitungan['OHI'][] = $total;
                         }
                     }
+                    $barang = Barang::find($bahan['id']);
+                    $barang->kuantitas_stok_ready = $total;
+                    $barang->save();
+                    $barang = new Barang();
+                    $barang->updateTotalStok($bahan['id']);
 
                     // menghitung nr
                     if ($counter == 0) {//ambil dari ohi
@@ -188,6 +207,7 @@ class MRP extends Model
                 'id_bahan_baku' =>$bahan['id'],
                 'nama bahan baku'=>$bahan['nama'],
                 'kebutuhan bahan baku per produksi' => $bahan['kuantitas'], 
+                'satuan' => $bahan['satuan'],
                 'leadtime'=> $bahan['leadtime'],
                 'range_produksi' => $range_produksi,
                 'perhitungan' => $penampung_perhitungan[$counter]
@@ -213,7 +233,9 @@ class MRP extends Model
                 $dMRP->save();
             }
         }
-        return [$lfl, $total_produksi, $bahan_jadi];
+        $queryMPS->status = 'proses produksi';
+        $queryMPS->save();
+        return [$lfl, $total_produksi, $bahan_jadi, $satuan_bahan_jadi];
     }
 
     private function getDatesFromRange($start, $end, $format = 'd/m') {
