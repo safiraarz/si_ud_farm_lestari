@@ -89,23 +89,9 @@ class BarangController extends Controller
     public function update(Request $request, $barang)
     {
         $data = Barang::find($barang);
-        $data->nama = $request->get('nama');
         $data->harga = $request->get('harga');
-        $data->lead_time = $request->get('lead_time');
-        $data->kuantitas_stok_onorder_supplier = $request->get('kuantitas_supplier');
-        $data->kuantitas_stok_onorder_produksi = $request->get('kuantitas_produksi');
-        $data->kuantitas_stok_pengaman = $request->get('kuantitas_pengaman');
-        $data->kuantitas_stok_ready = $request->get('kuantitas_ready');
-        $data->total_kuantitas_stok = $request->get('total_kuantitas');
-        $jenis_variabel = 1 ;
-        if($request->get('jenis') == "Bahan Jadi"){
-            $jenis_variabel = 2;
-        }
-        $data->jenis = $jenis_variabel;
-        // dd($request->get('jenis'));
-        $data->satuan = $request->get('satuan');
         $data->save();
-        return redirect()->route('barang.index')->with('status', 'Barang berhasil dupdate');
+        return redirect()->route('barang.index')->with('status', 'Barang berhasil diubah');
     }
 
     /**
@@ -173,23 +159,5 @@ class BarangController extends Controller
                 'msg' => 'Barang tidak bisa dihapus. Barang diperlukan untuk data lain'
             ), 200);
         }
-    }
-    public function saveDataField(Request $request)
-    {
-        $id = $request->get('id');
-        $fnama = $request->get('fnama');
-        $value = $request->get('value');
-
-
-        $Barang = Barang::find($id);
-        $Barang->$fnama = $value;
-        $Barang->save();
-        return response()->json(
-            array(
-                'status' => 'ok',
-                'msg' => 'Barang berhasil diupdate'
-            ),
-            200
-        );
     }
 }

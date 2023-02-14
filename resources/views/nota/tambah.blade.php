@@ -75,7 +75,6 @@
                     </table>
 
                     <div role="alert" id="errorMsg" class="mt-5">
-                        <!-- Error msg  -->
                     </div>
                 </div>
 
@@ -328,7 +327,7 @@
                                 <td>
                                     <select name="customer" id="customer" class="form-control">
                                         @foreach ($customer as $row)
-                                            <option id={{ $row->id }} value="{{ $row->nama }}""
+                                            <option id={{ $row->id }} value="{{ $row->nama }}"
                                                 class=" barang custom-select">
                                                 {{ $row->nama }}
                                             </option>
@@ -355,7 +354,7 @@
                                                 <option id={{ $row->id }} value="{{ $row->nama }}"
                                                     harga="{{ $row->harga }}" satuan="{{ $row->satuan }}"
                                                     class="barang custom-select" ready="{{$row->kuantitas_stok_ready}}">
-                                                    {{ $row->nama }}
+                                                    {{ $row->nama }} (Stok: {{ number_format($row->kuantitas_stok_ready) }})
                                                 </option>
                                             @endif
                                         @endforeach
@@ -499,13 +498,13 @@
             var tgl_transaksi = $('#tgl_transaksi_span').text();
             var supplier = $('#supplier').val();
             if (parseInt(kuantitas)  <= 0 || kuantitas == '') {
-               var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Tidak Boleh Kurang Dari Satu Atau Huruf</span>';
+               var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
 
             }
             else if (parseInt(harga) <=0 || harga == ''){
-                var erroMsg = '<span class="alert alert-danger ml-5">Harga Tidak Boleh Kurang Dari Satu Atau Huruf</span>';
+                var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             } 
@@ -731,17 +730,17 @@
            
             if (parseInt(kuantitas) <= 0 || kuantitas == '') {
                 // alert('dada');
-                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Kurang Dari 0 Atau Huruf</span>';
+                var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             }
             else if(parseInt(harga) <= 0 || harga == ''){
-                var erroMsg = '<span class="alert alert-danger ml-5">Harga Kurang Dari 0 Atau Huruf</span>';
+                var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             } 
             else if(parseInt(kuantitas_bahan_baku_ready) < parseInt(kuantitas) || kuantitas_bahan_baku_ready == '' ){
-                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Ready Bahan Kurang</span>';
+                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas stok ready kurang</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             }

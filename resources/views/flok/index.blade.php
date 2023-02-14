@@ -31,6 +31,8 @@
                             <th>Strain</th>
                             <th>Populasi</th>
                             <th>Usia</th>
+                            <th>Kebutuhan Pakan</th>
+                            <th>Satuan</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -44,6 +46,8 @@
                                 <td>{{ $d->strain }}</td>
                                 <td>{{ number_format($d->populasi) }}</td>
                                 <td>{{ $d->usia }}</td>
+                                <td>{{ $d->kebutuhan_pakan }}</td>
+                                <td>{{ $d->satuan }}</td>
                                 <td>
                                     <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs'
                                         onclick="getEditForm({{ $d->id }})">
@@ -100,6 +104,20 @@
                             <label>Usia/Hari</label>
                             <input type="text" name="usia" class="form-control" id='usia'
                                 required>
+                        </div>
+                        <div class="form-group">
+                            <label>Kebutuhan Pakan Perhari</label>
+                            <input type="text" name="kebutuhan_pakan" class="form-control" id='kebutuhan_pakan'
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label>Satuan</label>
+                            <select class='form-control select2' name='satuan'>
+                                <option value="kg" selected="">kg</option>
+                                <option value="sak" selected="">sak</option>
+                                <option value="pc" selected="">pc</option>
+                                <option value="pc" selected="">gr</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">

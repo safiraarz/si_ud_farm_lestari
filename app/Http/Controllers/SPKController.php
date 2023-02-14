@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Barang;
+use App\Flok;
 use App\SPK;
 use App\User;
 use Carbon\Carbon;
@@ -21,7 +23,8 @@ class SPKController extends Controller
         $queryBuilder = SPK::all();
         $user = User::all();
         $barang = Barang::all();
-        return view('spk.index', ['data' => $queryBuilder,'barang' => $barang, 'user' => $user]);
+        $flok = Flok::all();
+        return view('spk.index', ['data' => $queryBuilder, 'barang' => $barang, 'flok' => $flok, 'user' => $user]);
     }
 
     /**
@@ -33,17 +36,17 @@ class SPKController extends Controller
     {
         $user = User::all();
         $barang = Barang::all();
-        $date_now = str_replace('-', '',Carbon::now()->toDateString());
-        $sqlmaxsurat = DB::connection('inventory')->select(DB::raw(" SELECT MAX(SUBSTRING(no_surat, -3))+1 AS SPKMaxTanggal FROM `surat_perintah_kerja` WHERE `no_surat` LIKE '". $date_now ."%';"));
-        $noSuratMax= 0;
-        if($sqlmaxsurat[0]->SPKMaxTanggal == null){
-            $noSuratMax=1;
-        }
-        else{
+        $flok = Flok::all();
+        $date_now = str_replace('-', '', Carbon::now()->toDateString());
+        $sqlmaxsurat = DB::connection('inventory')->select(DB::raw(" SELECT MAX(SUBSTRING(no_surat, -3))+1 AS SPKMaxTanggal FROM `surat_perintah_kerja` WHERE `no_surat` LIKE '" . $date_now . "%';"));
+        $noSuratMax = 0;
+        if ($sqlmaxsurat[0]->SPKMaxTanggal == null) {
+            $noSuratMax = 1;
+        } else {
             $noSuratMax = $sqlmaxsurat[0]->SPKMaxTanggal;
         }
-        $no_surat_generator = $date_now.'-'.'02'.'-'.'01'.'-'.str_pad($noSuratMax, 3, "0", STR_PAD_LEFT);
-        return view('spk.create', ['date_now'=>Carbon::now()->toDateString(),'no_surat_generator'=>$no_surat_generator,'user' => $user,'barang' => $barang]);
+        $no_surat_generator = $date_now . '-' . '02' . '-' . '01' . '-' . str_pad($noSuratMax, 3, "0", STR_PAD_LEFT);
+        return view('spk.create', ['date_now' => Carbon::now()->toDateString(), 'no_surat_generator' => $no_surat_generator, 'user' => $user, 'barang' => $barang,'flok' => $flok]);
     }
 
     /**
@@ -57,19 +60,19 @@ class SPKController extends Controller
         $user = Auth::user();
         $data = new SPK();
         $data->no_surat = $request->get('no_surat');
-        $data->	tgl_pembuatan_surat = $request->get('tgl_pembuatan_surat');
+        $data->tgl_pembuatan_surat = $request->get('tgl_pembuatan_surat');
         $data->keterangan = $request->get('keterangan_input');
         $data->pengguna_id = $user->id;
 
         // dd($request->get('barang'));
         // $barang = Barang::find($request->get('barang'));
         $data->save();
-        foreach($request->get("barang") as $details) 
-        {   
-            $data->daftar_barang()->attach($details['id_barang'],[
-                'tgl_mulai_produksi' =>$details['tanggal_mulai'],
-                'tgl_selesai_produksi' =>$details['tanggal_akhir'],
-                'kuantitas' =>$details['kuantitas']]);
+        foreach ($request->get("barang") as $details) {
+            $data->daftar_barang()->attach($details['id_barang'], [
+                'tgl_mulai_produksi' => $details['tanggal_mulai'],
+                'tgl_selesai_produksi' => $details['tanggal_akhir'],
+                'kuantitas' => $details['kuantitas']
+            ]);
         }
         // $barang->spk()->save($data);
 
@@ -95,7 +98,7 @@ class SPKController extends Controller
      */
     public function edit(SPK $sPK)
     {
-        return view('spk.edit', ['spk' => SPK::find($sPK),'barang' => Barang::All()]);
+        return view('spk.edit', ['spk' => SPK::find($sPK), 'barang' => Barang::All()]);
     }
 
     /**

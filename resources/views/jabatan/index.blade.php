@@ -35,10 +35,10 @@
                                 <td>{{ $d->id }}</td>
                                 <td id='td_nama_{{ $d->id }}'>{{ $d->nama }}</td>
                                 <td>
-                                    <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs'
+                                    {{-- <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs'
                                         onclick="getEditForm({{ $d->id }})">
                                         <i class="fa fa-pencil"></i>
-                                    </a>
+                                    </a> --}}
                                     <a class='btn btn-danger btn-xs'
                                         onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{ $d->id }})">
                                         <i class="fa fa-trash-o"></i>

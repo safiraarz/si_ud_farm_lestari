@@ -1,16 +1,12 @@
 <form role="form" action="{{ route('supplier.update', $data->id)}}" method='POST'>
+    @csrf
+    @method('PUT')
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-        <h4 class="modal-title">Edit Supplier</h4>
+        <h4 class="modal-title">Edit Supplier {{$data->nama}}</h4>
     </div>
     <div class="modal-body">
-        @csrf
-        @method('PUT')
         <div class="form-body">
-            <div class="form-group">
-                <label>Nama</label>
-                <input type="text" name="nama" class="form-control" id='eNama' value='{{$data->nama}}' required>
-            </div>
             <div class="form-group">
                 <label>Alamat</label>
                 <textarea type="text" rows="3" name="alamat" class="form-control" id='eAlamat' required>{{$data->alamat}}

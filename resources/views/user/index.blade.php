@@ -28,6 +28,7 @@
                         <th>ID</th>
                         <th>Nama</th>
                         <th>Username</th>
+                        <th>Password</th>
                         <th>Jabatan</th>
                         <th>Action</th>
                     </tr>
@@ -38,12 +39,13 @@
                         <td>{{$d->id}}</td>
                         <td id='td_nama_{{$d->id}}'>{{$d->nama}}</td>
                         <td id='td_username_{{$d->id}}'>{{$d->username}}</td>
+                        <td id='td_jabatan_{{$d->id}}'>{{$d->password}}</td>
                         <td id='td_jabatan_{{$d->id}}'>{{$d->jabatan->nama}}</td>
                         <td>
-                            <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs'
+                            {{-- <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs'
                                 onclick="getEditForm({{ $d->id }})">
                                 <i class="fa fa-pencil"></i>
-                            </a>
+                            </a> --}}
                             <a class='btn btn-danger btn-xs'
                                 onclick="if(confirm('Are you sure you wanna delete this data?')) deleteDataRemoveTR({{ $d->id }})">
                                 <i class="fa fa-trash-o"></i>

@@ -76,7 +76,6 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        $customer->nama = $request->get('nama');
         $customer->alamat = $request->get('alamat');
         $customer->no_telepon = $request->get('no_telepon');
         $customer->save();

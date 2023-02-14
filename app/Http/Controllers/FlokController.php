@@ -43,6 +43,8 @@ class FlokController extends Controller
         $data->strain = $request->get('strain');
         $data->populasi = $request->get('populasi');
         $data->usia = $request->get('usia');
+        $data->kebutuhan_pakan = $request->get('kebutuhan_pakan');
+        $data->satuan = $request->get('satuan');
         $data->save();
 
         return redirect()->route('flok.index')->with('status', 'Flok berhasil ditambahkan');
@@ -79,15 +81,13 @@ class FlokController extends Controller
      */
     public function update(Request $request, Flok $flok)
     {
-        $flok->nama = $request->get('nama');
         $flok->keterangan = $request->get('keterangan');
         $flok->cage = $request->get('cage');
         $flok->strain = $request->get('strain');
-        $flok->populasi = $request->get('populasi');
         $flok->usia = $request->get('usia');
 
         $flok->save();
-        return redirect()->route('flok.index')->with('status', 'Flok berhasil diupdate');
+        return redirect()->route('flok.index')->with('status', 'Flok berhasil diubah');
     }
 
     /**
@@ -127,6 +127,8 @@ class FlokController extends Controller
         $Flok->strain = $request->get('strain');
         $Flok->populasi = $request->get('populasi');
         $Flok->usia = $request->get('usia');
+        $Flok->kebutuhan_pakan = $request->get('kebutuhan_pakan');
+        $Flok->satuan = $request->get('satuan');
         $Flok->save();
         return response()->json(
             array(
