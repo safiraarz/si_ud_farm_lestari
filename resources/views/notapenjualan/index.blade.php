@@ -48,9 +48,9 @@
                             <th>Tanggal Pembuatan Nota</th>
                             <th>Nama Customer</th>
                             <th>Total Harga</th>
+                            <th>Cara Bayar</th>
                             <th>Daftar Barang</th>
                             <th>Pembuat Nota</th>
-                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,6 +62,7 @@
                                     {{ $d->tgl_pembuatan_nota->format('d/m/Y') }}</td>
                                 <td id='td_customer_{{ $d->id }}'>{{ $d->customer->nama }}</td>
                                 <td id='td_total_harga_{{ $d->id }}'>Rp{{ number_format($d->total_harga, 2) }}</td>
+                                <td id='td_cara_bayar_{{$d->id}}'>{{$d->cara_bayar}}</td>
                                 <td>
                                     <a class="btn btn-default edittable" data-toggle="modal"
                                         href="#detail_{{ $d->id }}">
@@ -75,7 +76,7 @@
                                                     <h4 class="modal-title">Nomor Nota : {{ $d->no_nota }}</h4>
                                                 </div>
                                                 <div class="modal-body">
-
+                                                    <b>Keterangan:</b><p>{{$d->keterangan}}</p>
                                                     @foreach ($d->barang as $key => $item)
                                                         <b>
                                                             <span>- Barang {{ $key + 1 }}</span>
@@ -103,7 +104,6 @@
                                     </div>
                                 </td>
                                 <td id='td_pengguna_{{ $d->id }}'>{{ $d->pengguna->nama }}</td>
-                                <td id='td_status_{{ $d->id }}'>{{ $d->status }}</td>
                             </tr>
                         @endforeach
                     </tbody>

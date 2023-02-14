@@ -11,7 +11,7 @@
     </div>
 
     {{-- Pemesanan --}}
-    <section class="mt-3 margin-right-10" id="nota_pemesanan_section" >
+    <section class="mt-3 margin-right-10" id="nota_pemesanan_section">
         <div class="">
             {{-- <h4 class="text-center" style="color:green"> UD Farm Lestari </h4> --}}
             <div class="row">
@@ -42,8 +42,8 @@
                         <thead>
                             <tr>
                                 <th style="width:35%">Nama Barang</th>
-                                <th style="width:25%">Kuantitas</th>
-                                <th>Harga</th>
+                                <th style="width:30%">Kuantitas</th>
+                                <th style="width:35%">Harga</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -69,6 +69,8 @@
                                     <input type="number" id="harga" min="0" value="0"
                                         class="form-control harga">
                                 </td>
+                            </tr>
+                            <tr>
                                 <td><button id="tambah_pemesanan" class="btn btn-success">Tambah</button></td>
                             </tr>
                         </tbody>
@@ -184,25 +186,50 @@
             </form>
         </div> --}}
         <div class="">
-            {{-- <h4 class="text-center" style="color:green"> UD Farm Lestari </h4> --}}
             <div class="row">
-                <div class="col-md-5  mt-4 ">
+                <div class="col-md-5 mt-5 ">
                     <table class="table" style="background-color:#e0e0e0;">
                         @csrf
                         <thead>
                             <tr>
-                                <th>No. Nota Pemesanan</th>
+                                <th style="width:35%">No. Nota Pemesanan</th>
+                                <th style="width:30%">Cara Bayar</th>
+                                <th style="width:35%">Kategori Nota</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
                                     <select class="form-control" name="no_pesanan_pembelian" id="no_pesanan_pembelian">
-                                        <option value="">Silahkan Pilih Nomor Pesanan</option>
+                                        <option value="">Silahkan pilih Nomor Pemesanan</option>
                                         @foreach ($notapemesanan as $item)
                                             <option value="{{ $item->id }}">{{ $item->no_nota }}</option>
                                         @endforeach
                                     </select>
+                                </td>
+                                <td>
+                                    <select class='form-control select2' name='cara_bayar'>
+                                        <option value="tunai" selected="">Tunai</option>
+                                        <option value="transfer" selected="">Transfer</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control" name="daftar_akun" id="daftar_akun">
+                                        <option value=""></option>
+                                        @foreach ($akun as $item)
+                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table" style="background-color:#e0e0e0;">
+                        <tbody>
+                            <tr>
+                                <th>Keterangan</th>
+                                <td>
+                                    <textarea id="keterangan" class="form-control"></textarea>
                                 </td>
                             </tr>
                         </tbody>
@@ -211,8 +238,8 @@
                         <thead>
                             <tr>
                                 <th style="width:35%">Nama Barang</th>
-                                <th style="width:25%">Kuantitas</th>
-                                <th>Harga</th>
+                                <th style="width:30%">Kuantitas</th>
+                                <th style="width:35%">Harga</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -238,13 +265,14 @@
                                     <input type="number" id="harga" min="0" value="0"
                                         class="form-control harga">
                                 </td>
+                            </tr>
+                            <tr>
                                 <td><button id="tambah_pembelian" class="btn btn-success">Tambah</button></td>
                             </tr>
                         </tbody>
                     </table>
 
                     <div role="alert" id="errorMsg" class="mt-5">
-                        <!-- Error msg  -->
                     </div>
                 </div>
 
@@ -252,7 +280,7 @@
                     <form action="{{ route('notapembelian.store') }}" method="post" enctype="multipart/form-data"
                         class="form-horizontal">
                         @csrf
-                        
+
                         <div class="p-4">
                             <div class="text-center">
                                 <h4>Nota Pembelian</h4>
@@ -260,12 +288,13 @@
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6 ">
                                     <span>No. Nota</span> : <span id="no_nota_span">{{ $no_nota_pembelian }}</span>
-                                    <input type="hidden" name="no_nota" class="form-control" value="{{ $no_nota_pembelian }}">
+                                    <input type="hidden" name="no_nota" class="form-control"
+                                        value="{{ $no_nota_pembelian }}">
                                 </div>
                             </div>
                             <div class="row">
                                 <input type="hidden" value="{{ $date_now }}" name="tanggal_pembuatan_nota"
-                                class="form-control input-sm" required />
+                                    class="form-control input-sm" required />
                                 <div class="col-xs-6 col-sm-6 col-md-6 ">
                                     <span>Tanggal Transaksi</span> : <span
                                         id="tgl_transaksi_span">{{ $date_now }}</span>
@@ -313,13 +342,14 @@
     {{-- Penjualan --}}
     <section class="mt-3 margin-right-10" id="nota_penjualan_section" style="display: none;">
         <div class="">
-            {{-- <h4 class="text-center" style="color:green"> UD Farm Lestari </h4> --}}
             <div class="row">
-                <div class="col-md-5  mt-4 ">
+                <div class="col-md-5 mt-5 ">
                     <table class="table" style="background-color:#e0e0e0;">
                         <thead>
                             <tr>
-                                <th>Customer</th>
+                                <th style="width:35%">Customer</th>
+                                <th style="width:30%">Cara Bayar</th>
+                                <th style="width:35%">Kategori Nota</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -334,6 +364,30 @@
                                         @endforeach
                                     </select>
                                 </td>
+                                <td>
+                                    <select class='form-control select2' name='cara_bayar'>
+                                        <option value="tunai" selected="">Tunai</option>
+                                        <option value="transfer" selected="">Transfer</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control" name="daftar_akun" id="daftar_akun">
+                                        <option value=""></option>
+                                        @foreach ($akun as $item)
+                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table" style="background-color:#e0e0e0;">
+                        <tbody>
+                            <tr>
+                                <th>Keterangan</th>
+                                <td>
+                                    <textarea id="keterangan" class="form-control"></textarea>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -341,8 +395,8 @@
                         <thead>
                             <tr>
                                 <th style="width:35%">Nama Barang</th>
-                                <th style="width:25%">Kuantitas</th>
-                                <th>Harga</th>
+                                <th style="width:30%">Kuantitas</th>
+                                <th style="width:35%">Harga</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -353,8 +407,10 @@
                                             @if ($row->jenis == 'Barang Jadi')
                                                 <option id={{ $row->id }} value="{{ $row->nama }}"
                                                     harga="{{ $row->harga }}" satuan="{{ $row->satuan }}"
-                                                    class="barang custom-select" ready="{{$row->kuantitas_stok_ready}}">
-                                                    {{ $row->nama }} (Stok: {{ number_format($row->kuantitas_stok_ready) }})
+                                                    class="barang custom-select"
+                                                    ready="{{ $row->kuantitas_stok_ready }}">
+                                                    {{ $row->nama }} (Stok:
+                                                    {{ number_format($row->kuantitas_stok_ready) }})
                                                 </option>
                                             @endif
                                         @endforeach
@@ -368,6 +424,8 @@
                                     <input type="number" id="harga_penjualan" min="0" value="0"
                                         class="form-control harga">
                                 </td>
+                            </tr>
+                            <tr>
                                 <td><button id="tambah_penjualan" class="btn btn-success">Tambah</button></td>
                             </tr>
                         </tbody>
@@ -407,7 +465,7 @@
                                 <table id="receipt_bill_penjualan" class="table">
                                     <thead>
                                         <tr>
-             
+
                                             <th>Nama Barang</th>
                                             <th>Kuantitas</th>
                                             <th>Satuan</th>
@@ -448,8 +506,6 @@
 
 @section('javascript')
     <script>
-     
-       
         $("#pilih_nota").on('change', function() {
             var pilihan = $(this).val();
             if (pilihan == "nota_pembelian") {
@@ -477,15 +533,15 @@
         var count = 1;
         var total_pesanan = 0;
         var subTotal_pesanan = 0;
-        function deleteDataPemesanan(id)
-        {
-            $('#row_'+id).html("");
-            harga = $('#row_'+id).attr("harga");
+
+        function deleteDataPemesanan(id) {
+            $('#row_' + id).html("");
+            harga = $('#row_' + id).attr("harga");
             sub_new = parseInt(subTotal_pesanan) - parseInt(harga);
             subTotal_pesanan = sub_new;
             var totalPayment = parseFloat(subTotal_pesanan);
             $('#subTotal').text(thousands_separators(totalPayment));
-            $('#total_harga').val(totalPayment); 
+            $('#total_harga').val(totalPayment);
             // alert(sub_new);
         };
         $('#tambah_pemesanan').on('click', function() {
@@ -497,18 +553,16 @@
             var no_nota = $('#no_nota_span').text();
             var tgl_transaksi = $('#tgl_transaksi_span').text();
             var supplier = $('#supplier').val();
-            if (parseInt(kuantitas)  <= 0 || kuantitas == '') {
-               var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka</span>';
-                $('.errorMsg').show();
-                $('.errorMsg').html(erroMsg).fadeOut(9000);
-
-            }
-            else if (parseInt(harga) <=0 || harga == ''){
+            if (parseInt(kuantitas) <= 0 || kuantitas == '') {
                 var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
-            } 
-            else {
+
+            } else if (parseInt(harga) <= 0 || harga == '') {
+                var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka</span>';
+                $('.errorMsg').show();
+                $('.errorMsg').html(erroMsg).fadeOut(9000);
+            } else {
                 billFunction(); // Below Function passing here 
             }
 
@@ -532,7 +586,8 @@
                     var id_barang = $('#barang').find(':selected').attr('id');
 
 
-                    var table = '<tr class="list" id="row_'+ count+'" harga="'+harga+'"><td>' + name +
+                    var table = '<tr class="list" id="row_' + count + '" harga="' + harga + '"><td>' +
+                        name +
                         '<input type="hidden" name="barang[' + count + '][' + "id_barang" + ']" value=' +
                         id_barang + '></td><td>' + thousands_separators(kuantitas) +
                         '<input type="hidden" name="barang[' +
@@ -543,9 +598,10 @@
                         "harga_barang" + ']" value=' + harga +
                         '></td><td><strong><input type="hidden" id="total" value="' + total_pesanan + '">' +
                         thousands_separators(total_pesanan) +
-                        '</strong></td>'+
-                        '<td>'+
-                        '<a class="btn btn-danger barang_delete" onclick="deleteDataPemesanan('+count+')"><i class="fa fa-trash-o"></i></a><td>'+
+                        '</strong></td>' +
+                        '<td>' +
+                        '<a class="btn btn-danger barang_delete" onclick="deleteDataPemesanan(' + count +
+                        ')"><i class="fa fa-trash-o"></i></a><td>' +
                         '</tr>';
                     $('#new').append(table);
 
@@ -571,24 +627,23 @@
                 count++;
             }
         });
-       
-        function maxminvalue(jenis,idx,value_){
-            var id = jenis+"_"+idx;
-            
-            var valueset = $("#"+id).val();
-            if(value_ <  valueset || valueset <= 0){
-                $("#"+id).val(value_);
+
+        function maxminvalue(jenis, idx, value_) {
+            var id = jenis + "_" + idx;
+
+            var valueset = $("#" + id).val();
+            if (value_ < valueset || valueset <= 0) {
+                $("#" + id).val(value_);
             }
-            
-         
+
+
         }
 
-         
 
 
-        function deleteDataPembelian(id)
-        {
-            $('#row_'+id).html("");
+
+        function deleteDataPembelian(id) {
+            $('#row_' + id).html("");
             // harga = $('#row_'+id).attr("harga");
             // sub_new = parseInt(subTotal_pesanan) - parseInt(harga);
             // subTotal_pesanan = sub_new;
@@ -630,15 +685,19 @@
             var id_nota_pesanan = $(this).val();
             notapemesanan.forEach(element => {
                 if (id_nota_pesanan == element[0]) {
-               
+
                     $('#supplier_span_pem').html(element[1][1]);
                     // Show Supplier
                     // var supplier_html =
                     //     '<div class="form-group p-3"><label>Nama Supplier</label><select class="form-control" name="supplier_id" id="supplier"  readonly><option value="' +
                     //     element[1][0] + '" >' + element[1][1] + '</option></select></div>';
-                    $('#new__').append('<input type="hidden" name="no_pesanan_pembelian" id="no_pesanan_pembelian" value="' + element[0]+'">');
+                    $('#new__').append(
+                        '<input type="hidden" name="no_pesanan_pembelian" id="no_pesanan_pembelian" value="' +
+                        element[0] + '">');
 
-                    $('#new__').append('<input type="hidden" name="supplier_id" class="form-control" id="supplier" value="' + element[1][0] +'">');
+                    $('#new__').append(
+                        '<input type="hidden" name="supplier_id" class="form-control" id="supplier" value="' +
+                        element[1][0] + '">');
                     // $('#bahan_pesanan').append(
                     //     '<div id="bahan_pesanan_row" class="row justify-content-around"></div>');
                     for (let index = 0; index < element[2].length; index++) {
@@ -672,23 +731,30 @@
                         //     '</div>';
                         // alert(barang_pesanan);
 
-                        var table = '<tr class="list" id="row_'+index+'">'+
+                        var table = '<tr class="list" id="row_' + index + '">' +
                             '<td>' + barang_name +
-                        '<input type="hidden" name="barang[' + index + '][' + "barang_id" + ']" value=' +barang_id + '>'+
-                        '</td>'+
+                            '<input type="hidden" name="barang[' + index + '][' + "barang_id" +
+                            ']" value=' + barang_id + '>' +
+                            '</td>' +
 
-                        '<td>'+
-                        '<input id="kuantitas_'+index+'" type="number" onchange="maxminvalue(' + "'kuantitas'"+ "," +index + "," + kuantitas + ')" min="1" max="'+kuantitas  +'" name="barang[' +index + '][' + "kuantitas" + ']" value=' + thousands_separators(kuantitas) +'>'+
-                        '</td>'+
+                            '<td>' +
+                            '<input id="kuantitas_' + index + '" type="number" onchange="maxminvalue(' +
+                            "'kuantitas'" + "," + index + "," + kuantitas + ')" min="1" max="' + kuantitas +
+                            '" name="barang[' + index + '][' + "kuantitas" + ']" value=' +
+                            thousands_separators(kuantitas) + '>' +
+                            '</td>' +
 
-                        '<td>'+
-                        '<input id="harga_'+index+'" type="number" onchange="maxminvalue(' + "'harga'"+ "," +index + "," + harga + ')"  min="1" max="'+ harga  +'" name="barang[' +index + '][' + "harga" + ']" value="' + harga +'"">'+
-                        '</td>'+
-                        '<td>'+
-                        '<a class="btn btn-danger barang_delete" onclick="deleteDataPembelian('+index+')"><i class="fa fa-trash-o"></i></a></a>'+
-                        '</td>'+
-                        
-                        '</tr>';
+                            '<td>' +
+                            '<input id="harga_' + index + '" type="number" onchange="maxminvalue(' +
+                            "'harga'" + "," + index + "," + harga + ')"  min="1" max="' + harga +
+                            '" name="barang[' + index + '][' + "harga" + ']" value="' + harga + '"">' +
+                            '</td>' +
+                            '<td>' +
+                            '<a class="btn btn-danger barang_delete" onclick="deleteDataPembelian(' +
+                            index + ')"><i class="fa fa-trash-o"></i></a></a>' +
+                            '</td>' +
+
+                            '</tr>';
                         // alert(table);
                         $('#new__').append(table);
                         // $('#bahan_pesanan_row').append(table);
@@ -706,15 +772,15 @@
 
         var count_penjualan = 1;
         var subTotal_penjualan = 0;
-        function deleteDataPenjualan(id)
-        {
-            $('#row_'+id).html("");
-            harga = $('#row_'+id).attr("harga");
+
+        function deleteDataPenjualan(id) {
+            $('#row_' + id).html("");
+            harga = $('#row_' + id).attr("harga");
             sub_new = parseInt(subTotal_penjualan) - parseInt(harga);
             subTotal_penjualan = sub_new;
             var totalPayment = parseFloat(subTotal_penjualan);
             $('#subTotal').text(thousands_separators(totalPayment));
-            $('#total_harga').val(totalPayment); 
+            $('#total_harga').val(totalPayment);
             // alert(sub_new);
         };
         $('#tambah_penjualan').on('click', function() {
@@ -727,24 +793,22 @@
             var no_nota = $('#no_nota_penjualan_span').text();
             var tgl_transaksi = $('#tgl_transaksi_penjualan_span').text();
             var customer = $('#customer').val();
-           
+
             if (parseInt(kuantitas) <= 0 || kuantitas == '') {
                 // alert('dada');
                 var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
-            }
-            else if(parseInt(harga) <= 0 || harga == ''){
+            } else if (parseInt(harga) <= 0 || harga == '') {
                 var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
-            } 
-            else if(parseInt(kuantitas_bahan_baku_ready) < parseInt(kuantitas) || kuantitas_bahan_baku_ready == '' ){
+            } else if (parseInt(kuantitas_bahan_baku_ready) < parseInt(kuantitas) || kuantitas_bahan_baku_ready ==
+                '') {
                 var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas stok ready kurang</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
-            }
-            else {
+            } else {
                 billFunction(); // Below Function passing here 
             }
 
@@ -765,7 +829,7 @@
                     var id_barang = $('#barang_penjualan').find(':selected').attr('id');
 
 
-                    var table = '<tr id="row_'+ count_penjualan+'" harga="'+harga+'" ><td>' + name +
+                    var table = '<tr id="row_' + count_penjualan + '" harga="' + harga + '" ><td>' + name +
                         '<input type="hidden" name="barang_penjualan[' + count_penjualan + '][' +
                         "id_barang" + ']" value=' + id_barang + '></td><td>' + kuantitas +
                         '<input type="hidden" name="barang_penjualan[' + count_penjualan + '][' +
@@ -775,14 +839,15 @@
                         "harga_barang" + ']" value=' + harga +
                         '></td><td><strong><input type="hidden" id="total" name="barang_penjualan[' +
                         count_penjualan + '][' + "total_harga_barang" + ']" value="' + total + '">' +
-                        thousands_separators(total) + '</strong></td>'+
-                        '<td><a class="btn btn-danger barang_delete" onclick="deleteDataPemesanan('+count_penjualan+')"><i class="fa fa-trash-o"></i></a></a></td>'+
+                        thousands_separators(total) + '</strong></td>' +
+                        '<td><a class="btn btn-danger barang_delete" onclick="deleteDataPemesanan(' +
+                        count_penjualan + ')"><i class="fa fa-trash-o"></i></a></a></td>' +
                         '</tr>';
                     $('#new_penjualan').append(table);
 
                     // Code for Sub Total of Vegitables 
                     // var total = 0;
-                  
+
                     $('#subTotal_penjualan').text(thousands_separators(subTotal_penjualan));
 
 

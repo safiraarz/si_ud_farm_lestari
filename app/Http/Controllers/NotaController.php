@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AkunAkuntansi;
 use App\Barang;
 use App\Customer;
 use App\Supplier;
@@ -20,6 +21,7 @@ class NotaController extends Controller
     public function index()
     {
         //
+        $akun = AkunAkuntansi::all();
         $supplier = Supplier::all();
         $barang = Barang::all();
         $customer = Customer::all();
@@ -63,6 +65,7 @@ class NotaController extends Controller
             'barang' => $barang,
             'supplier'=>$supplier,
             'notapemesanan' => $notapemesanan,
+            'akun' => $akun,
             'no_nota_pemesanan'=>$no_nota_generator_pemesanan,
             'no_nota_pembelian'=>$no_nota_generator_pembelian,
             'no_nota_penjualan'=> $no_nota_generator_penjualan,
