@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Dashboard;
+use App\Flok;
+use App\NotaPembelian;
+use App\NotaPenjualan;
+use App\PeriodeAkuntansi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -15,6 +20,14 @@ class DashboardController extends Controller
     public function index()
     {
         //
+        $totalPopulasiAyam = Flok::all()->sum('populasi');
+        $bulan_ini = date('m', strtotime('now'));
+        $totalNotaPenjualan = NotaPenjualan::whereMonth('tgl_pembuatan_nota',$bulan_ini)->count();
+        $totalNotaPembelian = NotaPembelian::whereMonth('tgl_pembuatan_nota',$bulan_ini)->count();
+        $startDate = Carbon::today();
+        $endDate = Carbon::today()->addDays(7);
+        $periodeAkuntansi = PeriodeAkuntansi::whereBetween('tanggal_akhir', [$startDate, $endDate])->where('status',1)->get();
+        return view('dashboard', compact('totalPopulasiAyam','totalNotaPenjualan','totalNotaPembelian','periodeAkuntansi'));
     }
 
     /**

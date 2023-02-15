@@ -145,7 +145,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     </li>
 
                     <li class="start active ">
-                        <a href="">
+                        <a href="{{ route('dashboard') }}">
                             <i class="icon-home"></i>
                             <span class="title">Dashboard</span>
                             <span class="selected"></span>
