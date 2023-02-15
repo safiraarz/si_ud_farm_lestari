@@ -24,20 +24,18 @@
                 <div class="portlet-body util-btn-margin-bottom-5">
                     <div class="clearfix">
                         <a href="#modalTutup" data-toggle='modal' class="btn btn-info" type="button">Tutup Periode</a>
-                        <a href="#modalUbah" data-toggle='modal' class="btn btn-info" type="button">Ubah Periode
-                            Aktif</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
-<div class="modal fade" id="modalUbah" tabindex="-1" role="basic" aria-hidden="true">
+<div class="modal fade" id="modalTutup" tabindex="-1" role="basic" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Ubah Periode</h4>
+                <h4 class="modal-title">Tutup Periode</h4>
             </div>
             <div class="modal-body">
                 <form action="{{ url('periode') }}" class="form-horizontal" method='POST'>

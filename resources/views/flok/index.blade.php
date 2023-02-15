@@ -31,8 +31,7 @@
                             <th>Strain</th>
                             <th>Populasi</th>
                             <th>Usia</th>
-                            <th>Kebutuhan Pakan</th>
-                            <th>Satuan</th>
+                            <th>Kebutuhan Pakan Perhari</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -46,8 +45,7 @@
                                 <td>{{ $d->strain }}</td>
                                 <td>{{ number_format($d->populasi) }}</td>
                                 <td>{{ $d->usia }}</td>
-                                <td>{{ $d->kebutuhan_pakan }}</td>
-                                <td>{{ $d->satuan }}</td>
+                                <td>{{ $d->kebutuhan_pakan }} {{ $d->satuan }}/ekor</td>
                                 <td>
                                     <a href="#modalEdit" data-toggle='modal' class='btn btn-warning btn-xs'
                                         onclick="getEditForm({{ $d->id }})">

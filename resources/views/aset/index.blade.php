@@ -23,8 +23,8 @@
                         <tr>
                             <th>ID</th>
                             <th>Nama</th>
-                            <th>Nominal</th>
-                            <th>Estimasi Bulan</th>
+                            <th>Nilai Aset</th>
+                            <th>Estimasi Pemakaian</th>
                             <th>Nilai Residu</th>
                             <th>Action</th>
                         </tr>
@@ -34,8 +34,8 @@
                             <tr id='tr_{{ $d->id }}'>
                                 <td>{{ $d->id }}</td>
                                 <td id='td_nama_{{ $d->id }}'>{{ $d->nama }}</td>
-                                <td id='td_nama_{{ $d->id }}'>{{ $d->nominal }}</td>
-                                <td id='td_nama_{{ $d->id }}'>{{ $d->estimasi_bulan }}</td>
+                                <td id='td_nama_{{ $d->id }}'>Rp {{ number_format($d->nominal,2) }}</td>
+                                <td id='td_nama_{{ $d->id }}'>{{ $d->estimasi_pemakaian }} tahun</td>
                                 <td id='td_nama_{{ $d->id }}'>{{ $d->nilai_residu }}</td>
                                 <td>
                                     <a class='btn btn-danger btn-xs'
