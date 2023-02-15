@@ -16,8 +16,10 @@ class PerubahanEkuitasController extends Controller
     public function index()
     {
         $periode = PeriodeAkuntansi::all();
-        $queryBuilder = JurnalAkuntansi::all();
-        return view('perubahanekuitas.index', ['data' => $queryBuilder,'periode'=>$periode]);
+        $queryBuilder = new JurnalAkuntansi();
+        $ekuitas = $queryBuilder->perubahanekuitas();
+        // dd($ekuitas);
+        return view('perubahanekuitas.index', ['data' => $ekuitas,'periode'=>$periode]);
     }
 
     /**

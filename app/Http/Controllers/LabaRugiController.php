@@ -16,8 +16,10 @@ class LabaRugiController extends Controller
     public function index()
     {
         $periode = PeriodeAkuntansi::all();
-        $queryBuilder = JurnalAkuntansi::all();
-        return view('labarugi.index', ['data' => $queryBuilder,'periode'=>$periode]);
+        $queryBuilder = new JurnalAkuntansi();
+        $laba_rugi = $queryBuilder->labarugi();
+        // dd($laba_rugi);
+        return view('labarugi.index', ['data' => $laba_rugi,'periode'=>$periode]);
     }
 
     /**

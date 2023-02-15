@@ -17,6 +17,7 @@ class JurnalAkuntansiController extends Controller
     {
         $periode = PeriodeAkuntansi::all();
         $queryBuilder = JurnalAkuntansi::all();
+        // dd($queryBuilder);
         return view('jurnal.index', ['data' => $queryBuilder,'periode'=>$periode]);
     }
 

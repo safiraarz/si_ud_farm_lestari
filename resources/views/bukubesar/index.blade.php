@@ -2,13 +2,14 @@
 @section('content')
     <div class="page-container">
         <div class="col-md-12">
+            @foreach ($data as $item)
             <div class="portlet">
                 <div class="portlet-title">
                     <div class="caption">
-                        <i class="fa fa-globe"></i>Kas di Tangan
+                        <i class="fa fa-globe"></i>{{ $item['nama_akun'] }}
                     </div>
                     <div class="tools">
-                        <b>No Akun: 101</b>
+                        <b>No Akun: {{ $item['no_akun'] }}</b>
                         <a href="javascript:;" class="collapse">
                         </a>
                         <a href="javascript:;" class="reload">
@@ -33,366 +34,93 @@
 
                         </tr>
                         <tbody>
-                            <div>
-                                <tr>
-                                    <td rowspan="4">
-                                        1 Januari 2023
-                                    </td>
-                                    <td rowspan="4">
-                                        Membayar hutang ke UD Jaya secara transfer.
-                                    </td>
-                                    <td>
-                                        202
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
+                            <tr>
+                                <td>
+                                    
+                                </td>
+                                <td>
+                                    Saldo Awal
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    {{ $item['saldo_awal_debet'] }}
+                                </td>
+                                <td>
+                                    {{ $item['saldo_awal_kredit'] }}
+                                    
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                            @foreach ($item['list'] as $items)
+                            {{-- <tr>
+                               
+                            </tr> --}}
+                            <tr>
+                                <td >
+                                    {{ $items['tanggal'] }}
+                                </td>
+                                <td >
+                                    {{ $items['keterangan'] }}
 
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        20230101
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        102
-                                    </td>
-                                    <td>
+                                </td>
+                                <td>
+                                    {{ $items['no_ref'] }}
+                                </td>
+                                <td>
+                                    {{ $items['debit'] }}
+                                </td>
+                                <td>
+                                    {{ $items['kredit'] }}
+                                </td>
+                                <td>
+                                    {{ $items['saldo_debit'] }}
+                                </td>
+                                <td>
+                                    {{ $items['saldo_kredit'] }}
+                                    
+                                </td>
+                                <td>
+                                    {{ $items['no_bukti'] }}
+                                
+                                </td>
+                            </tr>
+                           
+                            @endforeach
+                            <tr>
+                                <td colspan="5" class=" text-right">
+                                    Saldo Sebelum Closing
+                                </td>
+                              
+                                <td colspan="3">
+                                    {{ $item['saldo_sebelum_closing'] }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class=" text-right">
+                                    Saldo Setelah Closing
+                                </td>
+                              
+                                <td colspan="3">
+                                    {{ $item['saldo_setelah_closing'] }}
+                                </td>
+                            </tr>
+                                
 
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        20230101
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                </tr>
-                            </div>
-                            <div>
-                                <tr>
-                                    <td rowspan="4">
-                                        2 Januari 2023
-                                    </td>
-                                    <td rowspan="4">
-                                        Membayar hutang ke CV Abadi secara transfer.
-                                    </td>
-                                    <td>
-                                        202
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        20230101
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        102
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        20230101
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                </tr>
-
-                            </div>
-                            <div>
-                                <tr>
-                                    <td rowspan="4">
-                                        3 Januari 2023
-                                    </td>
-                                    <td rowspan="4">
-                                        Membayar hutang ke CV Abadi secara transfer.
-                                    </td>
-                                    <td>
-                                        202
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-                                        20230101
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        102
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        20230101
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                </tr>
-
-                            </div>
-                            <div>
-                                <tr>
-                                    <td rowspan="4">
-                                        4 Januari 2023
-                                    </td>
-                                    <td rowspan="4">
-                                        Membayar hutang ke CV Abadi secara transfer.
-                                    </td>
-                                    <td>
-                                        202
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-                                        20230101
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        102
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        800.000
-                                    </td>
-                                    <td>
-                                        20230101
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                    <td>
-
-                                    </td>
-                                </tr>
-
-                            </div>
+      
+                           
+                            
                         </tbody>
                     </table>
                 </div>
             </div>
+            @endforeach
+            
         </div>
     </div>
 @endsection

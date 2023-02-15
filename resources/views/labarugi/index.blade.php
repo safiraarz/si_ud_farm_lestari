@@ -30,33 +30,30 @@
                     </div>
                 </div>
                 <br>
+                
+                {{-- @foreach ($data as $item) --}}
                 <div class="row">
                     <div class="col-xs-6">
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th>
-                                        PENDAPATAN
+                                        PENDAPATAN 
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($data['pendapatan'] as $pendapatan)
                                 <tr>
                                     <td style="width:65%">
-                                        Pendapatan penjualan telur
+                                        {{  $pendapatan['nama_akun'] }}
                                     </td>
                                     <td style="width:35%">
-                                        Rp 15.000.000,00
+                                        Rp  {{  $pendapatan['saldo'] }}
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="width:65%">
-                                        Pendapatan penjualan ayam afkir
-                                    </td>
-                                    <td style="width:35%">
-                                        Rp 20.000.000,00
-                                    </td>
-                                </tr>
+                    
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -64,13 +61,17 @@
                                         TOTAL PENDAPATAN
                                     </th>
                                     <th style="width:35%">
-                                        Rp 30.000.000
+                                        Rp {{ $data['total_pendapatan'] }}
                                     </th>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
                 </div>
+                
+                {{-- @endforeach --}}
+                
+
                 <div class="row">
                     <div class="col-xs-6">
                         <table class="table">
@@ -82,22 +83,18 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($data['biaya'] as $pendapatan)
                                 <tr>
                                     <td style="width:65%">
-                                        Biaya Produksi
+                                        {{  $pendapatan['nama_akun'] }}
                                     </td>
                                     <td style="width:35%">
-                                        Rp 6.000.000,00
+                                        Rp  {{  $pendapatan['saldo'] }}
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="width:65%">
-                                        Biaya PLN dan PDAM
-                                    </td>
-                                    <td style="width:35%">
-                                        Rp 10.000.000,00
-                                    </td>
-                                </tr>
+                    
+                                @endforeach
+                                
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -105,13 +102,14 @@
                                         TOTAL BIAYA
                                     </th>
                                     <th style="width:35%">
-                                        Rp 16.000.000
+                                        Rp {{ $data['total_biaya'] }}
                                     </th>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
                 </div>
+
                 <br>
                 <div class="row">
                     <div class="col-xs-6">
@@ -122,7 +120,7 @@
                                         LABA/RUGI
                                     </th>
                                     <th style="width:35%">
-                                        Rp 14.000.000
+                                        Rp {{ $data['laba_rugi'] }}
                                     </th>
                                 </tr>
                             </tfoot>
