@@ -31,51 +31,27 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($data['aset'] as $item)
                                 <tr>
                                     <td style="width:65%">
-                                        Kas di Tangan
+                                        {{ $item['nama_akun'] }}
                                     </td>
                                     <td style="width:35%">
-                                        Rp 15.000.000,00
+                                        {{ $item['saldo'] }}
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="width:65%">
-                                        Kas di Bank
-                                    </td>
-                                    <td style="width:35%">
-                                        Rp 20.000.000,00
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td style="width:65%">
-                                        Peralatan
-                                    </td>
-                                    <td style="width:35%">
-                                        Rp 20.000.000,00
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width:65%">
-                                        Akumulasi Penyusutan Peralatan
-                                    </td>
-                                    <td style="width:35%">
-                                        Rp 5.000.000,00
-                                    </td>
-                                </tr>
+                                @endforeach
+                                
+                               
                             </tbody>
-                            <thead>
+                            {{-- <thead>
                                 <tr>
                                     <th style="width:65%">
                                         NILAI BUKU PERALATAN
                                     </th>
                                     <th style="width:35%">Rp 15.000.000</th>
                                 </tr>
-                            </thead>
+                            </thead> --}}
                             <tfoot>
                                 <tr>
                                     <th></th>
@@ -86,7 +62,7 @@
                                         TOTAL AKTIVA (ASET)
                                     </th>
                                     <th style="width:35%">
-                                        Rp 30.000.000
+                                        Rp {{ $data['total_aset'] }}
                                     </th>
                                 </tr>
                             </tfoot>
@@ -105,22 +81,17 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($data['kewajiban'] as $item)
                                 <tr>
                                     <td style="width:65%">
-                                        Hutang Bahan Baku
+                                        {{ $item['nama_akun'] }}
                                     </td>
                                     <td style="width:35%">
-                                        Rp 2.000.000,00
+                                        {{ $item['saldo'] }}
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="width:65%">
-                                        Hutang DOC
-                                    </td>
-                                    <td style="width:35%">
-                                        Rp 3.000.000,00
-                                    </td>
-                                </tr>
+                                @endforeach
+                                
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -128,7 +99,7 @@
                                         TOTAL BIAYA
                                     </th>
                                     <th style="width:35%">
-                                        Rp 5.000.000
+                                        Rp {{ $data['total_kewajiban'] }}
                                     </th>
                                 </tr>
                             </tfoot>
@@ -146,14 +117,16 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($data['ekuitas'] as $item)
                                 <tr>
                                     <td style="width:65%">
-                                        Modal UD Farm Lestari
+                                        {{ $item['nama_akun'] }}
                                     </td>
                                     <td style="width:35%">
-                                        Rp 25.000.000,00
+                                        {{ $item['saldo'] }}
                                     </td>
                                 </tr>
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -161,7 +134,7 @@
                                         TOTAL EKUITAS
                                     </th>
                                     <th style="width:35%">
-                                        Rp 25.000.000
+                                        Rp {{ $data['total_ekuitas'] }}
                                     </th>
                                 </tr>
                             </tfoot>
@@ -177,7 +150,7 @@
                                         TOTAL PASIVA (KEWAJIBAN+EKUITAS)
                                     </th>
                                     <th style="width:35%">
-                                        Rp 30.000.000
+                                        Rp {{ $data['total_pasiva'] }}
                                     </th>
                                 </tr>
                             </tfoot>

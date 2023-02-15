@@ -16,8 +16,11 @@ class NeracaController extends Controller
     public function index()
     {
         $periode = PeriodeAkuntansi::all();
-        $queryBuilder = JurnalAkuntansi::all();
-        return view('neraca.index', ['data' => $queryBuilder,'periode'=>$periode]);
+        $queryBuilder = new JurnalAkuntansi();
+        $neraca = $queryBuilder->neraca();
+        // dd($neraca);
+
+        return view('neraca.index', ['data' => $neraca,'periode'=>$periode]);
     }
 
     /**

@@ -25,15 +25,20 @@
                     <div class="col-xs-6">
                         <table class="table">
                             <thead>
+                                @foreach ($data['list'] as $item)
                                 <tr>
                                     <th style="width:65%">
-                                        Ekuitas (Modal) pemilik per 1 Des 2022
+                                        {{-- Ekuitas (Modal) pemilik per 1 Des 2022 --}}
+                                        {{ $item['nama_akun'] }}
                                     </th>
                                     <td style="width:35%">
-                                        Rp 15.000.000,00</td>
+                                        Rp {{ $item['saldo'] }}
+                                    </td>
                                 </tr>
+                                @endforeach
+                                
                             </thead>
-                            <tbody>
+                            {{-- <tbody>
                                 <tr>
                                     <td style="width:65%">
                                         Laba/Rugi
@@ -50,14 +55,14 @@
                                         Rp 2.000.000,00
                                     </td>
                                 </tr>
-                            </tbody>
+                            </tbody> --}}
                             <tfoot>
                                 <tr>
                                     <th style="width:65%">
                                         Ekuitas (Modal) pemilik per 01 Mar 2023
                                     </th>
                                     <th style="width:35%">
-                                        Rp 28.000.000
+                                        Rp {{  $data['total'] }}
                                     </th>
                                 </tr>
                             </tfoot>
