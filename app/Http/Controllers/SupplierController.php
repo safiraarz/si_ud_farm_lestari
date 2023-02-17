@@ -74,13 +74,13 @@ class SupplierController extends Controller
      * @param  \App\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Supplier $supplier)
+    public function update(Request $request, $supplier)
     {
-        $supplier->nama = $request->get('nama');
+        $supplier = Supplier::find($supplier);
         $supplier->alamat = $request->get('alamat');
         $supplier->no_telepon = $request->get('no_telepon');
         $supplier->save();
-        return redirect()->route('supplier.index')->with('status', 'Supplier berhasil diupdate');
+        return redirect()->route('supplier.index')->with('status', 'Supplier '. $supplier->nama.' berhasil diupdate');
     }
 
     /**

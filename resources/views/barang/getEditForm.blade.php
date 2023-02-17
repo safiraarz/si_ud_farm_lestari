@@ -19,8 +19,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-info" data-dismiss='modal'
-                onclick="saveDataUpdateTD({{ $data->id }})">Submit</button>
+            <button type="submit" class="btn btn-info">Submit</button>
             <a href="{{ url('barang') }}" class="btn btn-default" data-dismiss='modal'>Cancel</a>
         </div>
     </div>

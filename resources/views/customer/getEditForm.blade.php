@@ -14,14 +14,13 @@
             </div>
             <div class="form-group">
                 <label>No Telepon</label>
-                <input type="text" name="nama" class="form-control" id='eNoTelp' value='{{ $data->no_telepon }}'
+                <input type="text" name="no_telepon" class="form-control" id='eNoTelp' value='{{ $data->no_telepon }}'
                     required>
             </div>
         </div>
         <div class="modal-footer">
             <div class="col-md-offset-3 col-md-9">
-                <button type="button" class="btn btn-info" data-dismiss='modal'
-                    onclick="saveDataUpdateTD({{ $data->id }})">Submit</button>
+                <button type="submit" class="btn btn-info" >Submit</button>
                 <a href="{{ url('customer') }}" class="btn btn-default" data-dismiss='modal'>Cancel</a>
             </div>
         </div>

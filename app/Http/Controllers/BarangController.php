@@ -88,7 +88,9 @@ class BarangController extends Controller
      */
     public function update(Request $request, $barang)
     {
+        // dd($barang);
         $data = Barang::find($barang);
+        $data->lead_time = $request->get('leadtime');
         $data->harga = $request->get('harga');
         $data->save();
         return redirect()->route('barang.index')->with('status', 'Barang berhasil diubah');

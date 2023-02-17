@@ -79,15 +79,19 @@ class FlokController extends Controller
      * @param  \App\Flok  $flok
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Flok $flok)
+    public function update(Request $request, $flok)
     {
+        $flok =  Flok::find($flok);
         $flok->keterangan = $request->get('keterangan');
         $flok->cage = $request->get('cage');
         $flok->strain = $request->get('strain');
         $flok->usia = $request->get('usia');
+        $flok->kebutuhan_pakan = $request->get('kebutuhan_pakan');
+        $flok->satuan = $request->get('satuan');
+
 
         $flok->save();
-        return redirect()->route('flok.index')->with('status', 'Flok berhasil diubah');
+        return redirect()->route('flok.index')->with('status', 'Flok '.$flok->nama.' berhasil diubah');
     }
 
     /**

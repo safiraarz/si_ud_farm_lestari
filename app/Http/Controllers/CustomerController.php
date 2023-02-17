@@ -74,12 +74,13 @@ class CustomerController extends Controller
      * @param  \App\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Customer $customer)
+    public function update(Request $request, $customer)
     {
+        $customer = Customer::find($customer);
         $customer->alamat = $request->get('alamat');
         $customer->no_telepon = $request->get('no_telepon');
         $customer->save();
-        return redirect()->route('customer.index')->with('status', 'Customer berhasil diupdate');
+        return redirect()->route('customer.index')->with('status', 'Customer '.$customer->nama.' berhasil diupdate');
     }
 
     /**

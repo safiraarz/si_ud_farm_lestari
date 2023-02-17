@@ -9,7 +9,8 @@
         <div class="form-body">
             <div class="form-group">
                 <label>Keterangan</label>
-                <input type="text" name="keterangan" class="form-control" id='eKeterangan' value='{{$data->keterangan}}' required>
+                <input type="text" name="keterangan" class="form-control" id='eKeterangan' value='{{$data->keterangan}}'
+                    required>
             </div>
             <div class="form-group">
                 <label>Cage</label>
@@ -25,21 +26,21 @@
             </div>
             <div class="form-group">
                 <label>Kebutuhan Pakan</label>
-                <input type="text" min="0" name="kebutuhan_pakan" class="form-control" id='eKebutuhanPakan' value='{{$data->kebutuhan_pakan}}' required>
+                <input type="text" min="0" name="kebutuhan_pakan" class="form-control" id='eKebutuhanPakan'
+                    value='{{$data->kebutuhan_pakan}}' required>
             </div>
             <div class="form-group">
                 <label>Satuan</label>
                 <select class='form-control select2' name='satuan' value='{{$data->satuan}}'>
-                    <option value="kg" selected="">kg</option>
-                    <option value="sak" selected="">sak</option>
-                    <option value="pc" selected="">pc</option>
-                    <option value="pc" selected="">gr</option>
+                    @foreach (['kg' => 'Kg', 'sak' => 'Sak', 'pc' => 'Pc', 'gr' => 'Gr'] as $value => $Label)
+                    <option value="{{ $value }}" {{ $data->satuan == $value ? 'selected' : '' }}>{{ $Label }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
         <div class="modal-footer">
             <div class="col-md-offset-3 col-md-9">
-                <button type="button" class="btn btn-info" data-dismiss='modal' onclick="saveDataUpdateTD({{$data->id}})">Submit</button>
+                <button type="submit" class="btn btn-info">Submit</button>
                 <a href="{{url('flok')}}" class="btn btn-default" data-dismiss='modal'>Cancel</a>
             </div>
         </div>
