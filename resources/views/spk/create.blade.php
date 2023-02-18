@@ -28,6 +28,7 @@
                             <tr>
                                 <td>
                                     <select name="barang" id="barang" class="form-control">
+                                        <option value="">PiliH Pakan</option>
                                         @foreach ($barang as $row)
                                             @if ($row->jenis == 'Barang Jadi')
                                                 <option id={{ $row->id }} value="{{ $row->nama }}"
@@ -40,9 +41,9 @@
                                 </td>
                                 <td>
                                     <select name="flok" id="flok" class="form-control">
+                                        <option value="">PiliH Flok</option>
                                         @foreach ($flok as $row)
-                                            <option id={{ $row->id }} value="{{ $row->nama }}"
-                                                satuan="{{ $row->satuan }}" class="flok custom-select">
+                                            <option id="{{ $row->id }}" value="{{ $row->nama }}" populasi="{{ $row->populasi }}" kebutuhan_pakan="{{ $row->kebutuhan_pakan }}" satuan="{{ $row->satuan }}" class="flok custom-select">
                                                 {{ $row->nama }}
                                             </option>
                                         @endforeach
@@ -138,6 +139,15 @@
         function deleteData(id) {
             $('#row_' + id).html("");
         };
+
+        $('#flok').on('change', function() {
+            var populasi = $('#flok').find(':selected').attr('populasi');
+            var kebutuhan_pakan = $('#flok').find(':selected').attr('kebutuhan_pakan');
+            var kuantias_flox = Math.ceil( ( parseFloat(populasi) * parseFloat(kebutuhan_pakan) ) /1000 );
+            // alert(kuantias_flox);
+            $('#kuantitas').val(kuantias_flox);
+
+        });
 
 
         $('#tambah').on('click', function() {
