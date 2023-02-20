@@ -63,11 +63,14 @@ class NotaPembelianController extends Controller
     public function store(Request $request)
     {
         // dd($request->barang);
+        // dd($request->get('ketegori_nota'));
+        
         $user = Auth::user();
         $data = new NotaPembelian();
         $data->no_nota = $request->get('no_nota');
         $data->nota_pemesanan_id = $request->get('no_pesanan_pembelian');
         $data->tgl_pembuatan_nota = $request->get('tanggal_pembuatan_nota');
+        $data->cara_bayar = $request->get('cara_bayar');
         $data->pengguna_id = $user->id;
         $supplier = Supplier::find($request->get('supplier_id'));
         $supplier->notapembelian()->save($data);
@@ -77,6 +80,9 @@ class NotaPembelianController extends Controller
         // dd($pemesanan->barang);
         foreach($request->get("barang") as $details) 
         {
+            if($request->get('asset_checked_form')==1){
+
+            }
             foreach ($pemesanan->barang as $value) {
                 if($value->id == $details['barang_id']){
                     $kuantitas_old = $value->pivot->kuantitas;
@@ -92,10 +98,16 @@ class NotaPembelianController extends Controller
         }
 
         $data->total_harga = $total;
-        $data->save();
-      
+        $saved = $data->save();
+        if(!$saved){
+            return redirect()->route('notapembelian.index')->with('status', 'Gagal menambahkan nota ' . $request->get('no_nota'));
+        }
+        else{
+            return redirect()->route('notapembelian.index')->with('status', 'Berhasil menambahkan nota ' . $request->get('no_nota'));
 
-        return redirect()->route('notapembelian.index')->with('status', 'Berhasil Menambahkan Nota ' . $request->get('no_nota'));
+        }
+
+        // return redirect()->route('notapembelian.index')->with('status', 'Berhasil Menambahkan Nota ' . $request->get('no_nota'));
     }
 
     /**

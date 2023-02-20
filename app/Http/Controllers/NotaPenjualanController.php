@@ -59,10 +59,12 @@ class NotaPenjualanController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        // dd($request->get("barang_penjualan"));
+        dd($request->get("cara_bayar"));
         $data = new NotaPenjualan();
         $data->no_nota = $request->get('no_nota_penjualan');
         $data->tgl_pembuatan_nota = $request->get('tgl_transaksi');
+        $data->cara_bayar = $request->get('cara_bayar');
+
         $data->total_harga = $request->get('total_harga_penjualan');
         // dd($request->get('total_harga_penjualan'));
         $data->pengguna_id = $user->id;
@@ -86,8 +88,16 @@ class NotaPenjualanController extends Controller
 
             $data->barang()->attach($details['id_barang'], ['kuantitas' => $details['kuantitas'], 'harga' => $details['harga_barang']]);
         }
+        $saved = $data->save();
+        if(!$saved){
+            return redirect()->route('notapenjualan.index')->with('status', 'Gagal menambahkan nota ' . $request->get('no_nota_penjualan'));
+        }
+        else{
+            return redirect()->route('notapenjualan.index')->with('status', 'Berhasil menambahkan nota ' . $request->get('no_nota_penjualan'));
+
+        }
         // $data->save();
-        return redirect()->route('notapenjualan.index')->with('status', 'Berhasil menambahkan nota ' . $request->get('no_nota_penjualan'));
+        // return redirect()->route('notapenjualan.index')->with('status', 'Berhasil menambahkan nota ' . $request->get('no_nota_penjualan'));
     }
 
     /**
