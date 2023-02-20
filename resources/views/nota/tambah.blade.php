@@ -529,9 +529,10 @@
                     var table = '<tr class="list" id="row_' + id_barang + '" harga="' + total_pesanan + '"><td>' +
                         name +
                         '<input type="hidden" name="barang[' + count + '][' + "id_barang" + ']" value=' +
-                        id_barang + '></td><td id="label_kuantitas_' + id_barang + '">' + thousands_separators(kuantitas) +
+                        id_barang + '></td><td>' + 
+                            '<p id="label_kuantitas_' + id_barang + '">'+thousands_separators(kuantitas) + '</p>'+
                         '<input id="form_kuantitas_' + id_barang + '" type="hidden" name="barang[' +
-                        count + '][' + "kuantitas" + ']" value=' + thousands_separators(kuantitas) +
+                        count + '][' + "kuantitas" + ']" value=' + kuantitas +
                         '></td><td>' + satuan +
                         '</td><td>' + thousands_separators(harga) + '<input type="hidden" name="barang[' +
                         count + '][' +
@@ -552,8 +553,7 @@
                             // var  = '#label_kuantitas_'+id_barang;
                             var kuantitas_lama = $('#form_kuantitas_'+id_barang).val();
                             var kuantias_baru = parseInt(kuantitas_lama) + parseInt(kuantitas);
-                            alert(kuantias_baru);
-                            $('#label_kuantitas_'+id_barang).html(kuantias_baru);
+                            $('#label_kuantitas_'+id_barang).text(kuantias_baru);
                             $('#form_kuantitas_'+id_barang).val(kuantias_baru);
                             var total = harga * kuantias_baru;
                             $('#label_total_'+id_barang).html(thousands_separators(total));
@@ -778,7 +778,8 @@
                     var table = '<tr id="row_' + id_barang + '" harga="' + total + '" ><td>' + name +
                         '<input type="hidden" name="barang_penjualan[' + count_penjualan + '][' +
                         "id_barang" + ']" value=' + id_barang + '></td>'+
-                        '<td id="label_penjualan_kuantitas_' + id_barang + '">' + kuantitas +
+                        '<td>' + 
+                            '<p id="label_penjualan_kuantitas_' + id_barang + '">'+kuantitas +'</p>'+
                         '<input id="form_penjualan_kuantitas_' + id_barang + '" type="hidden" name="barang_penjualan[' + count_penjualan + '][' +
                         "kuantitas" + ']" value=' + kuantitas + '></td><td>' + satuan + '</td><td>' +
                         thousands_separators(harga) + '<input type="hidden" name="barang_penjualan[' +
@@ -804,7 +805,7 @@
                         $('#label_penjualan_kuantitas_'+id_barang).html(kuantias_baru);
                         $('#form_penjualan_kuantitas_'+id_barang).val(kuantias_baru);
                         var total = harga * kuantias_baru;
-                        $('#label_penjualan_total_'+id_barang).html(thousands_separators(total));
+                        $('#label_penjualan_total_'+id_barang).text(thousands_separators(total));
                         $('#form_penjualan_total_'+id_barang).val(total);
                     }
                     

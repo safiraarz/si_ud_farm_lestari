@@ -68,38 +68,39 @@ class NotaPemesananController extends Controller
         $sampaiTgl = $request->input('sampaiTgl');
         
         $user = Auth::user();
-        // dd($request->get('barang'));
 
-        // dd($request->get('no_nota'));
-        //belum
-        // Create Nota
-        // dd($request->get("barang"));
-        $data = new NotaPemesanan();
-        $data->no_nota = $request->get('no_nota');
-        $data->tgl_pembuatan_nota = $request->get('tgl_transaksi');
-        $data->total_harga = $request->get('total_harga');
-        $data->pengguna_id = $user->id;
-        $supplier = Supplier::find($request->get('supplier_id'));
-        $supplier->notapemesanan()->save($data);
-        // $idNotaNew = $data->id;
-        foreach($request->get("barang") as $details) 
-        {   
-            // Update Kuantitas di barang
-            $barang_update = Barang::find($details['id_barang']);
-            $kuantitas_stok_onorder_supplier_old = $barang_update->kuantitas_stok_onorder_supplier;
-            $kuantitas_stok_onorder_supplier_new = $kuantitas_stok_onorder_supplier_old + $details['kuantitas'];
-            $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
-            $total_kuantitas_stok_new  = $total_kuantitas_stok_old + $details['kuantitas'];
-            
-            $barang_update->kuantitas_stok_onorder_supplier = $kuantitas_stok_onorder_supplier_new;
-            $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
-            $barang_update->save();
-
-            $data->barang()->attach($details['id_barang'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga_barang']]);
-            
+        if($request->get('no_nota')!= null){
+            $data = new NotaPemesanan();
+            $data->no_nota = $request->get('no_nota');
+            $data->tgl_pembuatan_nota = $request->get('tgl_transaksi');
+            $data->total_harga = $request->get('total_harga');
+            $data->pengguna_id = $user->id;
+            $supplier = Supplier::find($request->get('supplier_id'));
+            $supplier->notapemesanan()->save($data);
+            // $idNotaNew = $data->id;
+            foreach($request->get("barang") as $details) 
+            {   
+                // Update Kuantitas di barang
+                $barang_update = Barang::find($details['id_barang']);
+                $kuantitas_stok_onorder_supplier_old = $barang_update->kuantitas_stok_onorder_supplier;
+                $kuantitas_stok_onorder_supplier_new = $kuantitas_stok_onorder_supplier_old + $details['kuantitas'];
+                $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
+                $total_kuantitas_stok_new  = $total_kuantitas_stok_old + $details['kuantitas'];
+                
+                $barang_update->kuantitas_stok_onorder_supplier = $kuantitas_stok_onorder_supplier_new;
+                $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
+                $barang_update->save();
+    
+                $data->barang()->attach($details['id_barang'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga_barang']]);
+                
+            }
+            $data->save();
+            return redirect()->route('notapemesanan.index')->with('status', 'Berhasil Menambahkan Nota '  . $request->get('no_nota'));    
         }
-        $data->save();
-        return redirect()->route('notapemesanan.index')->with('status', 'Berhasil Menambahkan Nota '  . $request->get('no_nota'));
+        else{
+            return redirect()->route('nota.index')->with('error', 'Gagal Menambahkan Nota ');    
+        }
+       
     }
 
     /**

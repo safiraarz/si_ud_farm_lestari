@@ -59,41 +59,41 @@ class NotaPenjualanController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        dd($request->get("cara_bayar"));
-        $data = new NotaPenjualan();
-        $data->no_nota = $request->get('no_nota_penjualan');
-        $data->tgl_pembuatan_nota = $request->get('tgl_transaksi');
-        $data->cara_bayar = $request->get('cara_bayar');
-
-        $data->total_harga = $request->get('total_harga_penjualan');
-        // dd($request->get('total_harga_penjualan'));
-        $data->pengguna_id = $user->id;
-        // $data->customer_id = $request->get('customer_id');
-        $customer = Customer::find($request->get('customer_id'));
-
-        // // dd($customer);
-        $customer->notapenjualan()->save($data);
-        // dd($request->get("barang_penjualan"));
-        foreach ($request->get("barang_penjualan") as $details) {
-            // Update Kuantitas di barang
-            $barang_update = Barang::find($details['id_barang']);
-            $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
-            $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  - $details['kuantitas'];
-            $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
-            $total_kuantitas_stok_new  = $total_kuantitas_stok_old - $details['kuantitas'];
-
-            $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
-            $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
-            $barang_update->save();
-
-            $data->barang()->attach($details['id_barang'], ['kuantitas' => $details['kuantitas'], 'harga' => $details['harga_barang']]);
-        }
-        $saved = $data->save();
-        if(!$saved){
-            return redirect()->route('notapenjualan.index')->with('status', 'Gagal menambahkan nota ' . $request->get('no_nota_penjualan'));
+        if($request->get('no_nota_penjualan') != null){
+            $data = new NotaPenjualan();
+        
+            $data->no_nota = $request->get('no_nota_penjualan');
+            $data->tgl_pembuatan_nota = $request->get('tgl_transaksi');
+            $data->cara_bayar = $request->get('cara_bayar');
+    
+            $data->total_harga = $request->get('total_harga_penjualan');
+            // dd($request->get('total_harga_penjualan'));
+            $data->pengguna_id = $user->id;
+            // $data->customer_id = $request->get('customer_id');
+            $customer = Customer::find($request->get('customer_id'));
+    
+            // // dd($customer);
+            $customer->notapenjualan()->save($data);
+            // dd($request->get("barang_penjualan"));
+            foreach ($request->get("barang_penjualan") as $details) {
+                // Update Kuantitas di barang
+                $barang_update = Barang::find($details['id_barang']);
+                $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
+                $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  - $details['kuantitas'];
+                $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
+                $total_kuantitas_stok_new  = $total_kuantitas_stok_old - $details['kuantitas'];
+    
+                $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
+                $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
+                $barang_update->save();
+    
+                $data->barang()->attach($details['id_barang'], ['kuantitas' => $details['kuantitas'], 'harga' => $details['harga_barang']]);
+            }
+            $saved = $data->save();
+            return redirect()->route('notapenjualan.index')->with('status', 'Berhasil menambahkan nota ' . $request->get('no_nota_penjualan'));
         }
         else{
-            return redirect()->route('notapenjualan.index')->with('status', 'Berhasil menambahkan nota ' . $request->get('no_nota_penjualan'));
+            return redirect()->route('nota.index')->with('error', 'Gagal menambahkan nota ');
 
         }
         // $data->save();
