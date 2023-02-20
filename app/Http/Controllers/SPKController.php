@@ -58,25 +58,33 @@ class SPKController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        $data = new SPK();
-        $data->no_surat = $request->get('no_surat');
-        $data->tgl_pembuatan_surat = $request->get('tgl_pembuatan_surat');
-        $data->keterangan = $request->get('keterangan_input');
-        $data->pengguna_id = $user->id;
-
-        // dd($request->get('barang'));
-        // $barang = Barang::find($request->get('barang'));
-        $data->save();
-        foreach ($request->get("barang") as $details) {
-            $data->daftar_barang()->attach($details['id_barang'], [
-                'tgl_mulai_produksi' => $details['tanggal_mulai'],
-                'tgl_selesai_produksi' => $details['tanggal_akhir'],
-                'kuantitas' => $details['kuantitas']
-            ]);
+        // dd($request->get("barang"));
+        if($request->get("barang") != null) {
+            $data = new SPK();
+            $data->no_surat = $request->get('no_surat');
+            $data->tgl_pembuatan_surat = $request->get('tgl_pembuatan_surat');
+            $data->keterangan = $request->get('keterangan_input');
+            $data->pengguna_id = $user->id;
+    
+            // dd($request->get('barang'));
+            // $barang = Barang::find($request->get('barang'));
+            $data->save();
+            foreach ($request->get("barang") as $details) {
+                $data->daftar_barang()->attach($details['id_barang'], [
+                    'tgl_mulai_produksi' => $details['tanggal_mulai'],
+                    'tgl_selesai_produksi' => $details['tanggal_akhir'],
+                    'kuantitas' => $details['kuantitas']
+                ]);
+            }
+            return redirect()->route('spk.index')->with('status', 'Berhasil menambahkan surat' . $request->get('no_surat'));
         }
+        else{
+            return redirect()->route('spk.create')->with('error', 'Gagal menambahkan surat');
+
+        }
+       
         // $barang->spk()->save($data);
 
-        return redirect()->route('spk.index')->with('status', 'Berhasil menambahkan surat' . $request->get('no_surat'));
     }
 
     /**

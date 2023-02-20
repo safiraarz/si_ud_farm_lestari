@@ -58,40 +58,47 @@ class PemasukanTelurController extends Controller
         $user = Auth::user();
         // dd($user->id);
         // dd($request->get('total_kuantitas'));
-        $data = new PemasukanTelur();
-        $data->karantina = $request->get('karantina');
-        $data->afkir = $request->get('afkir');
-        $data->kematian = $request->get('kematian');
-        $data->keterangan = $request->get('keterangan');
-        $data->pengguna_id = $user->id;
-        $data->flok_id = $request->get('flok');
-        $data->tgl_pencatatan = Carbon::now()->toDateString();
-        // dd($request->get('tanggal_pencatatan'));
-        // dd($request->get('telur'));
-        $data->save();
-        // nambah kuantitas
-        // $barang = Barang::find($request->get('barang'));
-        foreach ($request->get("telur") as $details) {
-            $barang_update = Barang::find($details['id_telur']);
-            $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
-            $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  + $details['kuantitas_bersih'];
-            $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
-            $total_kuantitas_stok_new  = $total_kuantitas_stok_old + $details['kuantitas_bersih'];
-
-            $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
-            $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
-            $barang_update->save();
-
-            $data->daftar_barang()->attach($details['id_telur'], [
-                'kuantitas_bersih' => $details['kuantitas_bersih'],
-                'kuantitas_reject' => $details['kuantitas_reject'],
-                'total_kuantitas' => $details['kuantitas_total']
-            ]);
-
+        if($request->get("telur") != null){
+            $data = new PemasukanTelur();
+            $data->karantina = $request->get('karantina');
+            $data->afkir = $request->get('afkir');
+            $data->kematian = $request->get('kematian');
+            $data->keterangan = $request->get('keterangan');
+            $data->pengguna_id = $user->id;
+            $data->flok_id = $request->get('flok');
+            $data->tgl_pencatatan = Carbon::now()->toDateString();
+            // dd($request->get('tanggal_pencatatan'));
+            // dd($request->get('telur'));
+            $data->save();
+            // nambah kuantitas
+            // $barang = Barang::find($request->get('barang'));
+            foreach ($request->get("telur") as $details) {
+                $barang_update = Barang::find($details['id_telur']);
+                $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
+                $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  + $details['kuantitas_bersih'];
+                $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
+                $total_kuantitas_stok_new  = $total_kuantitas_stok_old + $details['kuantitas_bersih'];
+    
+                $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
+                $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
+                $barang_update->save();
+    
+                $data->daftar_barang()->attach($details['id_telur'], [
+                    'kuantitas_bersih' => $details['kuantitas_bersih'],
+                    'kuantitas_reject' => $details['kuantitas_reject'],
+                    'total_kuantitas' => $details['kuantitas_total']
+                ]);
+    
+    
+            }
+            return redirect()->route('pemasukantelur.index')->with('status', 'Berhasil menambah pencatatan');
+        }
+        else{
+            return redirect()->route('pemasukantelur.create')->with('error', 'Gagal menambah pencatatan');
 
         }
+       
         // $barang->pemasukantelur()->save($data);
-        return redirect()->route('pemasukantelur.index')->with('status', 'Berhasil menambah pencatatan');
     }
 
     /**

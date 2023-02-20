@@ -55,30 +55,39 @@ class LPBController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        $data = new LPB();
-        $data->no_surat = $request->get('no_surat');
-        $data->keterangan = $request->get('keterangan_input');
-        $data->tgl_pengeluaran_barang = $request->get('tgl_pencatatan');
-        $data->pengguna_id = $user->id;
-        $data->save();
 
-        // $barang = Barang::find($request->get('barang'));
-        // dd($request->get('bahan_baku'));
-        foreach ($request->get("bahan_baku") as $details) {
-            $barang_update = Barang::find($details['id_bahan_baku']);
-            $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
-            $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  - $details['kuantitas'];
-            $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
-            $total_kuantitas_stok_new  = $total_kuantitas_stok_old - $details['kuantitas'];
-
-            $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
-            $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
-            $barang_update->save();
-
-            $data->daftar_barang()->attach($details['id_bahan_baku'], ['kuantitas' => $details['kuantitas']]);
+        if($request->get("bahan_baku") != null){
+            $data = new LPB();
+            $data->no_surat = $request->get('no_surat');
+            $data->keterangan = $request->get('keterangan_input');
+            $data->tgl_pengeluaran_barang = $request->get('tgl_pencatatan');
+            $data->pengguna_id = $user->id;
+            $data->save();
+    
+            // $barang = Barang::find($request->get('barang'));
+            // dd($request->get('bahan_baku'));
+            foreach ($request->get("bahan_baku") as $details) {
+                $barang_update = Barang::find($details['id_bahan_baku']);
+                $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
+                $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  - $details['kuantitas'];
+                $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
+                $total_kuantitas_stok_new  = $total_kuantitas_stok_old - $details['kuantitas'];
+    
+                $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
+                $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
+                $barang_update->save();
+    
+                $data->daftar_barang()->attach($details['id_bahan_baku'], ['kuantitas' => $details['kuantitas']]);
+            }
+            // $barang->notapembelian()->save($data);
+            return redirect()->route('lpb.index')->with('status', 'Berhasil menambah pencatatan ' . $request->get('no_surat'));
+        
         }
-        // $barang->notapembelian()->save($data);
-        return redirect()->route('lpb.index')->with('status', 'Berhasil menambah pencatatan ' . $request->get('no_surat'));
+        else{
+            return redirect()->route('lpb.create')->with('error', 'Gagal menambah pencatatan ');
+
+        }
+        
     }
 
     /**

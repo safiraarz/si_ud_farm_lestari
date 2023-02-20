@@ -56,21 +56,28 @@ class SuratJalanController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        $data = new SuratJalan();
-        $data->pengguna_id = $user->id;
-        $data->no_surat = $request->get('no_surat');
-        $data->keterangan = $request->get('keterangan_input');
-        $data->tgl_pengiriman_barang = $request->get('tgl_pencatatan');
-
-        // $barang = Barang::find($request->get('barang'));
-        // dd($request->get('keterangan_input'));
-        $data->save();
-        foreach($request->get("barang_jadi") as $details) 
-        {   
-            $data->daftar_barang()->attach($details['id_barang_jadi'],['kuantitas' =>$details['kuantitas']]);
+        if($request->get("barang_jadi") != null) {
+            $data = new SuratJalan();
+            $data->pengguna_id = $user->id;
+            $data->no_surat = $request->get('no_surat');
+            $data->keterangan = $request->get('keterangan_input');
+            $data->tgl_pengiriman_barang = $request->get('tgl_pencatatan');
+    
+            // $barang = Barang::find($request->get('barang'));
+            // dd($request->get('keterangan_input'));
+            $data->save();
+            foreach($request->get("barang_jadi") as $details) 
+            {   
+                $data->daftar_barang()->attach($details['id_barang_jadi'],['kuantitas' =>$details['kuantitas']]);
+            }
+            return redirect()->route('suratjalan.index')->with('status', 'Berhasil menambahkan surat ' . $request->get('no_surat'));
+    
         }
-        return redirect()->route('suratjalan.index')->with('status', 'Berhasil menambahkan surat ' . $request->get('no_surat'));
+        else{
+            return redirect()->route('suratjalan.create')->with('error', 'Gagal menambahkan surat ');
 
+        }
+       
     }
 
     /**
