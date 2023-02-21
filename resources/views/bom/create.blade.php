@@ -127,6 +127,9 @@
         {
             $('#row_'+id).html("");
         };
+        function isEmpty( el ){
+      return !$.trim(el.html())
+  };
      
         $('#tambah').on('click', function() {
             // $("#pakan_ayam").disable = true;
@@ -165,19 +168,33 @@
             function billFunction() {
                 $("#receipt_bill").each(function() {
                     var table =
-                        '<tr id="row_'+ count+'" > ' +
+                        '<tr id="row_'+ id_bahan_baku +'" > ' +
                         
                         '<td>' + nama_bahan_baku + '<input type="hidden" name="bahan_baku[' +
                         count + '][' + "id_bahan_baku" + ']" value=' + id_bahan_baku +
                         '></td>' +
-                        '<td>' + thousands_separators(kuantitas_bahan_baku) +
-                        '<input type="hidden" name="bahan_baku[' + count + '][' + "kuantitas" +
-                        ']" value=' + kuantitas_bahan_baku + '></td>' +
+                        '<td>' + '<p id="label_kuantitas_' + id_bahan_baku + '">' + thousands_separators(kuantitas_bahan_baku) + '</p>'+
+                        '<input id="form_kuantitas_' + id_bahan_baku + '" type="hidden" name="bahan_baku[' + count + '][' + "kuantitas" +']" value=' + kuantitas_bahan_baku + '>'+
+                        '</td>' +
                         '<td>' + satuan + '</td>' +
-                        '<td><a class="btn btn-danger barang_delete" onclick="deleteData('+count+')"><i class="fa fa-trash-o"></i></a></a></td>'+
+                        '<td><a class="btn btn-danger barang_delete" onclick="deleteData('+id_bahan_baku+')"><i class="fa fa-trash-o"></i></a></a></td>'+
                         '</tr>';
                     // alert(table);
-                    $('#new').append(table);
+
+                    var id_row = '#row_'+id_bahan_baku;
+                    if(isEmpty($(id_row))){
+                        $('#new').append(table);
+                    }
+                    else{
+                        var kuantitas_lama = $('#form_kuantitas_'+id_bahan_baku).val();
+
+                        var kuantias_baru = parseInt(kuantitas_lama) + parseInt(kuantitas_bahan_baku);
+
+                        $('#label_kuantitas_'+id_bahan_baku).html(kuantias_baru );
+                        $('#form_kuantitas_'+id_bahan_baku).val(kuantias_baru );
+               
+                  
+                    }
                 });
                 count++;
             }

@@ -114,6 +114,9 @@
         {
             $('#row_'+id).html("");
         };
+        function isEmpty( el ){
+            return !$.trim(el.html())
+        };
         $('#tambah').on('click', function() {
             $("#pakan_ayam").disable = true;
             $("#keterangan_input").val( $("#keterangan").val())
@@ -143,13 +146,30 @@
             function billFunction() {
                 $("#receipt_bill").each(function() {
 
-                    var table = '<tr id="row_'+ count+'" >'+
+                    var table = '<tr id="row_'+ id_barang_jadi +'" >'+
                         '<td>' + nama_barang_jadi + '<input type="hidden" name="barang_jadi[' + count +'][' + "id_barang_jadi" + ']" value=' + id_barang_jadi + '></td>'+
-                        '<td>' + thousands_separators(kuantitas_barang_jadi) +'<input type="hidden" name="barang_jadi[' + count + '][' + "kuantitas" + ']" value=' + kuantitas_barang_jadi +'></td>'+
+                        '<td>' + '<p id="label_kuantitas_' + id_barang_jadi + '">' + thousands_separators(kuantitas_barang_jadi) + '</p>'+
+                        '<input id="form_kuantitas_' + id_barang_jadi + '" type="hidden" name="barang_jadi[' + count + '][' + "kuantitas" + ']" value=' + kuantitas_barang_jadi +'>'+
+                        '</td>'+
                         '<td>' + satuan_barang_jadi + '</td>'+
-                        '<td>' + '<a class="btn btn-danger barang_delete" onclick="deleteData('+count+')"><i class="fa fa-trash-o"></i></a><td>' +
+                        '<td>' + '<a class="btn btn-danger barang_delete" onclick="deleteData('+id_barang_jadi+')"><i class="fa fa-trash-o"></i></a><td>' +
                         '</tr>';
-                    $('#new').append(table);
+
+                    var id_row = '#row_'+id_barang_jadi;
+                    if(isEmpty($(id_row))){
+                        $('#new').append(table);
+                    }
+                    else{
+                        var kuantitas_lama = $('#form_kuantitas_'+id_barang_jadi).val();
+
+                        var kuantias_baru = parseInt(kuantitas_lama) + parseInt(kuantitas_barang_jadi);
+
+                        $('#label_kuantitas_'+id_barang_jadi).html(kuantias_baru );
+                        $('#form_kuantitas_'+id_barang_jadi).val(kuantias_baru );
+               
+                  
+                    }
+
                 });
                 count++;
             }

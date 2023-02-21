@@ -159,6 +159,9 @@
         {
             $('#row_'+id).html("");
         };
+        function isEmpty( el ){
+      return !$.trim(el.html())
+  };
         var count = 1;
         $('#tambah').on('click', function() {
 
@@ -198,25 +201,45 @@
                     var id_telur = $('#nama_telur').find(':selected').attr('id');
                     // alert(satuan+id_telur);
                     // masi error
-                    var table = '<tr id="row_'+ count+'">' +
+                    var table = '<tr id="row_'+ id_telur+'">' +
                         
                         '<td>' + nama_telur + '<input type="hidden" name="telur[' + count +
                         '][' + "id_telur" + ']" value=' + id_telur + '></td>' +
-                        '<td>' + thousands_separators(kuantitas_bersih) +
-                        '<input type="hidden" name="telur[' + count + '][' +
-                        "kuantitas_bersih" + ']" value=' + kuantitas_bersih + '></td>' +
-                        '<td>' + thousands_separators(kuantitas_reject) +
-                        '<input type="hidden" name="telur[' + count + '][' +
-                        "kuantitas_reject" + ']" value=' + kuantitas_reject + '></td>' +
-                        '<td>' + thousands_separators(kuantitas_total) +
-                        '<input type="hidden" name="telur[' + count + '][' + "kuantitas_total" +
-                        ']" value=' + kuantitas_total + '></td>' +
+                        '<td>' + '<p id="label_kuantitas_bersih_' + id_telur + '">' + thousands_separators(kuantitas_bersih) + '</p>'+
+                        '<input id="form_kuantitas_bersih_' + id_telur + '" type="hidden" name="telur[' + count + '][' +"kuantitas_bersih" + ']" value=' + kuantitas_bersih + '>'+
+                        '</td>' +
+                        '<td>' + '<p id="label_kuantitas_reject_' + id_telur + '">' + thousands_separators(kuantitas_reject) + '</p>'+
+                        '<input id="form_kuantitas_reject_' + id_telur + '" type="hidden" name="telur[' + count + '][' +"kuantitas_reject" + ']" value=' + kuantitas_reject + '>'+
+                        '</td>' +
+                        '<td>'  + '<p id="label_kuantitas_total_' + id_telur + '">' + thousands_separators(kuantitas_total) + '</p>'+
+                        '<input id="form_kuantitas_total_' + id_telur + '" type="hidden" name="telur[' + count + '][' + "kuantitas_total" +']" value=' + kuantitas_total + '>'+
+                        '</td>' +
                         '<td>' + satuan + '<input type="hidden" name="telur[' + count + '][' +
                         "satuan" + ']" value=' + satuan + '></td>' +
-                        '<td><a class="btn btn-danger barang_delete" onclick="deleteData('+count+')"><i class="fa fa-trash-o"></i></a></a></td>'+
+                        '<td><a class="btn btn-danger barang_delete" onclick="deleteData('+id_telur+')"><i class="fa fa-trash-o"></i></a></a></td>'+
                         '</tr>';
                     // alert(table);
-                    $('#new').append(table);
+                    var id_row = '#row_'+id_telur;
+                    if(isEmpty($(id_row))){
+                        $('#new').append(table);
+                    }
+                    else{
+                        var kuantitas_bersih_lama = $('#form_kuantitas_bersih_'+id_telur).val();
+                        var kuantitas_reject_lama = $('#form_kuantitas_reject_'+id_telur).val();
+
+                        var kuantias_bersih_baru = parseInt(kuantitas_bersih_lama) + parseInt(kuantitas_bersih);
+                        var kuantias_reject_baru = parseInt(kuantitas_reject_lama) + parseInt(kuantitas_reject);
+                        var kuantias_total_baru = parseInt(kuantias_bersih_baru) + parseInt(kuantias_reject_baru);
+
+                        $('#label_kuantitas_bersih_'+id_telur).html(kuantias_bersih_baru);
+                        $('#form_kuantitas_bersih_'+id_telur).val(kuantias_bersih_baru);
+                        $('#label_kuantitas_reject_'+id_telur).html(kuantias_reject_baru);
+                        $('#form_kuantitas_reject_'+id_telur).val(kuantias_reject_baru);
+                        $('#label_kuantitas_total_'+id_telur).html(kuantias_total_baru);
+                        $('#form_kuantitas_total_'+id_telur).val(kuantias_total_baru);
+                  
+                    }
+                    
                 });
                 count++;
             }

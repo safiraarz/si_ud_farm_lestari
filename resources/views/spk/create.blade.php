@@ -148,6 +148,9 @@
             $('#kuantitas').val(kuantias_flox);
 
         });
+        function isEmpty( el ){
+            return !$.trim(el.html())
+        };
 
 
         $('#tambah').on('click', function() {
@@ -189,19 +192,36 @@
                     var satuan = $('#barang').find(':selected').attr('satuan');
                     var id_barang = $('#barang').find(':selected').attr('id');
 
-                    var table = '<tr id="row_' + count + '" >' +
+                    var table = '<tr id="row_' + id_barang + '" >' +
                         '<td>' + name + '<input type="hidden" name="barang[' + count + '][' + "id_barang" +
                         ']" value=' + id_barang + '></td>' +
                         '<td>' + date_start + '<input type="hidden" name="barang[' + count + '][' +
                         "tanggal_mulai" + ']" value=' + date_start + '></td>' +
                         '<td>' + date_end + '<input type="hidden" name="barang[' + count + '][' +
-                        "tanggal_akhir" + ']" value=' + date_end + '></td>' +
-                        '<td>' + thousands_separators(kuantitas) + '<input type="hidden" name="barang[' +
-                        count + '][' + "kuantitas" + ']" value=' + kuantitas + '></td>' +
+                        "tanggal_akhir" + ']" value=' + date_end + '>'+
+                        '</td>' +
+                        '<td>' + '<p id="label_kuantitas_' + id_barang + '">' + thousands_separators(kuantitas) + '</p>'+
+                        '<input id="form_kuantitas_' + id_barang + '" type="hidden" name="barang[' +count + '][' + "kuantitas" + ']" value=' + kuantitas + '>'+
+                        '</td>' +
                         '<td>' + satuan + '</td><td>' +
-                        '<a class="btn btn-danger barang_delete" onclick="deleteData(' + count +
+                        '<a class="btn btn-danger barang_delete" onclick="deleteData(' + id_barang +
                         ')"><i class="fa fa-trash-o"></i></a><td></tr>';
-                    $('#new').append(table);
+                    
+                    
+                    var id_row = '#row_'+id_barang;
+                    if(isEmpty($(id_row))){
+                        $('#new').append(table);
+                    }
+                    else{
+                        var kuantitas_lama = $('#form_kuantitas_'+id_barang).val();
+
+                        var kuantias_baru = parseInt(kuantitas_lama) + parseInt(kuantitas);
+
+                        $('#label_kuantitas_'+id_barang).html(kuantias_baru );
+                        $('#form_kuantitas_'+id_barang).val(kuantias_baru );
+               
+                  
+                    }
                 });
                 count++;
             }
