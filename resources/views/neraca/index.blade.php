@@ -37,7 +37,7 @@
                                         {{ $item['nama_akun'] }}
                                     </td>
                                     <td style="width:35%">
-                                        {{ $item['saldo'] }}
+                                        {{ number_format($item['saldo']) }}
                                     </td>
                                 </tr>
                                 @endforeach
@@ -62,7 +62,7 @@
                                         TOTAL AKTIVA (ASET)
                                     </th>
                                     <th style="width:35%">
-                                        Rp {{ $data['total_aset'] }}
+                                        Rp {{ number_format($data['total_aset']) }}
                                     </th>
                                 </tr>
                             </tfoot>
@@ -87,7 +87,7 @@
                                         {{ $item['nama_akun'] }}
                                     </td>
                                     <td style="width:35%">
-                                        {{ $item['saldo'] }}
+                                        {{ number_format($item['saldo']) }}
                                     </td>
                                 </tr>
                                 @endforeach
@@ -99,7 +99,7 @@
                                         TOTAL BIAYA
                                     </th>
                                     <th style="width:35%">
-                                        Rp {{ $data['total_kewajiban'] }}
+                                        Rp {{ number_format($data['total_kewajiban']) }}
                                     </th>
                                 </tr>
                             </tfoot>
@@ -123,7 +123,7 @@
                                         {{ $item['nama_akun'] }}
                                     </td>
                                     <td style="width:35%">
-                                        {{ $item['saldo'] }}
+                                        {{ number_format($item['saldo']) }}
                                     </td>
                                 </tr>
                                 @endforeach
@@ -134,7 +134,7 @@
                                         TOTAL EKUITAS
                                     </th>
                                     <th style="width:35%">
-                                        Rp {{ $data['total_ekuitas'] }}
+                                        Rp {{ number_format($data['total_ekuitas']) }}
                                     </th>
                                 </tr>
                             </tfoot>
@@ -150,7 +150,7 @@
                                         TOTAL PASIVA (KEWAJIBAN+EKUITAS)
                                     </th>
                                     <th style="width:35%">
-                                        Rp {{ $data['total_pasiva'] }}
+                                        Rp {{ number_format($data['total_pasiva']) }}
                                     </th>
                                 </tr>
                             </tfoot>

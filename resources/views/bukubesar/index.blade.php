@@ -48,10 +48,10 @@
                                 <td>
                                 </td>
                                 <td>
-                                    {{ $item['saldo_awal_debet'] }}
+                                    {{  number_format($item['saldo_awal_debet']) }}
                                 </td>
                                 <td>
-                                    {{ $item['saldo_awal_kredit'] }}
+                                    {{  number_format($item['saldo_awal_kredit']) }}
                                     
                                 </td>
                                 <td>
@@ -73,20 +73,20 @@
                                     {{ $items['no_ref'] }}
                                 </td>
                                 <td>
-                                    {{ $items['debit'] }}
+                                    {{  number_format($items['debit']) }}
                                 </td>
                                 <td>
-                                    {{ $items['kredit'] }}
+                                    {{  number_format($items['kredit']) }}
                                 </td>
                                 <td>
-                                    {{ $items['saldo_debit'] }}
+                                    {{  number_format($items['saldo_debit']) }}
                                 </td>
                                 <td>
-                                    {{ $items['saldo_kredit'] }}
+                                    {{  number_format($items['saldo_kredit']) }}
                                     
                                 </td>
                                 <td>
-                                    {{ $items['no_bukti'] }}
+                                    {{  number_format($items['no_bukti']) }}
                                 
                                 </td>
                             </tr>
@@ -98,7 +98,7 @@
                                 </td>
                               
                                 <td colspan="3">
-                                    {{ $item['saldo_sebelum_closing'] }}
+                                    {{  number_format($item['saldo_sebelum_closing']) }}
                                 </td>
                             </tr>
                             <tr>
@@ -107,7 +107,7 @@
                                 </td>
                               
                                 <td colspan="3">
-                                    {{ $item['saldo_setelah_closing'] }}
+                                    {{  number_format($item['saldo_setelah_closing']) }}
                                 </td>
                             </tr>
                                 

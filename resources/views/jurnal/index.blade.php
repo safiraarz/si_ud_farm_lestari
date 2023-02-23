@@ -67,10 +67,10 @@
                                     {{ $item->no_akun }}
                                 </td>
                                 <td>
-                                    {{ $item->pivot->nominal_debit }}
+                                    {{ number_format($item->pivot->nominal_debit) }}
                                 </td>
                                 <td>
-                                    {{ $item->pivot->nominal_kredit }}
+                                    {{ number_format($item->pivot->nominal_kredit) }}
                                 </td>
                                 <td>
                                     {{ $jurnal->no_bukti }}
@@ -152,10 +152,10 @@
                                     {{ $item->no_akun }}
                                 </td>
                                 <td>
-                                    {{ $item->pivot->nominal_debit }}
+                                    {{ number_format($item->pivot->nominal_debit) }}
                                 </td>
                                 <td>
-                                    {{ $item->pivot->nominal_kredit }}
+                                    {{ number_format($item->pivot->nominal_kredit) }}
                                 </td>
                                 <td>
                                     {{ $jurnal->no_bukti }}
@@ -236,10 +236,10 @@
                                     {{ $item->no_akun }}
                                 </td>
                                 <td>
-                                    {{ $item->pivot->nominal_debit }}
+                                    {{ number_format($item->pivot->nominal_debit) }}
                                 </td>
                                 <td>
-                                    {{ $item->pivot->nominal_kredit }}
+                                    {{ number_format($item->pivot->nominal_kredit) }}
                                 </td>
                                 <td>
                                     {{ $jurnal->no_bukti }}

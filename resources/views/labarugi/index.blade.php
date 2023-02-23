@@ -49,7 +49,7 @@
                                         {{  $pendapatan['nama_akun'] }}
                                     </td>
                                     <td style="width:35%">
-                                        Rp  {{  $pendapatan['saldo'] }}
+                                        Rp  {{  number_format($pendapatan['saldo']) }}
                                     </td>
                                 </tr>
                     
@@ -61,7 +61,7 @@
                                         TOTAL PENDAPATAN
                                     </th>
                                     <th style="width:35%">
-                                        Rp {{ $data['total_pendapatan'] }}
+                                        Rp {{ number_format($data['total_pendapatan']) }}
                                     </th>
                                 </tr>
                             </tfoot>
@@ -89,7 +89,7 @@
                                         {{  $pendapatan['nama_akun'] }}
                                     </td>
                                     <td style="width:35%">
-                                        Rp  {{  $pendapatan['saldo'] }}
+                                        Rp  {{  number_format($pendapatan['saldo']) }}
                                     </td>
                                 </tr>
                     
@@ -102,7 +102,7 @@
                                         TOTAL BIAYA
                                     </th>
                                     <th style="width:35%">
-                                        Rp {{ $data['total_biaya'] }}
+                                        Rp {{ number_format($data['total_biaya']) }}
                                     </th>
                                 </tr>
                             </tfoot>
@@ -120,7 +120,7 @@
                                         LABA/RUGI
                                     </th>
                                     <th style="width:35%">
-                                        Rp {{ $data['laba_rugi'] }}
+                                        Rp {{ number_format($data['laba_rugi']) }}
                                     </th>
                                 </tr>
                             </tfoot>

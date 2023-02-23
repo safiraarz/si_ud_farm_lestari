@@ -32,7 +32,7 @@
                                         {{ $item['nama_akun'] }}
                                     </th>
                                     <td style="width:35%">
-                                        Rp {{ $item['saldo'] }}
+                                        Rp {{ number_format($item['saldo']) }}
                                     </td>
                                 </tr>
                                 @endforeach
@@ -62,7 +62,7 @@
                                         Ekuitas (Modal) pemilik per 01 Mar 2023
                                     </th>
                                     <th style="width:35%">
-                                        Rp {{  $data['total'] }}
+                                        Rp {{  number_format($data['total']) }}
                                     </th>
                                 </tr>
                             </tfoot>
