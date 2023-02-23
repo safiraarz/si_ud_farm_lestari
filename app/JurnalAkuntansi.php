@@ -20,7 +20,7 @@ class JurnalAkuntansi extends Model
     }
 
     public function akun(){
-        return $this->belongsToMany('App\AkunAkuntansi','jurnal_has_akun','jurnal_id','akun_no_akun')->withPivot('no_urut','nominal_debit','nominal_kredit');
+        return $this->belongsToMany('App\AkunAkuntansi','jurnal_has_akun','jurnal_id','akun_no_akun')->withPivot('no_urut','nominal_debit','nominal_kredit')->orderBy('no_urut', 'asc');;
     }
 
     public static function jenis_saldo($jenis_akun,$no_akun){
@@ -98,7 +98,8 @@ class JurnalAkuntansi extends Model
             foreach ($jurnals as $jurnal) {
                 $no_reff = $buku_besar->no_ref($jurnal->jenis);
                         
-                        
+                
+                // echo $jurnal.'<br>'.'<br>';
                 foreach ($jurnal->akun as $key =>  $jurnalakun) {
                     if($akun->no_akun == $jurnalakun->no_akun){
                          if($no_reff == 3){
@@ -131,6 +132,7 @@ class JurnalAkuntansi extends Model
                                 $total_sel = abs($jurnal_penutup) - abs($selisih);
                                 $total_sesudah = $jurnal_penutup ;
                             }
+                            
                             $detail = [
                                 'tanggal' => $jurnal->tanggal_transaksi,
                                 'no_bukti' => $jurnal->no_bukti,
@@ -185,8 +187,10 @@ class JurnalAkuntansi extends Model
                             $total_sesudah = $saldo_jurnal_ekses;
    
                         }
-                        
+
+                      
                         array_push($tumpung['list'],$detail);
+                        
                             
                     }
                 
@@ -194,8 +198,15 @@ class JurnalAkuntansi extends Model
                 }
             
             }
+            // jika tidak ada transaksi
+            if(count($tumpung['list']) == 0){
+                $tumpung['saldo_sebelum_closing'] = abs($akun->saldo_awal);
+            
+            }
+            else{
 
-            $tumpung['saldo_sebelum_closing'] = abs($total_sel); 
+                $tumpung['saldo_sebelum_closing'] = abs($total_sel); 
+            }
             $tumpung['saldo_setelah_closing'] = abs($total_sesudah); 
             
             array_push($buku_besar2,$tumpung);

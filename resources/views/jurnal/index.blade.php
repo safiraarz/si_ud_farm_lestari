@@ -55,9 +55,9 @@
                                     {{ $jurnal->transaksi->keterangan }}
                                 </td>
                             </tr>
-
+                          
+                
                             @foreach ($jurnal->akun as $item)
-
                             <tr>
 
                                 <td>
