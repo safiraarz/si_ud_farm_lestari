@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 
+<!--
 Template Name: Conquer - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.2.0
 Version: 2.0
 Author: KeenThemes
@@ -26,7 +26,8 @@ License: You must have a valid license purchased only from themeforest(the above
     <meta content="" name="author" />
     <meta name="MobileOptimized" content="320">
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
+        type="text/css" />
     <link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -51,7 +52,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <body class="login">
     <!-- BEGIN LOGO -->
     <div class="logo">
-        <h2>UD FARM LESTARI</h2>
+        <img alt="" src="{{asset('assets/img/logoUD1.png')}}" />
     </div>
     <!-- END LOGO -->
     <!-- BEGIN LOGIN -->
@@ -70,12 +71,14 @@ License: You must have a valid license purchased only from themeforest(the above
                 <label class="control-label visible-ie8 visible-ie9">{{ __('Username') }}</label>
                 <div class="input-icon">
                     <i class="fa fa-user"></i>
-                    <input placeholder="Username" id="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
+                    <input placeholder="Username" id="username" type="username"
+                        class="form-control @error('username') is-invalid @enderror" name="username"
+                        value="{{ old('username') }}" required autocomplete="username" autofocus>
 
                     @error('username')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
                     @enderror
                 </div>
             </div>
@@ -83,12 +86,14 @@ License: You must have a valid license purchased only from themeforest(the above
                 <label class="control-label visible-ie8 visible-ie9">{{ __('Password') }}</label>
                 <div class="input-icon">
                     <i class="fa fa-lock"></i>
-                    <input placeholder="Password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                    <input placeholder="Password" id="password" type="password"
+                        class="form-control @error('password') is-invalid @enderror" name="password" required
+                        autocomplete="current-password">
 
                     @error('password')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
                     @enderror
                 </div>
             </div>
