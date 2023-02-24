@@ -134,7 +134,7 @@ class JurnalAkuntansi extends Model
                             }
                             
                             $detail = [
-                                'tanggal' => $jurnal->tanggal_transaksi,
+                                'tanggal' => $jurnal->tanggal_transaksi->format('Y-m-d'),
                                 'no_bukti' => $jurnal->no_bukti,
                                 'no_ref' => $no_reff,
                                 'selisih'=>$jenis_saldo,
@@ -173,7 +173,7 @@ class JurnalAkuntansi extends Model
                             
                             $total_sel = $saldo_jurnal_ekses;
                             $detail = [
-                                'tanggal' => $jurnal->tanggal_transaksi,
+                                'tanggal' => $jurnal->tanggal_transaksi->format('Y-m-d'),
                                 'no_bukti' => $jurnal->no_bukti,
                                 'no_ref' => $no_reff,
                                 'jenis_saldo' =>$jenis_saldo,

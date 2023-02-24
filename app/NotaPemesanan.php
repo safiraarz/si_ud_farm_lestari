@@ -20,6 +20,6 @@ class NotaPemesanan extends Model
     }
 
     public function barang(){
-        return $this->belongsToMany('App\Barang','d_nota_pemesanan','nota_pemesanan_id','barang_id')->withPivot('kuantitas','harga');;
+        return $this->belongsToMany('App\Barang','d_nota_pemesanan','nota_pemesanan_id','barang_id')->withPivot('kuantitas','harga');
     }
 }

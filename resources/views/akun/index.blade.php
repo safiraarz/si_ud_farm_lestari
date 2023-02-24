@@ -16,9 +16,9 @@
                 <div class="caption">
                     <i class="fa fa-reorder"></i>Master Daftar Akun
                 </div>
-                <div class="actions">
+                {{-- <div class="actions">
                     <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Data</a>
-                </div>
+                </div> --}}
             </div>
             <div class="portlet-body">
                 <table id='myTable' class="table table-bordered">
@@ -57,7 +57,7 @@
     <br>
 @endsection
 <!-- modal add new -->
-<div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
+{{-- <div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -101,7 +101,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 <div class="modal fade" id="modalEdit" tabindex="-1" role="basic" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" id='modalContent'>

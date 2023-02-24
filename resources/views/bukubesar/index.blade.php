@@ -63,7 +63,7 @@
                             </tr> --}}
                             <tr>
                                 <td >
-                                    {{ $items['tanggal'] }}
+                                    {{  date('d/m/y', strtotime($items['tanggal'])) }}
                                 </td>
                                 <td >
                                     {{ $items['keterangan'] }}
