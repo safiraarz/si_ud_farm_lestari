@@ -96,14 +96,13 @@ License: You must have a valid license purchased only from themeforest(the above
                         data-close-others="true">
                         <img alt="" src="{{asset('assets/img/avatar3_small.jpg')}}" />
                         <span class="username username-hide-on-mobile">
-                            {{-- {{ Auth::user()->name }} --}}
+                            @if (Auth::user())
+                            {{ Auth::user()->nama }}
+                            @endif
                         </span>
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li>
-                            <a><i class="fa fa-user"></i> {{ Auth::user()->name }}</a>
-                        </li>
                         <li>
                             @if (Auth::user())
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
