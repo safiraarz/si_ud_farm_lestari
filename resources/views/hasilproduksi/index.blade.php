@@ -1,16 +1,6 @@
 @extends('layout.conquer')
 @section('content')
     <div class="container">
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
         <div class="portlet">
             <div class="portlet-title">
                 <div class="caption">
@@ -125,42 +115,38 @@
                             </div>
                             <div class="form-group">
                                 <label>Nomor Surat Perintah Kerja:</label>
-                                <select class="form-control" name="no_surat_perintah_kerja" id="no_surat_perintah_kerja">
-                                    <option value="">Silahkan Pilih Nomor Perintah Kerja</option>
+                                <select class="form-control" name="no_surat_perintah_kerja" id="no_surat_perintah_kerja" required>
+                                    <option value="">===Pilih Nomor SPK===</option>
                                     @foreach ($surat_perintah_kerja as $item)
                                         <option value="{{ $item->id }}">{{ $item->no_surat }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <div id="selected_bahan_baku" style="display: none;">
+                            <div id="selected_barang" style="display: none;">
                                 <div class="form-group">
                                     <label>Nama Bahan Baku</label>
-                                    <select class="form-control" name="bahan_baku" id="bahan_baku">
-
+                                    <select class="form-control" name="barang" id="barang" required>
                                     </select>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Kuantitas Barang Reject:</label>
-                                    <input type="text" name="input_kn_reject" class="form-control" id='input_kn_reject'
+                                    <input type="number" min="0" max="99999999999" name="input_kn_reject" class="form-control" id='input_kn_reject'
                                         required>
-                                    </input>
                                 </div>
                                 <div class="form-group">
                                     <label>Kuantitas Barang Bersih:</label>
-                                    <input type="text" name="input_kn_bersih" class="form-control"
+                                    <input type="number" min="0" max="99999999999" name="input_kn_bersih" class="form-control"
                                         id='input_kn_bersih' required>
-                                    </input>
                                 </div>
                                 <div class="form-group">
                                     <label>Total Kuantitas:</label>
-                                    <input type="text" name="input_kn_total" class="form-control" id='input_kn_total'
+                                    <input type="number" name="input_kn_total" class="form-control" id='input_kn_total'
                                         required readonly>
-                                    </input>
                                 </div>
                                 <div class="form-group">
                                     <label>Keterangan:</label>
-                                    <textarea type="text" class="form-control" name="keterangan" id='keterangan'></textarea>
+                                    <textarea type="text"  maxlength="150" class="form-control" name="keterangan" id='keterangan'></textarea>
                                 </div>
                             </div>
 
@@ -216,7 +202,6 @@
                             [
                                 "{{ $barangs->id }}",
                                 "{{ $barangs->nama }}",
-                                "{{ $barangs->pivot->harga }}",
                                 "{{ $barangs->pivot->kuantitas }}",
                             ],
                         @endforeach
@@ -231,8 +216,8 @@
             })
         })
         $("#no_surat_perintah_kerja").on('change', function() {
-            $("#selected_bahan_baku").show();
-            $('#bahan_baku').html("");
+            $("#selected_barang").show();
+            $('#barang').html("");
             var id_spk = $(this).val();
             spkbarang.forEach(element => {
                 if (id_spk == element[0]) {
@@ -243,7 +228,7 @@
                         var barang_name = elements[1];
                         var barang_pesanan = '<option value="' + barang_id + '" >' + barang_name +
                             '</option>';
-                        $('#bahan_baku').append(barang_pesanan);
+                        $('#barang').append(barang_pesanan);
 
                     }
                 }

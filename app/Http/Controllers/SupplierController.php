@@ -42,7 +42,7 @@ class SupplierController extends Controller
         $data->no_telepon = $request->get('no_telepon');
         $data->save();
 
-        return redirect()->route('supplier.index')->with('status', 'Supplier berhasil ditambahkan');
+        return redirect()->route('supplier.index')->with('status', 'Supplier '.$data->nama.' berhasil ditambahkan');
     }
 
     /**
@@ -80,7 +80,7 @@ class SupplierController extends Controller
         $supplier->alamat = $request->get('alamat');
         $supplier->no_telepon = $request->get('no_telepon');
         $supplier->save();
-        return redirect()->route('supplier.index')->with('status', 'Supplier '. $supplier->nama.' berhasil diupdate');
+        return redirect()->route('supplier.index')->with('status', 'Supplier '. $supplier->nama.' berhasil diubah');
     }
 
     /**
@@ -121,7 +121,7 @@ class SupplierController extends Controller
         return response()->json(
             array(
                 'status' => 'ok',
-                'msg' => 'Supplier berhasil diupdate'
+                'msg' => 'Supplier '. $Supplier->nama.' berhasil diubah'
             ),
             200
         );
@@ -142,22 +142,5 @@ class SupplierController extends Controller
                 'msg' => 'Supplier tidak bisa dihapus. Supplier diperlukan untuk data lain'
             ), 200);
         }
-    }
-    public function saveDataField(Request $request)
-    {
-        $id = $request->get('id');
-        $fnama = $request->get('fnama');
-        $value = $request->get('value');
-
-        $Supplier = Supplier::find($id);
-        $Supplier->$fnama = $value;
-        $Supplier->save();
-        return response()->json(
-            array(
-                'status' => 'ok',
-                'msg' => 'Supplier berhasil diupdate'
-            ),
-            200
-        );
     }
 }

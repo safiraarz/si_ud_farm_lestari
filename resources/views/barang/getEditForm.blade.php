@@ -9,13 +9,13 @@
         <div class="form-body">
             <div class="form-group">
                 <label>Lead Time</label>
-                <input id="eLeadTime" type="text" name="leadtime" class="form-control" value='{{ $data->lead_time }}'>
+                <input id="eLeadTime" type="number" min="0" max="100" name="leadtime" class="form-control" value='{{ $data->lead_time }}' placeholder="Masukkan lead time" required>
             </div>
         </div>
         <div class="form-body">
             <div class="form-group">
                 <label>Harga per-Satuan</label>
-                <input id="eHarga" type="text" name="harga" class="form-control" value='{{ $data->harga }}'>
+                <input id="eHarga" type="number" min="0" max="99999999999" name="harga" class="form-control" value='{{ $data->harga }}' placeholder="Masukkan harga per satuan" required>
             </div>
         </div>
         <div class="modal-footer">

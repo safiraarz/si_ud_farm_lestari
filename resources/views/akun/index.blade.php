@@ -1,24 +1,11 @@
 @extends('layout.conquer')
 @section('content')
     <div class="container">
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
         <div class="portlet">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-reorder"></i>Master Daftar Akun
                 </div>
-                {{-- <div class="actions">
-                    <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Data</a>
-                </div> --}}
             </div>
             <div class="portlet-body">
                 <table id='myTable' class="table table-bordered">

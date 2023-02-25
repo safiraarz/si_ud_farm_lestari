@@ -15,7 +15,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <input type="text" id="keterangan"class="form-control">
+                                    <textarea type="text" maxlength="150" rows=3 id="keterangan"class="form-control"></textarea>
                                 </td>
                             </tr>
                         </tbody>
@@ -32,19 +32,22 @@
                                 <td>
                                     <select name="barang_jadi" id="barang_jadi" class="form-control">
                                         <option id="" value="" class="barang custom-select">
-                                            Silahkan Pilih Barang
+                                            ===Pilih pakan===
                                         </option>
-                                        @foreach($barang as $row )
-                                        @if ($row->jenis == "Barang Jadi")
-                                        <option id={{$row->id}} value="{{$row->nama}}" satuan="{{$row->satuan}}" ready="{{ $row->kuantitas_stok_ready }}" class="barang custom-select">
-                                            {{$row->nama}}
-                                        </option>
-                                        @endif
+                                        @foreach ($barang as $row)
+                                            @if ($row->jenis == 'Barang Jadi')
+                                                <option id={{ $row->id }} value="{{ $row->nama }}"
+                                                    satuan="{{ $row->satuan }}" ready="{{ $row->kuantitas_stok_ready }}"
+                                                    class="barang custom-select">
+                                                    {{ $row->nama }} (Stok: {{ number_format($row->kuantitas_stok_ready) }} {{ $row->satuan }})
+                                                </option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="number" id="kuantitas_barang_jadi" min="0" value="0" class="form-control">
+                                    <input type="number" id="kuantitas_barang_jadi" min="0" value="0"
+                                        class="form-control">
                                 </td>
                                 <td><button id="tambah" class="btn btn-success">Tambah</button></td>
                             </tr>
@@ -55,10 +58,11 @@
                     </div>
                 </div>
                 <div class="col-md-7  mt-4" style="background-color:#f5f5f5;">
-                    <form action="{{ route('suratjalan.store') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                    <form action="{{ route('suratjalan.store') }}" method="post" enctype="multipart/form-data"
+                        class="form-horizontal">
                         @csrf
-                        <input type="hidden" name="keterangan_input" id="keterangan_input" >
-                        
+                        <input type="hidden" name="keterangan_input" id="keterangan_input">
+
                         <div class="p-4">
                             <div class="text-center">
                                 <h4>Surat Jalan</h4>
@@ -97,29 +101,28 @@
                 </div>
             </div>
     </section>
-
 @endsection
 
 
 @section('javascript')
-
-<script>
+    <script>
         function thousands_separators(num) {
             var num_parts = num.toString().split(".");
             num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             return num_parts.join(".");
         }
         var count = 1;
-        function deleteData(id)
-        {
-            $('#row_'+id).html("");
+
+        function deleteData(id) {
+            $('#row_' + id).html("");
         };
-        function isEmpty( el ){
+
+        function isEmpty(el) {
             return !$.trim(el.html())
         };
         $('#tambah').on('click', function() {
             $("#pakan_ayam").disable = true;
-            $("#keterangan_input").val( $("#keterangan").val())
+            $("#keterangan_input").val($("#keterangan").val())
             var nama_barang_jadi = $('#barang_jadi').val();
             var kuantitas_barang_jadi = $('#kuantitas_barang_jadi').val();
             var kuantitas_barang_jadi_ready = $('#barang_jadi').find(':selected').attr('ready');
@@ -129,52 +132,53 @@
             // alert(kuantitas_barang_jadi_ready);
 
             if (parseInt(kuantitas_barang_jadi) <= 0 || kuantitas_barang_jadi == '') {
-                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Barang Kurang Dari 0 Atau Huruf</span>';
+                var erroMsg =
+                    '<span class="alert alert-danger ml-5">Kuantitas barang kurang dari 0 atau huruf</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
-            }
-            
-            else if(parseInt(kuantitas_barang_jadi_ready) < parseInt(kuantitas_barang_jadi) || kuantitas_barang_jadi_ready == '' ){
+            } else if (parseInt(kuantitas_barang_jadi_ready) < parseInt(kuantitas_barang_jadi) ||
+                kuantitas_barang_jadi_ready == '') {
                 var erroMsg = '<span class="alert alert-danger ml-5">Total Stok Kurang</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
-            }
-            else {
+            } else {
                 billFunction(); // Below Function passing here 
             }
 
             function billFunction() {
                 $("#receipt_bill").each(function() {
 
-                    var table = '<tr id="row_'+ id_barang_jadi +'" >'+
-                        '<td>' + nama_barang_jadi + '<input type="hidden" name="barang_jadi[' + count +'][' + "id_barang_jadi" + ']" value=' + id_barang_jadi + '></td>'+
-                        '<td>' + '<p id="label_kuantitas_' + id_barang_jadi + '">' + thousands_separators(kuantitas_barang_jadi) + '</p>'+
-                        '<input id="form_kuantitas_' + id_barang_jadi + '" type="hidden" name="barang_jadi[' + count + '][' + "kuantitas" + ']" value=' + kuantitas_barang_jadi +'>'+
-                        '</td>'+
-                        '<td>' + satuan_barang_jadi + '</td>'+
-                        '<td>' + '<a class="btn btn-danger barang_delete" onclick="deleteData('+id_barang_jadi+')"><i class="fa fa-trash-o"></i></a><td>' +
+                    var table = '<tr id="row_' + id_barang_jadi + '" >' +
+                        '<td>' + nama_barang_jadi + '<input type="hidden" name="barang_jadi[' + count +
+                        '][' + "id_barang_jadi" + ']" value=' + id_barang_jadi + '></td>' +
+                        '<td>' + '<p id="label_kuantitas_' + id_barang_jadi + '">' + thousands_separators(
+                            kuantitas_barang_jadi) + '</p>' +
+                        '<input id="form_kuantitas_' + id_barang_jadi +
+                        '" type="hidden" name="barang_jadi[' + count + '][' + "kuantitas" + ']" value=' +
+                        kuantitas_barang_jadi + '>' +
+                        '</td>' +
+                        '<td>' + satuan_barang_jadi + '</td>' +
+                        '<td>' + '<a class="btn btn-danger barang_delete" onclick="deleteData(' +
+                        id_barang_jadi + ')"><i class="fa fa-trash-o"></i></a><td>' +
                         '</tr>';
 
-                    var id_row = '#row_'+id_barang_jadi;
-                    if(isEmpty($(id_row))){
+                    var id_row = '#row_' + id_barang_jadi;
+                    if (isEmpty($(id_row))) {
                         $('#new').append(table);
-                    }
-                    else{
-                        var kuantitas_lama = $('#form_kuantitas_'+id_barang_jadi).val();
+                    } else {
+                        var kuantitas_lama = $('#form_kuantitas_' + id_barang_jadi).val();
 
                         var kuantias_baru = parseInt(kuantitas_lama) + parseInt(kuantitas_barang_jadi);
 
-                        $('#label_kuantitas_'+id_barang_jadi).html(kuantias_baru );
-                        $('#form_kuantitas_'+id_barang_jadi).val(kuantias_baru );
-               
-                  
+                        $('#label_kuantitas_' + id_barang_jadi).html(kuantias_baru);
+                        $('#form_kuantitas_' + id_barang_jadi).val(kuantias_baru);
+
+
                     }
 
                 });
                 count++;
             }
         });
-        
-</script>
-
+    </script>
 @endsection

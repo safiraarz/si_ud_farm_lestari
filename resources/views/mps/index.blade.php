@@ -1,16 +1,6 @@
 @extends('layout.conquer')
 @section('content')
     <div class="container">
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
         <div class="portlet">
             <div class="portlet-title">
                 <div class="caption">
@@ -45,7 +35,7 @@
                                 <td id='td_satuan_{{ $d->id }}'>{{ $d->barang->satuan }}</td>
                                 <td id='td_tgl_mulai_produksi{{ $d->id }}'>{{ $d->tgl_mulai_produksi->format('d/m/Y') }}</td>
                                 <td id='td_tgl_selesai_produksi{{ $d->id }}'>{{ $d->tgl_selesai_produksi->format('d/m/Y') }}</td>
-                                {{-- <td class='editable' id='td_status_{{ $d->id }}'>
+                                <td class='editable' id='td_status_{{ $d->id }}'>
                                     <select class="form-control status_option" name="status_option"
                                         mpsid="{{ $d->id }}">
                                         @foreach (['belum diproses' => 'Belum Diproses', 'proses produksi' => 'Proses Produksi', 'selesai produksi' => 'Selesai Produksi'] as $value => $Label)
@@ -53,10 +43,10 @@
                                                 {{ $d->status == $value ? 'selected' : '' }}>{{ $Label }}</option>
                                         @endforeach
                                     </select>
-                                </td> --}}
-                                <td id='td_status_{{ $d->id }}'>{{ $d->status }}
-                                    </select>
                                 </td>
+                                {{-- <td id='td_status_{{ $d->id }}'>{{ $d->status }}
+                                    </select>
+                                </td> --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -100,7 +90,6 @@
                                     <label>Kuantitas</label>
                                     <input type="text" name="kuantitas_barang_jadi" class="form-control" id='kuantitas'
                                         required readonly>
-                                    </input>
                                 </div>
                                 <div class="form-group">
                                     <label>Tanggal Produksi Mulai</label>
@@ -152,7 +141,7 @@
                             [
                                 "{{ $barangs->id }}",
                                 "{{ $barangs->nama }}",
-                                "{{ $barangs->pivot->kuantitas }}",
+                                "{{ number_format($barangs->pivot->kuantitas) }} {{$barangs->satuan}}",
                                 "{{ $barangs->pivot->tgl_mulai_produksi }}",
                                 "{{ $barangs->pivot->tgl_selesai_produksi }}",
 

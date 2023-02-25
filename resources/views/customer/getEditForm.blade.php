@@ -9,13 +9,11 @@
         <div class="form-body">
             <div class="form-group">
                 <label>Alamat</label>
-                <textarea type="text" rows="3" name="alamat" class="form-control" id='eAlamat' required>{{ $data->alamat }}
-                </textarea>
+                <textarea type="text" maxlength="100" name="alamat" class="form-control" id='eAlamat' required>{{ $data->alamat }}</textarea>
             </div>
             <div class="form-group">
                 <label>No Telepon</label>
-                <input type="text" name="no_telepon" class="form-control" id='eNoTelp' value='{{ $data->no_telepon }}'
-                    required>
+                <input type="number" min="0" max="99999999999" maxlength="15" name="no_telepon" class="form-control" id='eNoTelp' value='{{ $data->no_telepon }}' required>
             </div>
         </div>
         <div class="modal-footer">

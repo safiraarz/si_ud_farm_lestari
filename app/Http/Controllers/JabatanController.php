@@ -40,7 +40,7 @@ class JabatanController extends Controller
         $data->nama = $request->get('nama');
         $data->save();
 
-        return redirect()->route('jabatan.index')->with('status', 'Jabatan berhasil ditambahkan');
+        return redirect()->route('jabatan.index')->with('status', 'Jabatan '. $data->nama.' berhasil ditambahkan');
     }
 
     /**
@@ -74,9 +74,7 @@ class JabatanController extends Controller
      */
     public function update(Request $request, Jabatan $jabatan)
     {
-        $jabatan->nama = $request->get('nama');
-        $jabatan->save();
-        return redirect()->route('jabatan.index')->with('status', 'Jabatan berhasil diupdate');
+        
     }
 
     /**
@@ -96,30 +94,6 @@ class JabatanController extends Controller
         }
     }
 
-    public function getEditForm(Request $request)
-    {
-        $id = $request->get('id');
-        $data = Jabatan::find($id);
-        return response()->json(array(
-            'status' => 'oke',
-            'msg' => view('jabatan.getEditForm', compact('data'))->render()
-        ), 200);
-    }
-
-    public function saveData(Request $request)
-    {
-        $id = $request->get('id');
-        $Jabatan = Jabatan::find($id);
-        $Jabatan->nama = $request->get('nama');
-        $Jabatan->save();
-        return response()->json(
-            array(
-                'status' => 'ok',
-                'msg' => 'Jabatan berhasil diupdate'
-            ),
-            200
-        );
-    }
     public function deleteData(Request $request)
     {
         try {
@@ -136,22 +110,5 @@ class JabatanController extends Controller
                 'msg' => 'Jabatan tidak bisa dihapus. Jabatan diperlukan untuk data lain'
             ), 200);
         }
-    }
-    public function saveDataField(Request $request)
-    {
-        $id = $request->get('id');
-        $fnama = $request->get('fnama');
-        $value = $request->get('value');
-
-        $Jabatan = Jabatan::find($id);
-        $Jabatan->$fnama = $value;
-        $Jabatan->save();
-        return response()->json(
-            array(
-                'status' => 'ok',
-                'msg' => 'Jabatan berhasil diupdate'
-            ),
-            200
-        );
     }
 }

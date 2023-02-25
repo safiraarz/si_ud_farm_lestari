@@ -42,7 +42,7 @@ class CustomerController extends Controller
         $data->no_telepon = $request->get('no_telepon');
         $data->save();
 
-        return redirect()->route('customer.index')->with('status', 'Customer berhasil ditambahkan');
+        return redirect()->route('customer.index')->with('status', 'Customer '.$data->nama.' berhasil ditambahkan');
     }
 
     /**
@@ -80,7 +80,7 @@ class CustomerController extends Controller
         $customer->alamat = $request->get('alamat');
         $customer->no_telepon = $request->get('no_telepon');
         $customer->save();
-        return redirect()->route('customer.index')->with('status', 'Customer '.$customer->nama.' berhasil diupdate');
+        return redirect()->route('customer.index')->with('status', 'Customer '.$customer->nama.' berhasil diubah');
     }
 
     /**
@@ -120,7 +120,7 @@ class CustomerController extends Controller
         return response()->json(
             array(
                 'status' => 'ok',
-                'msg' => 'Customer berhasil diupdate'
+                'msg' => 'Customer '.$Customer->nama.' berhasil diubah'
             ),
             200
         );
@@ -141,22 +141,5 @@ class CustomerController extends Controller
                 'msg' => 'Customer tidak bisa dihapus. Customer diperlukan untuk data lain'
             ), 200);
         }
-    }
-    public function saveDataField(Request $request)
-    {
-        $id = $request->get('id');
-        $fnama = $request->get('fnama');
-        $value = $request->get('value');
-
-        $Customer = Customer::find($id);
-        $Customer->$fnama = $value;
-        $Customer->save();
-        return response()->json(
-            array(
-                'status' => 'ok',
-                'msg' => 'Customer berhasil diupdate'
-            ),
-            200
-        );
     }
 }

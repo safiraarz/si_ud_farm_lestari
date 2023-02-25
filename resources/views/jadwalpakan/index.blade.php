@@ -1,16 +1,6 @@
 @extends('layout.conquer')
 @section('content')
     <div class="container">
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
         <div class="portlet">
             <div class="portlet-title">
                 <div class="caption">
@@ -93,11 +83,10 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Pakan Ternak</label>
-                                    <select class="form-control" name="jenis_pakan" id="jenis_pakan">
-                                        <option value="">Silahkan Memilih Jenis Pakan</option>
+                                    <select class="form-control" name="jenis_pakan" id="jenis_pakan" required>
                                         @foreach ($barang as $item)
                                             @if ($item->jenis == 'Barang Jadi')
-                                                <option value="{{ $item->id }}" ready="{{ $item->kuantitas_stok_ready }}">{{ $item->nama }}</option>
+                                                <option value="{{ $item->id }}" ready="{{ $item->kuantitas_stok_ready }}">{{ $item->nama }} (Stok: {{ number_format($item->kuantitas_stok_ready) }} {{ $item->satuan }})</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -113,12 +102,10 @@
                                 <div class="form-group">
                                     <label>Kuantitas</label>
                                     <input type="number" min="1" name="kuantitas" class="form-control" id='kuantitas' required>
-                                    </input>
                                 </div>
                                 <div class="form-group">
                                     <label>Keterangan</label>
-                                    <input type="text" name="keterangan" class="form-control" id='keterangan' required>
-                                    </input>
+                                    <textarea type="text" maxlength="150" name="keterangan" class="form-control" id='keterangan'></textarea>
                                 </div>
                             </div>
                             <div class="modal-footer">

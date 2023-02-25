@@ -1,23 +1,13 @@
 @extends('layout.conquer')
 @section('content')
     <div class="container">
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
         <div class="portlet">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-reorder"></i>Master Flok
                 </div>
                 <div class="actions">
-                    <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Flok</a>
+                    <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Data</a>
                 </div>
             </div>
             <div class="portlet-body">
@@ -79,42 +69,39 @@
                     <div class="form-body">
                         <div class="form-group">
                             <label>Nama</label>
-                            <input type="text" name="nama" class="form-control" id='nama' required>
+                            <input type="text" maxlength="45" name="nama" class="form-control" id='nama' placeholder="Masukkan nama" required>
                         </div>
                         <div class="form-group">
                             <label>Keterangan</label>
-                            <input type="text" name="keterangan" class="form-control" id='keterangan' required>
+                            <textarea type="text" maxlength="100" name="keterangan" class="form-control" id='keterangan' placeholder="Masukkan keterangan" required></textarea>
                         </div>
                         <div class="form-group">
                             <label>Cage</label>
-                            <input type="text" name="cage" class="form-control" id='cage' required>
+                            <input type="text" maxlength="45" name="cage" class="form-control" id='cage' placeholder="Masukkan nomor cage" required>
                         </div>
                         <div class="form-group">
                             <label>Strain</label>
-                            <input type="text" name="strain" class="form-control" id='strain' required>
+                            <input type="text" maxlength="100" name="strain" class="form-control" id='strain' placeholder="Masukkan nama strain" required>
                         </div>
                         <div class="form-group">
                             <label>Populasi</label>
-                            <input type="number" min="0" name="populasi" class="form-control" id='populasi'
+                            <input type="number" min="0" max="99999999999" name="populasi" class="form-control" id='populasi' placeholder="Masukkan jumlah populasi ayam dalam satuan ekor"
                                 required>
                         </div>
                         <div class="form-group">
                             <label>Usia/Hari</label>
-                            <input type="text" name="usia" class="form-control" id='usia'
+                            <input type="text" maxlength="45" name="usia" class="form-control" id='usia' placeholder="Masukkan usia ayam"
                                 required>
                         </div>
                         <div class="form-group">
                             <label>Kebutuhan Pakan Perhari</label>
-                            <input type="text" name="kebutuhan_pakan" class="form-control" id='kebutuhan_pakan'
+                            <input type="number" min="0" max="99999999999" name="kebutuhan_pakan" class="form-control" id='kebutuhan_pakan' placeholder="Masukkan kebutuhan pakan 1 ekor ayam perhari dalam gram"
                                 required>
                         </div>
                         <div class="form-group">
-                            <label>Satuan</label>
+                            <label>Satuan Kebutuhan Pakan</label>
                             <select class='form-control select2' name='satuan'>
-                                <option value="kg" selected="">kg</option>
-                                <option value="sak" selected="">sak</option>
-                                <option value="pc" selected="">pc</option>
-                                <option value="pc" selected="">gr</option>
+                                <option value="gr" selected="">gr</option>
                             </select>
                         </div>
                     </div>

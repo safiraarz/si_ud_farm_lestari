@@ -52,7 +52,7 @@ class MPSController extends Controller
         $barang = Barang::find($request->get('bahan_baku'));
         $barang->mps()->save($data);
         
-        return redirect()->route('mps.index')->with('status', 'Success Add MPS');
+        return redirect()->route('mps.index')->with('status', 'MPS '.$data->id.' berhasil ditambahkan');
     }
 
     /**

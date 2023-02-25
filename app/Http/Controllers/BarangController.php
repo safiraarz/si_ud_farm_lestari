@@ -54,7 +54,7 @@ class BarangController extends Controller
         $data->satuan = $request->get('satuan');
         $data->save();
 
-        return redirect()->route('barang.index')->with('status', 'Barang berhasil ditambahkan');
+        return redirect()->route('barang.index')->with('status', 'Barang '.$data->nama.' berhasil ditambahkan');
     }
 
     /**
@@ -93,7 +93,7 @@ class BarangController extends Controller
         $data->lead_time = $request->get('leadtime');
         $data->harga = $request->get('harga');
         $data->save();
-        return redirect()->route('barang.index')->with('status', 'Barang berhasil diubah');
+        return redirect()->route('barang.index')->with('status', 'Barang '.$data->nama.' berhasil diubah');
     }
 
     /**
@@ -140,7 +140,7 @@ class BarangController extends Controller
         return response()->json(
             array(
                 'status' => 'ok',
-                'msg' => 'Barang berhasil diupdate'
+                'msg' => 'Barang '.$Barang->nama.' berhasil diubah'
             ),
             200
         );

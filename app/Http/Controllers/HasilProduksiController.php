@@ -80,7 +80,7 @@ class HasilProduksiController extends Controller
         $barang = Barang::find($request->get('bahan_baku'));
         $barang->hasilproduksi()->save($data);
 
-        return redirect()->route('hasilproduksi.index')->with('status', 'Success Add Hasil Produksi');
+        return redirect()->route('hasilproduksi.index')->with('status', 'Hasil produksi ID '.$data->id.' berhasil ditambahkan');
     }
 
     /**
@@ -126,17 +126,5 @@ class HasilProduksiController extends Controller
     public function destroy(HasilProduksi $hasilProduksi)
     {
         //
-    }
-
-    public function getEditForm(Request $request)
-    {
-        $id = $request->get('id');
-        $data = HasilProduksi::find($id);
-        $barang = Barang::all();
-        $surat_perintah_kerja = SPK::all();
-        return response()->json(array(
-            'status' => 'oke',
-            'msg' => view('hasilproduksi.getEditForm', compact('data', 'barang', 'surat_perintah_kerja'))->render()
-        ), 200);
     }
 }

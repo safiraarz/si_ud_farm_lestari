@@ -80,7 +80,7 @@ class LPBController extends Controller
                 $data->daftar_barang()->attach($details['id_bahan_baku'], ['kuantitas' => $details['kuantitas']]);
             }
             // $barang->notapembelian()->save($data);
-            return redirect()->route('lpb.index')->with('status', 'Berhasil menambah pencatatan ' . $request->get('no_surat'));
+            return redirect()->route('lpb.index')->with('status', 'Laporan pengeluaran barang ' . $request->get('no_surat'). ' berhasil ditambahkan');
         
         }
         else{
@@ -109,7 +109,7 @@ class LPBController extends Controller
      */
     public function edit(LPB $lPB)
     {
-        return view('lpb.edit', ['lpb' => LPB::find($lPB), 'barang' => Barang::All()]);
+        
     }
 
     /**
@@ -135,14 +135,4 @@ class LPBController extends Controller
         //
     }
 
-    public function getEditForm(Request $request)
-    {
-        $id = $request->get('id');
-        $data = LPB::find($id);
-        $barang = Barang::all();
-        return response()->json(array(
-            'status' => 'oke',
-            'msg' => view('lpb.getEditForm', compact('data', 'barang'))->render()
-        ), 200);
-    }
 }

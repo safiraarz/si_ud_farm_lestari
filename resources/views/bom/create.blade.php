@@ -18,6 +18,7 @@
                             <tr>
                                 <td>
                                     <select id="nama_pakan_jadi" class="form-control">
+                                        <option value="" selected>==Pilih pakan==</option>
                                         @foreach ($barang as $row)
                                             @if ($row->jenis == 'Barang Jadi')
                                                 <option id={{ $row->id }} value="{{ $row->nama }}"
@@ -46,6 +47,7 @@
                             <tr>
                                 <td>
                                     <select name="nama_bahan_baku" id="nama_bahan_baku" class="form-control">
+                                        <option value="" selected>==Pilih bahan baku==</option>
                                         @foreach ($barang as $row)
                                             @if ($row->jenis == 'Bahan Baku')
                                                 <option id={{ $row->id }} value="{{ $row->nama }}"
@@ -146,12 +148,12 @@
 
 
             if (parseInt(kuantitas_bahan_baku) <= 0 || kuantitas_bahan_baku == '') {
-                var erroMsg ='<span class="alert alert-danger ml-5">Kuantitas Bahan Baku Kurang Dari 0 Atau Huruf</span>';
+                var erroMsg ='<span class="alert alert-danger ml-5">Kuantitas barang kurang dari 0 atau huruf</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             } 
             else if (parseInt(kuantitas_pakan) <= 0 || kuantitas_pakan == ''){
-                var erroMsg ='<span class="alert alert-danger ml-5">Kuantitas Bahan Pakan Kurang Dari 0 Atau Huruf</span>';
+                var erroMsg ='<span class="alert alert-danger ml-5">Kuantitas barang kurang dari 0 atau huruf</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             }

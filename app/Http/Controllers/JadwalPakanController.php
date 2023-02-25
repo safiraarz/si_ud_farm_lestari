@@ -70,7 +70,7 @@ class JadwalPakanController extends Controller
         $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
         $barang_update->save();
 
-        return redirect()->route('jadwalpakan.index')->with('status', 'Berhasil Menambahkan Jadwal Pakan');
+        return redirect()->route('jadwalpakan.index')->with('status', 'Jadwal tanggal '.$data->tgl_pemberian.' berhasil ditambahkan');
     }
 
     /**
@@ -104,17 +104,7 @@ class JadwalPakanController extends Controller
      */
     public function update(Request $request, $jadwalPakan)
     {
-        //
-        DB::table('jadwal_pakan')
-        ->where('created_at', $jadwalPakan)
-        ->update([
-            'barang_id' => $request->get('jenis_pakan'),
-            'flok_id' =>$request->get('asal_flok'),
-            'tgl_pemberian' => $request->get('tgl_pemberian'),
-            'kuantitas' => $request->get('kuantitas'),
-        ]);
-
-        return redirect()->route('jadwalpakan.index')->with('status', 'Berhasil Mengubah Jadwal Pakan');
+        
     }
 
     /**
@@ -127,18 +117,4 @@ class JadwalPakanController extends Controller
     {
         //
     }
-
-    public function getEditForm(Request $request)
-    {
-        $data = JadwalPakan::where('created_at',$request->get('id'))->first();
-        // dd($data);
-
-        $barang = Barang::all();
-        $flok = Flok::all();
-        return response()->json(array(
-            'status' => 'oke',
-            'msg' => view('jadwalpakan.getEditForm', compact('data', 'flok','barang'))->render()
-        ), 200);
-    }
-    
 }

@@ -185,10 +185,6 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <a href="{{ route('akun.index') }}">Akun
                                 </a>
                             </li>
-                            <li>
-                                <a href="{{ route('aset.index') }}">Aset
-                                </a>
-                            </li>
                         </ul>
                     </li>
                     <li>

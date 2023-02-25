@@ -1,16 +1,6 @@
 @extends('layout.conquer')
 @section('content')
     <div class="container">
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
         <div class="portlet">
             <div class="portlet-title">
                 <div class="caption">
@@ -113,56 +103,71 @@
                         <div class="form-body">
                             <div class="form-group">
                                 <label>Nama Barang</label>
-                                <input type="text" name="nama" class="form-control" placeholder="Nama Barang">
+                                <input type="text" maxlength="45" name="nama" class="form-control"
+                                    placeholder="Masukkan nama barang" required>
                             </div>
                             <div class='form-group'>
                                 <label>Jenis Barang</label>
-                                <select class='form-control select2' name='jenis'>
-                                    <option value="Barang Jadi" selected="">Barang Jadi</option>
-                                    <option value="Bahan Baku" selected="">Bahan Baku</option>
+                                <select class='form-control select2' name='jenis' required>
+                                    <option value="" selected>
+                                        ====Pilih jenis barang===
+                                    </option>
+                                    <option value="Barang Jadi">Barang Jadi</option>
+                                    <option value="Bahan Baku">Bahan Baku</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Kuantitas Stok on Order Supplier</label>
-                                <input type="number" min="0" name="kuantitas_stok_onorder_supplier" id="kuantitas_supplier"
-                                    class="form-control" placeholder="Kuantitas Stok on Order Supplier">
+                                <input type="number" min="0" max="99999999999"
+                                    name="kuantitas_stok_onorder_supplier" id="kuantitas_supplier" class="form-control"
+                                    placeholder="Masukkan kuantitas stok yang sedang dipesan ke supplier" required>
                             </div>
                             <div class="form-group">
                                 <label>Kuantitas Stok on Order Produksi</label>
-                                <input type="number" min="0" name="kuantitas_stok_onorder_produksi" id="kuantitas_produksi"
-                                    class="form-control" placeholder="Kuantitas Stok on Order Produksi">
+                                <input type="number" min="0" max="99999999999"
+                                    name="kuantitas_stok_onorder_produksi" id="kuantitas_produksi" class="form-control"
+                                    placeholder="Masukkan kuantitas stok yang sedang diproduksi" required>
                             </div>
                             <div class="form-group">
                                 <label>Kuantitas Stok Pengaman</label>
-                                <input type="number" min="0" name="kuantitas_stok_pengaman" id="kuantitas_pengaman"
-                                    class="form-control" placeholder="Kuantitas Stok Pengaman">
+                                <input type="number" min="0" max="99999999999" name="kuantitas_stok_pengaman"
+                                    id="kuantitas_pengaman" class="form-control"
+                                    placeholder="Masukkan kuantitas stok pengaman" required>
                             </div>
                             <div class="form-group">
                                 <label>Kuantitas Stok Ready</label>
-                                <input type="number" min="0" name="kuantitas_stok_ready" id="kuantitas_ready"
-                                    class="form-control" placeholder="Kuantitas Stok Ready">
+                                <input type="number" min="0" max="99999999999" name="kuantitas_stok_ready"
+                                    id="kuantitas_ready" class="form-control"
+                                    placeholder="Masukkan kuantitas stok yang ready di gudang" required>
                             </div>
                             <div class="form-group">
                                 <label>Total Kuantitas Stok</label>
-                                <input type="number" min="0" name="total_kuantitas_stok" id="total_kuantitas"
-                                    class="form-control" placeholder="Total Kuantitas Stok" readonly="true">
+                                <input type="number" min="0" max="99999999999" name="total_kuantitas_stok"
+                                    id="total_kuantitas" class="form-control" placeholder="Total kuantitas stok"
+                                    readonly="true">
                             </div>
                             <div class="form-group">
                                 <label>Harga per-Satuan</label>
-                                <input type="number" min="0" name="harga" class="form-control"
-                                    placeholder="Harga per-Satuan">
+                                <input type="number" min="0" max="99999999999" name="harga"
+                                    class="form-control" placeholder="Masukkan harga per satuan" required>
                             </div>
                             <div class="form-group">
                                 <label>Satuan</label>
-                                <select class='form-control select2' name='satuan'>
-                                    <option value="kg" selected="">kg</option>
-                                    <option value="sak" selected="">sak</option>
-                                    <option value="pc" selected="">pc</option>
+                                <select class='form-control select2' name='satuan' required>
+                                    <option value="" selected>
+                                        ====Pilih satuan barang===
+                                    </option>
+                                    <option value="kg">kg</option>
+                                    <option value="gr">gr</option>
+                                    <option value="sak">sak</option>
+                                    <option value="pc">pc</option>
+                                    <option value="ekor">ekor</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Lead Time</label>
-                                <input type="text" name="lead_time" class="form-control" placeholder="Lead Time">
+                                <input type="number" min="0" max="100" name="lead_time"
+                                    class="form-control" placeholder="Masukkan lead time" required>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -186,17 +191,16 @@
     <script>
         function getEditForm(id) {
             $.ajax({
-                    type: 'POST',
-                    url: '{{ route("barang.getEditForm") }}',
-                    data: {
-                        '_token': '<?php echo csrf_token(); ?>',
-                        'id': id
-                    },
-                    success: function(data) {
-                        $('#modalContent').html(data.msg)
-                    }
+                type: 'POST',
+                url: '{{ route('barang.getEditForm') }}',
+                data: {
+                    '_token': '<?php echo csrf_token(); ?>',
+                    'id': id
                 },
-            );
+                success: function(data) {
+                    $('#modalContent').html(data.msg)
+                }
+            }, );
         }
 
         $("#kuantitas_supplier").on('change', function() {
@@ -210,6 +214,7 @@
                 })
             })
         });
+
         function saveDataUpdateTD(id) {
             var eNama = $('#eNama').val();
             var eHarga = $('#eHarga').val();

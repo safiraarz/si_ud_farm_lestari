@@ -1,16 +1,6 @@
 @extends('layout.conquer')
 @section('content')
     <div class="container">
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
         <div class="portlet">
             <div class="portlet-title">
                 <div class="caption">
@@ -69,12 +59,10 @@
                                 <td id='td_asal_flok_'>{{ $d->flok->nama }}</td>
 
                                 <td>
-                                    {{-- <a class="btn btn-default" data-toggle="modal" href="#detail_{{$d->id}}">Detail</a> --}}
                                     <a class="btn btn-default edittable" data-toggle="modal"
                                         href="#detail_{{ $d->id }}">
                                         Detail
                                     </a>
-                                    {{-- {{ $ }} --}}
                                     <div class="modal fade" id="detail_{{ $d->id }}" tabindex="-1" role="basic"
                                         aria-hidden="true">
                                         <div class="modal-dialog">

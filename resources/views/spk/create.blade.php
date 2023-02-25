@@ -11,7 +11,7 @@
                             <tr>
                                 <th>Keterangan</th>
                                 <td>
-                                    <input type="text" id="keterangan" class="form-control">
+                                    <textarea type="text" rows=4 maxlength="150" id="keterangan" class="form-control"></textarea>
                                 </td>
                             </tr>
                         </tbody>
@@ -28,7 +28,7 @@
                             <tr>
                                 <td>
                                     <select name="barang" id="barang" class="form-control">
-                                        <option value="">PiliH Pakan</option>
+                                        <option value="" selected>==Pilih pakan==</option>
                                         @foreach ($barang as $row)
                                             @if ($row->jenis == 'Barang Jadi')
                                                 <option id={{ $row->id }} value="{{ $row->nama }}"
@@ -41,7 +41,7 @@
                                 </td>
                                 <td>
                                     <select name="flok" id="flok" class="form-control">
-                                        <option value="">PiliH Flok</option>
+                                        <option value="" selected>==Pilih flok==</option>
                                         @foreach ($flok as $row)
                                             <option id="{{ $row->id }}" value="{{ $row->nama }}" populasi="{{ $row->populasi }}" kebutuhan_pakan="{{ $row->kebutuhan_pakan }}" satuan="{{ $row->satuan }}" class="flok custom-select">
                                                 {{ $row->nama }}
@@ -50,7 +50,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="number" id="kuantitas" min="0" value="0" class="form-control">
+                                    <input type="number" id="kuantitas" min="0" max="99999999999" value="0" class="form-control" required>
                                 </td>
                             </tr>
                         </tbody>
@@ -63,10 +63,10 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <input type="date" id="tgl_mulai_prod" class="form-control">
+                                    <input type="date" id="tgl_mulai_prod" class="form-control" required>
                                 </td>
                                 <td>
-                                    <input type="date" id="tgl_selesai_prod" class="form-control">
+                                    <input type="date" id="tgl_selesai_prod" class="form-control" required>
                                 </td>
 
                                 <td><button id="tambah" class="btn btn-success">Tambah</button></td>
@@ -143,7 +143,7 @@
         $('#flok').on('change', function() {
             var populasi = $('#flok').find(':selected').attr('populasi');
             var kebutuhan_pakan = $('#flok').find(':selected').attr('kebutuhan_pakan');
-            var kuantias_flox = Math.ceil( ( parseFloat(populasi) * parseFloat(kebutuhan_pakan) ) /1000 );
+            var kuantias_flox = Math.ceil( ( parseFloat(populasi) * parseFloat(kebutuhan_pakan) ) /1000 * 10 );
             // alert(kuantias_flox);
             $('#kuantitas').val(kuantias_flox);
 

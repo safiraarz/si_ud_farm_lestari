@@ -15,7 +15,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <input type="text" id="keterangan" class="form-control">
+                                    <textarea type="text" rows=3 maxlength="150" id="keterangan" class="form-control"></textarea>
                                 </td>
                             </tr>
                         </tbody>
@@ -32,12 +32,12 @@
                                 <td>
                                     <select name="bahan_baku" id="bahan_baku" class="form-control">
                                         <option class="barang custom-select">
-                                            Pilih Bahan Baku
+                                            ===Pilih bahan baku===
                                         </option>
                                         @foreach($barang as $row )
                                         @if ($row->jenis == "Bahan Baku")
                                         <option id={{$row->id}} value="{{$row->nama}}" satuan="{{$row->satuan}}" ready="{{$row->kuantitas_stok_ready}}" class="barang custom-select">
-                                            {{$row->nama}} (Stok: {{ number_format($row->kuantitas_stok_ready) }})
+                                            {{$row->nama}} (Stok: {{ number_format($row->kuantitas_stok_ready) }} {{$row->satuan}})
                                         </option>
                                         @endif
                                         @endforeach
@@ -126,12 +126,12 @@
             // alert(kuantitas_bahan_baku_ready)
          
             if ( parseInt(kuantitas_bahan_baku) <=0 || kuantitas_bahan_baku == '' ){
-                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Bahan Baku Kurang Dari 0 Atau Berupa Huruf</span>';
+                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas barang kurang dari 0 atau huruf</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             }
             else if( parseInt(kuantitas_bahan_baku_ready) < parseInt(kuantitas_bahan_baku) || kuantitas_bahan_baku_ready == '' ){
-                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Melebihi Total Stock Bahan Baku</span>';
+                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas barang kurang dari 0 atau huruf</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             }

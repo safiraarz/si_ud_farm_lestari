@@ -2,23 +2,13 @@
 @section('content')
 
 <div class="container">
-    @if(session('status'))
-    <div class="alert alert-success">
-        {{session('status')}}
-    </div>
-    @endif
-    @if(session('error'))
-    <div class="alert alert-danger">
-        {{session('error')}}
-    </div>
-    @endif
     <div class="portlet">
         <div class="portlet-title">
             <div class="caption">
                 <i class="fa fa-reorder"></i>Master Supplier
             </div>
             <div class="actions">
-                <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Supplier</a>
+                <a href="#modalCreate" data-toggle='modal' class="btn btn-info" type="button">Tambah Data</a>
             </div>
         </div>
         <div class="portlet-body">
@@ -73,17 +63,15 @@
                     <div class="form-body">
                         <div class="form-group">
                             <label>Nama</label>
-                            <input type="text" name="nama" class="form-control" id='nama' required>
+                            <input type="text" maxlength="45" name="nama" class="form-control" id='nama' placeholder="Masukkan nama" required>
                         </div>
                         <div class="form-group">
                             <label>Alamat</label>
-                            <textarea type="text" rows="3" name="alamat" class="form-control" id='alamat' required>
-                            </textarea>
+                            <textarea type="text" maxlength="100" name="alamat" class="form-control" id='alamat' placeholder="Masukkan alamat" required></textarea>
                         </div>
                         <div class="form-group">
                             <label>Nomor Telepon</label>
-                            <input type="number" min="0" name="no_telepon" class="form-control" id='no_telepon' required>
-                            </input>
+                            <input type="number" min="0" max="99999999999" maxlength="15" name="no_telepon" class="form-control" id='no_telepon' placeholder="Masukkan nomor telepon" required>
                         </div>
                     </div>
                     <div class="modal-footer">

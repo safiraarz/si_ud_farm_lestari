@@ -50,7 +50,7 @@ class UserController extends Controller
             'jabatan_id'=> $request->jabatan_id,
         ]);
 
-        return redirect()->back()->with('status','Pengguna Berhasil Ditambahkan');
+        return redirect()->back()->with('status','Pengguna '. $request->nama.' berhasil ditambahkan');
     }
 
     /**

@@ -47,7 +47,7 @@ class FlokController extends Controller
         $data->satuan = $request->get('satuan');
         $data->save();
 
-        return redirect()->route('flok.index')->with('status', 'Flok berhasil ditambahkan');
+        return redirect()->route('flok.index')->with('status', 'Flok '.$data->nama.' berhasil ditambahkan');
     }
 
     /**
@@ -137,7 +137,7 @@ class FlokController extends Controller
         return response()->json(
             array(
                 'status' => 'ok',
-                'msg' => 'Flok berhasil diupdate'
+                'msg' => 'Flok '.$Flok->nama.' berhasil diubah'
             ),
             200
         );
