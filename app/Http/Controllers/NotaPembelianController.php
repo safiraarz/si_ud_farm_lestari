@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\NotaPembelian;
-use App\NotaPemesanan;
-use App\Supplier;
 use App\User;
 use App\Barang;
+use App\Supplier;
 use Carbon\Carbon;
+use App\NotaPembelian;
+use App\NotaPemesanan;
+use App\JurnalAkuntansi;
+use App\PeriodeAkuntansi;
+use App\TransaksiAkuntansi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -64,6 +67,7 @@ class NotaPembelianController extends Controller
     {
         // dd($request->barang);
         // dd($request->get('ketegori_nota'));
+
         
         $user = Auth::user();
         if( $request->get('no_pesanan_pembelian') != null ){
@@ -72,6 +76,7 @@ class NotaPembelianController extends Controller
             $data->nota_pemesanan_id = $request->get('no_pesanan_pembelian');
             $data->tgl_pembuatan_nota = $request->get('tanggal_pembuatan_nota');
             $data->cara_bayar = $request->get('cara_bayar');
+            $data->keterangan = $request->get('keterangan_pembelian');
             $data->pengguna_id = $user->id;
             $supplier = Supplier::find($request->get('supplier_id'));
             $supplier->notapembelian()->save($data);
@@ -97,17 +102,43 @@ class NotaPembelianController extends Controller
                 $total += $details['kuantitas'] * $details['harga'];
                 $data->barang()->attach($details['barang_id'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga']]);
             }
+            // update status di pemesanan
+            $pemesanan->status = "beli";
+            $pemesanan->save();
     
             $data->total_harga = $total;
             $saved = $data->save();
+
+            // Get Periode Aktif
+            $perid = PeriodeAkuntansi::where('status', '1')->first();
+            $periode_aktif_id = $perid->id;
+            // Add Transaksi
+            $new_transaksi = new TransaksiAkuntansi();
+            $new_transaksi->keterangan = $request->get('keterangan_pembelian');
+            $new_transaksi->save();
+            $id_transaksi = $new_transaksi->id;
+
+            // Jurnal Create
+        
+            $cara_bayar =  $request->get('cara_bayar') == 'tunai' ? 101 : 102;
+            $kategori_nota = $request->get('ketegori_nota');
+            $jurnal = new JurnalAkuntansi();
+            $jurnal->jenis = "umum";
+            $jurnal->tanggal_transaksi =$request->get('tanggal_pembuatan_nota');
+            $jurnal->no_bukti =$request->get('no_nota');
+            $jurnal->transaksi_id = $id_transaksi ;
+            $jurnal->periode_id = $periode_aktif_id;
+            $jurnal->save();
+            $jurnal->akun()->attach($cara_bayar,['no_urut' =>1,'nominal_debit' =>$total,'nominal_kredit'=>0]);
+            $jurnal->akun()->attach($kategori_nota,['no_urut' =>2,'nominal_debit' =>0,'nominal_kredit'=>$total]);
+
+
             return redirect()->route('notapembelian.index')->with('status', 'Berhasil menambahkan nota ' . $request->get('no_nota'));
         }
         else{
             return redirect()->route('nota.index')->with('error', 'Gagal menambahkan nota ');
 
         }
-
-        // return redirect()->route('notapembelian.index')->with('status', 'Berhasil Menambahkan Nota ' . $request->get('no_nota'));
     }
 
     /**

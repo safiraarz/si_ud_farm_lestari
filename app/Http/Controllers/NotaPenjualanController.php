@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Barang;
 use App\Customer;
-use App\NotaPenjualan;
 use App\Pengguna;
-use App\User;
 use Carbon\Carbon;
+use App\NotaPenjualan;
+use App\JurnalAkuntansi;
+use App\PeriodeAkuntansi;
+use App\TransaksiAkuntansi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -90,6 +93,30 @@ class NotaPenjualanController extends Controller
                 $data->barang()->attach($details['id_barang'], ['kuantitas' => $details['kuantitas'], 'harga' => $details['harga_barang']]);
             }
             $saved = $data->save();
+
+            // Get Periode Aktif
+            $perid = PeriodeAkuntansi::where('status', '1')->first();
+            $periode_aktif_id = $perid->id;
+            // Add Transaksi
+            $new_transaksi = new TransaksiAkuntansi();
+            $new_transaksi->keterangan = $request->get('keterangan_pembelian');
+            $new_transaksi->save();
+            $id_transaksi = $new_transaksi->id;
+
+            // Jurnal Create
+        
+            $cara_bayar =  $request->get('cara_bayar') == 'tunai' ? 101 : 102;
+            $kategori_nota = $request->get('ketegori_nota');
+            $jurnal = new JurnalAkuntansi();
+            $jurnal->jenis = "umum";
+            $jurnal->tanggal_transaksi =$request->get('tgl_transaksi');
+            $jurnal->no_bukti =$request->get('no_nota_penjualan');
+            $jurnal->transaksi_id = $id_transaksi ;
+            $jurnal->periode_id = $periode_aktif_id;
+            $jurnal->save();
+            $jurnal->akun()->attach($cara_bayar,['no_urut' =>1,'nominal_kredit' =>$request->get('total_harga_penjualan'),'nominal_debit'=>0]);
+            $jurnal->akun()->attach($kategori_nota,['no_urut' =>2,'nominal_kredit' =>0,'nominal_debit'=>$request->get('total_harga_penjualan')]);
+
             return redirect()->route('notapenjualan.index')->with('status', 'Berhasil menambahkan nota ' . $request->get('no_nota_penjualan'));
         }
         else{

@@ -161,7 +161,10 @@
                                     <select class="form-control" name="no_pesanan_pembelian" id="no_pesanan_pembelian">
                                         <option value="">==Pilih No. Pemesanan==</option>
                                         @foreach ($notapemesanan as $item)
+                                            @if ($item->status == "dalam proses")
+                                                
                                             <option value="{{ $item->id }}">{{ $item->no_nota }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </td>
@@ -189,7 +192,10 @@
                                     <select class="form-control" name="daftar_akun" id="daftar_akun">
                                         <option value="" selected>==Pilih akun==</option>
                                         @foreach ($akun as $item)
+                                            @if ($item->jenis_akun == "aset" && $item->no_akun != 000 && $item->no_akun != 101 && $item->no_akun != 102)
+                                                
                                             <option value="{{ $item->no_akun }}">{{ $item->nama }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </td>
@@ -201,15 +207,10 @@
                             <tr>
                                 <th>Keterangan</th>
                                 <td>
-                                    <textarea type="text" maxlength="150" id="keterangan" class="form-control"></textarea>
+                                    <textarea type="text" maxlength="150" id="keterangan_pembelian" class="form-control"></textarea>
                                 </td>
                             </tr>
-                            <tr>
-                                <th>
-                                    <input class="check" type="checkbox" name="asset_check" id="asset_check">
-                                    <label for="">Asset</label>
-                                </th>
-                            </tr>
+                            
                         </tbody>
                     </table>
                     <div role="alert" id="errorMsg" class="mt-5">
@@ -222,7 +223,8 @@
                         @csrf
                         <input type="hidden" id="cara_bayar_form" name="cara_bayar">
                         <input type="hidden" id="ketegori_nota_form" name="ketegori_nota">
-                        <input type="hidden" id="asset_checked_form" name="asset_checked_form">
+                        <input type="hidden" id="keterangan_pembelian_form" name="keterangan_pembelian">
+                
                         <div class="p-4">
                             <div class="text-center">
                                 <h4>Nota Pembelian</h4>
@@ -253,8 +255,9 @@
                                             <th>Nama Barang</th>
                                             <th>Kuantitas</th>
                                             <th>Harga</th>
-                                            <th class="asset_form" style="display: none;">Estimasi Pemakaian</th>
-                                            <th class="asset_form" style="display: none;">Nilai Residu</th>
+                                            <th>Satuan</th>
+                                            <th>Total</th>
+                             
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -321,7 +324,10 @@
                                     <select class="form-control" name="daftar_akun" id="daftar_akun_penjualan">
                                         <option value="" selected>==Pilih akun==</option>
                                         @foreach ($akun as $item)
-                                            <option value="{{ $item->no_akun }}">{{ $item->nama }}</option>
+                                        @if ($item->jenis_akun == 'pendapatan')
+                                                
+                                        <option value="{{ $item->no_akun }}">{{ $item->nama }}</option>
+                                        @endif
                                         @endforeach
                                     </select>
                                 </td>
@@ -333,7 +339,7 @@
                             <tr>
                                 <th>Keterangan</th>
                                 <td>
-                                    <textarea type="text" maxlength="150" id="keterangan" class="form-control"></textarea>
+                                    <textarea type="text" maxlength="150" id="keterangan_penjualan" class="form-control"></textarea>
                                 </td>
                             </tr>
                         </tbody>
@@ -391,6 +397,7 @@
                         @csrf
                         <input type="hidden" id="cara_bayar_form_penjualan" name="cara_bayar">
                         <input type="hidden" id="ketegori_nota_form_penjualan" name="ketegori_nota">
+                        <input type="hidden" id="keterangan_penjualan_form" name="keterangan_penjualan">
                         {{-- <input type="hidden" name="no_nota_penjualan" value="{{ $no_nota_penjualan }}">
                     <input type="hidden" name="tanggal_penjualan" value="{{ $date_now }}"> --}}
                         <div class="p-4">
@@ -457,16 +464,7 @@
 
 @section('javascript')
     <script>
-        $("#asset_check").on('change', function() {
-            if (this.checked) {
-                $('.asset_form').show();
-                $('#asset_checked_form').val(1);
-            } else {
-                $('.asset_form').hide();
-                $('#asset_checked_form').val(0);
-
-            }
-        });
+       
         $("#pilih_nota").on('change', function() {
             var pilihan = $(this).val();
             if (pilihan == "nota_pembelian") {
@@ -524,11 +522,13 @@
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
 
-            } else if (parseInt(harga) <= 0 || harga == '') {
-                var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka</span>';
+            } else if (parseInt(harga) <= 0 || harga == '' || harga.length > 9) {
+                var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka dengan benar</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
-            } else {
+            }
+        
+            else {
                 billFunction(); // Below Function passing here 
             }
 
@@ -597,9 +597,8 @@
 
         function maxminvalue(jenis, idx, value_) {
             var id = jenis + "_" + idx;
-
             var valueset = $("#" + id).val();
-            if (value_ < valueset || valueset <= 0) {
+            if (valueset.length > 9 || valueset <= 0) {
                 $("#" + id).val(value_);
             }
         }
@@ -617,14 +616,39 @@
         function findTotalPembelian() {
             var harga = 0;
             var kuantitas = 0;
+            var total_item = 0;
             var total = 0;
+            var i = 0;
             $('.harga_pembelian').each(function() {
-                harga = Number($(this).val()) || 0;
-                $('.kuantitas_pembelian').each(function() {
-                    kuantitas = Number($(this).val()) || 0;
-                });
-                total += (harga * kuantitas);
+                // harga = Number($(this).val()) || 0;
+                // $('.kuantitas_pembelian').each(function() {
+                //     kuantitas = Number($(this).val()) || 0;
+                  
+                // });
+
+                // total_item = harga * kuantitas;
+                
+                // total += (harga * kuantitas);
+                
+                i++; //
             });
+            // alert($('.harga_pembelian').length);
+            for(y=0 ; y<$('.harga_pembelian').length ; y++) {
+                var kuan = $('#kuantitas_pembelian_'+y).val();
+                var har = $('#harga_pembelian_'+y).val();
+
+
+                var tot = parseInt(kuan) * parseInt(har);
+                total += tot;
+                $('.total_item_pembelian_'+y).html(tot);
+
+            };
+            // for
+            //     $('.total_item_pembelian').each(function() {
+            //         // kuantitas = Number($(this).val()) || 0;
+            //         $(this).html(total_item);
+            //     });
+               
             $('#total_harga_Pembelian').val(total);
             $('#subTotal_Pembelian').html(total);
         };
@@ -632,11 +656,7 @@
         $("#no_pesanan_pembelian").on('change', function() {
             // alert("aa");
             $('#new__').html("");
-            // $('#asset_check').prop( "checked", false);
-            $('.checked').removeClass('checked');
-            $('.asset_form').hide();
-            $('.check').prop('checked', false);
-            $('#asset_checked_form').val(0);
+           
 
             var notapemesanan = [
                 @foreach ($notapemesanan as $item)
@@ -657,6 +677,7 @@
                                     "{{ $barangs->nama }}",
                                     "{{ $barangs->pivot->harga }}",
                                     "{{ $barangs->pivot->kuantitas }}",
+                                    "{{ $barangs->satuan }}",
                                 ],
                             @endforeach
                         ]
@@ -688,6 +709,7 @@
                         var barang_name = elements[1];
                         var harga = elements[2];
                         var kuantitas = elements[3];
+                        var total_item = parseInt(harga) * parseInt(kuantitas);
 
                         var table = '<tr class="list" id="row_' + index + '">' +
                             '<td>' + barang_name +
@@ -696,29 +718,29 @@
                             '</td>' +
 
                             '<td>' +
-                            '<input class="kuantitas_pembelian" id="kuantitas_' + index +
+                            '<input class="kuantitas_pembelian" id="kuantitas_pembelian_' + index +
                             '" type="number" onchange="maxminvalue(' +
-                            "'kuantitas'" + "," + index + "," + kuantitas +
+                            "'kuantitas_pembelian'" + "," + index + "," + kuantitas +
                             '),findTotalPembelian()" min="1" max="' + kuantitas +
                             '" name="barang[' + index + '][' + "kuantitas" + ']" value=' +
                             thousands_separators(kuantitas) + '>' +
                             '</td>' +
                             '<td>' +
-                            '<input class="harga_pembelian" id="harga_' + index +
+                            '<input class="harga_pembelian" id="harga_pembelian_' + index +
                             '" type="number" onchange="maxminvalue(' +
-                            "'harga'" + "," + index + "," + harga +
-                            '),findTotalPembelian()"  min="1" max="' + harga +
+                            "'harga_pembelian'" + "," + index + "," + harga +
+                            '),findTotalPembelian()"  min="1" max="' + 999999999 +
                             '" name="barang[' + index + '][' + "harga" + ']" value="' + harga + '"">' +
                             '</td>' +
-                            '<td class="asset_form" style="display: none;">' +
-                            '<input  id="estimasi_pemakaian_' + index + '" type="number" min="1"' +
-                            '" name="barang[' + index + '][' + "estimasi_pemakaian" + ']" >' +
-                            '</td>' +
-                            '<td class="asset_form" style="display: none;">' +
-                            '<input  id="nilai_residu_' + index + '" type="number"  min="1"' +
-                            '" name="barang[' + index + '][' + "nilai_residu" + ']">' +
+
+                            '<td class="satuan_pembelian">' + 
+                                elements[4] +
                             '</td>' +
 
+                            '<td class="total_item_pembelian_'+index+'">' +
+                                // total_item
+                            '</td>' +
+                           
                             '<td>' +
                             '<a class="btn btn-danger barang_delete" onclick="deleteDataPembelian(' +
                             index + ')"><i class="fa fa-trash-o"></i></a></a>' +
@@ -727,8 +749,9 @@
                             '</tr>';
                         // alert(table);
                         $('#new__').append(table);
-                        findTotalPembelian();
+                        
                         // $('#bahan_pesanan_row').append(table);
+                        findTotalPembelian();
                     }
                 }
             });
@@ -763,8 +786,8 @@
                 var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
-            } else if (parseInt(harga) <= 0 || harga == '') {
-                var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka</span>';
+            } else if (parseInt(harga) <= 0 || harga == '' || harga.length > 9) {
+                var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka dengan benar</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             } else if (parseInt(kuantitas_bahan_baku_ready) < parseInt(kuantitas) || kuantitas_bahan_baku_ready ==
@@ -867,6 +890,17 @@
             // alert(daftar_akun);
             $('#ketegori_nota_form_penjualan').val(daftar_akun);
         });
+        $("#keterangan_pembelian").on('change', function() {
+            var daftar_akun = $("#keterangan_pembelian").val();
+            // alert(daftar_akun);
+            $('#keterangan_pembelian_form').val(daftar_akun);
+        });
+        $("#keterangan_penjualan").on('change', function() {
+            var daftar_akun = $("#keterangan_penjualan").val();
+            // alert(daftar_akun);
+            $('#keterangan_penjualan_form').val(daftar_akun);
+        });
+        
     </script>
 @endsection
 

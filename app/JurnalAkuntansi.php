@@ -20,7 +20,7 @@ class JurnalAkuntansi extends Model
     }
 
     public function akun(){
-        return $this->belongsToMany('App\AkunAkuntansi','jurnal_has_akun','jurnal_id','akun_no_akun')->withPivot('no_urut','nominal_debit','nominal_kredit')->orderBy('no_urut', 'asc');;
+        return $this->belongsToMany('App\AkunAkuntansi','jurnal_has_akun','jurnal_id','akun_no_akun')->withPivot('no_urut','nominal_debit','nominal_kredit')->orderBy('no_urut', 'asc');
     }
 
     public static function jenis_saldo($jenis_akun,$no_akun){
@@ -105,18 +105,18 @@ class JurnalAkuntansi extends Model
                          if($no_reff == 3){
                             if($jenis_saldo == "kredit"){
                                 if($jurnalakun->pivot->nominal_kredit != 0){
-                                    $jurnal_penutup += $jurnalakun->pivot->nominal_kredit ;
-                                }
-                                else{
-                                    $jurnal_penutup  -= $jurnalakun->pivot->nominal_debit;
-                                }
-                            }
-                            else{
-                                if($jurnalakun->pivot->nominal_kredit != 0){
                                     $jurnal_penutup -= $jurnalakun->pivot->nominal_kredit ;
                                 }
                                 else{
                                     $jurnal_penutup  += $jurnalakun->pivot->nominal_debit;
+                                }
+                            }
+                            else{
+                                if($jurnalakun->pivot->nominal_kredit != 0){
+                                    $jurnal_penutup += $jurnalakun->pivot->nominal_kredit ;
+                                }
+                                else{
+                                    $jurnal_penutup  -= $jurnalakun->pivot->nominal_debit;
                                 }
                             }
                            
@@ -134,15 +134,15 @@ class JurnalAkuntansi extends Model
                             }
                             
                             $detail = [
-                                'tanggal' => $jurnal->tanggal_transaksi->format('Y-m-d'),
+                                'tanggal' => $jurnal->tanggal_transaksi,
                                 'no_bukti' => $jurnal->no_bukti,
                                 'no_ref' => $no_reff,
                                 'selisih'=>$jenis_saldo,
                                 'keterangan' => $jurnal->transaksi->keterangan,
                                 'debit'=> $jurnalakun->pivot->nominal_debit,
                                 'kredit'=> $jurnalakun->pivot->nominal_kredit,
-                                'saldo_debit' => ( $jenis_saldo == "debet" ) ? abs($jurnal_penutup) : 0,
-                                'saldo_kredit' => ( $jenis_saldo == "kredit" ) ? abs($jurnal_penutup): 0,
+                                'saldo_debit' => ( $jenis_saldo == "debet" ) ? abs($selisih) : 0,
+                                'saldo_kredit' => ( $jenis_saldo == "kredit" ) ? abs($selisih): 0,
                             ];
      
                         }
@@ -173,7 +173,7 @@ class JurnalAkuntansi extends Model
                             
                             $total_sel = $saldo_jurnal_ekses;
                             $detail = [
-                                'tanggal' => $jurnal->tanggal_transaksi->format('Y-m-d'),
+                                'tanggal' => $jurnal->tanggal_transaksi,
                                 'no_bukti' => $jurnal->no_bukti,
                                 'no_ref' => $no_reff,
                                 'jenis_saldo' =>$jenis_saldo,

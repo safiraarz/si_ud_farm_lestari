@@ -86,7 +86,7 @@
                                     
                                 </td>
                                 <td>
-                                    {{  number_format($items['no_bukti']) }}
+                                    {{  $items['no_bukti'] }}
                                 
                                 </td>
                             </tr>
