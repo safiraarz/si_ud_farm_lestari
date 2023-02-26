@@ -99,7 +99,7 @@ class NotaPenjualanController extends Controller
             $periode_aktif_id = $perid->id;
             // Add Transaksi
             $new_transaksi = new TransaksiAkuntansi();
-            $new_transaksi->keterangan = $request->get('keterangan_pembelian');
+            $new_transaksi->keterangan = $request->get('keterangan_penjualan');
             $new_transaksi->save();
             $id_transaksi = $new_transaksi->id;
 

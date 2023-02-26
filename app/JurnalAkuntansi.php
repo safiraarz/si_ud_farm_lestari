@@ -105,18 +105,18 @@ class JurnalAkuntansi extends Model
                          if($no_reff == 3){
                             if($jenis_saldo == "kredit"){
                                 if($jurnalakun->pivot->nominal_kredit != 0){
-                                    $jurnal_penutup -= $jurnalakun->pivot->nominal_kredit ;
-                                }
-                                else{
-                                    $jurnal_penutup  += $jurnalakun->pivot->nominal_debit;
-                                }
-                            }
-                            else{
-                                if($jurnalakun->pivot->nominal_kredit != 0){
                                     $jurnal_penutup += $jurnalakun->pivot->nominal_kredit ;
                                 }
                                 else{
                                     $jurnal_penutup  -= $jurnalakun->pivot->nominal_debit;
+                                }
+                            }
+                            else{
+                                if($jurnalakun->pivot->nominal_kredit != 0){
+                                    $jurnal_penutup -= $jurnalakun->pivot->nominal_kredit ;
+                                }
+                                else{
+                                    $jurnal_penutup  += $jurnalakun->pivot->nominal_debit;
                                 }
                             }
                            
@@ -291,7 +291,7 @@ class JurnalAkuntansi extends Model
         }
         $pendapatan = [
             'no_akun'=> 000,
-            'nama_akun'=> "Ikhtiar Laba Rugi",
+            'nama_akun'=> " Laba Rugi",
             'saldo' => $laba_rugi['laba_rugi']
         ];
         array_push( $perubahan_ekuitas['list'], $pendapatan);
