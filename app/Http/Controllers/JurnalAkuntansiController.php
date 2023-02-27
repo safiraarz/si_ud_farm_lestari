@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\AkunAkuntansi;
 use App\JurnalAkuntansi;
 use App\PeriodeAkuntansi;
+use App\TransaksiAkuntansi;
 use Illuminate\Http\Request;
 
 class JurnalAkuntansiController extends Controller
@@ -29,6 +31,9 @@ class JurnalAkuntansiController extends Controller
     public function create()
     {
         //
+        $periode = PeriodeAkuntansi::where('status', '1')->get();
+        $akun = AkunAkuntansi::all();
+        return view('jurnal.create',compact('periode', 'akun'));
     }
 
     /**
@@ -40,6 +45,43 @@ class JurnalAkuntansiController extends Controller
     public function store(Request $request)
     {
         //
+        // dd($request->get("jurnal") );
+        if( $request->get('jurnal') != null && $request->get('jenis_jurnal') != null ){
+             // Get Periode Aktif
+             $perid = PeriodeAkuntansi::where('status', '1')->first();
+             $periode_aktif_id = $perid->id;
+             // Add Transaksi
+             $new_transaksi = new TransaksiAkuntansi();
+             $new_transaksi->keterangan = $request->get('keterangan_input');
+             $new_transaksi->save();
+             $id_transaksi = $new_transaksi->id;
+ 
+             // Jurnal Create
+             $jurnal = new JurnalAkuntansi();
+             $jurnal->jenis =$request->get('jenis_jurnal');
+             $jurnal->tanggal_transaksi =$request->get('tgl_pencatatan');
+             $jurnal->no_bukti =$request->get('no_bukti');
+             $jurnal->transaksi_id = $id_transaksi ;
+             $jurnal->periode_id = $periode_aktif_id;
+             $jurnal->save();
+            foreach($request->get("jurnal") as $details) 
+            {
+                // dd($details);
+                $jurnal->akun()->attach(
+                    $details['no_akun'],
+                    [
+                        'no_urut' =>$details['no_urut'],
+                        'nominal_kredit' =>$details['nominal_kredit'],
+                        'nominal_debit'=>$details['nominal_debit']
+                    ]);
+            }
+         
+            return redirect()->route('jurnal_akuntansi.index')->with('status', 'Berhasil Menambahkan Jurnal ' . $request->get('jenis_jurnal'));
+
+        }
+        else{
+            return redirect()->route('jurnal_akuntansi.index')->with('error', 'Gagal Menambahkan Jurnal');
+        }
     }
 
     /**

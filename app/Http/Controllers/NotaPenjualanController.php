@@ -115,7 +115,7 @@ class NotaPenjualanController extends Controller
             $jurnal->periode_id = $periode_aktif_id;
             $jurnal->save();
             $jurnal->akun()->attach($cara_bayar,['no_urut' =>1,'nominal_kredit' =>$request->get('total_harga_penjualan'),'nominal_debit'=>0]);
-            $jurnal->akun()->attach($kategori_nota,['no_urut' =>2,'nominal_kredit' =>0,'nominal_debit'=>$request->get('total_harga_penjualan')]);
+            $jurnal->akun()->attach($kategori_nota,['no_urut' =>2,'nominal_kredi' =>0,'nominal_debit'=>$request->get('total_harga_penjualan')]);
 
             return redirect()->route('notapenjualan.index')->with('status', 'Berhasil menambahkan nota ' . $request->get('no_nota_penjualan'));
         }

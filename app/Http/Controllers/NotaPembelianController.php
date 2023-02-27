@@ -86,9 +86,6 @@ class NotaPembelianController extends Controller
             // dd($pemesanan->barang);
             foreach($request->get("barang") as $details) 
             {
-                if($request->get('asset_checked_form')==1){
-    
-                }
                 foreach ($pemesanan->barang as $value) {
                     if($value->id == $details['barang_id']){
                         $kuantitas_old = $value->pivot->kuantitas;
@@ -129,8 +126,8 @@ class NotaPembelianController extends Controller
             $jurnal->transaksi_id = $id_transaksi ;
             $jurnal->periode_id = $periode_aktif_id;
             $jurnal->save();
-            $jurnal->akun()->attach($cara_bayar,['no_urut' =>1,'nominal_debit' =>$total,'nominal_kredit'=>0]);
-            $jurnal->akun()->attach($kategori_nota,['no_urut' =>2,'nominal_debit' =>0,'nominal_kredit'=>$total]);
+            $jurnal->akun()->attach($cara_bayar,['no_urut' =>1,'nominal_kredit' =>$total,'nominal_debit'=>0]);
+            $jurnal->akun()->attach($kategori_nota,['no_urut' =>2,'nominal_kredit' =>0,'nominal_debit'=>$total]);
 
 
             return redirect()->route('notapembelian.index')->with('status', 'Berhasil menambahkan nota ' . $request->get('no_nota'));

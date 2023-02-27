@@ -274,6 +274,10 @@ License: You must have a valid license purchased only from themeforest(the above
                                 </a>
                             </li>
                             <li>
+                                <a href="{{ route('jurnal_akuntansi.create') }}" class="title">Tambah Jurnal
+                                </a>
+                            </li>
+                            <li>
                                 <a href="{{ route('jurnal_akuntansi.index') }}">
                                     <span class="title">Jurnal</span>
                                 </a>
