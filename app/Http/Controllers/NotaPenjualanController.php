@@ -7,6 +7,7 @@ use App\Barang;
 use App\Customer;
 use App\Pengguna;
 use Carbon\Carbon;
+use App\AkunAkuntansi;
 use App\NotaPenjualan;
 use App\JurnalAkuntansi;
 use App\PeriodeAkuntansi;
@@ -98,15 +99,19 @@ class NotaPenjualanController extends Controller
             $perid = PeriodeAkuntansi::where('status', '1')->first();
             $periode_aktif_id = $perid->id;
             // Add Transaksi
+            $cara_bayar =  $request->get('cara_bayar') == 'tunai' ? 101 : 102;
+            $kategori_nota = $request->get('ketegori_nota');
+            $kat_nota = AkunAkuntansi::find($request->get('ketegori_nota'));
+            $ket = "Menjual ".$kat_nota->nama." Sebesar Rp ".number_format($request->get('total_harga_penjualan'))." Secara ".$request->get('cara_bayar')." ( ".$request->get('keterangan_penjualan')." )";
+            
             $new_transaksi = new TransaksiAkuntansi();
-            $new_transaksi->keterangan = $request->get('keterangan_penjualan');
+            $new_transaksi->keterangan = $ket;
             $new_transaksi->save();
             $id_transaksi = $new_transaksi->id;
 
             // Jurnal Create
         
-            $cara_bayar =  $request->get('cara_bayar') == 'tunai' ? 101 : 102;
-            $kategori_nota = $request->get('ketegori_nota');
+         
             $jurnal = new JurnalAkuntansi();
             $jurnal->jenis = "umum";
             $jurnal->tanggal_transaksi =$request->get('tgl_transaksi');
@@ -115,7 +120,7 @@ class NotaPenjualanController extends Controller
             $jurnal->periode_id = $periode_aktif_id;
             $jurnal->save();
             $jurnal->akun()->attach($cara_bayar,['no_urut' =>1,'nominal_kredit' =>$request->get('total_harga_penjualan'),'nominal_debit'=>0]);
-            $jurnal->akun()->attach($kategori_nota,['no_urut' =>2,'nominal_kredi' =>0,'nominal_debit'=>$request->get('total_harga_penjualan')]);
+            $jurnal->akun()->attach($kategori_nota,['no_urut' =>2,'nominal_kredit' =>0,'nominal_debit'=>$request->get('total_harga_penjualan')]);
 
             return redirect()->route('notapenjualan.index')->with('status', 'Berhasil menambahkan nota ' . $request->get('no_nota_penjualan'));
         }

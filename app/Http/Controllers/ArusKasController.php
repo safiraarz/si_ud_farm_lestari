@@ -17,7 +17,12 @@ class ArusKasController extends Controller
     {
         $periode = PeriodeAkuntansi::all();
         $queryBuilder = JurnalAkuntansi::all();
-        return view('aruskas.index', ['data' => $queryBuilder,'periode'=>$periode]);
+        $arus_kas = new JurnalAkuntansi();
+        // JurnalAkuntansi::bukubesar();
+        // $buku_besar->jenis_saldo("");
+        $arus_kas = $arus_kas->arus_kas();
+        // dd($arus_kas);
+        return view('aruskas.index', ['data' => $arus_kas,'periode'=>$periode]);
     }
 
     /**

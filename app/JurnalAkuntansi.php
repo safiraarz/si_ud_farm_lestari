@@ -4,6 +4,7 @@ namespace App;
 
 use App\AkunAkuntansi;
 use App\JurnalAkuntansi;
+use App\PeriodeAkuntansi;
 use Illuminate\Database\Eloquent\Model;
 
 class JurnalAkuntansi extends Model
@@ -72,7 +73,10 @@ class JurnalAkuntansi extends Model
         $buku_besar2 = [];
         $buku_besar = new JurnalAkuntansi();
         $akuns = AkunAkuntansi::all();
-        $jurnals = JurnalAkuntansi::all();
+        // Get Periode Aktif
+        $perid = PeriodeAkuntansi::where('status', '1')->first();
+        $periode_aktif_id = $perid->id;
+        $jurnals = JurnalAkuntansi::where('periode_id',$periode_aktif_id)->get();
         // $jurnals_detail =  DB::select(DB::raw("SELECT * FROM `jurnal_has_akun`"));
         foreach ($akuns as $akun) {
             $tumpung['saldo_awal_kredit'] = 0;
@@ -134,6 +138,7 @@ class JurnalAkuntansi extends Model
                             }
                             
                             $detail = [
+                                'jurnal_id' => $jurnal->id,
                                 'tanggal' => $jurnal->tanggal_transaksi,
                                 'no_bukti' => $jurnal->no_bukti,
                                 'no_ref' => $no_reff,
@@ -173,6 +178,7 @@ class JurnalAkuntansi extends Model
                             
                             $total_sel = $saldo_jurnal_ekses;
                             $detail = [
+                                'jurnal_id' => $jurnal->id,
                                 'tanggal' => $jurnal->tanggal_transaksi,
                                 'no_bukti' => $jurnal->no_bukti,
                                 'no_ref' => $no_reff,
@@ -362,6 +368,149 @@ class JurnalAkuntansi extends Model
         $neraca['total_pasiva'] = $total_kewajiban + $total_ekuitas;
         
         return $neraca;
+    }
+
+    public static function arus_kas(){
+        $newjurnal = new JurnalAkuntansi();
+        $buku_besar = $newjurnal->bukubesar();
+        $akuns = AkunAkuntansi::all();
+ 
+        $penerimaan_dari_pelanggan = 0;
+        $pembayaran_ke_pemasok = 0;
+        $pembelian_aset_tetap = 0;
+        $pembayaran_biaya_biaya = 0;
+        $koreksi = 0;
+
+        $saldo_awal_kredit = 0;
+        $saldo_awal_debit = 0;
+
+        // dd($buku_besar);
+
+
+            foreach ($buku_besar as $bukubesar) {
+
+                if($bukubesar['no_akun'] == 101){
+                    $saldo_awal_debit += $bukubesar['saldo_awal_debet'];
+                    $saldo_awal_kredit += $bukubesar['saldo_awal_kredit'];
+
+                    
+                    foreach ($bukubesar['list'] as $list) {
+                        $jurnalData = JurnalAkuntansi::find($list['jurnal_id']);
+                        if(count($jurnalData->akun) > 2){
+                            // echo 'Test '.count($jurnalData->akun).'<br>';
+                            foreach ($jurnalData->akun as $akunjur) {
+
+                                if($akunjur->no_akun != 101){
+                                    $koreksi = $akunjur->pivot->nominal_debit != 0 ? ( $koreksi + $akunjur->pivot->nominal_debit) : ( $koreksi- $akunjur->pivot->nominal_kredit) ;
+    
+                                }
+                            }
+                        }
+                        else{
+                            foreach ($jurnalData->akun as $akunjur) {
+                                # code...
+                                if($akunjur->no_akun != 101){
+                                    // Where Pendapatan
+                                    if($akunjur->jenis_akun == 'pendapatan'){
+                                        // echo $jurnalData->id.'<br>';
+                                        // echo 'debit '.$akunjur->pivot->nominal_debit.'<br>';
+                                        // echo 'kredit '.$akunjur->pivot->nominal_kredit.'<br>';
+
+                                        $penerimaan_dari_pelanggan = $akunjur->pivot->nominal_debit != 0 ? ( $penerimaan_dari_pelanggan + $akunjur->pivot->nominal_debit) : ( $penerimaan_dari_pelanggan - $akunjur->pivot->nominal_kredit) ;
+                                    }
+                                    if($akunjur->jenis_akun == 'aset' && $akunjur->no_akun != 102 && $akunjur->no_akun != 110 && $akunjur->no_akun != 111){
+                                        // echo 'Asset <br>';
+                                        
+                                        // echo $jurnalData->id.'<br>';
+                                        $pembayaran_ke_pemasok = $akunjur->pivot->nominal_debit != 0 ? ( $pembayaran_ke_pemasok + $akunjur->pivot->nominal_debit) : ( $pembayaran_ke_pemasok - $akunjur->pivot->nominal_kredit) ;
+
+                                    }
+                                    if($akunjur->jenis_akun =='biaya'){
+                                        $pembayaran_biaya_biaya = $akunjur->pivot->nominal_debit != 0 ? (  $pembayaran_biaya_biaya + $akunjur->pivot->nominal_debit) : (  $pembayaran_biaya_biaya - $akunjur->pivot->nominal_kredit) ;
+
+                                    }
+                                    if($akunjur->no_akun==110){
+                                        $pembelian_aset_tetap = $akunjur->pivot->nominal_debit != 0 ? (  $pembelian_aset_tetap + $akunjur->pivot->nominal_debit) : (  $pembelian_aset_tetap - $akunjur->pivot->nominal_kredit) ;
+                                    }
+                                    // dd();
+                                }
+                            }
+                        }
+                       
+                  
+                    }
+                }
+                
+                if($bukubesar['no_akun'] == 102){
+                    $saldo_awal_debit += $bukubesar['saldo_awal_debet'];
+                    $saldo_awal_kredit += $bukubesar['saldo_awal_kredit'];
+                    foreach ($bukubesar['list'] as $list) {
+                        $jurnalData = JurnalAkuntansi::find($list['jurnal_id']);
+                        if(count($jurnalData->akun) > 2){
+                            // echo 'Test '..'<br>';
+                            foreach ($jurnalData->akun as $akunjur) {
+
+                                if($akunjur->no_akun != 102){
+                                    $koreksi = $akunjur->pivot->nominal_debit != 0 ? ( $koreksi + $akunjur->pivot->nominal_debit) : ( $koreksi- $akunjur->pivot->nominal_kredit) ;
+    
+                                }
+                            }
+                        }
+                        else{
+                            foreach ($jurnalData->akun as $akunjur) {
+                                # code...
+                                if($akunjur->no_akun != 102){
+                                    // Where Pendapatan
+                                    if($akunjur->jenis_akun == 'pendapatan'){
+                                        // echo $jurnalData->id.'<br>';
+                                        // echo 'debit '.$akunjur->pivot->nominal_debit.'<br>';
+                                        // echo 'kredit '.$akunjur->pivot->nominal_kredit.'<br>';
+
+                                        $penerimaan_dari_pelanggan = $akunjur->pivot->nominal_debit != 0 ? ( $penerimaan_dari_pelanggan + $akunjur->pivot->nominal_debit) : ( $penerimaan_dari_pelanggan - $akunjur->pivot->nominal_kredit) ;
+                                    }
+                                    if($akunjur->jenis_akun == 'aset' && $akunjur->no_akun != 101 && $akunjur->no_akun != 110 && $akunjur->no_akun != 111){
+                                        // echo 'Asset <br>';
+                                        
+                                        // echo $jurnalData->id.'<br>';
+                                        $pembayaran_ke_pemasok = $akunjur->pivot->nominal_debit != 0 ? ( $pembayaran_ke_pemasok + $akunjur->pivot->nominal_debit) : ( $pembayaran_ke_pemasok - $akunjur->pivot->nominal_kredit) ;
+
+                                    }
+                                    if($akunjur->jenis_akun =='biaya'){
+                                        $pembayaran_biaya_biaya = $akunjur->pivot->nominal_debit != 0 ? (  $pembayaran_biaya_biaya + $akunjur->pivot->nominal_debit) : (  $pembayaran_biaya_biaya - $akunjur->pivot->nominal_kredit) ;
+
+                                    }
+                                    if($akunjur->no_akun==110){
+                                        $pembelian_aset_tetap = $akunjur->pivot->nominal_debit != 0 ? (  $pembelian_aset_tetap + $akunjur->pivot->nominal_debit) : (  $pembelian_aset_tetap - $akunjur->pivot->nominal_kredit) ;
+                                    }
+                                    // dd();
+                                }
+                            }
+                        }
+                       
+                  
+                    }
+                }
+           
+             
+            }
+            
+        
+        $arus_kas['saldo_awal'] = $saldo_awal_debit != 0 ?  $saldo_awal_debit :  $saldo_awal_kredit;
+        $arus_kas['penerimaan_dari_pelanggan'] = abs($penerimaan_dari_pelanggan);
+        $arus_kas['pembayaran_ke_pemasok'] = abs($pembayaran_ke_pemasok);
+        $arus_kas['pembayaran_biaya_biaya'] = abs($pembayaran_biaya_biaya);
+
+        $arus_kas['pembelian_aset_tetap'] = abs($pembelian_aset_tetap);
+        $arus_kas['koreksi'] = abs($koreksi);
+        $tampung = $penerimaan_dari_pelanggan + $pembayaran_ke_pemasok + $pembayaran_biaya_biaya +$pembelian_aset_tetap + $koreksi;
+
+        $arus_kas['saldo_akhir'] = $arus_kas['saldo_awal'] - $tampung  ;
+        return $arus_kas;
+
+    }
+
+    public static function penutupan(){
+        
     }
 
 }

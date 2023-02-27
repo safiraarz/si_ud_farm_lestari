@@ -218,7 +218,7 @@
                 </div>
 
                 <div class="col-md-7  mt-4" style="background-color:#f5f5f5;">
-                    <form action="{{ route('notapembelian.store') }}" method="post" enctype="multipart/form-data"
+                    <form id="form_pembelian" action="{{ route('notapembelian.store') }}" method="post" enctype="multipart/form-data"
                         class="form-horizontal">
                         @csrf
                         <input type="hidden" id="cara_bayar_form" name="cara_bayar">
@@ -612,6 +612,19 @@
             $('#subTotal').text(thousands_separators(totalPayment));
             $('#total_harga').val(totalPayment);
         };
+        $("#form_pembelian").on('submit', function() {
+            alert("test");
+        // var name = $.trim($('#log').val());
+        $('.harga_pembelian').each(function() {
+            var harga = Number($(this).val()) || 0;
+            alert(harga);
+            if(harga.length > 9){
+
+                return false;
+            }
+        });
+        });
+       
 
         function findTotalPembelian() {
             var harga = 0;

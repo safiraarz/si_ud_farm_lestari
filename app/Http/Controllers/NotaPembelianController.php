@@ -6,6 +6,7 @@ use App\User;
 use App\Barang;
 use App\Supplier;
 use Carbon\Carbon;
+use App\AkunAkuntansi;
 use App\NotaPembelian;
 use App\NotaPemesanan;
 use App\JurnalAkuntansi;
@@ -70,6 +71,7 @@ class NotaPembelianController extends Controller
 
         
         $user = Auth::user();
+ 
         if( $request->get('no_pesanan_pembelian') != null ){
             $data = new NotaPembelian();
             $data->no_nota = $request->get('no_nota');
@@ -110,15 +112,18 @@ class NotaPembelianController extends Controller
             $perid = PeriodeAkuntansi::where('status', '1')->first();
             $periode_aktif_id = $perid->id;
             // Add Transaksi
+            $cara_bayar =  $request->get('cara_bayar') == 'tunai' ? 101 : 102;
+            $kategori_nota = $request->get('ketegori_nota');
+            $kat_nota = AkunAkuntansi::find($request->get('ketegori_nota'));
             $new_transaksi = new TransaksiAkuntansi();
-            $new_transaksi->keterangan = $request->get('keterangan_pembelian');
+            $ket = "Membeli ".$kat_nota->nama." Sebesar Rp ".number_format($total)." Secara ".$request->get('cara_bayar')." ( ".$request->get('keterangan_pembelian')." )";
+            $new_transaksi->keterangan = $ket;
             $new_transaksi->save();
             $id_transaksi = $new_transaksi->id;
 
             // Jurnal Create
         
-            $cara_bayar =  $request->get('cara_bayar') == 'tunai' ? 101 : 102;
-            $kategori_nota = $request->get('ketegori_nota');
+           
             $jurnal = new JurnalAkuntansi();
             $jurnal->jenis = "umum";
             $jurnal->tanggal_transaksi =$request->get('tanggal_pembuatan_nota');

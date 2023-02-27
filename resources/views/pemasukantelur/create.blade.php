@@ -62,6 +62,7 @@
                                 <th>Nama Telur</th>
                                 <td>
                                     <select name="nama_telur" id="nama_telur" class="form-control">
+                                        <option value="">== Pilih ==</option>
                                         @foreach ($barang as $row)
                                             @if ($row->jenis == 'Barang Jadi')
                                                 <option id={{ $row->id }} value="{{ $row->nama }}"
@@ -80,12 +81,18 @@
                                     <input type="number" name="kuantitas_bersih" id="kuantitas_bersih" min="0"
                                         max="99999999999" value="0" class="form-control">
                                 </td>
+                                <td>
+                                    <label for="" id="satuan" class="satuan">Satuan</label>
+                                </td>
                             </tr>
                             <tr>
                                 <th>Kuantitas Reject</th>
                                 <td>
                                     <input type="number" name="kuantitas_reject" id="kuantitas_reject" min="0"
                                         max="99999999999" value="0" class="form-control">
+                                </td>
+                                <td>
+                                    <label for="" id="satuan" class="satuan">Satuan</label>
                                 </td>
                             </tr>
                             <td><button id="tambah" class="btn btn-success">Tambah</button></td>
@@ -154,6 +161,14 @@
         // if (count != 1) {
 
         // };
+
+           
+        
+        $('#nama_telur').on('change', function() {
+            var satuan = $(this).find(':selected').attr('satuan');
+            $('.satuan').html(satuan);
+        });
+
         function deleteData(id) {
             $('#row_' + id).html("");
         };
@@ -180,6 +195,7 @@
             var kuantitas_reject = $('#kuantitas_reject').val();
             var kuantitas_total = parseInt(kuantitas_bersih) + parseInt(kuantitas_reject);
             var satuan = $('#nama_telur').find(':selected').attr('satuan');
+            // $('.satuan').html(satuan);
             // alert(nama_telur + kuantitas_total + satuan);
 
             var tgl_pencatatan = $('#tgl_pencatatan').val();

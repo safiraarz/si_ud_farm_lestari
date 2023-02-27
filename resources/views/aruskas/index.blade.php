@@ -33,34 +33,26 @@
                             <tbody>
                                 <tr>
                                     <td style="width:65%">
-                                        Pembayaran ke Supplier
+                                        Penerimaan Dari Pelanggan
                                     </td>
                                     <td style="width:35%">
-                                        Rp 15.000.000,00
+                                        Rp {{  number_format($data['penerimaan_dari_pelanggan']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="width:65%">
-                                        Pembayaran ke Biaya
+                                        Pembayaran ke Pemasok
                                     </td>
                                     <td style="width:35%">
-                                        Rp 20.000.000,00
+                                        Rp {{  number_format($data['pembayaran_ke_pemasok']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="width:65%">
-                                        Pengembalian Pribadi Pemilik
+                                        Pembayaran Ke Biaya-Biaya
                                     </td>
                                     <td style="width:35%">
-                                        Rp 20.000.000,00
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width:65%">
-                                        Akumulasi Penyusutan Peralatan
-                                    </td>
-                                    <td style="width:35%">
-                                        Rp 5.000.000,00
+                                        Rp {{  number_format($data['pembayaran_biaya_biaya']) }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -83,7 +75,7 @@
                                         Pembelian Aset Tetap
                                     </td>
                                     <td style="width:35%">
-                                        Rp 2.000.000,00
+                                        Rp {{  number_format($data['pembelian_aset_tetap']) }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -106,7 +98,7 @@
                                         Koreksi
                                     </td>
                                     <td style="width:35%">
-                                        Rp 1.000.000,00
+                                        Rp {{  number_format($data['koreksi']) }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -119,10 +111,10 @@
                             <tfoot>
                                 <tr>
                                     <th style="width:65%">
-                                        Saldo akhir kas per 31 Maret 2023 :
+                                        Saldo akhir kas  :
                                     </th>
                                     <th style="width:35%">
-                                        Rp 30.000.000
+                                        Rp {{  number_format($data['saldo_akhir']) }}
                                     </th>
                                 </tr>
                             </tfoot>

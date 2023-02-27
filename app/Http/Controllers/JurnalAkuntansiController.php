@@ -7,6 +7,7 @@ use App\JurnalAkuntansi;
 use App\PeriodeAkuntansi;
 use App\TransaksiAkuntansi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class JurnalAkuntansiController extends Controller
 {
@@ -18,9 +19,13 @@ class JurnalAkuntansiController extends Controller
     public function index()
     {
         $periode = PeriodeAkuntansi::all();
-        $queryBuilder = JurnalAkuntansi::all();
+        // $queryBuilder = JurnalAkuntansi::all();
+         // Get Periode Aktif
+         $perid = PeriodeAkuntansi::where('status', '1')->first();
+         $periode_aktif_id = $perid->id;
+         $jurnals = JurnalAkuntansi::where('periode_id',$periode_aktif_id)->get();
         // dd($queryBuilder);
-        return view('jurnal.index', ['data' => $queryBuilder,'periode'=>$periode]);
+        return view('jurnal.index', ['data' => $jurnals,'periode'=>$periode]);
     }
 
     /**
@@ -33,7 +38,10 @@ class JurnalAkuntansiController extends Controller
         //
         $periode = PeriodeAkuntansi::where('status', '1')->get();
         $akun = AkunAkuntansi::all();
-        return view('jurnal.create',compact('periode', 'akun'));
+        // Generate No Bukti
+        $new_count = DB::connection('akuntansi')->select(DB::raw("SELECT MAX(SUBSTRING(no_bukti,-2)) + 1 as NewCount FROM jurnal WHERE SUBSTRING(no_bukti,1,1) = 'K'; "));
+        $no_bukti_generator = 'K'.str_pad($new_count[0]->NewCount, 3, "0", STR_PAD_LEFT);
+        return view('jurnal.create',compact('periode', 'akun','no_bukti_generator'));
     }
 
     /**

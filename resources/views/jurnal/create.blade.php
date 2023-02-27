@@ -19,33 +19,17 @@
                     <table class="table" style="background-color:#e0e0e0;">
                         <thead>
                             <tr>
-                                <th style="width:35">Jenis Jurnal</th>
+                
                                 <th style="width:35%">Tanggal Pencatatan</th>
-                                <th style="width:30%">No Bukti</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>
-                                    <select name="jurnal" id="jurnal" class="form-control">
-                                        <option value="" selected>==Pilih Jurnal==</option>
-                                            <option value="umum" class="barang custom-select">
-                                                Umum
-                                            </option>
-                                            <option value="umum" class="barang custom-select">
-                                                Penyesuaian
-                                            </option>
-                                            <option value="umum" class="barang custom-select">
-                                                Penutup
-                                            </option>
-                                    </select>
-                                </td>
+                                
                                 <td>
                                     <input type="date" id="tgl_pencatatan" class="form-control" required>
                                 </td>
-                                <td>
-                                    <input type="text" id="no_bukti" value="0" class="form-control" required>
-                                </td>
+                               
                             </tr>
                         </tbody>
                         
@@ -104,15 +88,15 @@
                         class="form-horizontal">
                         @csrf
                         <input type="hidden" name="keterangan_input" id="keterangan_input">
-                        <input type="hidden" name="jenis_jurnal" id="jenis_jurnal_form" value="">
+                        <input type="hidden" name="jenis_jurnal" id="jenis_jurnal_form" value="umum">
                         <div class="p-4">
                             <div class="text-center">
-                                <h4>Jurnal <span id="jenis_jurnal_span"></span></h4>
+                                <h4>Jurnal <span id="jenis_jurnal_span">Umum</span></h4>
                             </div>
                             <div class="row">
-                                <input type="hidden" name="no_bukti" id="no_bukti_form" value="">
+                                <input type="hidden" name="no_bukti" id="no_bukti_form" value="{{ $no_bukti_generator }}">
                                 <div class="col-xs col-sm col-md text-right">
-                                    <span>No. Bukti</span> : <span id="no_bukti_span"></span>
+                                    <span>No. Bukti</span> : <span id="no_bukti_span">{{ $no_bukti_generator }}</span>
                                 </div>
                             </div>
                             <div class="row">
@@ -178,15 +162,8 @@
             var nominal_debit = $('#nominal_debit').val();
             var nominal_kredit = $('#nominal_kredit').val();
             var no_urut = $('#no_urut').val();
-
-            var jenis_jurnal = $('#jurnal').find(':selected').val();
-            $('#jenis_jurnal_span').html(jenis_jurnal);
-            $('#jenis_jurnal_form').val(jenis_jurnal);
             var keterangan = $('#keterangan').val();
             $('#keterangan_input').val(keterangan);
-            var no_bukti = $('#no_bukti').val();
-            $('#no_bukti_span').html(no_bukti);
-            $('#no_bukti_form').val(no_bukti);
             var tgl_pencatatan = $('#tgl_pencatatan').val();
             
             $('#tgl_pencatatan_span').html(tgl_pencatatan);
