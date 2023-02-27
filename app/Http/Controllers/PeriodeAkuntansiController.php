@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\JurnalAkuntansi;
 use App\PeriodeAkuntansi;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class PeriodeAkuntansiController extends Controller
 {
@@ -14,7 +16,7 @@ class PeriodeAkuntansiController extends Controller
      */
     public function index()
     {
-        $queryBuilder = PeriodeAkuntansi::all();
+        $queryBuilder = PeriodeAkuntansi::where('status',1)->get();
         return view('periode.index', ['data' => $queryBuilder]);
     }
 
@@ -36,7 +38,32 @@ class PeriodeAkuntansiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Update Saldo Awal Akun
+        $newjurnal = new JurnalAkuntansi();
+
+        $update_akun = $newjurnal->penutupan_update_akun();
+        //Nonaktif Periode Aktif Sekarang
+        $periode_aktif = PeriodeAkuntansi::where('status',1)->first();
+        $periode_aktif->status = 0;
+        $periode_aktif->save();
+        $date_now = Carbon::now()->toDateString();
+
+    
+        // Add New Periode
+        $date_now = Carbon::now()->toDateString();
+        $date_end = Carbon::now()->addMonth($request->get('periode_durasi_new'))->toDateString();
+        
+        $new_periode = new PeriodeAkuntansi();
+        $new_periode->tanggal_awal = $date_now;
+        $new_periode->tanggal_akhir = $date_end;
+        $new_periode->status = 1;
+        $new_periode->save();
+
+
+        // dd($update_akun);
+
+        return redirect()->route('periode_akuntansi.index')->with('status', 'Berhasil Ganti Periode');
+
     }
 
     /**

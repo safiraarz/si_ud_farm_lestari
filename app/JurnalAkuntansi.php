@@ -509,7 +509,23 @@ class JurnalAkuntansi extends Model
 
     }
 
-    public static function penutupan(){
+    public static function penutupan_update_akun(){
+        $newjurnal = new JurnalAkuntansi();
+        $buku_besar = $newjurnal->bukubesar();
+        $akuns = AkunAkuntansi::all();
+        
+        foreach ($akuns as $akun) {
+            foreach($buku_besar as $bukubesar){
+                // echo $bukubesar['no_akun'].' '.$bukubesar['saldo_setelah_closing'].'<br>';
+                if($akun->no_akun ==$bukubesar['no_akun'] ){
+                    $akun_solo = AkunAkuntansi::find($akun->no_akun);
+                    $akun_solo->saldo_awal = $bukubesar['saldo_setelah_closing'];
+                    $akun_solo->save();
+                    // echo $akun_solo->no_akun.' '.$akun_solo->saldo_awal.' '.$bukubesar['saldo_setelah_closing'].'<br>';
+                }
+              
+            }
+        }
         
     }
 

@@ -29,8 +29,36 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modalTutup" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Tutup Periode</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('periode_akuntansi.store') }}" class="form-horizontal" method='POST'>
+                        @csrf
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label>Durasi bulan pada periode berikutnya</label>
+                                <input type="number" min="1" name="periode_durasi_new" class="form-control" id='durasi' required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                                <a href="{{ url('periode') }}" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
-<div class="modal fade" id="modalTutup" tabindex="-1" role="basic" aria-hidden="true">
+
+{{-- <div class="modal fade" id="modalTutup" tabindex="-1" role="basic" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -56,34 +84,7 @@
             </div>
         </div>
     </div>
-</div>
-<div class="modal fade" id="modalTutup" tabindex="-1" role="basic" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Tutup Periode</h4>
-            </div>
-            <div class="modal-body">
-                <form action="{{ url('periode') }}" class="form-horizontal" method='POST'>
-                    @csrf
-                    <div class="form-body">
-                        <div class="form-group">
-                            <label>Durasi bulan pada periode berikutnya</label>
-                            <input type="number" min="1" name="periode" class="form-control" id='nama' required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="col-md-offset-3 col-md-9">
-                            <button type="submit" class="btn btn-success">Submit</button>
-                            <a href="{{ url('periode') }}" class="btn btn-default" data-dismiss="modal">Cancel</a>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+</div> --}}
 @section('javascript')
     <script>
         $('#myTable').DataTable({

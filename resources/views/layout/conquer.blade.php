@@ -270,6 +270,11 @@ License: You must have a valid license purchased only from themeforest(the above
                         </a>
                         <ul class="sub-menu blank">
                             <li>
+                                <a href="{{ route('aruskas.index') }}">
+                                    <span class="title">Laporan Akuntansi</span>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="{{ route('akun.index') }}" class="title">Akun
                                 </a>
                             </li>
