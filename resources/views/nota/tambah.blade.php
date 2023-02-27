@@ -108,12 +108,12 @@
                                 <table id="receipt_bill" class="table">
                                     <thead>
                                         <tr>
-                                            <th>Nama Barang</th>
-                                            <th>Kuantitas</th>
-                                            <th>Satuan</th>
-                                            <th>Harga</th>
-                                            <th>Total</th>
-                                            <th>Action</th>
+                                            <th style="width: 20%">Nama Barang</th>
+                                            <th style="width: 20%">Kuantitas</th>
+                                            <th style="width: 7%">Satuan</th>
+                                            <th style="width: 20%">Harga</th>
+                                            <th style="width: 25%">Total</th>
+                                            <th style="width: 7%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="new">
@@ -125,10 +125,11 @@
                                         <td class="text-right text-dark">
                                             <h5><strong>Sub Total: Rp </strong></h5>
                                         </td>
-                                        <td class="text-center text-dark">
+                                        <td class="text-left text-dark">
                                             <input type="hidden" name="total_harga" id="total_harga">
                                             <h5> <strong><span id="subTotal"></strong></h5>
                                         </td>
+                                        <td>
                                     </tr>
                                 </table>
                             </div>
@@ -252,13 +253,12 @@
                                 <table id="receipt_bill" class="table">
                                     <thead>
                                         <tr>
-                                            <th>Nama Barang</th>
-                                            <th>Kuantitas</th>
-                                            <th>Harga</th>
-                                            <th>Satuan</th>
-                                            <th>Total</th>
-                             
-                                            <th>Action</th>
+                                            <th style="width: 20%">Nama Barang</th>
+                                            <th style="width: 20%">Kuantitas</th>
+                                            <th style="width: 7%">Satuan</th>
+                                            <th style="width: 20%">Harga</th>
+                                            <th style="width: 25%">Total</th>
+                                            <th style="width: 7%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="new__">
@@ -270,10 +270,11 @@
                                         <td class="text-right text-dark">
                                             <h5><strong>Sub Total: Rp </strong></h5>
                                         </td>
-                                        <td class="text-center text-dark">
+                                        <td class="text-left text-dark">
                                             <input type="hidden" name="total_harga" id="total_harga_Pembelian">
                                             <h5> <strong><span id="subTotal_Pembelian"></strong></h5>
                                         </td>
+                                        <td> </td>
                                     </tr>
                                 </table>
                             </div>
@@ -371,10 +372,9 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="number" id="kuantitas_penjualan" min="0" value="0"
+                                    <input type="number" id="kuantitas_penjualan" min="0" value="0" max="9999999999"
                                         class="form-control kuantitas">
                                 </td>
-                                {{-- pengecekkan max value --}}
                                 <td>
                                     <input type="number" id="harga_penjualan" min="0" max="99999999999"
                                         value="0" class="form-control harga">
@@ -423,13 +423,12 @@
                                 <table id="receipt_bill_penjualan" class="table">
                                     <thead>
                                         <tr>
-
-                                            <th>Nama Barang</th>
-                                            <th>Kuantitas</th>
-                                            <th>Satuan</th>
-                                            <th>Harga</th>
-                                            <th>Total</th>
-                                            <th>Action</th>
+                                            <th style="width:20%">Nama Barang</th>
+                                            <th style="width:20%">Kuantitas</th>
+                                            <th style="width:7%">Satuan</th>
+                                            <th style="width:20%">Harga</th>
+                                            <th style="width:25%">Total</th>
+                                            <th style="width:7%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="new_penjualan">
@@ -441,11 +440,12 @@
                                         <td class="text-right text-dark">
                                             <h5><strong>Sub Total: Rp </strong></h5>
                                         </td>
-                                        <td class="text-center text-dark">
+                                        <td class="text-left text-dark">
                                             <input type="hidden" name="total_harga_penjualan"
                                                 id="total_harga_penjualan">
                                             <h5> <strong><span id="subTotal_penjualan"></strong></h5>
                                         </td>
+                                        <td> </td>
                                     </tr>
                                 </table>
                             </div>
@@ -518,16 +518,20 @@
             var tgl_transaksi = $('#tgl_transaksi_span').text();
             var supplier = $('#supplier').val();
             if (parseInt(kuantitas) <= 0 || kuantitas == '') {
-                var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka</span>';
+                var erroMsg = '<span class="alert alert-danger ml-5">Pastikan input angka benar</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
 
-            } else if (parseInt(harga) <= 0 || harga == '' || harga.length > 9) {
-                var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka dengan benar</span>';
+            } else if (parseInt(harga) <= 0 || harga == '' || harga.length > 11) {
+                var erroMsg = '<span class="alert alert-danger ml-5">Pastikan input angka benar</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             }
-        
+            else if (parseInt(kuantitas) <= 0 || kuantitas == '' || kuantitas.length > 11) {
+                var erroMsg = '<span class="alert alert-danger ml-5">Pastikan input angka benar</span>';
+                $('.errorMsg').show();
+                $('.errorMsg').html(erroMsg).fadeOut(9000);
+            }
             else {
                 billFunction(); // Below Function passing here 
             }
@@ -731,24 +735,25 @@
                             '</td>' +
 
                             '<td>' +
-                            '<input class="kuantitas_pembelian" id="kuantitas_pembelian_' + index +
+                            '<input width="20%" class="kuantitas_pembelian" id="kuantitas_pembelian_' + index +
                             '" type="number" onchange="maxminvalue(' +
                             "'kuantitas_pembelian'" + "," + index + "," + kuantitas +
-                            '),findTotalPembelian()" min="1" max="' + kuantitas +
+                            '),findTotalPembelian()" min="1" max="' + 999999999 +
                             '" name="barang[' + index + '][' + "kuantitas" + ']" value=' +
                             thousands_separators(kuantitas) + '>' +
                             '</td>' +
+                            '<td class="satuan_pembelian">' + 
+                                elements[4] +
+                            '</td>' +
                             '<td>' +
-                            '<input class="harga_pembelian" id="harga_pembelian_' + index +
+                            '<input width="20%" class="harga_pembelian" id="harga_pembelian_' + index +
                             '" type="number" onchange="maxminvalue(' +
                             "'harga_pembelian'" + "," + index + "," + harga +
                             '),findTotalPembelian()"  min="1" max="' + 999999999 +
                             '" name="barang[' + index + '][' + "harga" + ']" value="' + harga + '"">' +
                             '</td>' +
 
-                            '<td class="satuan_pembelian">' + 
-                                elements[4] +
-                            '</td>' +
+                            
 
                             '<td class="total_item_pembelian_'+index+'">' +
                                 // total_item
@@ -796,11 +801,11 @@
 
             if (parseInt(kuantitas) <= 0 || kuantitas == '') {
                 // alert('dada');
-                var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka</span>';
+                var erroMsg = '<span class="alert alert-danger ml-5">Pastikan input angka benar</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             } else if (parseInt(harga) <= 0 || harga == '' || harga.length > 9) {
-                var erroMsg = '<span class="alert alert-danger ml-5">Masukkan format angka dengan benar</span>';
+                var erroMsg = '<span class="alert alert-danger ml-5">Pastikan input angka benar dengan benar</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             } else if (parseInt(kuantitas_bahan_baku_ready) < parseInt(kuantitas) || kuantitas_bahan_baku_ready ==

@@ -17,15 +17,15 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <input type="number" name="karantina" id="karantina" max="99999999999" min="0"
+                                    <input type="number" name="karantina" id="karantina" max="999999" min="0"
                                         value="0" class="form-control">
                                 </td>
                                 <td>
-                                    <input type="number" name="afkir" id="afkir" min="0" max="99999999999"
+                                    <input type="number" name="afkir" id="afkir" min="0" max="999999"
                                         value="0" class="form-control">
                                 </td>
                                 <td>
-                                    <input type="number" name="kematian" id="kematian" max="99999999999" min="0"
+                                    <input type="number" name="kematian" id="kematian" max="999999" min="0"
                                         value="0" class="form-control">
                                 </td>
                             </tr>
@@ -62,7 +62,6 @@
                                 <th>Nama Telur</th>
                                 <td>
                                     <select name="nama_telur" id="nama_telur" class="form-control">
-                                        <option value="">== Pilih ==</option>
                                         @foreach ($barang as $row)
                                             @if ($row->jenis == 'Barang Jadi')
                                                 <option id={{ $row->id }} value="{{ $row->nama }}"
@@ -79,7 +78,7 @@
                                 <th>Kuantitas Bersih</th>
                                 <td>
                                     <input type="number" name="kuantitas_bersih" id="kuantitas_bersih" min="0"
-                                        max="99999999999" value="0" class="form-control">
+                                        max="99999999" value="0" class="form-control">
                                 </td>
                                 <td>
                                     <label for="" id="satuan" class="satuan">Satuan</label>
@@ -89,7 +88,7 @@
                                 <th>Kuantitas Reject</th>
                                 <td>
                                     <input type="number" name="kuantitas_reject" id="kuantitas_reject" min="0"
-                                        max="99999999999" value="0" class="form-control">
+                                        max="99999999" value="0" class="form-control">
                                 </td>
                                 <td>
                                     <label for="" id="satuan" class="satuan">Satuan</label>
@@ -106,7 +105,7 @@
                     <form action="{{ route('pemasukantelur.store') }}" method="post" enctype="multipart/form-data"
                         class="form-horizontal">
                         @csrf
-                        <input type="hidden" name="karantina" id="karangtina_input">
+                        <input type="hidden" name="karantina" id="karantina_input">
                         <input type="hidden" name="afkir" id="afkir_input">
                         <input type="hidden" name="kematian" id="kematian_input">
                         <input type="hidden" name="keterangan" id="keterangan_input">
@@ -124,12 +123,12 @@
                                 <table id="receipt_bill" class="table">
                                     <thead>
                                         <tr>
-                                            <th>Nama Telur</th>
-                                            <th>Kuantitas Bersih</th>
-                                            <th>Kuantitas Reject</th>
-                                            <th>Kuantitas Total</th>
-                                            <th>Satuan</th>
-                                            <th>Action</th>
+                                            <th style="width: 20%">Nama Telur</th>
+                                            <th style="width: 20%">Kuantitas Bersih</th>
+                                            <th style="width: 20%">Kuantitas Reject</th>
+                                            <th style="width: 25%">Kuantitas Total</th>
+                                            <th style="width: 7%">Satuan</th>
+                                            <th style="width: 7%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="new">
@@ -152,17 +151,7 @@
             var num_parts = num.toString().split(".");
             num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             return num_parts.join(".");
-        }
-        // $('#barang').change(function() {
-        //     var ids = $(this).find(':selected').attr('harga');
-        //     $('#harga').val(ids);
-        // });
-        // var count = 1;
-        // if (count != 1) {
-
-        // };
-
-           
+        }  
         
         $('#nama_telur').on('change', function() {
             var satuan = $(this).find(':selected').attr('satuan');
@@ -179,7 +168,7 @@
         var count = 1;
         $('#tambah').on('click', function() {
 
-            $("#karangtina_input").val($("#karantina").val())
+            $("#karantina_input").val($("#karantina").val())
             $("#afkir_input").val($("#afkir").val());
             $("#kematian_input").val($("#kematian").val());
             $("#keterangan_input").val($("#keterangan").val());
@@ -194,6 +183,7 @@
             var kuantitas_bersih = $('#kuantitas_bersih').val();
             var kuantitas_reject = $('#kuantitas_reject').val();
             var kuantitas_total = parseInt(kuantitas_bersih) + parseInt(kuantitas_reject);
+
             var satuan = $('#nama_telur').find(':selected').attr('satuan');
             // $('.satuan').html(satuan);
             // alert(nama_telur + kuantitas_total + satuan);
@@ -202,9 +192,10 @@
             var keterangan = $('#keterangan').val();
 
             if (parseInt(kuantitas_total) <= 0 || kuantitas_total == '' || parseInt(kuantitas_bersih) <= 0 ||
-                kuantitas_bersih == '' || parseInt(kuantitas_reject) <= 0 || kuantitas_reject == '') {
+                kuantitas_bersih == '' || parseInt(kuantitas_reject) <= 0 || kuantitas_reject == ''
+                || kuantitas_total.length > 11|| kuantitas_reject.length > 11 || kuantitas_bersih.length > 11) {
                 var erroMsg =
-                    '<span class="alert alert-danger ml-5">Kuantitas barang kurang dari 0 atau huruf</span>';
+                    '<span class="alert alert-danger ml-5">Pastikan input angka benar</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             } else {

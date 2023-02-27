@@ -20,15 +20,15 @@
                         <thead>
                             <tr>
                                 <th style="width:35">Nama Pakan Ayam</th>
-                                <th style="width:35%">Flok Tujuan</th>
-                                <th style="width:30%">Kuantitas (kg)</th>
+                                <th style="width:32%">Flok Tujuan</th>
+                                <th style="width:32%">Kuantitas 
+                                    <label for="" id="satuan" class="satuan">()</label></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
                                     <select name="barang" id="barang" class="form-control">
-                                        <option value="" selected>==Pilih pakan==</option>
                                         @foreach ($barang as $row)
                                             @if ($row->jenis == 'Barang Jadi')
                                                 <option id={{ $row->id }} value="{{ $row->nama }}"
@@ -41,7 +41,6 @@
                                 </td>
                                 <td>
                                     <select name="flok" id="flok" class="form-control">
-                                        <option value="" selected>==Pilih flok==</option>
                                         @foreach ($flok as $row)
                                             <option id="{{ $row->id }}" value="{{ $row->nama }}" populasi="{{ $row->populasi }}" kebutuhan_pakan="{{ $row->kebutuhan_pakan }}" satuan="{{ $row->satuan }}" class="flok custom-select">
                                                 {{ $row->nama }}
@@ -50,7 +49,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="number" id="kuantitas" min="0" max="99999999999" value="0" class="form-control" required>
+                                    <input type="number" id="kuantitas" min="0" max="999999" value="0" class="form-control" required>
                                 </td>
                             </tr>
                         </tbody>
@@ -103,12 +102,12 @@
                                 <table id="receipt_bill" class="table">
                                     <thead>
                                         <tr>
-                                            <th>Nama Pakan Ayam</th>
-                                            <th>Tgl Mulai Produksi</th>
-                                            <th>Tgl Selesai Produksi</th>
-                                            <th>Kuantitas</th>
-                                            <th>Satuan</th>
-                                            <th>Action</th>
+                                            <th style="width: 23%">Nama Pakan Ayam</th>
+                                            <th style="width: 23%">Tgl Mulai Produksi</th>
+                                            <th style="width: 23%">Tgl Selesai Produksi</th>
+                                            <th style="width: 23%">Kuantitas</th>
+                                            <th style="width: 4%">Satuan</th>
+                                            <th style="width: 4%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="new">
@@ -135,7 +134,10 @@
             return num_parts.join(".");
         }
         var count = 1;
-
+        $('#barang').on('change', function() {
+            var satuan = $(this).find(':selected').attr('satuan');
+            $('.satuan').html("("+ satuan +")");
+        });
         function deleteData(id) {
             $('#row_' + id).html("");
         };
@@ -171,12 +173,12 @@
 
             var satuan = $('#barang').find(':selected').attr('satuan');
 
-            if (parseInt(kuantitas) <= 0 || kuantitas == '') {
-                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas Kurang Dari 1 Atau Huruf</span>';
+            if (parseInt(kuantitas) <= 0 || kuantitas == '' || kuantitas.length > 6) {
+                var erroMsg = '<span class="alert alert-danger ml-5">Pastikan input angka benar</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             } else if (date_start == '' && date_end == '') {
-                var erroMsg = '<span class="alert alert-danger ml-5">Tanggal Tidak Boleh Kosong</span>';
+                var erroMsg = '<span class="alert alert-danger ml-5">Pastikan input tanggal benar</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             } else {

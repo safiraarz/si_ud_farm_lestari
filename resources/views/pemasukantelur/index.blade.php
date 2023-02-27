@@ -68,16 +68,16 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">{{ $d->tgl_pencatatan }}</h4>
+                                                    <h4 class="modal-title">{{ $d->id }} - {{ $d->flok->nama }}</h4>
                                                 </div>
                                                 <div class="modal-body">
                                                     {{-- {{ $d->barang() }} --}}
 
                                                     @foreach ($d->daftar_barang as $key => $item)
-                                                        <p>
+                                                        <b>
                                                             <span>- Barang {{ $key + 1 }}</span>
 
-                                                        </p>
+                                                        </b>
                                                         <p>
                                                             <span>Nama Barang</span> : <span> {{ $item->nama }}</span>
 

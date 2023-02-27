@@ -104,13 +104,7 @@ class BarangController extends Controller
      */
     public function destroy(Barang $barang)
     {
-        try {
-            $barang->delete();
-            return redirect()->route('barang.index')->with('status', 'Barang berhasil dihapus');
-        } catch (\Throwable $th) {
-            $msg = "Barang gagal dihapus";
-            return redirect()->route('barang.index')->with('status', 'Error ' . $msg);
-        }
+
     }
     public function getEditForm(Request $request)
     {

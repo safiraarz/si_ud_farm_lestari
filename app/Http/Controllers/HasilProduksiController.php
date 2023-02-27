@@ -65,6 +65,8 @@ class HasilProduksiController extends Controller
         //bertambah stok
         $barang_update = Barang::find($request->get('bahan_baku'));
         // dd($barang_update);
+
+        // INI YANG NOMOR 19 DI DOCS
         $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
         $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  + $request->get('input_kn_bersih');
         $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
