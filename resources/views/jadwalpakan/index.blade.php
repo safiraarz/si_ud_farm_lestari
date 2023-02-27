@@ -86,7 +86,10 @@
                                     <select class="form-control" name="jenis_pakan" id="jenis_pakan" required>
                                         @foreach ($barang as $item)
                                             @if ($item->jenis == 'Barang Jadi')
-                                                <option value="{{ $item->id }}" ready="{{ $item->kuantitas_stok_ready }}">{{ $item->nama }} (Stok: {{ number_format($item->kuantitas_stok_ready) }} {{ $item->satuan }})</option>
+                                                <option value="{{ $item->id }}"
+                                                    ready="{{ $item->kuantitas_stok_ready }}">{{ $item->nama }} (Stok:
+                                                    {{ number_format($item->kuantitas_stok_ready) }} {{ $item->satuan }})
+                                                </option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -100,8 +103,9 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Kuantitas</label>
-                                    <input type="number" min="1" name="kuantitas" class="form-control" id='kuantitas' required>
+                                    <label for="" id="satuan" class="satuan">Kuantitas ()</label>
+                                    <input type="number" min="1" name="kuantitas" class="form-control"
+                                        id='kuantitas' required>
                                 </div>
                                 <div class="form-group">
                                     <label>Keterangan</label>
@@ -130,25 +134,26 @@
 
     @section('javascript')
         <script>
-
             $("#kuantitas").on('change', function() {
                 var kuantitas_max = $(this).attr('max');
-                
-                var kuantitas =  $(this).val();
 
-                if(kuantitas <= 0){
+                var kuantitas = $(this).val();
+
+                if (kuantitas <= 0) {
                     $(this).val(kuantitas_max);
-                }
-                else if(kuantitas_max < kuantitas) {
+                } else if (kuantitas_max < kuantitas) {
                     $(this).val(kuantitas_max);
                 }
 
             });
-
+            $('#jenis_pakan').on('change', function() {
+                var satuan = $(this).find(':selected').attr('satuan');
+                $('.satuan').html("Kuantitas (" + satuan + ")");
+            });
             $("#jenis_pakan").on('change', function() {
-                
+
                 var kuantitas_bahan_baku_ready = $(this).find(':selected').attr('ready');
-                $("#kuantitas").attr("max",kuantitas_bahan_baku_ready);
+                $("#kuantitas").attr("max", kuantitas_bahan_baku_ready);
                 $("#kuantitas").val(kuantitas_bahan_baku_ready);
                 // alert(kuantitas_bahan_baku_ready);
 

@@ -24,16 +24,13 @@
                         <thead>
                             <tr>
                                 <th style="width:45%">Nama Barang Jadi</th>
-                                <th style="width:35%">Kuantitas</th>
+                                <th style="width:35%">Kuantitas <label for="" id="satuan" class="satuan">()</label></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
                                     <select name="barang_jadi" id="barang_jadi" class="form-control">
-                                        <option id="" value="" class="barang custom-select">
-                                            ===Pilih pakan===
-                                        </option>
                                         @foreach ($barang as $row)
                                             @if ($row->jenis == 'Barang Jadi')
                                                 <option id={{ $row->id }} value="{{ $row->nama }}"
@@ -83,10 +80,10 @@
                                 <table id="receipt_bill" class="table">
                                     <thead>
                                         <tr>
-                                            <th>Nama Barang Jadi</th>
-                                            <th>Kuantitas</th>
-                                            <th>Satuan</th>
-                                            <th>Action</th>
+                                            <th style="width:40%">Nama Barang Jadi</th>
+                                            <th style="width:40%">Kuantitas</th>
+                                            <th style="width:10%">Satuan</th>
+                                            <th style="width:10%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="new">
@@ -116,7 +113,10 @@
         function deleteData(id) {
             $('#row_' + id).html("");
         };
-
+        $('#barang_jadi').on('change', function() {
+            var satuan = $(this).find(':selected').attr('satuan');
+            $('.satuan').html("("+ satuan +")");
+        });
         function isEmpty(el) {
             return !$.trim(el.html())
         };

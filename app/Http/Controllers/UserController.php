@@ -107,4 +107,22 @@ class UserController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
+
+    public function deleteData(Request $request)
+    {
+        try {
+            $id = $request->get('id');
+            $Pengguna = User::find($id);
+            $Pengguna->delete();
+            return response()->json(array(
+                'status' => 'ok',
+                'msg' => 'Pengguna berhasil dihapus'
+            ), 200);
+        } catch (\PDOException $e) {
+            return response()->json(array(
+                'status ' => ' error',
+                'msg' => 'Pengguna tidak bisa dihapus. Pengguna diperlukan untuk data lain'
+            ), 200);
+        }
+    }
 }

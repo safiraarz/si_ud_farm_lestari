@@ -102,13 +102,7 @@ class FlokController extends Controller
      */
     public function destroy(Flok $flok)
     {
-        try {
-            $flok->delete();
-            return redirect()->route('flok.index')->with('status', 'Berhasil menghapus flok');
-        } catch (\Throwable $th) {
-            $msg = "Gagal menghapus flok";
-            return redirect()->route('flok.index')->with('status', 'Error ' . $msg);
-        }
+
     }
 
     public function getEditForm(Request $request)

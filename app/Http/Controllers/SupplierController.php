@@ -91,13 +91,7 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        try {
-            $supplier->delete();
-            return redirect()->route('supplier.index')->with('status', 'Berhasil menghapus supplier');
-        } catch (\Throwable $th) {
-            $msg = "Gagal menghapus supplier";
-            return redirect()->route('supplier.index')->with('status', 'Error ' . $msg);
-        }
+
     }
 
     public function getEditForm(Request $request)

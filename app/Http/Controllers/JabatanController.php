@@ -85,13 +85,7 @@ class JabatanController extends Controller
      */
     public function destroy(Jabatan $jabatan)
     {
-        try {
-            $jabatan->delete();
-            return redirect()->route('jabatan.index')->with('status', 'Berhasil menghapus jabatan');
-        } catch (\Throwable $th) {
-            $msg = "Gagal menghapus jabatan";
-            return redirect()->route('jabatan.index')->with('status', 'Error ' . $msg);
-        }
+
     }
 
     public function deleteData(Request $request)

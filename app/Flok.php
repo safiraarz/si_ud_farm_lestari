@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Flok extends Model
 {
+	use SoftDeletes;
     protected $connection = 'inventory';
 
     protected $table = "flok";

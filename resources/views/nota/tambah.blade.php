@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="form-group margin-right-10">
-        <label>Pilih Nota</label>
+        <label>Pilih Jenis Nota</label>
         <select class="form-control" name="pilih_nota" id="pilih_nota">
             <option value="nota_pemesanan">Nota Pemesanan</option>
             <option value="nota_pembelian">Nota Pembelian</option>
@@ -41,7 +41,8 @@
                         <thead>
                             <tr>
                                 <th style="width:35%">Nama Barang</th>
-                                <th style="width:30%">Kuantitas</th>
+                                <th style="width:30%">Kuantitas <label for="" id="satuan_pesan"
+                                        class="satuan_pesan">()</label></th>
                                 <th style="width:35%">Harga</th>
                             </tr>
                         </thead>
@@ -49,9 +50,6 @@
                             <tr>
                                 <td>
                                     <select name="barang" id="barang" class="form-control barang">
-                                        <option class="barang custom-select" selected>
-                                            ==Pilih barang==
-                                        </option>
                                         @foreach ($barang as $row)
                                             <option id={{ $row->id }} value="{{ $row->nama }}"
                                                 harga="{{ $row->harga }}" satuan="{{ $row->satuan }}"
@@ -162,9 +160,8 @@
                                     <select class="form-control" name="no_pesanan_pembelian" id="no_pesanan_pembelian">
                                         <option value="">==Pilih No. Pemesanan==</option>
                                         @foreach ($notapemesanan as $item)
-                                            @if ($item->status == "dalam proses")
-                                                
-                                            <option value="{{ $item->id }}">{{ $item->no_nota }}</option>
+                                            @if ($item->status == 'dalam proses')
+                                                <option value="{{ $item->id }}">{{ $item->no_nota }}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -184,18 +181,15 @@
                             <tr>
                                 <td>
                                     <select class='form-control select2' id='cara_bayar' name='cara_bayar'>
-                                        <option value="" selected>==Pilih pembayaran==</option>
                                         <option value="tunai">Tunai</option>
                                         <option value="transfer">Transfer</option>
                                     </select>
                                 </td>
                                 <td>
                                     <select class="form-control" name="daftar_akun" id="daftar_akun">
-                                        <option value="" selected>==Pilih akun==</option>
                                         @foreach ($akun as $item)
-                                            @if ($item->jenis_akun == "aset" && $item->no_akun != 000 && $item->no_akun != 101 && $item->no_akun != 102)
-                                                
-                                            <option value="{{ $item->no_akun }}">{{ $item->nama }}</option>
+                                            @if ($item->jenis_akun == 'aset' && $item->no_akun != 000 && $item->no_akun != 101 && $item->no_akun != 102)
+                                                <option value="{{ $item->no_akun }}">{{ $item->nama }}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -211,7 +205,7 @@
                                     <textarea type="text" maxlength="150" id="keterangan_pembelian" class="form-control"></textarea>
                                 </td>
                             </tr>
-                            
+
                         </tbody>
                     </table>
                     <div role="alert" id="errorMsg" class="mt-5">
@@ -219,13 +213,13 @@
                 </div>
 
                 <div class="col-md-7  mt-4" style="background-color:#f5f5f5;">
-                    <form id="form_pembelian" action="{{ route('notapembelian.store') }}" method="post" enctype="multipart/form-data"
-                        class="form-horizontal">
+                    <form id="form_pembelian" action="{{ route('notapembelian.store') }}" method="post"
+                        enctype="multipart/form-data" class="form-horizontal">
                         @csrf
                         <input type="hidden" id="cara_bayar_form" name="cara_bayar">
                         <input type="hidden" id="ketegori_nota_form" name="ketegori_nota">
                         <input type="hidden" id="keterangan_pembelian_form" name="keterangan_pembelian">
-                
+
                         <div class="p-4">
                             <div class="text-center">
                                 <h4>Nota Pembelian</h4>
@@ -305,7 +299,6 @@
                             <tr>
                                 <td>
                                     <select name="customer" id="customer" class="form-control">
-                                        <option value="" selected>==Pilih customer==</option>
                                         @foreach ($customer as $row)
                                             <option id={{ $row->id }} value="{{ $row->nama }}"
                                                 class=" barang custom-select">
@@ -316,19 +309,16 @@
                                 </td>
                                 <td>
                                     <select class='form-control select2' id='cara_bayar_penjualan'>
-                                        <option value="" selected>==Pilih pembayaran==</option>
                                         <option value="tunai">Tunai</option>
                                         <option value="transfer">Transfer</option>
                                     </select>
                                 </td>
                                 <td>
                                     <select class="form-control" name="daftar_akun" id="daftar_akun_penjualan">
-                                        <option value="" selected>==Pilih akun==</option>
                                         @foreach ($akun as $item)
-                                        @if ($item->jenis_akun == 'pendapatan')
-                                                
-                                        <option value="{{ $item->no_akun }}">{{ $item->nama }}</option>
-                                        @endif
+                                            @if ($item->jenis_akun == 'pendapatan')
+                                                <option value="{{ $item->no_akun }}">{{ $item->nama }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </td>
@@ -349,7 +339,8 @@
                         <thead>
                             <tr>
                                 <th style="width:35%">Nama Barang</th>
-                                <th style="width:30%">Kuantitas</th>
+                                <th style="width:30%">Kuantitas <label for="" id="satuan_jual"
+                                        class="satuan_jual">()</label></th>
                                 <th style="width:35%">Harga</th>
                             </tr>
                         </thead>
@@ -357,7 +348,6 @@
                             <tr>
                                 <td>
                                     <select name="barang" id="barang_penjualan" class="form-control barang">
-                                        <option value="" selected>==Pilih barang==</option>
                                         @foreach ($barang as $row)
                                             @if ($row->jenis == 'Barang Jadi')
                                                 <option id={{ $row->id }} value="{{ $row->nama }}"
@@ -372,8 +362,8 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="number" id="kuantitas_penjualan" min="0" value="0" max="9999999999"
-                                        class="form-control kuantitas">
+                                    <input type="number" id="kuantitas_penjualan" min="0" value="0"
+                                        max="9999999999" class="form-control kuantitas">
                                 </td>
                                 <td>
                                     <input type="number" id="harga_penjualan" min="0" max="99999999999"
@@ -464,7 +454,18 @@
 
 @section('javascript')
     <script>
-       
+        //cek satuan
+        $('#barang_penjualan').on('change', function() {
+            var satuan_jual = $(this).find(':selected').attr('satuan');
+            $('.satuan_jual').html("(" + satuan_jual + ")");
+        });
+
+        //cek satuan beli
+        $('#barang').on('change', function() {
+            var satuan_pesan = $(this).find(':selected').attr('satuan');
+            $('.satuan_pesan').html("(" + satuan_pesan + ")");
+        });
+
         $("#pilih_nota").on('change', function() {
             var pilihan = $(this).val();
             if (pilihan == "nota_pembelian") {
@@ -526,13 +527,11 @@
                 var erroMsg = '<span class="alert alert-danger ml-5">Pastikan input angka benar</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
-            }
-            else if (parseInt(kuantitas) <= 0 || kuantitas == '' || kuantitas.length > 11) {
+            } else if (parseInt(kuantitas) <= 0 || kuantitas == '' || kuantitas.length > 11) {
                 var erroMsg = '<span class="alert alert-danger ml-5">Pastikan input angka benar</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
-            }
-            else {
+            } else {
                 billFunction(); // Below Function passing here 
             }
 
@@ -618,17 +617,17 @@
         };
         $("#form_pembelian").on('submit', function() {
             alert("test");
-        // var name = $.trim($('#log').val());
-        $('.harga_pembelian').each(function() {
-            var harga = Number($(this).val()) || 0;
-            alert(harga);
-            if(harga.length > 9){
+            // var name = $.trim($('#log').val());
+            $('.harga_pembelian').each(function() {
+                var harga = Number($(this).val()) || 0;
+                alert(harga);
+                if (harga.length > 9) {
 
-                return false;
-            }
+                    return false;
+                }
+            });
         });
-        });
-       
+
 
         function findTotalPembelian() {
             var harga = 0;
@@ -640,24 +639,24 @@
                 // harga = Number($(this).val()) || 0;
                 // $('.kuantitas_pembelian').each(function() {
                 //     kuantitas = Number($(this).val()) || 0;
-                  
+
                 // });
 
                 // total_item = harga * kuantitas;
-                
+
                 // total += (harga * kuantitas);
-                
+
                 i++; //
             });
             // alert($('.harga_pembelian').length);
-            for(y=0 ; y<$('.harga_pembelian').length ; y++) {
-                var kuan = $('#kuantitas_pembelian_'+y).val();
-                var har = $('#harga_pembelian_'+y).val();
+            for (y = 0; y < $('.harga_pembelian').length; y++) {
+                var kuan = $('#kuantitas_pembelian_' + y).val();
+                var har = $('#harga_pembelian_' + y).val();
 
 
                 var tot = parseInt(kuan) * parseInt(har);
                 total += tot;
-                $('.total_item_pembelian_'+y).html(tot);
+                $('.total_item_pembelian_' + y).html(tot);
 
             };
             // for
@@ -665,7 +664,7 @@
             //         // kuantitas = Number($(this).val()) || 0;
             //         $(this).html(total_item);
             //     });
-               
+
             $('#total_harga_Pembelian').val(total);
             $('#subTotal_Pembelian').html(total);
         };
@@ -673,7 +672,7 @@
         $("#no_pesanan_pembelian").on('change', function() {
             // alert("aa");
             $('#new__').html("");
-           
+
 
             var notapemesanan = [
                 @foreach ($notapemesanan as $item)
@@ -735,15 +734,16 @@
                             '</td>' +
 
                             '<td>' +
-                            '<input width="20%" class="kuantitas_pembelian" id="kuantitas_pembelian_' + index +
+                            '<input width="20%" class="kuantitas_pembelian" id="kuantitas_pembelian_' +
+                            index +
                             '" type="number" onchange="maxminvalue(' +
                             "'kuantitas_pembelian'" + "," + index + "," + kuantitas +
                             '),findTotalPembelian()" min="1" max="' + 999999999 +
                             '" name="barang[' + index + '][' + "kuantitas" + ']" value=' +
                             thousands_separators(kuantitas) + '>' +
                             '</td>' +
-                            '<td class="satuan_pembelian">' + 
-                                elements[4] +
+                            '<td class="satuan_pembelian">' +
+                            elements[4] +
                             '</td>' +
                             '<td>' +
                             '<input width="20%" class="harga_pembelian" id="harga_pembelian_' + index +
@@ -753,12 +753,12 @@
                             '" name="barang[' + index + '][' + "harga" + ']" value="' + harga + '"">' +
                             '</td>' +
 
-                            
 
-                            '<td class="total_item_pembelian_'+index+'">' +
-                                // total_item
+
+                            '<td class="total_item_pembelian_' + index + '">' +
+                            // total_item
                             '</td>' +
-                           
+
                             '<td>' +
                             '<a class="btn btn-danger barang_delete" onclick="deleteDataPembelian(' +
                             index + ')"><i class="fa fa-trash-o"></i></a></a>' +
@@ -767,7 +767,7 @@
                             '</tr>';
                         // alert(table);
                         $('#new__').append(table);
-                        
+
                         // $('#bahan_pesanan_row').append(table);
                         findTotalPembelian();
                     }
@@ -805,7 +805,8 @@
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             } else if (parseInt(harga) <= 0 || harga == '' || harga.length > 9) {
-                var erroMsg = '<span class="alert alert-danger ml-5">Pastikan input angka benar dengan benar</span>';
+                var erroMsg =
+                '<span class="alert alert-danger ml-5">Pastikan input angka benar dengan benar</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             } else if (parseInt(kuantitas_bahan_baku_ready) < parseInt(kuantitas) || kuantitas_bahan_baku_ready ==
@@ -918,7 +919,6 @@
             // alert(daftar_akun);
             $('#keterangan_penjualan_form').val(daftar_akun);
         });
-        
     </script>
 @endsection
 

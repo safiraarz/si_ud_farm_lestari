@@ -91,13 +91,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        try {
-            $customer->delete();
-            return redirect()->route('customer.index')->with('status', 'Berhasil menghapus customer');
-        } catch (\Throwable $th) {
-            $msg = "Gagal menghapus customer";
-            return redirect()->route('customer.index')->with('status', 'Error ' . $msg);
-        }
+
     }
     public function getEditForm(Request $request)
     {

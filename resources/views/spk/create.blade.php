@@ -19,7 +19,7 @@
                     <table class="table" style="background-color:#e0e0e0;">
                         <thead>
                             <tr>
-                                <th style="width:35">Nama Pakan Ayam</th>
+                                <th style="width:35%">Nama Pakan Ayam</th>
                                 <th style="width:32%">Flok Tujuan</th>
                                 <th style="width:32%">Kuantitas 
                                     <label for="" id="satuan" class="satuan">()</label></th>

@@ -24,16 +24,14 @@
                         <thead>
                             <tr>
                                 <th style="width:45%">Nama Bahan Baku</th>
-                                <th style="width:35%">Kuantitas</th>
+                                <th style="width:35%">Kuantitas 
+                                    <label for="" id="satuan" class="satuan">()</label></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
                                     <select name="bahan_baku" id="bahan_baku" class="form-control">
-                                        <option class="barang custom-select">
-                                            ===Pilih bahan baku===
-                                        </option>
                                         @foreach($barang as $row )
                                         @if ($row->jenis == "Bahan Baku")
                                         <option id={{$row->id}} value="{{$row->nama}}" satuan="{{$row->satuan}}" ready="{{$row->kuantitas_stok_ready}}" class="barang custom-select">
@@ -78,10 +76,10 @@
                                 <table id="receipt_bill" class="table">
                                     <thead>
                                         <tr>
-                                            <th>Nama Bahan Baku</th>
-                                            <th>Kuantitas</th>
-                                            <th>Satuan</th>
-                                            <th>Action</th>
+                                            <th style="width: 40%">Nama Bahan Baku</th>
+                                            <th style="width: 40%">Kuantitas</th>
+                                            <th style="width: 10%">Satuan</th>
+                                            <th style="width: 10%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="new">
@@ -107,10 +105,15 @@
             return num_parts.join(".");
         }
         var count = 1;
+        
         function deleteData(id)
         {
             $('#row_'+id).html("");
         };
+        $('#bahan_baku').on('change', function() {
+            var satuan = $(this).find(':selected').attr('satuan');
+            $('.satuan').html("("+ satuan +")");
+        });
         function isEmpty( el ){
             return !$.trim(el.html())
         };
@@ -126,12 +129,12 @@
             // alert(kuantitas_bahan_baku_ready)
          
             if ( parseInt(kuantitas_bahan_baku) <=0 || kuantitas_bahan_baku == '' ){
-                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas barang kurang dari 0 atau huruf</span>';
+                var erroMsg = '<span class="alert alert-danger ml-5">Pastikan input angka benar/stok kurang</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             }
             else if( parseInt(kuantitas_bahan_baku_ready) < parseInt(kuantitas_bahan_baku) || kuantitas_bahan_baku_ready == '' ){
-                var erroMsg = '<span class="alert alert-danger ml-5">Kuantitas barang kurang dari 0 atau huruf</span>';
+                var erroMsg = '<span class="alert alert-danger ml-5">Pastikan input angka benar/stok kurang</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             }
