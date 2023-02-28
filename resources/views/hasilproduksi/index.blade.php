@@ -66,17 +66,17 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">{{ $d->surat_perintah_kerja->no_surat }}</h4>
+                                                    <h4 class="modal-title">ID: {{ $d->id }}</h4>
                                                 </div>
                                                 <div class="modal-body">
+                                                    <b>Keterangan:</b>
+                                                    <p>{{ $d->keterangan }}</p>
                                                     <b>Kuantitas Reject:</b>
                                                     <p>{{ number_format($d->kuantitas_reject) }} {{ $d->barang->satuan }}
                                                     </p>
                                                     <b>Kuantitas Bersih:</b>
                                                     <p>{{ number_format($d->kuantitas_bersih) }} {{ $d->barang->satuan }}
                                                     </p>
-                                                    <b>Keterangan:</b>
-                                                    <p>{{ $d->keterangan }}</p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default"

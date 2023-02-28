@@ -35,7 +35,6 @@
                     <tbody>
                         @foreach ($data as $d)
                             @foreach ($d->barang as $barang_bom)
-                                {{-- {{ $barang_bom->jenis }} --}}
                                 @if ($barang_bom->jenis == 'Barang Jadi')
                                     <tr id='tr_{{ $d->id }}'>
                                         <td>{{ $d->id }}</td>
@@ -77,7 +76,7 @@
                                                     {{ $barang_bom->nama }}
                                                     <br>
                                                     Kuantitas :
-                                                    {{ $barang_bom->pivot->kuantitas_bahan_baku }}
+                                                    {{ $barang_bom->pivot->kuantitas_bahan_baku }} {{ $barang_bom->satuan }}
                                                     <br>
                                                     <br>
                                                 @endif

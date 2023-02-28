@@ -49,7 +49,6 @@
                             <th>ID</th>
                             <th>Nomor Surat</th>
                             <th>Tanggal Pengiriman Barang</th>
-                            <th>Keterangan</th>
                             <th>Daftar Barang</th>
                             <th>Pembuat Surat</th>
                             <th>Status</th>
@@ -62,7 +61,6 @@
                                 <td id='td_no_surat_{{ $d->id }}'>{{ $d->no_surat }}</td>
                                 <td id='td_tgl_pengiriman_barang_{{ $d->id }}'>
                                     {{ $d->tgl_pengiriman_barang->format('d/m/Y') }}</td>
-                                <td id='td_keterangan_{{ $d->id }}'>{{ $d->keterangan }}</td>
                                 <td>
                                     <a class="btn btn-default edittable" data-toggle="modal"
                                         href="#detail_{{ $d->id }}">
@@ -73,22 +71,23 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">Nomor Nota : {{ $d->no_nota }}</h4>
+                                                    <h4 class="modal-title">Nomor Surat : {{ $d->no_surat }}</h4>
                                                 </div>
                                                 <div class="modal-body">
-
+                                                    <b>Keterangan:</b><p>{{$d->keterangan}}</p>
+                                                    <br>
                                                     @foreach ($d->daftar_barang as $key => $item)
-                                                        <p>
-                                                            <span>- Barang {{ $key + 1 }}</span>
+                                                        <b>
+                                                            <span>=== Barang {{ $key + 1 }} ===</span>
 
-                                                        </p>
+                                                        </b>
                                                         <p>
                                                             <span>Nama Barang</span> : <span> {{ $item->nama }}</span>
 
                                                         </p>
                                                         <p>
                                                             <span>Kuantitas</span> : <span>
-                                                                {{ number_format($item->pivot->kuantitas) }}</span>
+                                                                {{ number_format($item->pivot->kuantitas) }} {{ $item->satuan }}</span>
                                                         </p>
                                                     @endforeach
                                                 </div>
@@ -132,7 +131,6 @@
                             <div class="form-group">
                                 <label>Nomor Surat Jalan:</label>
                                 <input type="text" name="no_surat" class="form-control" id='kuantitas' required>
-                                </input>
                             </div>
                             <div class="form-group">
                                 <label>Tanggal Pengiriman Barang:</label>
@@ -161,7 +159,6 @@
                             <div class="form-group">
                                 <label>Kuantitas</label>
                                 <input type="text" name="kuantitas" class="form-control" id='kuantitas' required>
-                                </input>
                             </div>
                             <button type="tambah" class="btn btn-success">Tambah ke Tabel</button>
                         </div>

@@ -8,7 +8,6 @@ class SPK extends Model
 {
     protected $connection = 'inventory';
     protected $table = "surat_perintah_kerja";
-    protected $dates = ['tgl_pembuatan_surat','tgl_mulai_produksi','tgl_selesai_produksi'];
     public $timestamps = false;
 
     public function barang()

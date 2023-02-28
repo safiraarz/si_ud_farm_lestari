@@ -50,9 +50,7 @@
                             <th>Nomor SPK</th>
                             <th>Tanggal Pembuatan SPK</th>
                             <th>Daftar Barang</th>
-                            <th>Keterangan</th>
                             <th>Pembuat Surat</th>
-                            <!-- <th>Action</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -61,7 +59,7 @@
                                 <td>{{ $d->id }}</td>
                                 <td id='td_no_spk_{{ $d->id }}'>{{ $d->no_surat }}</td>
                                 <td id='td_tgl_pembuatan_spk_{{ $d->id }}'>
-                                    {{ $d->tgl_pembuatan_surat->format('d/m/Y') }}</td>
+                                    {{ date('d/m/y', strtotime($d->tgl_pembuatan_surat )) }}</td>
                                 <td>
                                     <a class="btn btn-default edittable" data-toggle="modal"
                                         href="#detail_{{ $d->id }}">
@@ -72,10 +70,11 @@
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title">Nomor Nota : {{ $d->no_nota }}</h4>
+                                                    <h4 class="modal-title">Nomor Surat : {{ $d->no_surat }}</h4>
                                                 </div>
                                                 <div class="modal-body">
-
+                                                    <b>Keterangan:</b><p>{{$d->keterangan}}</p>
+                                                    <br>
                                                     @foreach ($d->daftar_barang as $key => $item)
                                                         <b>
                                                             <span>- Barang {{ $key + 1 }}</span>
@@ -86,15 +85,15 @@
                                                         {{-- formatkan tgl ->format('d/m/Y')  --}}
                                                         <p>
                                                             <span>Tanggal Mulai Produksi</span> : <span>
-                                                                {{ $item->pivot->tgl_mulai_produksi }}</span>
+                                                                {{ date('d/m/y', strtotime($item->pivot->tgl_mulai_produksi))}}</span>
                                                         </p>
                                                         <p>
                                                             <span>Tanggal Selesai Produksi</span> : <span>
-                                                                {{ $item->pivot->tgl_selesai_produksi }}</span>
+                                                                {{date('d/m/y', strtotime($item->pivot->tgl_selesai_produksi ))}}</span>
                                                         </p>
                                                         <p>
                                                             <span>Kuantitas</span> : <span>
-                                                                {{ number_format($item->pivot->kuantitas) }}</span>
+                                                                {{ number_format($item->pivot->kuantitas) }} {{ $item->satuan }}</span>
 
                                                         </p>
                                                     @endforeach
@@ -107,7 +106,6 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td id='td_keterangan_{{ $d->id }}'>{{ $d->keterangan }}</td>
                                 <td id='td_pengguna_{{ $d->id }}'>{{ $d->pengguna->nama }}</td>
                             </tr>
                         @endforeach

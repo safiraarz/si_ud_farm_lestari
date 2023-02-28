@@ -68,9 +68,10 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <b>Keterangan:</b><p>{{$d->keterangan}}</p>
+                                                    <br>
                                                     @foreach ($d->barang as $key => $item)
                                                         <b>
-                                                            <span>- Barang {{ $key + 1 }}</span>
+                                                            <span>=== Barang {{ $key + 1 }} ===</span>
 
                                                         </b>
                                                         <p>
@@ -82,7 +83,7 @@
                                                         </p>
                                                         <p>
                                                             <span>Kuantitas</span> : <span>
-                                                                {{ number_format($item->pivot->kuantitas) }}</span>
+                                                                {{ number_format($item->pivot->kuantitas) }} {{ $item->satuan }}</span>
                                                         </p>
                                                     @endforeach
                                                 </div>

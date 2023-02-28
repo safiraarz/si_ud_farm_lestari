@@ -41,7 +41,6 @@
                             <th>Karantina</th>
                             <th>Afkir</th>
                             <th>Kematian</th>
-                            <th>Keterangan</th>
                             <th>Flok Asal</th>
                             <th>Daftar Barang</th>
                             <th>Pencatat Transaksi</th>
@@ -55,7 +54,6 @@
                                 <td id='td_karantina_'>{{ $d->karantina }} ekor</td>
                                 <td id='td_afkir_'>{{ $d->afkir }} ekor</td>
                                 <td id='td_kematian_'>{{ $d->kematian }} ekor</td>
-                                <td id='td_keterangan_'>{{ $d->keterangan }}</td>
                                 <td id='td_asal_flok_'>{{ $d->flok->nama }}</td>
 
                                 <td>
@@ -71,12 +69,11 @@
                                                     <h4 class="modal-title">{{ $d->id }} - {{ $d->flok->nama }}</h4>
                                                 </div>
                                                 <div class="modal-body">
-                                                    {{-- {{ $d->barang() }} --}}
-
+                                                    <b>Keterangan:</b><p>{{$d->keterangan}}</p>
+                                                    <br>
                                                     @foreach ($d->daftar_barang as $key => $item)
                                                         <b>
-                                                            <span>- Barang {{ $key + 1 }}</span>
-
+                                                            <span>=== Barang {{ $key + 1 }} ===</span>
                                                         </b>
                                                         <p>
                                                             <span>Nama Barang</span> : <span> {{ $item->nama }}</span>
@@ -84,17 +81,17 @@
                                                         </p>
                                                         <p>
                                                             <span>Kuantitas Bersih</span> : <span>
-                                                                {{ $item->pivot->kuantitas_bersih }}</span>
+                                                                {{ number_format($item->pivot->kuantitas_bersih) }} {{ $item->satuan }}</span>
 
                                                         </p>
                                                         <p>
                                                             <span>Kuantitas Reject</span> : <span>
-                                                                {{ $item->pivot->kuantitas_reject }}</span>
+                                                                {{ number_format($item->pivot->kuantitas_reject) }} {{ $item->satuan }}</span>
 
                                                         </p>
                                                         <p>
-                                                            <span>Total Kuantitas</span> : <span>
-                                                                {{ $item->pivot->total_kuantitas }}</span>
+                                                            <strong>Total Kuantitas</strong> : <span>
+                                                                {{ number_format($item->pivot->total_kuantitas) }} {{ $item->satuan }}</span>
                                                         </p>
                                                     @endforeach
                                                 </div>
