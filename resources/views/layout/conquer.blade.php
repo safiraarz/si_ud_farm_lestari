@@ -270,7 +270,7 @@ License: You must have a valid license purchased only from themeforest(the above
                         </a>
                         <ul class="sub-menu blank">
                             <li>
-                                <a href="{{ route('aruskas.index') }}">
+                                <a href="{{ route('laporan_akuntansi.index') }}">
                                     <span class="title">Laporan Akuntansi</span>
                                 </a>
                             </li>
@@ -422,6 +422,12 @@ License: You must have a valid license purchased only from themeforest(the above
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.4.1/css/buttons.dataTables.min.css">
     <script src="{{ asset('assets/scripts/app.js') }}"></script>
     <script src="{{ asset('assets/scripts/table-advanced.js') }}"></script>
+    {{-- <script src="{{ asset('js/jspdf.umd.min.js') }}"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.4/jspdf.plugin.autotable.min.js"></script>
+{{-- <script src="https://unpkg.com/jspdf-autotable@3.5.28/dist/jspdf.plugin.autotable.js"></script> --}}
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script> --}}
+    {{-- <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script> --}}
     <script>
         jQuery(document).ready(function () {
             App.init();

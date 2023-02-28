@@ -218,7 +218,10 @@ class BukuBesarController extends Controller
         $buku_besar = new JurnalAkuntansi();
         // JurnalAkuntansi::bukubesar();
         // $buku_besar->jenis_saldo("");
-        $buku_besar = $buku_besar->bukubesar();
+        // Get Periode Aktif
+        $perid = PeriodeAkuntansi::where('status', '1')->first();
+        $periode_aktif_id = $perid->id;
+        $buku_besar = $buku_besar->bukubesar($periode_aktif_id);
         // dd($buku_besar);
         return view('bukubesar.index', ['data' => $buku_besar]);
 

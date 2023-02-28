@@ -20,7 +20,9 @@ class ArusKasController extends Controller
         $arus_kas = new JurnalAkuntansi();
         // JurnalAkuntansi::bukubesar();
         // $buku_besar->jenis_saldo("");
-        $arus_kas = $arus_kas->arus_kas();
+        $perid = PeriodeAkuntansi::where('status', '1')->first();
+        $periode_aktif_id = $perid->id;
+        $arus_kas = $arus_kas->arus_kas($periode_aktif_id);
         // dd($arus_kas);
         return view('aruskas.index', ['data' => $arus_kas,'periode'=>$periode]);
     }

@@ -40,8 +40,9 @@ class PeriodeAkuntansiController extends Controller
     {
         // Update Saldo Awal Akun
         $newjurnal = new JurnalAkuntansi();
-
-        $update_akun = $newjurnal->penutupan_update_akun();
+        $perid = PeriodeAkuntansi::where('status', '1')->first();
+        $periode_aktif_id = $perid->id;
+        $update_akun = $newjurnal->penutupan_update_akun($periode_aktif_id);
         //Nonaktif Periode Aktif Sekarang
         $periode_aktif = PeriodeAkuntansi::where('status',1)->first();
         $periode_aktif->status = 0;
