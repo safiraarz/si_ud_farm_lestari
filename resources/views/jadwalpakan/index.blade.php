@@ -36,6 +36,7 @@
                     </form>
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Tanggal Pemberian</th>
                             <th>Jenis Pakan</th>
                             <th>Kuantitas</th>
@@ -47,9 +48,10 @@
                     </thead>
                     <tbody>
                         @foreach ($data as $d)
-                            <tr>
+                            <tr id='tr_{{ $d->id }}'>
+                                <td>{{ $d->id }}</td>
                                 <td id='td_tgl_pemberian_'>{{ $d->tgl_pemberian->format('d/m/Y') }}</td>
-                                <td id='td_jenis_telur_'>{{ $d->barang->nama }}</td>
+                                <td id='td_jenis_pakan_'>{{ $d->barang->nama }}</td>
                                 <td id='td_kuantitas'>{{ number_format($d->kuantitas) }}</td>
                                 <td id='td_satuan'>{{ $d->barang->satuan }}</td>
                                 <td id='td_flok_tujuan_'>{{ $d->flok->nama }}</td>

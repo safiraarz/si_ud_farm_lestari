@@ -69,7 +69,7 @@
                         <div class="form-body">
                             <div class="form-group">
                                 <label>Nomor Surat Perintah Kerja</label>
-                                <select class="form-control" name="spk" id="spk">
+                                <select class="form-control" name="spk" id="spk" required>
                                     <option value="">Silahkan Pilih SPK</option>
                                     @foreach ($spk as $item)
                                         <option value="{{ $item->id }}">{{ $item->no_surat }}</option>
@@ -80,9 +80,8 @@
 
                             </div>
                             <div class="form-group" id="selected_bahan_baku" style="display: none;">
-                                <label>Nama Bahan Baku</label>
+                                <label>Nama Pakan</label>
                                 <select class="form-control" name="bahan_baku" id="bahan_baku" >
-
                                 </select>
                             </div>
                             <div id="data_bahan_baku" style="display: none;">
@@ -141,7 +140,7 @@
                             [
                                 "{{ $barangs->id }}",
                                 "{{ $barangs->nama }}",
-                                "{{ number_format($barangs->pivot->kuantitas) }} {{$barangs->satuan}}",
+                                "{{ $barangs->pivot->kuantitas}}",
                                 "{{ $barangs->pivot->tgl_mulai_produksi }}",
                                 "{{ $barangs->pivot->tgl_selesai_produksi }}",
 
@@ -178,15 +177,6 @@
 
         });
 
-        // if( $("#bahan_baku").find(':selected').val() != ''){
-        //     alert('aa');
-        // };
-
-        // $("#bahan_baku").on('focus', function() {
-        //     // alert("aa");
-            
-        // });
-        // $('#bahan_baku').first().focus();
         function data(){
             spkbarang.forEach(element => {
                 if ($('#spk').val() == element[0]) {

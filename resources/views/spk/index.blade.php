@@ -1,16 +1,6 @@
 @extends('layout.conquer')
 @section('content')
     <div class="container">
-        @if (session('status'))
-            <div class="alert alert-success">
-                {{ session('status') }}
-            </div>
-        @endif
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
         <div class="portlet">
             <div class="portlet-title">
                 <div class="caption">
@@ -59,7 +49,7 @@
                                 <td>{{ $d->id }}</td>
                                 <td id='td_no_spk_{{ $d->id }}'>{{ $d->no_surat }}</td>
                                 <td id='td_tgl_pembuatan_spk_{{ $d->id }}'>
-                                    {{ date('d/m/y', strtotime($d->tgl_pembuatan_surat )) }}</td>
+                                    {{ $d->tgl_pembuatan_surat->format('d/m/Y') }}</td>
                                 <td>
                                     <a class="btn btn-default edittable" data-toggle="modal"
                                         href="#detail_{{ $d->id }}">

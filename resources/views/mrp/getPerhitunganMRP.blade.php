@@ -123,11 +123,11 @@ $arr_penampung_gr =[];
     $total = 0;
     @endphp
     @foreach ($lfl as $bahanbaku)
-    <p>Gross Requirement (Kebutuhan Kotor) {{ $bahanbaku['nama bahan baku'] }} : {{ $arr_penampung_gr[$counter] }}</p>
+    <p>Gross Requirement (Kebutuhan Kotor) {{ $bahanbaku['nama bahan baku'] }} : {{ $arr_penampung_gr[$counter] }} kg</p>
     @php
     $total += $arr_penampung_gr[$counter];
     $counter++;
     @endphp
     @endforeach
-    <p>Total Gross Requirement (Kebutuhan Kotor) : {{ $total }}</p>
+    <p>Total Gross Requirement (Kebutuhan Kotor) : {{ $total }} kg</p>
 </div>

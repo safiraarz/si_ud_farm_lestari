@@ -54,7 +54,7 @@ class BOMController extends Controller
             {   
                 $data->barang()->attach($details['id_bahan_baku'],['kuantitas_bahan_baku' =>$details['kuantitas']]);
             }
-            return redirect()->route('bom.index')->with('status', 'Berhasil Menambahkan BOM ');
+            return redirect()->route('bom.index')->with('status', 'Pakan '.$data->id.' berhasil ditambahkan');
         
         }
         else{

@@ -19,7 +19,7 @@ class JadwalPakanController extends Controller
      */
     public function index()
     {
-        $queryBuilder = JadwalPakan::orderBy('created_at', 'desc')->get();
+        $queryBuilder = JadwalPakan::all();
         $barang = Barang::all();
         $flok = Flok::all();
         $user = User::all();

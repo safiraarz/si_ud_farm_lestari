@@ -76,7 +76,7 @@ class SPKController extends Controller
                     'kuantitas' => $details['kuantitas']
                 ]);
             }
-            return redirect()->route('spk.index')->with('status', 'Berhasil menambahkan surat' . $request->get('no_surat'));
+            return redirect()->route('spk.index')->with('status', 'Berhasil menambahkan surat ' . $request->get('no_surat'));
         }
         else{
             return redirect()->route('spk.create')->with('error', 'Gagal menambahkan surat');
