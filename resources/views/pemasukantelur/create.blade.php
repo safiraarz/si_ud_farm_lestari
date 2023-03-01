@@ -185,26 +185,18 @@
             var kuantitas_total = parseInt(kuantitas_bersih) + parseInt(kuantitas_reject);
 
             var satuan = $('#nama_telur').find(':selected').attr('satuan');
-            // $('.satuan').html(satuan);
-            // alert(nama_telur + kuantitas_total + satuan);
 
             var tgl_pencatatan = $('#tgl_pencatatan').val();
             var keterangan = $('#keterangan').val();
 
-            if (parseInt(kuantitas_total) <= 0 || kuantitas_total == '' || parseInt(kuantitas_bersih) <= 0 ||
-                kuantitas_bersih == '' || parseInt(kuantitas_reject) <= 0 || kuantitas_reject == ''
+            if (parseInt(kuantitas_total) < 0 || kuantitas_total == '' || parseInt(kuantitas_bersih) < 0 ||
+                kuantitas_bersih == '' || parseInt(kuantitas_reject) < 0 || kuantitas_reject == ''
                 || kuantitas_total.length > 11|| kuantitas_reject.length > 11 || kuantitas_bersih.length > 11) {
                 var erroMsg =
                     '<span class="alert alert-danger ml-5">Pastikan input angka benar</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
-            }else if($("#karantina").val().length > 6 || $("#afkir").val().length > 6 || $("#kematian").val().length > 6 ){
-                var erroMsg =
-                    '<span class="alert alert-danger ml-5">Karangtina / Afkir / Kemarian Memiliki Angka Salah</span>';
-                $('.errorMsg').show();
-                $('.errorMsg').html(erroMsg).fadeOut(9000);
-
-            }else {
+            } else {
                 // alert("masuk")
                 billFunction(); // Below Function passing here 
             }
