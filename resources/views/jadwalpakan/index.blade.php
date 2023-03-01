@@ -86,10 +86,11 @@
                                 <div class="form-group">
                                     <label>Nama Pakan Ternak</label>
                                     <select class="form-control" name="jenis_pakan" id="jenis_pakan" required>
+                                        <option value="">== Pilih Pakan Ternak ==</option>
                                         @foreach ($barang as $item)
                                             @if ($item->jenis == 'Barang Jadi')
                                                 <option value="{{ $item->id }}"
-                                                    ready="{{ $item->kuantitas_stok_ready }}">{{ $item->nama }} (Stok:
+                                                    ready="{{ $item->kuantitas_stok_ready }}" satuan="{{ $item->satuan }}">{{ $item->nama }} (Stok:
                                                     {{ number_format($item->kuantitas_stok_ready) }} {{ $item->satuan }})
                                                 </option>
                                             @endif
@@ -106,6 +107,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="" id="satuan" class="satuan">Kuantitas ()</label>
+                                    <input type="hidden" min="1" name="kuantitas_max" class="form-control"
+                                        id='kuantitas_max' required>
                                     <input type="number" min="1" name="kuantitas" class="form-control"
                                         id='kuantitas' required>
                                 </div>
@@ -148,15 +151,27 @@
                 }
 
             });
-            $('#jenis_pakan').on('change', function() {
+            // $('#jenis_pakan').on('change', function() {
+               
+            // });
+            $("#jenis_pakan").on('change', function() {
                 var satuan = $(this).find(':selected').attr('satuan');
                 $('.satuan').html("Kuantitas (" + satuan + ")");
-            });
-            $("#jenis_pakan").on('change', function() {
-
                 var kuantitas_bahan_baku_ready = $(this).find(':selected').attr('ready');
-                $("#kuantitas").attr("max", kuantitas_bahan_baku_ready);
+                // $("#kuantitas").attr("max", kuantitas_bahan_baku_ready);
                 $("#kuantitas").val(kuantitas_bahan_baku_ready);
+                $("#kuantitas_max").val(kuantitas_bahan_baku_ready);
+
+                // alert(kuantitas_bahan_baku_ready);
+
+            });
+            $("#kuantitas").on('change', function() {
+                var max_value = $("#kuantitas_max").val();
+                var kuantitas = $(this).val();
+                if(kuantitas > max_value) {
+                    $('#kuantitas').val(max_value);
+                }
+
                 // alert(kuantitas_bahan_baku_ready);
 
             });

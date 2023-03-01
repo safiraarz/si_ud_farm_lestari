@@ -9,6 +9,7 @@ class JadwalPakan extends Model
     protected $connection = 'inventory';
     protected $dates = ['tgl_pemberian'];
     protected $table = "jadwal_pakan";
+    public $timestamps = false;
 
     public function barang(){
         return $this->belongsTo('App\Barang','barang_id','id');

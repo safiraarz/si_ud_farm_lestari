@@ -92,7 +92,7 @@ class NotaPembelianController extends Controller
                     if($value->id == $details['barang_id']){
                         $kuantitas_old = $value->pivot->kuantitas;
                         $barang_update = Barang::find($details['barang_id']);
-                        $barang_update->kuantitas_stok_onorder_supplier = $barang_update->kuantitas_stok_onorder_supplier - $kuantitas_old;
+                        // $barang_update->kuantitas_stok_onorder_supplier = $barang_update->kuantitas_stok_onorder_supplier - $kuantitas_old;
                         $barang_update->total_kuantitas_stok = ($barang_update->total_kuantitas_stok - $kuantitas_old) + $details['kuantitas'];
                         $barang_update->kuantitas_stok_ready = $barang_update->kuantitas_stok_ready + $details['kuantitas'];
                         $barang_update->save();

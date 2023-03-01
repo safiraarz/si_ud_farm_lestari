@@ -2,11 +2,15 @@
 
 @section('content')
     <div class="form-group margin-right-10">
+
         <label>Pilih Jenis Nota</label>
         <select class="form-control" name="pilih_nota" id="pilih_nota">
             <option value="nota_pemesanan">Nota Pemesanan</option>
             <option value="nota_pembelian">Nota Pembelian</option>
+            @if ( Auth::user()->jabatan->id == 10205 || Auth::user()->jabatan->id == 10203)
             <option value="nota_penjualan">Nota Penjualan</option>
+                
+            @endif
         </select>
     </div>
 

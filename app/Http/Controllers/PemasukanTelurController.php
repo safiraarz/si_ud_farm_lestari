@@ -66,6 +66,7 @@ class PemasukanTelurController extends Controller
             $data->flok_id = $request->get('flok');
             $data->tgl_pencatatan = Carbon::now()->toDateString();
             $data->save();
+            
             foreach ($request->get("telur") as $details) {
                 $barang_update = Barang::find($details['id_telur']);
                 $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
@@ -76,6 +77,7 @@ class PemasukanTelurController extends Controller
                 $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
                 $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
                 $barang_update->save();
+            
     
                 $data->daftar_barang()->attach($details['id_telur'], [
                     'kuantitas_bersih' => $details['kuantitas_bersih'],
@@ -85,6 +87,13 @@ class PemasukanTelurController extends Controller
     
     
             }
+            // Update Flok Jika Kematian 
+            $flok = Flok::find($request->get('flok'));
+            $populasi_old = $flok->populasi;
+            $populasi_new = $populasi_old - $request->get('kematian');
+            $flok->populasi  = $populasi_new;
+            $flok->save();
+
             return redirect()->route('pemasukantelur.index')->with('status', 'Pemasukan Telur ID '.$data->id.' berhasil ditambahkan');
         }
         else{

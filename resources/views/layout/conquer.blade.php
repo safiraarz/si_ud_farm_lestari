@@ -143,13 +143,14 @@ License: You must have a valid license purchased only from themeforest(the above
                         <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
                     </li>
 
-                    <li class="start active ">
+                    <li class=" ">
                         <a href="{{ route('dashboard') }}">
                             <i class="icon-home"></i>
                             <span class="title">Dashboard</span>
                             <span class="selected"></span>
                         </a>
                     </li>
+                    
                     <li>
                         <a href="javascript:;">
                             <i class=" icon-folder"></i>
@@ -157,22 +158,35 @@ License: You must have a valid license purchased only from themeforest(the above
                             <span class="arrow "></span>
                         </a>
                         <ul class="sub-menu">
+                            @if ( Auth::user()->jabatan->id == 10103 ||  Auth::user()->jabatan->id == 10102 ||  Auth::user()->jabatan->id == 10104 ||  Auth::user()->jabatan->id == 10106 ||  Auth::user()->jabatan->id == 10107  )
                             <li>
                                 <a href="{{ route('barang.index') }}">Barang
                                 </a>
-                            </li>
+                            </li> 
+                            @endif
+
+                            @if ( Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10102 || Auth::user()->jabatan->id == 10106  ) 
                             <li>
                                 <a href="{{ route('flok.index') }}">Flok Ayam
                                 </a>
                             </li>
+                            @endif
+
+                            @if (Auth::user()->jabatan->id == 10103  || Auth::user()->jabatan->id == 10102 || Auth::user()->jabatan->id == 10105)
                             <li>
                                 <a href="{{ route('supplier.index') }}">Supplier
                                 </a>
                             </li>
+                            @endif
+
+                            @if (Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10105)
                             <li>
                                 <a href="{{ route('customer.index') }}">Customer
                                 </a>
                             </li>
+                            @endif
+
+                            @if (Auth::user()->jabatan->id == 10103 )
                             <li>
                                 <a href="{{ route('jabatan.index') }}">Jabatan
                                 </a>
@@ -181,10 +195,14 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <a href="{{ route('user.index') }}">Pengguna
                                 </a>
                             </li>
+                            @endif
+
+                            @if (Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10105 )    
                             <li>
                                 <a href="{{ route('akun.index') }}">Akun
                                 </a>
                             </li>
+                            @endif
                         </ul>
                     </li>
                     <li>
@@ -194,6 +212,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             <span class="arrow "></span>
                         </a>
                         <ul class="sub-menu blank">
+                            @if ( Auth::user()->jabatan->id == 10103 ||  Auth::user()->jabatan->id == 10102 ||  Auth::user()->jabatan->id == 10105 )
                             <li>
                                 <a href="{{ route('nota.index') }}">Tambah Nota
                                 </a>
@@ -206,19 +225,28 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <a href="{{ route('notapembelian.index') }}">Nota Pembelian
                                 </a>
                             </li>
+                            @endif
+
+                            @if (Auth::user()->jabatan->id == 10103 ||  Auth::user()->jabatan->id == 10205)
                             <li>
                                 <a href="{{ route('notapenjualan.index') }}">Nota Penjualan
                                 </a>
                             </li>
+                            @endif
+
+                            @if (Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10106 || Auth::user()->jabatan->id == 10107 )     
                             <li>
                                 <a href="{{ route('pemasukantelur.index') }}">Pemasukan Telur
                                 </a>
                             </li>
-                            <li>
+                            @endif
 
+                            @if (Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10102)    
+                            <li>
                                 <a href="{{ route('jadwalpakan.index') }}">Pemberian Pakan
                                 </a>
                             </li>
+                            @endif
                         </ul>
                     </li>
                     <li>
@@ -228,12 +256,9 @@ License: You must have a valid license purchased only from themeforest(the above
                             <span class="arrow "></span>
                         </a>
                         <ul class="sub-menu blank">
+                            @if (Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10104)
                             <li>
                                 <a href="{{ route('bom.index') }}">Bill of Material
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('spk.index') }}">Surat Perintah Kerja
                                 </a>
                             </li>
                             <li>
@@ -245,21 +270,34 @@ License: You must have a valid license purchased only from themeforest(the above
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('mrp.laporanKebutuhan') }}">Kebutuhan Bahan Baku
+                                <a href="{{ route('hasilproduksi.index') }}">Daftar Hasil Produksi
+                                </a>
+                            </li> 
+                            @endif
+
+                            @if (Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10102)
+                            <li>
+                                <a href="{{ route('spk.index') }}">Surat Perintah Kerja
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ route('lpb.index') }}">Laporan Pengeluaran Barang
                                 </a>
                             </li>
+                                
+                            @endif
+
+                            @if (Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10104 ||Auth::user()->jabatan->id == 10102)
                             <li>
-                                <a href="{{ route('hasilproduksi.index') }}">Daftar Hasil Produksi
+                                <a href="{{ route('mrp.laporanKebutuhan') }}">Kebutuhan Bahan Baku
                                 </a>
                             </li>
+
                             <li>
                                 <a href="{{ route('suratjalan.index') }}">Surat Jalan
                                 </a>
                             </li>
+                            @endif
                         </ul>
                     </li>
                     <li>
@@ -269,6 +307,8 @@ License: You must have a valid license purchased only from themeforest(the above
                             <span class="arrow "></span>
                         </a>
                         <ul class="sub-menu blank">
+                            @if (Auth::user()->jabatan->id == 10101 || Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10105)
+                                
                             <li>
                                 <a href="{{ route('laporan_akuntansi.index') }}">
                                     <span class="title">Laporan Akuntansi</span>
@@ -312,11 +352,17 @@ License: You must have a valid license purchased only from themeforest(the above
                                     <span class="title">Laporan Arus Kas</span>
                                 </a>
                             </li>
+                            
+                            @endif
+
+                            @if (Auth::user()->jabatan->id == 10203 || Auth::user()->jabatan->id == 10205)
+                                
                             <li>
                                 <a href="{{ route('periode_akuntansi.index') }}">
                                     <span class="title">Penutupan Periode</span>
                                 </a>
                             </li>
+                            @endif
                         </ul>
                     </li>
                 </ul>

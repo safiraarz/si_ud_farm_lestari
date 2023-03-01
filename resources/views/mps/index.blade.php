@@ -64,7 +64,7 @@
                     <h4 class="modal-title">Tambah MPS</h4>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ url('mps') }}" class="form-horizontal" method='POST'>
+                    <form id="form_mps" action="{{ route('mps.store') }}" class="form-horizontal" method='POST'>
                         @csrf
                         <div class="form-body">
                             <div class="form-group">
@@ -130,6 +130,36 @@
             order: [
                 [0, 'desc']
             ]
+        });
+        function getDays(date1, date2) {
+            let difference = date2.getTime() - date1.getTime();
+            let TotalDays = Math.ceil(difference / (1000 * 3600 * 24));
+            return TotalDays + 1;
+        }
+
+
+        function checkMinProductionPeriod(qty, totalDays) {
+            let counter = 0
+            while (qty > 0) {
+                qty = qty - 3200
+                counter++
+            }
+            if (totalDays >= counter) {
+                return -1
+            }
+            return counter
+        };
+        $("#form_mps").on('submit', function() {
+            var date_start = new Date($('#tgl_mulai_produksi').val()) ;
+            var date_end = new Date($('#tgl_selesai_produksi').val());
+            var kuantitas = $('#kuantitas').val();
+            var totalDays = getDays(new Date($('#tgl_mulai_produksi').val()), new Date($('#tgl_selesai_produksi').val()));
+            var checkMinimalHariProduksi = checkMinProductionPeriod(kuantitas, totalDays);
+            if (checkMinimalHariProduksi != -1) {
+                alert('Minimal pengerjaan barang jadi adalah ' + checkMinimalHariProduksi + ' hari');
+                return false;
+            }
+   
         });
         var spkbarang = [
             @foreach ($spk as $item)

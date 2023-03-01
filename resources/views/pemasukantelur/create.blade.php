@@ -198,7 +198,13 @@
                     '<span class="alert alert-danger ml-5">Pastikan input angka benar</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
-            } else {
+            }else if($("#karantina").val().length > 6 || $("#afkir").val().length > 6 || $("#kematian").val().length > 6 ){
+                var erroMsg =
+                    '<span class="alert alert-danger ml-5">Karangtina / Afkir / Kemarian Memiliki Angka Salah</span>';
+                $('.errorMsg').show();
+                $('.errorMsg').html(erroMsg).fadeOut(9000);
+
+            }else {
                 // alert("masuk")
                 billFunction(); // Below Function passing here 
             }

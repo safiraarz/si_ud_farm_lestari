@@ -67,11 +67,14 @@ class HasilProduksiController extends Controller
         // dd($barang_update);
 
         // INI YANG NOMOR 19 DI DOCS
+        $kuantitas_stok_onorder_produksi_old = $barang_update->kuantitas_stok_onorder_produksi;
+        $kuantitas_stok_onorder_produksi_new = $kuantitas_stok_onorder_produksi_old -  $request->get('input_kn_bersih');
         $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
         $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  + $request->get('input_kn_bersih');
         $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
         $total_kuantitas_stok_new  = $total_kuantitas_stok_old + $request->get('input_kn_bersih');
 
+        $barang_update->kuantitas_stok_onorder_produksi = $kuantitas_stok_onorder_produksi_new;
         $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
         $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
         $barang_update->save();

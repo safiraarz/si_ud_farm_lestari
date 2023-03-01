@@ -130,17 +130,17 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Kuantitas Barang Reject:</label>
+                                    <label >Kuantitas Barang Reject <span id="kuantitas_reject"></span> :</label>
                                     <input type="number" min="0" max="99999999999" name="input_kn_reject" class="form-control" id='input_kn_reject'
                                         required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Kuantitas Barang Bersih:</label>
+                                    <label>Kuantitas Barang Bersih <span id="kuantitas_bersih"></span> :</label>
                                     <input type="number" min="0" max="99999999999" name="input_kn_bersih" class="form-control"
                                         id='input_kn_bersih' required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Total Kuantitas:</label>
+                                    <label>Total Kuantitas <span id="kuantitas_total"></span> :</label>
                                     <input type="number" name="input_kn_total" class="form-control" id='input_kn_total'
                                         required readonly>
                                 </div>
@@ -203,6 +203,8 @@
                                 "{{ $barangs->id }}",
                                 "{{ $barangs->nama }}",
                                 "{{ $barangs->pivot->kuantitas }}",
+                                "{{ $barangs->satuan }}",
+
                             ],
                         @endforeach
                     ]
@@ -218,6 +220,7 @@
         $("#no_surat_perintah_kerja").on('change', function() {
             $("#selected_barang").show();
             $('#barang').html("");
+            $('#barang').append( '<option>== Pilih Barang ==</option>');
             var id_spk = $(this).val();
             spkbarang.forEach(element => {
                 if (id_spk == element[0]) {
@@ -226,7 +229,9 @@
                         const elements = element[1][index];
                         var barang_id = elements[0];
                         var barang_name = elements[1];
-                        var barang_pesanan = '<option value="' + barang_id + '" >' + barang_name +
+                        var barang_satuan = elements[3];
+
+                        var barang_pesanan = '<option satuan="'+barang_satuan+'" value="' + barang_id + '" >' + barang_name +
                             '</option>';
                         $('#barang').append(barang_pesanan);
 
@@ -234,6 +239,15 @@
                 }
 
             });
+
+        });
+        $("#barang").on('change', function() {
+            var satuan = '( '+$(this).find(':selected').attr('satuan')+' )';
+            $('#kuantitas_reject').html(satuan);
+            $('#kuantitas_total').html(satuan);
+            $('#kuantitas_bersih').html(satuan);
+
+
 
         });
     </script>
