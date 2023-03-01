@@ -17,7 +17,10 @@ class NeracaController extends Controller
     {
         $periode = PeriodeAkuntansi::all();
         $queryBuilder = new JurnalAkuntansi();
-        $neraca = $queryBuilder->neraca();
+        // Get Periode Aktif
+        $perid = PeriodeAkuntansi::where('status', '1')->first();
+        $periode_aktif_id = $perid->id;
+        $neraca = $queryBuilder->neraca($periode_aktif_id);
         // dd($neraca);
 
         return view('neraca.index', ['data' => $neraca,'periode'=>$periode]);

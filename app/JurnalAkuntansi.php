@@ -69,14 +69,12 @@ class JurnalAkuntansi extends Model
         return $no_reff ;
     }
 
-    public function bukubesar(){
+    public function bukubesar($id_periode){
         $buku_besar2 = [];
         $buku_besar = new JurnalAkuntansi();
         $akuns = AkunAkuntansi::all();
-        // Get Periode Aktif
-        $perid = PeriodeAkuntansi::where('status', '1')->first();
-        $periode_aktif_id = $perid->id;
-        $jurnals = JurnalAkuntansi::where('periode_id',$periode_aktif_id)->get();
+
+        $jurnals = JurnalAkuntansi::where('periode_id',$id_periode)->get();
         // $jurnals_detail =  DB::select(DB::raw("SELECT * FROM `jurnal_has_akun`"));
         foreach ($akuns as $akun) {
             $tumpung['saldo_awal_kredit'] = 0;
@@ -224,10 +222,10 @@ class JurnalAkuntansi extends Model
 
         return $buku_besar2;
     }
-    public function labarugi(){
+    public function labarugi($id_periode){
         // $buku_besar = [];
         $newjurnal = new JurnalAkuntansi();
-        $buku_besar = $newjurnal->bukubesar();
+        $buku_besar = $newjurnal->bukubesar($id_periode);
         $laba_rugi['pendapatan'] = [];
         $laba_rugi['biaya'] = [];
         $akuns = AkunAkuntansi::all();
@@ -269,11 +267,11 @@ class JurnalAkuntansi extends Model
         return  $laba_rugi;
     }
 
-    public static function perubahanekuitas(){
+    public static function perubahanekuitas($id_periode){
         // $perubahan_ekuitas = [];
         $newjurnal = new JurnalAkuntansi();
-        $buku_besar = $newjurnal->bukubesar();
-        $laba_rugi = $newjurnal->labarugi();
+        $buku_besar = $newjurnal->bukubesar($id_periode);
+        $laba_rugi = $newjurnal->labarugi($id_periode);
         $modal = 0;
         $prive = 0 ;
         $total= 0;
@@ -306,11 +304,11 @@ class JurnalAkuntansi extends Model
     }
 
 
-    public static function neraca(){
+    public static function neraca($id_periode){
         // $perubahan_ekuitas = [];
         $newjurnal = new JurnalAkuntansi();
-        $buku_besar = $newjurnal->bukubesar();
-        $perubahanekuitas = $newjurnal->perubahanekuitas();
+        $buku_besar = $newjurnal->bukubesar($id_periode);
+        $perubahanekuitas = $newjurnal->perubahanekuitas($id_periode);
         $neraca = [];
         $neraca['aset'] = [];
         $neraca['kewajiban'] = [];
@@ -370,9 +368,9 @@ class JurnalAkuntansi extends Model
         return $neraca;
     }
 
-    public static function arus_kas(){
+    public static function arus_kas($id_periode){
         $newjurnal = new JurnalAkuntansi();
-        $buku_besar = $newjurnal->bukubesar();
+        $buku_besar = $newjurnal->bukubesar($id_periode);
         $akuns = AkunAkuntansi::all();
  
         $penerimaan_dari_pelanggan = 0;
@@ -509,9 +507,9 @@ class JurnalAkuntansi extends Model
 
     }
 
-    public static function penutupan_update_akun(){
+    public static function penutupan_update_akun($id_periode){
         $newjurnal = new JurnalAkuntansi();
-        $buku_besar = $newjurnal->bukubesar();
+        $buku_besar = $newjurnal->bukubesar($id_periode);
         $akuns = AkunAkuntansi::all();
         
         foreach ($akuns as $akun) {

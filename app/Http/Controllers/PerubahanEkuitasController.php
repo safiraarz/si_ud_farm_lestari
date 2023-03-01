@@ -17,7 +17,10 @@ class PerubahanEkuitasController extends Controller
     {
         $periode = PeriodeAkuntansi::all();
         $queryBuilder = new JurnalAkuntansi();
-        $ekuitas = $queryBuilder->perubahanekuitas();
+        // Get Periode Aktif
+        $perid = PeriodeAkuntansi::where('status', '1')->first();
+        $periode_aktif_id = $perid->id;
+        $ekuitas = $queryBuilder->perubahanekuitas($periode_aktif_id);
         // dd($ekuitas);
         return view('perubahanekuitas.index', ['data' => $ekuitas,'periode'=>$periode]);
     }

@@ -174,6 +174,9 @@ Route::post('/akun/deleteData', 'AkunAkuntansiController@deleteData')->name('aku
 Route::resource('jurnal_akuntansi', 'JurnalAkuntansiController');
 Route::resource('periode_akuntansi', 'PeriodeAkuntansiController');
 Route::resource('transaksi_akuntansi', 'TransaksiAkuntansiController');
+Route::resource('laporan_akuntansi', 'LaporanAkuntansiController');
+Route::post('/laporan_akuntansi/getData', 'LaporanAkuntansiController@getData')->name('laporan.getData');
+Route::get('/export/pdf/{periode}','LaporanAkuntansiController@ExportPDF');
 
 Route::resource('neraca', 'NeracaController');
 Route::resource('perubahanekuitas', 'PerubahanEkuitasController');

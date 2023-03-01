@@ -17,7 +17,10 @@ class LabaRugiController extends Controller
     {
         $periode = PeriodeAkuntansi::all();
         $queryBuilder = new JurnalAkuntansi();
-        $laba_rugi = $queryBuilder->labarugi();
+        // Get Periode Aktif
+        $perid = PeriodeAkuntansi::where('status', '1')->first();
+        $periode_aktif_id = $perid->id;
+        $laba_rugi = $queryBuilder->labarugi($periode_aktif_id);
         // dd($laba_rugi);
         return view('labarugi.index', ['data' => $laba_rugi,'periode'=>$periode]);
     }
