@@ -52,7 +52,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <body class="login">
     <!-- BEGIN LOGO -->
     <div class="logo">
-        <img alt="" src="{{asset('assets/img/logoUD1.png')}}" />
+        <img style="width: 200px" alt="" src="{{asset('assets/img/logoUD2.png')}}" />
     </div>
     <!-- END LOGO -->
     <!-- BEGIN LOGIN -->
