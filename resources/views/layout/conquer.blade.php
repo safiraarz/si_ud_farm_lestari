@@ -355,7 +355,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             
                             @endif
 
-                            @if (Auth::user()->jabatan->id == 10203 || Auth::user()->jabatan->id == 10205)
+                            @if (Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10105)
                                 
                             <li>
                                 <a href="{{ route('periode_akuntansi.index') }}">
