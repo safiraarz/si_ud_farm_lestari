@@ -138,7 +138,7 @@
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             } else if (parseInt(kuantitas_barang_jadi_ready) < parseInt(kuantitas_barang_jadi) ||
                 kuantitas_barang_jadi_ready == '') {
-                var erroMsg = '<span class="alert alert-danger ml-5">Total Stok Kurang</span>';
+                var erroMsg = '<span class="alert alert-danger ml-5">Stok ready kurang</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             } else {
