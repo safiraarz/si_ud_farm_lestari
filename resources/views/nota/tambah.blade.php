@@ -7,10 +7,10 @@
         <select class="form-control" name="pilih_nota" id="pilih_nota">
             <option value="nota_pemesanan">Nota Pemesanan</option>
             <option value="nota_pembelian">Nota Pembelian</option>
-            @if ( Auth::user()->jabatan->id == 10205 || Auth::user()->jabatan->id == 10203)
+            {{-- @if ( Auth::user()->jabatan->id == 10205 || Auth::user()->jabatan->id == 10203) --}}
             <option value="nota_penjualan">Nota Penjualan</option>
                 
-            @endif
+            {{-- @endif --}}
         </select>
     </div>
 
@@ -620,7 +620,6 @@
             $('#total_harga').val(totalPayment);
         };
         $("#form_pembelian").on('submit', function() {
-            alert("test");
             // var name = $.trim($('#log').val());
             $('.harga_pembelian').each(function() {
                 var harga = Number($(this).val()) || 0;

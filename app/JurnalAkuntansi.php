@@ -3,7 +3,6 @@
 namespace App;
 
 use App\AkunAkuntansi;
-use App\JurnalAkuntansi;
 use App\PeriodeAkuntansi;
 use Illuminate\Database\Eloquent\Model;
 

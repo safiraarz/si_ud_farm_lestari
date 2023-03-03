@@ -81,7 +81,7 @@
                                                         </p>
                                                         <p>
                                                             <span>Harga</span> :
-                                                            <span>Rp{{ number_format($item->harga, 2) }}</span>
+                                                            <span>Rp{{ number_format($item->pivot->harga, 2) }}</span>
 
                                                         </p>
                                                         <p>

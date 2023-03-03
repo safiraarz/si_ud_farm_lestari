@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\AkunAkuntansi;
 use App\JurnalAkuntansi;
+use App\PeriodeAkuntansi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

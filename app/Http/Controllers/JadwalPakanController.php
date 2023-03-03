@@ -70,12 +70,12 @@ class JadwalPakanController extends Controller
             $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
             $barang_update->save();
     
-            return redirect()->route('jadwalpakan.index')->with('status', 'Jadwal tanggal '.$data->tgl_pemberian.' berhasil ditambahkan');
+            return redirect()->route('jadwalpakan.index')->with('status', 'Daftar pemberian pakan '.$data->id.' berhasil ditambahkan');
         
             
         }
         else{
-            return redirect()->route('jadwalpakan.index')->with('error', 'Gagal Menambahkan Jadwal Pakan, Kuantitas Kurang');
+            return redirect()->route('jadwalpakan.index')->with('error', 'Gagal menambahkan pemberian pakan, Kuantitas Kurang');
 
         }
    
