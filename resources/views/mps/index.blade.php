@@ -171,8 +171,8 @@
                                 "{{ $barangs->id }}",
                                 "{{ $barangs->nama }}",
                                 "{{ $barangs->pivot->kuantitas}}",
-                                "{{ $barangs->pivot->tgl_mulai_produksi }}",
-                                "{{ $barangs->pivot->tgl_selesai_produksi }}",
+                                "{{  date('Y-m-d', strtotime($barangs->pivot->tgl_mulai_produksi)) }}",
+                                "{{ date('Y-m-d', strtotime($barangs->pivot->tgl_selesai_produksi)) }}",
 
                             ],
                         @endforeach
@@ -208,6 +208,7 @@
         });
 
         function data(){
+           
             spkbarang.forEach(element => {
                 if ($('#spk').val() == element[0]) {
                     // Show Supplier
@@ -215,10 +216,13 @@
                         const elements = element[1][index];
                         var barang_id = elements[0];
                         if ($("#bahan_baku").val() == barang_id) {
+                            $("#tgl_mulai_produksi").val("");
+                            $("#tgl_selesai_produksi").val("");
                             $("#data_bahan_baku").show();
                             $("#kuantitas").val(elements[2]);
                             $("#tgl_mulai_produksi").val(elements[3]);
                             $("#tgl_selesai_produksi").val(elements[4]);
+                           
                         }
 
                     }
@@ -227,10 +231,10 @@
         };
         $("#bahan_baku").on('focus', function () {
   
-            data()
+            data();
     }).change(function() {
-        data()
-  
+        data();
+
     });
         $('.status_option').change(function() {
             var id_mps = $(this).attr('mpsid');
