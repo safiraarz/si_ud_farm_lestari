@@ -658,7 +658,7 @@
 
                 var tot = parseInt(kuan) * parseInt(har);
                 total += tot;
-                $('.total_item_pembelian_' + y).html(tot);
+                $('.total_item_pembelian_' + y).html(thousands_separators(tot));
 
             };
             // for
@@ -668,7 +668,7 @@
             //     });
 
             $('#total_harga_Pembelian').val(total);
-            $('#subTotal_Pembelian').html(total);
+            $('#subTotal_Pembelian').html(thousands_separators(total));
         };
         // Generete Subtotal
         $("#no_pesanan_pembelian").on('change', function() {
