@@ -19,7 +19,7 @@
                             <th>Keterangan</th>
                             <th>Cage</th>
                             <th>Strain</th>
-                            <th>Populasi</th>
+                            <th>Pakan</th>
                             <th>Usia</th>
                             <th>Kebutuhan Pakan Perhari</th>
                             <th>Action</th>
@@ -33,7 +33,36 @@
                                 <td>{{ $d->keterangan }}</td>
                                 <td>{{ $d->cage }}</td>
                                 <td>{{ $d->strain }}</td>
-                                <td>{{ number_format($d->populasi) }}</td>
+                                <td>
+                                    
+                                    <a class="btn btn-default" data-toggle="modal"
+                                    href="#detail_{{ $d->id }}">{{ $d->barang->nama }}</a>
+                                <div class="modal fade" id="detail_{{ $d->id }}" tabindex="-1" role="basic"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">{{ $d->nama }}</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <b>Karantina :</b>
+                                                <p>{{ $d->karantina }}</p>
+                                                <b>Afkir :</b>
+                                                <p>{{ $d->afkir }}</p>
+                                                <b>Sehat :</b>
+                                                <p>{{ $d->sehat }} </p>
+                                                <b>Total :</b>
+                                                <p>{{ $d->sehat + $d->afkir + $d->karantina }} </p>
+                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default"
+                                                    data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </td>
                                 <td>{{ $d->usia }}</td>
                                 <td>{{ $d->kebutuhan_pakan }} {{ $d->satuan }}/ekor</td>
                                 <td>
@@ -54,7 +83,7 @@
         </div>
     </div>
     <br>
-@endsection
+
 <!-- modal add new -->
 <div class="modal fade" id="modalCreate" tabindex="-1" role="basic" aria-hidden="true">
     <div class="modal-dialog">
@@ -76,6 +105,18 @@
                             <textarea type="text" maxlength="100" name="keterangan" class="form-control" id='keterangan' placeholder="Masukkan keterangan" required></textarea>
                         </div>
                         <div class="form-group">
+                            <label>Pakan</label>
+                            <select class='form-control select2' name='pakan'>
+                                @foreach ($barang as $item)
+                                @if ($item->jenis == "Barang Jadi")
+                                    
+                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                @endif
+                                    
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>Cage</label>
                             <input type="text" maxlength="45" name="cage" class="form-control" id='cage' placeholder="Masukkan nomor cage" required>
                         </div>
@@ -84,9 +125,21 @@
                             <input type="text" maxlength="100" name="strain" class="form-control" id='strain' placeholder="Masukkan nama strain" required>
                         </div>
                         <div class="form-group">
+                            <label>Afkir</label>
+                            <input type="number" min="0" max="99999999999" name="afkir" class="form-control" id='afkir' placeholder="Masukkan Afkir" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Karantina</label>
+                            <input type="number" min="0" max="99999999999" name="karantina" class="form-control" id='karantina' placeholder="Masukkan Karantina" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Sehat</label>
+                            <input type="number" min="0" max="99999999999" name="sehat" class="form-control" id='sehat' placeholder="Masukkan Sehat" required>
+                        </div>
+                        <div class="form-group">
                             <label>Populasi</label>
                             <input type="number" min="0" max="99999999999" name="populasi" class="form-control" id='populasi' placeholder="Masukkan jumlah populasi ayam dalam satuan ekor"
-                                required>
+                                required readonly>
                         </div>
                         <div class="form-group">
                             <label>Usia/Hari</label>
@@ -123,8 +176,39 @@
     </div>
 </div>
 
+@endsection
+
 @section('javascript')
     <script>
+
+$("#afkir").on('change', function() {
+                    var afkir = $("#afkir").val();
+                    var karantina = $("#karantina").val();
+                    var sehat = $("#sehat").val();
+                    var total = parseInt(afkir) + parseInt(karantina) + parseInt(sehat);
+
+                    $('#populasi').val(total);
+            
+                });
+         $("#karantina").on('change', function() {
+                    var afkir = $("#afkir").val();
+                    var karantina = $("#karantina").val();
+                    var sehat = $("#sehat").val();
+                    var total = parseInt(afkir) + parseInt(karantina) + parseInt(sehat);
+
+                    $('#populasi').val(total);
+            
+                });
+        $("#sehat").on('change', function() {
+                    var afkir = $("#afkir").val();
+                    var karantina = $("#karantina").val();
+                    var sehat = $("#sehat").val();
+                    var total = parseInt(afkir) + parseInt(karantina) + parseInt(sehat);
+
+                    $('#populasi').val(total);
+            
+        });
+
         function getEditForm(id) {
             $.ajax({
                     type: 'POST',

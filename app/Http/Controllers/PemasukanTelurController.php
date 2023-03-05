@@ -68,15 +68,18 @@ class PemasukanTelurController extends Controller
             $data->save();
             
             foreach ($request->get("telur") as $details) {
-                $barang_update = Barang::find($details['id_telur']);
-                $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
-                $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  + $details['kuantitas_bersih'];
-                $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
-                $total_kuantitas_stok_new  = $total_kuantitas_stok_old + $details['kuantitas_bersih'];
-    
-                $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
-                $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
-                $barang_update->save();
+                if($request->get('afkir') != null){
+
+                    $barang_update = Barang::find($details['id_telur']);
+                    $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
+                    $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  + $details['kuantitas_bersih'];
+                    $total_kuantitas_stok_old  = $barang_update->total_kuantitas_stok;
+                    $total_kuantitas_stok_new  = $total_kuantitas_stok_old + $details['kuantitas_bersih'];
+        
+                    $barang_update->kuantitas_stok_ready = $kuantitas_stok_ready_new;
+                    $barang_update->total_kuantitas_stok = $total_kuantitas_stok_new;
+                    $barang_update->save();
+                }
             
     
                 $data->daftar_barang()->attach($details['id_telur'], [
@@ -87,12 +90,53 @@ class PemasukanTelurController extends Controller
     
     
             }
+            // FLok Manajement
+            // Jika user masukin input AFKIR, menambah TABEL FLOK “afkir” dan mengurangi TABEL FLOK “sehat” dan menambah TABEL BARANG “stok ready” dan “total stok”
+            if($request->get('afkir') != null){
+                $flok = Flok::find($request->get('flok'));
+                $afkir_old = $flok->afkir;
+                $sehat_old = $flok->sehat;
+
+                $afkir_new = $afkir_old + $request->get('afkir');
+                $sehat_new = $sehat_old - $request->get('afkir');
+
+                $flok->afkir = $afkir_new;
+                $flok->sehat = $sehat_new;
+
+                $flok->save();
+            }
+
+            // Jika user masukin input KARANTINA, maka menambah TABEL FLOK “karantina” dan mengurangi TABEL FLOK “sehat”
+            if($request->get('karantina') != null){
+
+                $flok = Flok::find($request->get('flok'));
+                $karantina_old = $flok->karantina;
+                $sehat_old = $flok->sehat;
+
+                $karantina_new = $karantina_old + $request->get('karantina');
+                $sehat_new = $sehat_old - $request->get('karantina');
+
+                $flok->karantina = $karantina_new;
+                $flok->sehat = $sehat_new;
+
+                $flok->save();
+            }
+            // Jika user masukin input KEMATIAN, maka mengurangi TABEL FLOK “sehat” dan “afkir”
+            if($request->get('kematian') != null){
+                $flok = Flok::find($request->get('flok'));
+                $afkir_old = $flok->afkir;
+                $sehat_old = $flok->sehat;
+
+                $afkir_new = $afkir_old - $request->get('kematian');
+                $sehat_new = $sehat_old - $request->get('kematian');
+
+                $flok->afkir = $karantina_new;
+                $flok->sehat = $sehat_new;
+
+                $flok->save();
+            }
             // Update Flok Jika Kematian 
-            $flok = Flok::find($request->get('flok'));
-            $populasi_old = $flok->populasi;
-            $populasi_new = $populasi_old - $request->get('kematian');
-            $flok->populasi  = $populasi_new;
-            $flok->save();
+            
 
             return redirect()->route('pemasukantelur.index')->with('status', 'Pemasukan Telur ID '.$data->id.' berhasil ditambahkan');
         }

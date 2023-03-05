@@ -71,8 +71,10 @@ class NotaPembelianController extends Controller
 
         
         $user = Auth::user();
- 
-        if( $request->get('no_pesanan_pembelian') != null ){
+
+        if( $request->get('no_pesanan_pembelian') != null  && $request->get('ketegori_nota') != null){
+            // $supplier2 = Supplier::find($request->get('supplier_id'));
+            // dd($supplier2->nama);
             $data = new NotaPembelian();
             $data->no_nota = $request->get('no_nota');
             $data->nota_pemesanan_id = $request->get('no_pesanan_pembelian');
@@ -85,7 +87,7 @@ class NotaPembelianController extends Controller
             // $idNotaNew = $data->id;
             $total = 0;
             $pemesanan = NotaPemesanan::find($request->get('no_pesanan_pembelian'));
-            // dd($pemesanan->barang);
+     
             foreach($request->get("barang") as $details) 
             {
                 foreach ($pemesanan->barang as $value) {
@@ -102,8 +104,9 @@ class NotaPembelianController extends Controller
                 $data->barang()->attach($details['barang_id'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga']]);
             }
             // update status di pemesanan
-            $pemesanan->status = "beli";
-            $pemesanan->save();
+            $pemesanan2 = NotaPemesanan::find($request->get('no_pesanan_pembelian'));
+            $pemesanan2->status = "beli";
+            $pemesanan2->save();
     
             $data->total_harga = $total;
             $saved = $data->save();
@@ -115,8 +118,10 @@ class NotaPembelianController extends Controller
             $cara_bayar =  $request->get('cara_bayar') == 'tunai' ? 101 : 102;
             $kategori_nota = $request->get('ketegori_nota');
             $kat_nota = AkunAkuntansi::find($request->get('ketegori_nota'));
+            $supplier2 = Supplier::find($request->get('supplier_id'));
+            // dd($supplier2);
             $new_transaksi = new TransaksiAkuntansi();
-            $ket = "Membeli ".$kat_nota->nama." Sebesar Rp ".number_format($total)." Secara ".$request->get('cara_bayar')." ( ".$request->get('keterangan_pembelian')." )";
+            $ket = "Membeli ".$kat_nota->nama." Sebesar Rp ".number_format($total)." Secara ".$request->get('cara_bayar')." Kepada ".$supplier2->nama." ( ".$request->get('keterangan_pembelian')." )";        
             $new_transaksi->keterangan = $ket;
             $new_transaksi->save();
             $id_transaksi = $new_transaksi->id;

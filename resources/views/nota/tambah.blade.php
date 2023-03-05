@@ -623,7 +623,6 @@
             // var name = $.trim($('#log').val());
             $('.harga_pembelian').each(function() {
                 var harga = Number($(this).val()) || 0;
-                alert(harga);
                 if (harga.length > 9) {
 
                     return false;
@@ -741,9 +740,8 @@
                             index +
                             '" type="number" onchange="maxminvalue(' +
                             "'kuantitas_pembelian'" + "," + index + "," + kuantitas +
-                            '),findTotalPembelian()" min="1" max="' + 999999999 +
-                            '" name="barang[' + index + '][' + "kuantitas" + ']" value=' +
-                            thousands_separators(kuantitas) + '>' +
+                            '),findTotalPembelian()" min="1" max="999999999"  name="barang[' + index + '][' + "kuantitas" + ']" value=' +
+                            kuantitas + '>' +
                             '</td>' +
                             '<td class="satuan_pembelian">' +
                             elements[4] +
@@ -890,23 +888,25 @@
                 count_penjualan++;
             }
         });
-
+        $('#cara_bayar_form').val( $("#cara_bayar").val());
         $("#cara_bayar").on('change', function() {
             var cara_bayar = $("#cara_bayar").val();
             $('#cara_bayar_form').val(cara_bayar);
             // alert(cara_bayar);
 
         });
+        $('#ketegori_nota_form').val($("#daftar_akun").val());
         $("#daftar_akun").on('change', function() {
             var daftar_akun = $("#daftar_akun").val();
             $('#ketegori_nota_form').val(daftar_akun);
         });
+        $('#cara_bayar_form_penjualan').val($("#cara_bayar_penjualan").val());
         $("#cara_bayar_penjualan").on('change', function() {
             var cara_bayar = $("#cara_bayar_penjualan").val();
             $('#cara_bayar_form_penjualan').val(cara_bayar);
-            // alert(cara_bayar);
 
         });
+        $('#ketegori_nota_form_penjualan').val($("#daftar_akun_penjualan").val());
         $("#daftar_akun_penjualan").on('change', function() {
             var daftar_akun = $("#daftar_akun_penjualan").val();
             // alert(daftar_akun);

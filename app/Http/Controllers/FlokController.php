@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Flok;
+use App\Barang;
 use Illuminate\Http\Request;
 
 class FlokController extends Controller
@@ -15,7 +16,8 @@ class FlokController extends Controller
     public function index()
     {
         $data = Flok::all();
-        return view('flok.index', compact('data'));
+        $barang = Barang::all();
+        return view('flok.index', compact('data','barang'));
     }
 
     /**
@@ -41,8 +43,12 @@ class FlokController extends Controller
         $data->keterangan = $request->get('keterangan');
         $data->cage = $request->get('cage');
         $data->strain = $request->get('strain');
+        $data->karantina = $request->get('karantina');
+        $data->afkir = $request->get('afkir');
+        $data->sehat = $request->get('sehat');
         $data->populasi = $request->get('populasi');
         $data->usia = $request->get('usia');
+        $data->barang_id = $request->get('pakan');
         $data->kebutuhan_pakan = $request->get('kebutuhan_pakan');
         $data->satuan = $request->get('satuan');
         $data->save();
@@ -85,6 +91,14 @@ class FlokController extends Controller
         $flok->keterangan = $request->get('keterangan');
         $flok->cage = $request->get('cage');
         $flok->strain = $request->get('strain');
+        $flok->karantina = $request->get('karantina');
+        $flok->afkir = $request->get('afkir');
+        $flok->sehat = $request->get('sehat');
+        $flok->populasi = $request->get('populasi');
+        $flok->barang_id = $request->get('pakan');
+
+
+
         $flok->usia = $request->get('usia');
         $flok->kebutuhan_pakan = $request->get('kebutuhan_pakan');
         $flok->satuan = $request->get('satuan');
@@ -109,9 +123,10 @@ class FlokController extends Controller
     {
         $id = $request->get('id');
         $data = Flok::find($id);
+        $barang = Barang::all();
         return response()->json(array(
             'status' => 'oke',
-            'msg' => view('flok.getEditForm', compact('data'))->render()
+            'msg' => view('flok.getEditForm', compact('data','barang'))->render()
         ), 200);
     }
 

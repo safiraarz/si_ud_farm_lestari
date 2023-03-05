@@ -17,4 +17,7 @@ class Flok extends Model
     public function jadwalpakan(){
         return $this->belongsTo('App\JadwalPakan','flok_id');
     }
+    public function barang(){
+        return $this->belongsTo('App\Barang','barang_id','id');
+    }
 }

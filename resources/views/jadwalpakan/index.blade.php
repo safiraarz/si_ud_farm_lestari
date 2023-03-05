@@ -100,8 +100,9 @@
                                 <div class="form-group">
                                     <label>Asal Flok</label>
                                     <select class="form-control" name="asal_flok" id="asal_flok">
+                                        <option value="">== Pilih Flok ==</option>
                                         @foreach ($flok as $item)
-                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                            <option value="{{ $item->id }}" populasi="{{ $item->populasi }}" kebutuhan_pakan="{{ $item->kebutuhan_pakan }}">{{ $item->nama }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -139,42 +140,46 @@
 
     @section('javascript')
         <script>
-            $("#kuantitas").on('change', function() {
-                var kuantitas_max = $(this).attr('max');
+            // $("#kuantitas").on('change', function() {
+        //     var kuantitas_max = $(this).attr('max');
 
-                var kuantitas = $(this).val();
+            //     var kuantitas = $(this).val();
 
-                if (kuantitas <= 0) {
-                    $(this).val(kuantitas_max);
-                } else if (kuantitas_max < kuantitas) {
-                    $(this).val(kuantitas_max);
-                }
+            //     if (kuantitas <= 0) {
+            //         $(this).val(kuantitas_max);
+            //     } else if (kuantitas_max < kuantitas) {
+            //         $(this).val(kuantitas_max);
+            //     }
 
-            });
-            // $('#jenis_pakan').on('change', function() {
-               
             // });
-            $("#jenis_pakan").on('change', function() {
-                var satuan = $(this).find(':selected').attr('satuan');
-                $('.satuan').html("Kuantitas (" + satuan + ")");
-                var kuantitas_bahan_baku_ready = $(this).find(':selected').attr('ready');
-                // $("#kuantitas").attr("max", kuantitas_bahan_baku_ready);
-                $("#kuantitas").val(kuantitas_bahan_baku_ready);
+            $('#asal_flok').on('change', function() {
+                var kebutuhan_pakan = $('#asal_flok').find(':selected').attr('kebutuhan_pakan');
+                var populasi = $('#asal_flok').find(':selected').attr('populasi');
+                var rekomendasi = Math.ceil( ( parseFloat(populasi) * parseFloat(kebutuhan_pakan) ) /1000  );
+                $("#kuantitas").val(rekomendasi);
+                var kuantitas_bahan_baku_ready = $('#jenis_pakan').find(':selected').attr('ready');
                 $("#kuantitas_max").val(kuantitas_bahan_baku_ready);
-
-                // alert(kuantitas_bahan_baku_ready);
-
+               
             });
-            $("#kuantitas").on('change', function() {
-                var max_value = $("#kuantitas_max").val();
-                var kuantitas = $(this).val();
-                if(kuantitas > max_value) {
-                    $('#kuantitas').val(max_value);
-                }
+            // $("#jenis_pakan").on('change', function() {
+            //     var satuan = $(this).find(':selected').attr('satuan');
+            //     $('.satuan').html("Kuantitas (" + satuan + ")");
+            //     var kuantitas_bahan_baku_ready = $(this).find(':selected').attr('ready');
+            //     // $("#kuantitas").attr("max", kuantitas_bahan_baku_ready);
+            //     $("#kuantitas").val(kuantitas_bahan_baku_ready);
+            //     $("#kuantitas_max").val(kuantitas_bahan_baku_ready);
 
-                // alert(kuantitas_bahan_baku_ready);
+            //     // alert(kuantitas_bahan_baku_ready);
 
-            });
+            // });
+            // $("#kuantitas").on('change', function() {
+            //     var max_value = $("#kuantitas_max").val();
+            //     var kuantitas = $(this).val();
+            //     if(kuantitas > max_value) {
+            //         $('#kuantitas').val(max_value);
+            //     }
+
+            // });
 
             function getEditForm(id) {
                 $.ajax({
@@ -206,8 +211,9 @@
                     max = new Date($('.date_filter_max').val());
                     $.fn.dataTable.ext.search.push(
                         function(settings, data, dataIndex) {
-                            var date = new Date(data[0].split("/")[2] + "-" + data[0].split("/")[1] + "-" + data[0]
-                                .split("/")[0]);
+                            var date = new Date(data[1].split("/")[2] + "-" + data[1].split("/")[1] + "-" + data[1]
+                                .split("/")[1]);
+                          
                             if ((min === null && max === null) || (min === null && date <= max) || (min <= date &&
                                     max === null) || (min <= date && date <= max)) {
                                 return true;

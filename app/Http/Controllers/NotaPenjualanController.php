@@ -102,7 +102,8 @@ class NotaPenjualanController extends Controller
             $cara_bayar =  $request->get('cara_bayar') == 'tunai' ? 101 : 102;
             $kategori_nota = $request->get('ketegori_nota');
             $kat_nota = AkunAkuntansi::find($request->get('ketegori_nota'));
-            $ket = "Menjual ".$kat_nota->nama." Sebesar Rp ".number_format($request->get('total_harga_penjualan'))." Secara ".$request->get('cara_bayar')." ( ".$request->get('keterangan_penjualan')." )";
+            $customer2 = Customer::find($request->get('customer_id'));
+            $ket = "Menjual ".$kat_nota->nama." Sebesar Rp ".number_format($request->get('total_harga_penjualan'))." Secara ".$request->get('cara_bayar')." Kepada ".$customer2->nama." ( ".$request->get('keterangan_penjualan')." )";
             
             $new_transaksi = new TransaksiAkuntansi();
             $new_transaksi->keterangan = $ket;
