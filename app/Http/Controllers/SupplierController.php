@@ -14,6 +14,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
+        $this->authorize('checksupplier');
         $data = Supplier::all();
         return view('supplier.index', compact('data'));
     }

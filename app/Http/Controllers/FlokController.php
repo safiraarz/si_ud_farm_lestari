@@ -15,6 +15,7 @@ class FlokController extends Controller
      */
     public function index()
     {
+        $this->authorize('checkflok');
         $data = Flok::all();
         $barang = Barang::all();
         return view('flok.index', compact('data','barang'));

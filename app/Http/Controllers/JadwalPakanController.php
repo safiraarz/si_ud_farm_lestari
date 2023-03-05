@@ -19,6 +19,8 @@ class JadwalPakanController extends Controller
      */
     public function index()
     {
+        $this->authorize('checkpemberianpakan');
+
         $queryBuilder = JadwalPakan::all();
         $barang = Barang::all();
         $flok = Flok::all();

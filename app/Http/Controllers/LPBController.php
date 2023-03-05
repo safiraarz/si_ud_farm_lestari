@@ -19,6 +19,8 @@ class LPBController extends Controller
      */
     public function index()
     {
+        $this->authorize('check_spk_lpb');
+        
         $queryBuilder = LPB::all();
         $barang = Barang::all();
         $user = User::all();

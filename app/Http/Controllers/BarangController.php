@@ -15,6 +15,7 @@ class BarangController extends Controller
      */
     public function index()
     {
+        $this->authorize('checkbarang');
         $data = Barang::all();
         return view('barang.index', compact('data'));
     }

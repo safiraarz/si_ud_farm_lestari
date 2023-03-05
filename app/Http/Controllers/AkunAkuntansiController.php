@@ -14,6 +14,7 @@ class AkunAkuntansiController extends Controller
      */
     public function index()
     {
+        $this->authorize('checkakun');
         $queryBuilder = AkunAkuntansi::all();
         return view('akun.index', ['data' => $queryBuilder]);
     }

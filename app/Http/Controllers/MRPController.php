@@ -17,6 +17,8 @@ class MRPController extends Controller
     public function index()
     {
         //
+        $this->authorize('check_bom_mps_mrp_hasilproduksi');
+
         $mps = MPS::where('status','belum diproses')->get();
         return view('mrp.index',compact('mps'));
     }

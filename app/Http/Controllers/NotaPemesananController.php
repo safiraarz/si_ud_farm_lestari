@@ -21,6 +21,8 @@ class NotaPemesananController extends Controller
      */
     public function index()
     {
+        $this->authorize('checknotapemesanan');
+
         $queryBuilder = NotaPemesanan::orderby('id','DESC')->get();
         // dd($queryBuilder);
         // $queryBuilder = DB::table('nota_pemesanan')->orderByDesc('id')->get();

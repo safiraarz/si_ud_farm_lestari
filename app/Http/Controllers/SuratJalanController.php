@@ -19,6 +19,8 @@ class SuratJalanController extends Controller
      */
     public function index()
     {
+        $this->authorize('check_sk_bahanbaku');
+
         $queryBuilder = SuratJalan::all();
         $user = User::all();
         $barang = Barang::all();

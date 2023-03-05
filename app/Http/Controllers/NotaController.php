@@ -21,6 +21,7 @@ class NotaController extends Controller
     public function index()
     {
         //
+        $this->authorize('checktambahnota');
         $akun = AkunAkuntansi::all();
         $supplier = Supplier::all();
         $barang = Barang::all();

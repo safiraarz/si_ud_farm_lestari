@@ -14,6 +14,8 @@ class AsetController extends Controller
      */
     public function index()
     {
+        $this->authorize('checkakuntansi');
+
         $data = Aset::all();
         return view('aset.index', compact('data'));
     }

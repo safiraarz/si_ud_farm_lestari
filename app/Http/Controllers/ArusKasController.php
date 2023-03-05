@@ -15,6 +15,8 @@ class ArusKasController extends Controller
      */
     public function index()
     {
+        $this->authorize('checkakuntansi');
+
         $periode = PeriodeAkuntansi::all();
         $queryBuilder = JurnalAkuntansi::all();
         $arus_kas = new JurnalAkuntansi();

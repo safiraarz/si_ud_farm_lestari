@@ -17,6 +17,8 @@ class BukuBesarController extends Controller
      */
     public function index()
     {
+        $this->authorize('checkakuntansi');
+
         $queryBuilder = JurnalAkuntansi::all();
         // $buku_besar = [];
         $akuns = AkunAkuntansi::all();

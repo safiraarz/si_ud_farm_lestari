@@ -14,6 +14,8 @@ class JabatanController extends Controller
      */
     public function index()
     {
+        $this->authorize('checkjabatanpengguna');
+
         $data = Jabatan::all();
         return view('jabatan.index', compact('data'));
     }

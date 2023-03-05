@@ -16,6 +16,8 @@ class PeriodeAkuntansiController extends Controller
      */
     public function index()
     {
+        $this->authorize('checkpenutupanperiode');
+        
         $queryBuilder = PeriodeAkuntansi::where('status',1)->get();
         return view('periode.index', ['data' => $queryBuilder]);
     }

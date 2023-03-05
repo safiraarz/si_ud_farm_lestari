@@ -19,6 +19,8 @@ class LaporanAkuntansiController extends Controller
     public function index()
     {
         //
+        $this->authorize('checkakuntansi');
+
         $periode  = PeriodeAkuntansi::all();
         return view('laporan_akuntansi.index',compact('periode'));
     }

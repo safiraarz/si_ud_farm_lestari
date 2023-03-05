@@ -25,6 +25,8 @@ class NotaPenjualanController extends Controller
      */
     public function index()
     {
+        $this->authorize('checknotapenjualan');
+
         $queryBuilder = NotaPenjualan::all();
         $user = User::all();
         $customer = Customer::all();

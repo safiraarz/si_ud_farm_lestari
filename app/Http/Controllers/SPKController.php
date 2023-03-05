@@ -20,6 +20,8 @@ class SPKController extends Controller
      */
     public function index()
     {
+        $this->authorize('check_spk_lpb');
+
         $queryBuilder = SPK::all();
         $user = User::all();
         $barang = Barang::all();

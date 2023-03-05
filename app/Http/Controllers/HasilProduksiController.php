@@ -18,6 +18,8 @@ class HasilProduksiController extends Controller
      */
     public function index()
     {
+        $this->authorize('check_bom_mps_mrp_hasilproduksi');
+
         $queryBuilder = HasilProduksi::all();
         $barang = Barang::all();
         $surat_perintah_kerja = SPK::all();

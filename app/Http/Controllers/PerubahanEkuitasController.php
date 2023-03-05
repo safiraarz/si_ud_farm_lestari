@@ -15,6 +15,8 @@ class PerubahanEkuitasController extends Controller
      */
     public function index()
     {
+        $this->authorize('checkakuntansi');
+
         $periode = PeriodeAkuntansi::all();
         $queryBuilder = new JurnalAkuntansi();
         // Get Periode Aktif

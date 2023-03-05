@@ -21,6 +21,8 @@ class PemasukanTelurController extends Controller
      */
     public function index()
     {
+        $this->authorize('checkpemasukantelur');
+
         $queryBuilder = PemasukanTelur::all();
         $barang = Barang::all();
         $flok = Flok::all();

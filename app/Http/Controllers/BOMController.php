@@ -15,6 +15,8 @@ class BOMController extends Controller
      */
     public function index()
     {
+        $this->authorize('check_bom_mps_mrp_hasilproduksi');
+
         $queryBuilder = BOM::all();
         $barang = Barang::all();
         

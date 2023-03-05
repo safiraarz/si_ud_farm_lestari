@@ -18,6 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('checkjabatanpengguna');
         $data = User::all();
         $jabatans = Jabatan::all();
         return view('user.index', compact('data','jabatans'));

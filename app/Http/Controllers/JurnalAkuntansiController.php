@@ -18,6 +18,8 @@ class JurnalAkuntansiController extends Controller
      */
     public function index()
     {
+        $this->authorize('checkakuntansi');
+
         $periode = PeriodeAkuntansi::all();
         // $queryBuilder = JurnalAkuntansi::all();
          // Get Periode Aktif

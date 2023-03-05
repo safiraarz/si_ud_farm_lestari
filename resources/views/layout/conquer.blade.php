@@ -225,18 +225,18 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <a href="{{ route('notapembelian.index') }}">Nota Pembelian
                                 </a>
                             </li>
+                            {{-- <li>
+                                <a href="{{ route('notapenjualan.index') }}">Nota Penjualan
+                                </a>
+                            </li> --}}
+                            @endif
+
+                            @if (Auth::user()->jabatan->id == 10103 ||  Auth::user()->jabatan->id == 10205)
                             <li>
                                 <a href="{{ route('notapenjualan.index') }}">Nota Penjualan
                                 </a>
                             </li>
                             @endif
-
-                            {{-- @if (Auth::user()->jabatan->id == 10103 ||  Auth::user()->jabatan->id == 10205)
-                            <li>
-                                <a href="{{ route('notapenjualan.index') }}">Nota Penjualan
-                                </a>
-                            </li>
-                            @endif --}}
 
                             @if (Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10106 || Auth::user()->jabatan->id == 10107 )     
                             <li>
