@@ -37,7 +37,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('checknotapembelian','App\Policies\TransaksiPolicy@checknotapembelian');
         Gate::define('checknotapenjualan','App\Policies\TransaksiPolicy@checknotapenjualan');
         Gate::define('checknotapemesanan','App\Policies\TransaksiPolicy@checknotapemesanan');
-        Gate::define('checknotapemasukantelur','App\Policies\TransaksiPolicy@checkpemasukantelur');
+        Gate::define('checkpemasukantelur','App\Policies\TransaksiPolicy@checkpemasukantelur');
         Gate::define('checkpemberianpakan','App\Policies\TransaksiPolicy@checkpemberianpakan');
         // Produksi
         Gate::define('check_bom_mps_mrp_hasilproduksi','App\Policies\ProduksiPolicy@check_bom_mps_mrp_hasilproduksi');

@@ -38,7 +38,7 @@ class TransaksiPolicy
     }
     function checknotapenjualan(User $user)
     {
-        return ($user->jabatan->id == 10103 ||  $user->jabatan->id == 10205 ? Response::allow() : Response::deny("Anda Tidak Dapat Akses"));
+        return ($user->jabatan->id == 10103 ||  $user->jabatan->id == 10105 ? Response::allow() : Response::deny("Anda Tidak Dapat Akses"));
     }
 
     function checkpemasukantelur(User $user)
