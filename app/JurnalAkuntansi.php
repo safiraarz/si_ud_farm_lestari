@@ -78,8 +78,6 @@ class JurnalAkuntansi extends Model
         foreach ($akuns as $akun) {
             $tumpung['saldo_awal_kredit'] = 0;
             $tumpung['saldo_awal_debet'] = 0;
-           
-        // $buku_besar->jenis_saldo("");
             $jenis_saldo =$buku_besar->jenis_saldo($akun->jenis_akun,$akun->no_akun);
            
             $tumpung['no_akun'] = $akun->no_akun;

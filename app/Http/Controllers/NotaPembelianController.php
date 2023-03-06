@@ -136,7 +136,7 @@ class NotaPembelianController extends Controller
             $jurnal->tanggal_transaksi =$request->get('tanggal_pembuatan_nota');
             $jurnal->no_bukti =$request->get('no_nota');
             $jurnal->transaksi_id = $id_transaksi ;
-            $jurnal->periode_id = $periode_aktif_id;
+        $jurnal->periode_id = $periode_aktif_id;
             $jurnal->save();
             $jurnal->akun()->attach($cara_bayar,['no_urut' =>1,'nominal_kredit' =>$total,'nominal_debit'=>0]);
             $jurnal->akun()->attach($kategori_nota,['no_urut' =>2,'nominal_kredit' =>0,'nominal_debit'=>$total]);
