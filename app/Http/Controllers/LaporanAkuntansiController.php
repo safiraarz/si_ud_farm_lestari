@@ -91,9 +91,9 @@ class LaporanAkuntansiController extends Controller
         //
     }
 
-    public function ExportPDF()
+    public function ExportPDF($periode)
     {
-        $id =1;
+        $id =$periode;
         $perid = PeriodeAkuntansi::find($id);
         $nama_periode = date('d/m/Y', strtotime($perid->tanggal_awal)).' - '.date('d/m/Y', strtotime($perid->tanggal_akhir)) ;
         // dd($id);
