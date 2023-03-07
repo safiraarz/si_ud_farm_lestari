@@ -56,8 +56,9 @@
                                 </td>
                             </tr>
                           
-                
+                      
                             @foreach ($jurnal->akun as $item)
+                            
                             <tr>
 
                                 <td>

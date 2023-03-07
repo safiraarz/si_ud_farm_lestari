@@ -26,7 +26,7 @@ class JurnalAkuntansiController extends Controller
          $perid = PeriodeAkuntansi::where('status', '1')->first();
          $periode_aktif_id = $perid->id;
          $jurnals = JurnalAkuntansi::where('periode_id',$periode_aktif_id)->get();
-        // dd($queryBuilder);
+        // dd( $jurnals->akun() );
         return view('jurnal.index', ['data' => $jurnals,'periode'=>$periode]);
     }
 

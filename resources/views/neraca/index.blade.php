@@ -96,7 +96,7 @@
                             <tfoot>
                                 <tr>
                                     <th style="width:65%">
-                                        TOTAL BIAYA
+                                        TOTAL KEWAJIBAN
                                     </th>
                                     <th style="width:35%">
                                         Rp {{ number_format($data['total_kewajiban']) }}

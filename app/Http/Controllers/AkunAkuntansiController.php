@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\AkunAkuntansi;
+use App\PeriodeAkuntansi;
 use Illuminate\Http\Request;
 
 class AkunAkuntansiController extends Controller
@@ -15,7 +16,9 @@ class AkunAkuntansiController extends Controller
     public function index()
     {
         $this->authorize('checkakun');
-        $queryBuilder = AkunAkuntansi::all();
+        $perid = PeriodeAkuntansi::where('status', '1')->first();
+        $periode_aktif_id = $perid->id;
+        $queryBuilder = AkunAkuntansi::where('periode_id',$periode_aktif_id)->get();
         return view('akun.index', ['data' => $queryBuilder]);
     }
 

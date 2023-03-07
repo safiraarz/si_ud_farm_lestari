@@ -2,8 +2,10 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use App\AkunAkuntansi;
 use App\PeriodeAkuntansi;
+use App\TransaksiAkuntansi;
 use Illuminate\Database\Eloquent\Model;
 
 class JurnalAkuntansi extends Model
@@ -20,7 +22,7 @@ class JurnalAkuntansi extends Model
     }
 
     public function akun(){
-        return $this->belongsToMany('App\AkunAkuntansi','jurnal_has_akun','jurnal_id','akun_no_akun')->withPivot('no_urut','nominal_debit','nominal_kredit')->orderBy('no_urut', 'asc');
+        return $this->belongsToMany('App\AkunAkuntansi','jurnal_has_akun','jurnal_id','akun_id')->withPivot('no_urut','nominal_debit','nominal_kredit')->orderBy('no_urut', 'asc');
     }
 
     public static function jenis_saldo($jenis_akun,$no_akun){
@@ -71,7 +73,7 @@ class JurnalAkuntansi extends Model
     public function bukubesar($id_periode){
         $buku_besar2 = [];
         $buku_besar = new JurnalAkuntansi();
-        $akuns = AkunAkuntansi::all();
+        $akuns = AkunAkuntansi::where('periode_id',$id_periode)->get();
 
         $jurnals = JurnalAkuntansi::where('periode_id',$id_periode)->get();
         // $jurnals_detail =  DB::select(DB::raw("SELECT * FROM `jurnal_has_akun`"));
@@ -95,6 +97,7 @@ class JurnalAkuntansi extends Model
             $jurnal_penutup = $akun->saldo_awal;
             $jurnal_penyesuaian = $akun->saldo_awal;
             foreach ($jurnals as $jurnal) {
+                // dd($jurnal->jenis);
                 $no_reff = $buku_besar->no_ref($jurnal->jenis);
                         
                 
@@ -225,13 +228,13 @@ class JurnalAkuntansi extends Model
         $buku_besar = $newjurnal->bukubesar($id_periode);
         $laba_rugi['pendapatan'] = [];
         $laba_rugi['biaya'] = [];
-        $akuns = AkunAkuntansi::all();
+        $akuns = AkunAkuntansi::where('periode_id',$id_periode)->get();
         $total_pendapatan = 0;
         $total_biaya = 0;
         foreach ($buku_besar as $value) {
             if($value['jenis_akun']== "pendapatan"){
                 $no_akun = $value['no_akun'];
-                $akun = AkunAkuntansi::find($no_akun);
+                $akun = AkunAkuntansi::where('no_akun',$no_akun)->where('periode_id',$id_periode)->first();
                 $nama_akun = $akun->nama;
                 $saldo = $value['saldo_sebelum_closing'];
                 $total_pendapatan += $saldo;
@@ -244,7 +247,7 @@ class JurnalAkuntansi extends Model
             }
             if($value['jenis_akun']== "biaya"){
                 $no_akun = $value['no_akun'];
-                $akun = AkunAkuntansi::find($no_akun);
+                $akun = AkunAkuntansi::where('no_akun',$no_akun)->where('periode_id',$id_periode)->first();
                 $nama_akun = $akun->nama;
                 $saldo = $value['saldo_sebelum_closing'];
                 $total_biaya += $saldo;
@@ -278,7 +281,7 @@ class JurnalAkuntansi extends Model
         foreach ($buku_besar as $value) {
             if($value['jenis_akun']== "ekuitas"){
                 $no_akun = $value['no_akun'];
-                $akun = AkunAkuntansi::find($no_akun);
+                $akun = AkunAkuntansi::where('no_akun',$no_akun)->where('periode_id',$id_periode)->first();
                 $nama_akun = $akun->nama;
                 $saldo = $value['no_akun'] == 302 ? ($value['saldo_sebelum_closing'] * -1) : $value['saldo_sebelum_closing'];
                 $total += $saldo;
@@ -318,7 +321,7 @@ class JurnalAkuntansi extends Model
         foreach ($buku_besar as $value) {
             if($value['jenis_akun']== "aset"){
                 $no_akun = $value['no_akun'];
-                $akun = AkunAkuntansi::find($no_akun);
+                $akun = AkunAkuntansi::where('no_akun',$no_akun)->where('periode_id',$id_periode)->first();
                 $nama_akun = $akun->nama;
                 $saldo = ($value['no_akun'] == 111) ? ($value['saldo_sebelum_closing'] * -1) : $value['saldo_sebelum_closing'];
                 $total_aset += $saldo;
@@ -331,7 +334,7 @@ class JurnalAkuntansi extends Model
             }
             if($value['jenis_akun']== "kewajiban"){
                 $no_akun = $value['no_akun'];
-                $akun = AkunAkuntansi::find($no_akun);
+                $akun = AkunAkuntansi::where('no_akun',$no_akun)->where('periode_id',$id_periode)->first();
                 $nama_akun = $akun->nama;
                 $saldo = ($value['no_akun'] == 111) ? ($value['saldo_sebelum_closing'] * -1) : $value['saldo_sebelum_closing'];
                 $total_kewajiban += $saldo;
@@ -344,7 +347,7 @@ class JurnalAkuntansi extends Model
             }
             if($value['jenis_akun']== "ekuitas" && $value['nama_akun']!= "Prive"){
                 $no_akun = $value['no_akun'];
-                $akun = AkunAkuntansi::find($no_akun);
+                $akun = AkunAkuntansi::where('no_akun',$no_akun)->where('periode_id',$id_periode)->first();
                 $nama_akun = $akun->nama;
                 $saldo = $perubahanekuitas['total'];
                 $total_ekuitas += $saldo;
@@ -368,7 +371,7 @@ class JurnalAkuntansi extends Model
     public static function arus_kas($id_periode){
         $newjurnal = new JurnalAkuntansi();
         $buku_besar = $newjurnal->bukubesar($id_periode);
-        $akuns = AkunAkuntansi::all();
+        $akuns = AkunAkuntansi::where('periode_id',$id_periode)->get();
  
         $penerimaan_dari_pelanggan = 0;
         $pembayaran_ke_pemasok = 0;
@@ -504,19 +507,120 @@ class JurnalAkuntansi extends Model
 
     }
 
-    public static function penutupan_update_akun($id_periode){
+    public static function generate_jurnal_penutupan($id_periode){
+        $date_now = Carbon::now()->toDateString();
         $newjurnal = new JurnalAkuntansi();
         $buku_besar = $newjurnal->bukubesar($id_periode);
-        $akuns = AkunAkuntansi::all();
+        $akuns = AkunAkuntansi::where('periode_id',$id_periode)->get();
+        $iktiar = AkunAkuntansi::where('periode_id',$id_periode)->where('no_akun',000)->first();
+        $iktiar_id = $iktiar->id;
+      
+        // Penutupan Step 1 Pendapatan
+        $step_1_transaksi = new TransaksiAkuntansi();      
+        $step_1_transaksi->keterangan = "Penutupan Step 1 - Pendapatan";
+        $step_1_transaksi->save();
+        $step_1_id_transaksi = $step_1_transaksi->id;
+        $step_1 = new JurnalAkuntansi();
+        $step_1->jenis = "penutup";
+        $step_1->tanggal_transaksi = $date_now;
+        $step_1->no_bukti = "";
+        $step_1->transaksi_id =  $step_1_id_transaksi;
+        $step_1->periode_id = $id_periode;
+        $step_1->save();
+        $step_1_iktiar = 0;
+        $step_1_urut = 1;
+        foreach ($akuns as $akun) {
+            foreach($buku_besar as $bukubesar){
+                if($akun->no_akun ==$bukubesar['no_akun'] ){
+        
+                    if($akun->jenis_akun == "pendapatan"){
+                        $saldo_sebelum = $bukubesar['saldo_sebelum_closing'];
+                        $step_1->akun()->attach($akun->id,['no_urut' =>$step_1_urut ,'nominal_kredit' =>0,'nominal_debit'=>$saldo_sebelum]);
+                        $step_1_iktiar += $saldo_sebelum;
+                        $step_1_urut += 1;
+                    }
+                    
+                }
+              
+            }
+        }
+        // dd($step_1_iktiar);
+        $step_1->akun()->attach($iktiar_id ,['no_urut' =>$step_1_urut ,'nominal_kredit' => $step_1_iktiar,'nominal_debit'=>0]);
+
+
+        // Penutupan Step 2 Biaya
+        $step_2_transaksi = new TransaksiAkuntansi();      
+        $step_2_transaksi->keterangan = "Penutupan Step 2 - Biaya";
+        $step_2_transaksi->save();
+        $step_2_id_transaksi = $step_2_transaksi->id;
+        $step_2 = new JurnalAkuntansi();
+        $step_2->jenis = "penutup";
+        $step_2->tanggal_transaksi = $date_now;
+        $step_2->no_bukti = "";
+        $step_2->transaksi_id =  $step_2_id_transaksi;
+        $step_2->periode_id = $id_periode;
+        $step_2->save();
+        $step_2_iktiar = 0;
+        $step_2_urut = 1;
+        foreach ($akuns as $akun) {
+            foreach($buku_besar as $bukubesar){
+                if($akun->jenis_akun ==$bukubesar['no_akun'] ){
+                    if($akun->jenis_akun == "biaya"){
+                        $saldo_sebelum = $bukubesar['saldo_sebelum_closing'];
+                        $step_2->akun()->attach($akun->id,['no_urut' =>$step_2_urut ,'nominal_kredit' =>$saldo_sebelum,'nominal_debit'=>0]);
+                        $step_2_iktiar += $saldo_sebelum;
+                        $step_2_urut += 1;
+                    }
+                    
+                }
+              
+            }
+        }
+        $step_2->akun()->attach($iktiar_id ,['no_urut' =>$step_2_urut ,'nominal_kredit' => 0,'nominal_debit'=>$step_2_iktiar]);
+
+        // Penutupan Step 3 Modal Rugi
+        $step_3_transaksi = new TransaksiAkuntansi();      
+        $step_3_transaksi->keterangan = "Penutupan Step 3 - Modal & Laba Rugi";
+        $step_3_transaksi->save();
+        $step_3_id_transaksi = $step_2_transaksi->id;
+        $step_3 = new JurnalAkuntansi();
+        $step_3->jenis = "penutup";
+        $step_3->tanggal_transaksi = $date_now;
+        $step_3->no_bukti = "";
+        $step_3->transaksi_id =  $step_2_id_transaksi;
+        $step_3->periode_id = $id_periode;
+        $step_3->save();
+        $step_3_total = $step_1_iktiar - $step_2_iktiar;
+        foreach ($akuns as $akun) {
+            if($akun->periode_id == $id_periode && $akun->no_akun== 301){
+
+                $step_3->akun()->attach($akun->id,['no_urut' =>2 ,'nominal_kredit' =>$step_3_total,'nominal_debit'=>0]);
+            }
+            
+        }
+        $step_3->akun()->attach($iktiar_id ,['no_urut' =>1 ,'nominal_kredit' => 0,'nominal_debit'=>$step_3_total]);
+
+
+        
+        
+    }
+
+    public static function penutupan_create_new_akun($id_periode_lama, $id_periode_baru){
+        $newjurnal = new JurnalAkuntansi();
+        $buku_besar = $newjurnal->bukubesar($id_periode_lama);
+        $akuns = AkunAkuntansi::where('periode_id',$id_periode_lama)->get();
         
         foreach ($akuns as $akun) {
             foreach($buku_besar as $bukubesar){
-                // echo $bukubesar['no_akun'].' '.$bukubesar['saldo_setelah_closing'].'<br>';
                 if($akun->no_akun ==$bukubesar['no_akun'] ){
-                    $akun_solo = AkunAkuntansi::find($akun->no_akun);
-                    $akun_solo->saldo_awal = $bukubesar['saldo_setelah_closing'];
-                    $akun_solo->save();
-                    // echo $akun_solo->no_akun.' '.$akun_solo->saldo_awal.' '.$bukubesar['saldo_setelah_closing'].'<br>';
+                    // New Akun
+                    $new_akun = new AkunAkuntansi();
+                    $new_akun->no_akun = $akun->no_akun;
+                    $new_akun->nama = $akun->nama;
+                    $new_akun->jenis_akun = $akun->jenis_akun;
+                    $new_akun->saldo_awal = $bukubesar['saldo_setelah_closing'];
+                    $new_akun->periode_id = $id_periode_baru;
+                    $new_akun->save();
                 }
               
             }

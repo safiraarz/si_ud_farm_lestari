@@ -59,7 +59,7 @@
                             <tfoot>
                                 <tr>
                                     <th style="width:65%">
-                                        Ekuitas (Modal) pemilik per 01 Mar 2023
+                                        Ekuitas (Modal) pemilik per {{ $pd->tanggal_akhir->format('d F Y') }}
                                     </th>
                                     <th style="width:35%">
                                         Rp {{  number_format($data['total']) }}
