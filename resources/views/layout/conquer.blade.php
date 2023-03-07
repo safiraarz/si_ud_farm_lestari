@@ -260,6 +260,14 @@ License: You must have a valid license purchased only from themeforest(the above
                             <span class="arrow "></span>
                         </a>
                         <ul class="sub-menu blank">
+                            @if (Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10102)
+                            <li>
+                                <a href="{{ route('spk.index') }}">Surat Perintah Kerja
+                                </a>
+                            </li>
+                                
+                            @endif
+
                             @if (Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10104)
                             <li>
                                 <a href="{{ route('bom.index') }}">Bill of Material
@@ -273,35 +281,35 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <a href="{{ route('mrp.index') }}">Material Requirement Planning
                                 </a>
                             </li>
+                            @endif
+                            @if (Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10104 ||Auth::user()->jabatan->id == 10102)
+                            <li>
+                                <a href="{{ route('mrp.laporanKebutuhan') }}">Kebutuhan Bahan Baku
+                                </a>
+                            </li>
+                            @endif
+                            @if (Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10102)
+                            <li>
+                                <a href="{{ route('lpb.index') }}">Laporan Pengeluaran Barang
+                                </a>
+                            </li>
+                            @endif
+
+                            @if (Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10104)
                             <li>
                                 <a href="{{ route('hasilproduksi.index') }}">Daftar Hasil Produksi
                                 </a>
                             </li> 
                             @endif
 
-                            @if (Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10102)
-                            <li>
-                                <a href="{{ route('spk.index') }}">Surat Perintah Kerja
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('lpb.index') }}">Laporan Pengeluaran Barang
-                                </a>
-                            </li>
-                                
-                            @endif
-
                             @if (Auth::user()->jabatan->id == 10103 || Auth::user()->jabatan->id == 10104 ||Auth::user()->jabatan->id == 10102)
-                            <li>
-                                <a href="{{ route('mrp.laporanKebutuhan') }}">Kebutuhan Bahan Baku
-                                </a>
-                            </li>
-
                             <li>
                                 <a href="{{ route('suratjalan.index') }}">Surat Jalan
                                 </a>
                             </li>
                             @endif
+                           
+
                         </ul>
                     </li>
                     <li>

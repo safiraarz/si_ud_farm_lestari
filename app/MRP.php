@@ -44,14 +44,14 @@ class MRP extends Model
         // dd($tgl_mulai_produksi);
         $periods = $this->getDatesFromRange($tgl_mulai_produksi,$tgl_selesai_produksi);
         
-
+        //Menghitung maksimal produksi dalam sehari
         foreach ($periods as $period) {
-            if($kuantitas_barang_jadi >= 3200){
+            if($kuantitas_barang_jadi >= 3200){ //jika kuanti barang di atas 3.200
                 $mps[1][] = 3200;
-                $kuantitas_barang_jadi = $kuantitas_barang_jadi - 3200;
-            }else{
+                $kuantitas_barang_jadi = $kuantitas_barang_jadi - 3200; //barang akan dikurangi 3.200 yg sisanya dihitung pada kemudian hari
+            }else{ //jika kuanti barang di bawah 3.200
                 $mps[1][] = $kuantitas_barang_jadi;
-                $kuantitas_barang_jadi = $kuantitas_barang_jadi - $kuantitas_barang_jadi;
+                $kuantitas_barang_jadi = $kuantitas_barang_jadi - $kuantitas_barang_jadi; //dikurangi kuantitas barang itu sendiri agar tersisa 0
             }
         }
 
@@ -103,7 +103,7 @@ class MRP extends Model
         //     ['nama'=>'Ciromecyne10%','kuantitas'=>0.022,'satuan'=> 'KG','ohi'=>10,'leadtime'=>2],
         // ];
         
-        $jumlah_periode = count($mps[1]);
+        // $jumlah_periode = count($mps[1]);
         $mrp = new MRP();
         $mrp->MPS_ID = $idmps;
         $mrp->BOM_ID = $bom_id;
@@ -155,11 +155,11 @@ class MRP extends Model
                             $perhitungan['OHI'][] = $total;
                         }
                     }
-                    $barang = Barang::find($bahan['id']);
-                    $barang->kuantitas_stok_ready = $total;
-                    $barang->save();
-                    $barang = new Barang();
-                    $barang->updateTotalStok($bahan['id']);
+                    // $barang = Barang::find($bahan['id']);
+                    // $barang->kuantitas_stok_ready = $total;
+                    // $barang->save();
+                    // $barang = new Barang();
+                    // $barang->updateTotalStok($bahan['id']);
 
                     // menghitung nr
                     if ($counter == 0) {//ambil dari ohi

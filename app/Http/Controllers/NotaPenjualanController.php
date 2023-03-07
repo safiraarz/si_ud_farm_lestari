@@ -105,7 +105,7 @@ class NotaPenjualanController extends Controller
             $kategori_nota = $request->get('ketegori_nota');
             $kat_nota = AkunAkuntansi::find($request->get('ketegori_nota'));
             $customer2 = Customer::find($request->get('customer_id'));
-            $ket = "Menjual ".$kat_nota->nama." Sebesar Rp ".number_format($request->get('total_harga_penjualan'))." Secara ".$request->get('cara_bayar')." Kepada ".$customer2->nama." ( ".$request->get('keterangan_penjualan')." )";
+            $ket = "Menjual ".$kat_nota->nama." sebesar Rp ".number_format($request->get('total_harga_penjualan'))." secara ".$request->get('cara_bayar')." kepada ".$customer2->nama.". ".$request->get('keterangan_penjualan');
             
             $new_transaksi = new TransaksiAkuntansi();
             $new_transaksi->keterangan = $ket;
@@ -113,8 +113,6 @@ class NotaPenjualanController extends Controller
             $id_transaksi = $new_transaksi->id;
 
             // Jurnal Create
-        
-         
             $jurnal = new JurnalAkuntansi();
             $jurnal->jenis = "umum";
             $jurnal->tanggal_transaksi =$request->get('tgl_transaksi');
@@ -154,7 +152,7 @@ class NotaPenjualanController extends Controller
      */
     public function edit(NotaPenjualan $notaPenjualan)
     {
-        return view('notapenjualan.edit', ['notapenjualan' => NotaPenjualan::find($notaPenjualan), 'customer' => Customer::All(), 'barang' => Barang::All()]);
+
     }
 
     /**
@@ -178,16 +176,5 @@ class NotaPenjualanController extends Controller
     public function destroy(NotaPenjualan $notaPenjualan)
     {
         //
-    }
-    public function getEditForm(Request $request)
-    {
-        $id = $request->get('id');
-        $data = NotaPenjualan::find($id);
-        $customer = Customer::all();
-        $barang = Barang::all();
-        return response()->json(array(
-            'status' => 'oke',
-            'msg' => view('notapenjualan.getEditForm', compact('data', 'customer', 'barang'))->render()
-        ), 200);
     }
 }

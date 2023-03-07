@@ -90,7 +90,8 @@
                                         @foreach ($barang as $item)
                                             @if ($item->jenis == 'Barang Jadi')
                                                 <option value="{{ $item->id }}"
-                                                    ready="{{ $item->kuantitas_stok_ready }}" satuan="{{ $item->satuan }}">{{ $item->nama }} (Stok:
+                                                    ready="{{ $item->kuantitas_stok_ready }}"
+                                                    satuan="{{ $item->satuan }}">{{ $item->nama }} (Stok:
                                                     {{ number_format($item->kuantitas_stok_ready) }} {{ $item->satuan }})
                                                 </option>
                                             @endif
@@ -102,12 +103,14 @@
                                     <select class="form-control" name="asal_flok" id="asal_flok">
                                         <option value="">== Pilih Flok ==</option>
                                         @foreach ($flok as $item)
-                                            <option value="{{ $item->id }}" populasi="{{ $item->populasi }}" kebutuhan_pakan="{{ $item->kebutuhan_pakan }}">{{ $item->nama }}</option>
+                                            <option value="{{ $item->id }}" populasi="{{ $item->populasi }}"
+                                                kebutuhan_pakan="{{ $item->kebutuhan_pakan }}">{{ $item->nama }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="" id="satuan" class="satuan">Kuantitas ()</label>
+                                    <label for="" id="satuan" class="satuan">Kuantitas</label>
                                     <input type="hidden" min="1" name="kuantitas_max" class="form-control"
                                         id='kuantitas_max' required>
                                     <input type="number" min="1" name="kuantitas" class="form-control"
@@ -121,7 +124,8 @@
                             <div class="modal-footer">
                                 <div class="col-md-offset-3 col-md-9">
                                     <button type="submit" class="btn btn-success">Submit</button>
-                                    <a href="{{ url('mps') }}" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                                    <a href="{{ url('mps') }}" class="btn btn-default"
+                                        data-dismiss="modal">Cancel</a>
                                 </div>
                             </div>
                         </form>
@@ -140,46 +144,20 @@
 
     @section('javascript')
         <script>
-            // $("#kuantitas").on('change', function() {
-        //     var kuantitas_max = $(this).attr('max');
-
-            //     var kuantitas = $(this).val();
-
-            //     if (kuantitas <= 0) {
-            //         $(this).val(kuantitas_max);
-            //     } else if (kuantitas_max < kuantitas) {
-            //         $(this).val(kuantitas_max);
-            //     }
-
-            // });
             $('#asal_flok').on('change', function() {
                 var kebutuhan_pakan = $('#asal_flok').find(':selected').attr('kebutuhan_pakan');
                 var populasi = $('#asal_flok').find(':selected').attr('populasi');
-                var rekomendasi = Math.ceil( ( parseFloat(populasi) * parseFloat(kebutuhan_pakan) ) /1000  );
+                var rekomendasi = Math.ceil((parseFloat(populasi) * parseFloat(kebutuhan_pakan)) / 1000);
                 $("#kuantitas").val(rekomendasi);
                 var kuantitas_bahan_baku_ready = $('#jenis_pakan').find(':selected').attr('ready');
                 $("#kuantitas_max").val(kuantitas_bahan_baku_ready);
-               
+
             });
-            // $("#jenis_pakan").on('change', function() {
-            //     var satuan = $(this).find(':selected').attr('satuan');
-            //     $('.satuan').html("Kuantitas (" + satuan + ")");
-            //     var kuantitas_bahan_baku_ready = $(this).find(':selected').attr('ready');
-            //     // $("#kuantitas").attr("max", kuantitas_bahan_baku_ready);
-            //     $("#kuantitas").val(kuantitas_bahan_baku_ready);
-            //     $("#kuantitas_max").val(kuantitas_bahan_baku_ready);
 
-            //     // alert(kuantitas_bahan_baku_ready);
-
-            // });
-            // $("#kuantitas").on('change', function() {
-            //     var max_value = $("#kuantitas_max").val();
-            //     var kuantitas = $(this).val();
-            //     if(kuantitas > max_value) {
-            //         $('#kuantitas').val(max_value);
-            //     }
-
-            // });
+            $("#jenis_pakan").on('change', function() {
+                var satuan = '( ' + $(this).find(':selected').attr('satuan') + ' )';
+                $('#kuantitas').html(satuan);
+            });
 
             function getEditForm(id) {
                 $.ajax({
@@ -213,7 +191,7 @@
                         function(settings, data, dataIndex) {
                             var date = new Date(data[1].split("/")[2] + "-" + data[1].split("/")[1] + "-" + data[1]
                                 .split("/")[1]);
-                          
+
                             if ((min === null && max === null) || (min === null && date <= max) || (min <= date &&
                                     max === null) || (min <= date && date <= max)) {
                                 return true;

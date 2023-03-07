@@ -133,12 +133,12 @@
 
             if (parseInt(kuantitas_barang_jadi) <= 0 || kuantitas_barang_jadi == '') {
                 var erroMsg =
-                    '<span class="alert alert-danger ml-5">Kuantitas barang kurang dari 0 atau huruf</span>';
+                    '<span class="alert alert-danger ml-5">Pastikan input angka benar/stok kurang</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             } else if (parseInt(kuantitas_barang_jadi_ready) < parseInt(kuantitas_barang_jadi) ||
                 kuantitas_barang_jadi_ready == '') {
-                var erroMsg = '<span class="alert alert-danger ml-5">Stok ready kurang</span>';
+                var erroMsg = '<span class="alert alert-danger ml-5">Pastikan input angka benar/stok kurang</span>';
                 $('.errorMsg').show();
                 $('.errorMsg').html(erroMsg).fadeOut(9000);
             } else {

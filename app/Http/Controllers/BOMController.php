@@ -110,4 +110,22 @@ class BOMController extends Controller
     {
         //
     }
+
+    public function deleteData(Request $request)
+    {
+        try {
+            $id = $request->get('id');
+            $bOM = BOM::find($id);
+            $bOM->delete();
+            return response()->json(array(
+                'status' => 'ok',
+                'msg' => 'BOM berhasil dihapus'
+            ), 200);
+        } catch (\PDOException $e) {
+            return response()->json(array(
+                'status ' => ' error',
+                'msg' => 'BOM tidak bisa dihapus. BOM diperlukan untuk data lain'
+            ), 200);
+        }
+    }
 }

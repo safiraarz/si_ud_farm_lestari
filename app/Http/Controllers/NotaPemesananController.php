@@ -24,14 +24,9 @@ class NotaPemesananController extends Controller
         $this->authorize('checknotapemesanan');
 
         $queryBuilder = NotaPemesanan::orderby('id','DESC')->get();
-        // dd($queryBuilder);
-        // $queryBuilder = DB::table('nota_pemesanan')->orderByDesc('id')->get();
-        // $queryBuilder = DB::table('nota_pemesanan')->orderBy('id','DESC')->get();
         $user = User::all();
         $supplier = Supplier::all();
         $barang = Barang::all();
-        // $enumoption_status = NotaPemesanan::getEnumValues('nota_pemesanan','status') ;
-        // dd(NotaPemesanan::cases());
         return view('notapemesanan.index', ['data' => $queryBuilder,'user' => $user,'supplier' => $supplier,'barang' => $barang]);
     }
 
@@ -66,9 +61,6 @@ class NotaPemesananController extends Controller
      */
     public function store(Request $request)
     {
-        $dariTgl = $request->input('dariTgl');
-        $sampaiTgl = $request->input('sampaiTgl');
-        
         $user = Auth::user();
 
         if($request->get('no_nota')!= null){
@@ -79,7 +71,6 @@ class NotaPemesananController extends Controller
             $data->pengguna_id = $user->id;
             $supplier = Supplier::find($request->get('supplier_id'));
             $supplier->notapemesanan()->save($data);
-            // $idNotaNew = $data->id;
             foreach($request->get("barang") as $details) 
             {   
                 // Update Kuantitas di barang
@@ -102,7 +93,6 @@ class NotaPemesananController extends Controller
         else{
             return redirect()->route('nota.index')->with('error', 'Gagal Menambahkan Nota ');    
         }
-       
     }
 
     /**
@@ -124,7 +114,7 @@ class NotaPemesananController extends Controller
      */
     public function edit(NotaPemesanan $notaPemesanan)
     {
-        return view('notapemesanan.edit', ['notapemesanan' => NotaPemesanan::find($notaPemesanan), 'supplier' => Supplier::All(),'barang' => Barang::All()]);
+
     }
 
     /**
@@ -136,29 +126,7 @@ class NotaPemesananController extends Controller
      */
     public function update(Request $request,$notaPemesanan)
     {
-        // dd($request->get("barang"));
-        $data = NotaPemesanan::find($notaPemesanan);
-        // dd($request->barang);
-        $data->no_nota = $request->get('no_nota');
-        $data->tgl_pembuatan_nota = $request->get('tanggal_pembuatan_nota');
-        $total = 0;
-        // Delete
         
-        foreach($request->get("barang") as $details) 
-        {
-            $data->barang()->detach();
-            // $data->barang()->updateExistingPivot($details['barang_id'],[
-            //     'kuantitas' =>$details['kuantitas'],'harga' =>$details['harga']
-            // ]);
-            $total += $details['kuantitas'] * $details['harga'];
-            
-            // Add
-            $data->barang()->attach($details['barang_id'],['kuantitas' =>$details['kuantitas'],'harga' =>$details['harga']]);
-        }
-        // Tambah with total
-        $data->total_harga = $total;
-        $data->save();
-        return redirect()->route('notapemesanan.index')->with('status', 'Berhasil Mengubah Nota Pembelian '.$request->get('no_nota'));
     }
 
     /**
@@ -170,90 +138,5 @@ class NotaPemesananController extends Controller
     public function destroy(NotaPemesanan $notaPemesanan)
     {
         //
-    }
-
-    public function getEditForm(Request $request)
-    {
-        $id = $request->get('id');
-        $data = NotaPemesanan::find($id);
-        $supplier = Supplier::all();
-        $barang = Barang::all();
-        return response()->json(array(
-            'status' => 'oke',
-            'msg' => view('notapemesanan.getEditForm', compact('data', 'supplier','barang'))->render()
-        ), 200);
-    }
-
-    //masi belum
-    public function saveData(Request $request)
-    {
-        $id = $request->get('id');
-        $Barang = Barang::find($id);
-        $Barang->harga = $request->get('harga');
-        $Barang->lead_time = $request->get('lead_time');
-        $Barang->kuantitas_stok_onorder_supplier = $request->get('kuantitas_stok_onorder_supplier');
-        $Barang->kuantitas_stok_onorder_produksi = $request->get('kuantitas_stok_onorder_produksi');
-        $Barang->kuantitas_stok_ready = $request->get('kuantitas_stok_ready');
-        $Barang->total_kuantitas_stok = $request->get('total_kuantitas_stok');
-        $Barang->jenis = $request->get('jenis'); //enum
-        $Barang->satuan = $request->get('satuan');
-
-        $Barang->save();
-        return response()->json(
-            array(
-                'status' => 'ok',
-                'msg' => 'Barang berhasil diupdate'
-            ),
-            200
-        );
-    }
-
-    public function saveDataField(Request $request)
-    {
-        $id = $request->get('id');
-        $fnama = $request->get('fnama');
-        $value = $request->get('value');
-        // dd($fnama);
-        $NotaPemesanan = NotaPemesanan::find($id);
-        // dd($NotaPemesanan);
-        $NotaPemesanan->$fnama = $value;
-        $NotaPemesanan->save();
-        return response()->json(
-            array(
-                'status' => 'ok',
-                'msg' => strtoupper($fnama).' Nota Pemesanan berhasil diupdate'
-            ),
-            200
-        );
-    }
-
-    public function insertNota($nota, $user)
-    {
-        $total = 0;
-        foreach ($nota as $id => $detail) {
-            $total += $detail['harga'] * $detail['kuantitas'];
-            $this->barang()->attach($id, ['kuantitas' => $detail['kuantitas'], 'subtotal' => $detail['price']]);
-        }
-        return $total;
-    }
-
-    public function submit_front()
-    {
-        $this->authorize('checkmember');
-
-        $cart = session()->get('cart');
-        // $user = Auth::user();
-        $t = new NotaPemesanan();
-        // $t->users_id = $user->id;
-        $t->transaction_date = Carbon::now()->toDatetimeString();
-        $t->save();
-
-        // $total_harga = $t->insertProduct($cart, $user);
-        $total_harga = $t->insertProduct($cart);
-        $t->total = $total_harga;
-        $t->save();
-
-        session()->forget('cart');
-        return redirect('home');
     }
 }

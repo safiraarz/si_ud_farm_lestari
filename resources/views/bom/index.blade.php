@@ -108,5 +108,23 @@
 
             );
         }
+        function deleteDataRemoveTR(id) {
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('bom.deleteData') }}',
+                data: {
+                    '_token': '<?php echo csrf_token(); ?>',
+                    'id': id
+                },
+                success: function(data) {
+                    if (data.status == 'ok') {
+                        alert(data.msg)
+                        $('#tr_' + id).remove();
+                    } else {
+                        alert(data.msg)
+                    }
+                }
+            });
+        }
     </script>
 @endsection

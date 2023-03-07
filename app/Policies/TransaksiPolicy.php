@@ -50,5 +50,4 @@ class TransaksiPolicy
     {
         return ($user->jabatan->id == 10103 || $user->jabatan->id == 10102 ? Response::allow() : Response::deny("Anda Tidak Dapat Akses"));
     }
-
 }

@@ -123,14 +123,13 @@ class NotaPembelianController extends Controller
             $supplier2 = Supplier::find($request->get('supplier_id'));
             // dd($supplier2);
             $new_transaksi = new TransaksiAkuntansi();
-            $ket = "Membeli ".$kat_nota->nama." Sebesar Rp ".number_format($total)." Secara ".$request->get('cara_bayar')." Kepada ".$supplier2->nama." ( ".$request->get('keterangan_pembelian')." )";        
+            $ket = "Membeli ".$kat_nota->nama." sebesar Rp ".number_format($total)." secara ".$request->get('cara_bayar')." kepada ".$supplier2->nama.". ".$request->get('keterangan_pembelian');        
             $new_transaksi->keterangan = $ket;
             $new_transaksi->save();
             $id_transaksi = $new_transaksi->id;
 
             // Jurnal Create
         
-           
             $jurnal = new JurnalAkuntansi();
             $jurnal->jenis = "umum";
             $jurnal->tanggal_transaksi =$request->get('tanggal_pembuatan_nota');
@@ -169,7 +168,7 @@ class NotaPembelianController extends Controller
      */
     public function edit(NotaPembelian $notaPembelian)
     {
-        return view('notapembelian.edit', ['notapembelian' => NotaPemesanan::find($notaPembelian), 'supplier' => Supplier::All(),'barang' => Barang::All(), 'nota_pemesanan' => NotaPemesanan::All()]);
+        
     }
 
     /**
@@ -193,36 +192,5 @@ class NotaPembelianController extends Controller
     public function destroy(NotaPembelian $notaPembelian)
     {
         //
-    }
-    public function saveDataField(Request $request)
-    {
-        $id = $request->get('id');
-        $fnama = $request->get('fnama');
-        $value = $request->get('value');
-        $notaPembelian = NotaPembelian::find($id);
-        $notaPembelian->$fnama = $value;
-        $notaPembelian->save();
-        return response()->json(
-            array(
-                'status' => 'ok',
-                'msg' => strtoupper($fnama).' Nota Pembelian berhasil diupdate'
-            ),
-            200
-        );
-    }
-
-    public function getEditForm(Request $request)
-    {
-        $id = $request->get('id');
-        $data = NotaPembelian::find($id);
-        $supplier = Supplier::all();
-        $barang = Barang::all();
-        $notapemesanan = NotaPemesanan::all();
-        
-       
-        return response()->json(array(
-            'status' => 'oke',
-            'msg' => view('notapembelian.getEditForm', compact('data', 'supplier','barang','notapemesanan'))->render()
-        ), 200);
     }
 }

@@ -130,17 +130,17 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label >Kuantitas Barang Reject <span id="kuantitas_reject"></span> :</label>
+                                    <label >Kuantitas Barang Reject <span id="kuantitas_reject"></span></label>
                                     <input type="number" min="0" max="99999999999" name="input_kn_reject" class="form-control" id='input_kn_reject'
                                         required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Kuantitas Barang Bersih <span id="kuantitas_bersih"></span> :</label>
+                                    <label>Kuantitas Barang Bersih <span id="kuantitas_bersih"></span></label>
                                     <input type="number" min="0" max="99999999999" name="input_kn_bersih" class="form-control"
                                         id='input_kn_bersih' required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Total Kuantitas <span id="kuantitas_total"></span> :</label>
+                                    <label>Total Kuantitas <span id="kuantitas_total"></span></label>
                                     <input type="number" name="input_kn_total" class="form-control" id='input_kn_total'
                                         required readonly>
                                 </div>
@@ -246,9 +246,6 @@
             $('#kuantitas_reject').html(satuan);
             $('#kuantitas_total').html(satuan);
             $('#kuantitas_bersih').html(satuan);
-
-
-
         });
     </script>
 @endsection
