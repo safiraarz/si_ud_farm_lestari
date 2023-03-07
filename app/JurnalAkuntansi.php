@@ -564,7 +564,7 @@ class JurnalAkuntansi extends Model
         $step_2_urut = 1;
         foreach ($akuns as $akun) {
             foreach($buku_besar as $bukubesar){
-                if($akun->jenis_akun ==$bukubesar['no_akun'] ){
+                if($akun->no_akun ==$bukubesar['no_akun'] ){
                     if($akun->jenis_akun == "biaya"){
                         $saldo_sebelum = $bukubesar['saldo_sebelum_closing'];
                         $step_2->akun()->attach($akun->id,['no_urut' =>$step_2_urut ,'nominal_kredit' =>$saldo_sebelum,'nominal_debit'=>0]);
@@ -587,7 +587,7 @@ class JurnalAkuntansi extends Model
         $step_3->jenis = "penutup";
         $step_3->tanggal_transaksi = $date_now;
         $step_3->no_bukti = "";
-        $step_3->transaksi_id =  $step_2_id_transaksi;
+        $step_3->transaksi_id =  $step_3_id_transaksi;
         $step_3->periode_id = $id_periode;
         $step_3->save();
         $step_3_total = $step_1_iktiar - $step_2_iktiar;

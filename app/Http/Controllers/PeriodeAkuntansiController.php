@@ -66,6 +66,10 @@ class PeriodeAkuntansiController extends Controller
         $new_periode->status = 1;
         $new_periode->save();
         $new_periode_id = $new_periode->id;
+
+        $bukubesar = $newjurnal->bukubesar($periode_aktif_id);
+
+        // dd($bukubesar);
         $update_akun = $newjurnal->penutupan_create_new_akun($periode_aktif_id,$new_periode_id);
 
 

@@ -101,7 +101,7 @@
                                     {{  number_format($item['saldo_sebelum_closing']) }}
                                 </td>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <td colspan="5" class=" text-right">
                                     Saldo Setelah Closing
                                 </td>
@@ -109,7 +109,7 @@
                                 <td colspan="3">
                                     {{  number_format($item['saldo_setelah_closing']) }}
                                 </td>
-                            </tr>
+                            </tr> --}}
                                 
 
       
