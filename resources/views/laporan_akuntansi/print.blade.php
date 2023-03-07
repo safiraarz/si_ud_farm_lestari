@@ -298,7 +298,7 @@
             <tfoot>
                 <tr>
                     <th style="width:65%">
-                        TOTAL BIAYA
+                        TOTAL KEWAJIBAN
                     </th>
                     <th style="width:35%">
                         Rp {{ number_format($neraca['total_kewajiban']) }}

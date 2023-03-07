@@ -8,7 +8,10 @@ class PemasukanTelur extends Model
 {
     protected $connection = 'inventory';
     protected $dates = ['tgl_pencatatan'];
+    
     protected $table = "pemasukan_telur";
+    public $timestamps = false;
+
 
     public function flok(){
         return $this->belongsTo('App\Flok','flok_id','id');

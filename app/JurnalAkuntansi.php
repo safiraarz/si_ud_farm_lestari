@@ -582,7 +582,7 @@ class JurnalAkuntansi extends Model
         $step_3_transaksi = new TransaksiAkuntansi();      
         $step_3_transaksi->keterangan = "Penutupan Step 3 - Modal & Laba Rugi";
         $step_3_transaksi->save();
-        $step_3_id_transaksi = $step_2_transaksi->id;
+        $step_3_id_transaksi = $step_3_transaksi->id;
         $step_3 = new JurnalAkuntansi();
         $step_3->jenis = "penutup";
         $step_3->tanggal_transaksi = $date_now;

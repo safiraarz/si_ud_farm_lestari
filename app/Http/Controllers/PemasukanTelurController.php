@@ -71,7 +71,6 @@ class PemasukanTelurController extends Controller
             
             foreach ($request->get("telur") as $details) {
                 if($request->get('afkir') != null){
-
                     $barang_update = Barang::find($details['id_telur']);
                     $kuantitas_stok_ready_old = $barang_update->kuantitas_stok_ready;
                     $kuantitas_stok_ready_new = $kuantitas_stok_ready_old  + $details['kuantitas_bersih'];
@@ -98,14 +97,15 @@ class PemasukanTelurController extends Controller
                 $flok = Flok::find($request->get('flok'));
                 $afkir_old = $flok->afkir;
                 $sehat_old = $flok->sehat;
-
                 $afkir_new = $afkir_old + $request->get('afkir');
                 $sehat_new = $sehat_old - $request->get('afkir');
-
+                
                 $flok->afkir = $afkir_new;
                 $flok->sehat = $sehat_new;
-
                 $flok->save();
+                // dd($afkir_old.' '.$afkir_new.'>'.$flok->afkir);
+                
+                // dd($flok->afkir);
             }
 
             // Jika user masukin input KARANTINA, maka menambah TABEL FLOK “karantina” dan mengurangi TABEL FLOK “sehat”
@@ -117,27 +117,29 @@ class PemasukanTelurController extends Controller
 
                 $karantina_new = $karantina_old + $request->get('karantina');
                 $sehat_new = $sehat_old - $request->get('karantina');
+                // dd($karantina_new);
 
                 $flok->karantina = $karantina_new;
                 $flok->sehat = $sehat_new;
 
                 $flok->save();
             }
-            // Jika user masukin input KEMATIAN, maka mengurangi TABEL FLOK “sehat” dan “afkir”
+            // // Jika user masukin input KEMATIAN, maka mengurangi TABEL FLOK “sehat” dan “afkir”
             if($request->get('kematian') != null){
                 $flok = Flok::find($request->get('flok'));
-                $afkir_old = $flok->afkir;
                 $sehat_old = $flok->sehat;
 
-                $afkir_new = $afkir_old - $request->get('kematian');
                 $sehat_new = $sehat_old - $request->get('kematian');
 
-                $flok->afkir = $karantina_new;
                 $flok->sehat = $sehat_new;
 
                 $flok->save();
             }
-            // Update Flok Jika Kematian 
+            // Update Populasi
+            $flok_populasi = Flok::find($request->get('flok'));
+            $populasi_new = $flok_populasi->afkir + $flok_populasi->sehat + $flok_populasi->karantina;
+            $flok_populasi->populasi =  $populasi_new;
+            $flok_populasi->save();
             
 
             return redirect()->route('pemasukantelur.index')->with('status', 'Pemasukan Telur ID '.$data->id.' berhasil ditambahkan');
