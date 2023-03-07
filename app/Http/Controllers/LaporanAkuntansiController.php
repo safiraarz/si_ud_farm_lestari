@@ -124,6 +124,7 @@ class LaporanAkuntansiController extends Controller
         $jurnals = JurnalAkuntansi::where('periode_id',$id)->get();
         
         $laba_rugi = $queryBuilder->labarugi($id);
+        // dd($laba_rugi);
         $ekuitas = $queryBuilder->perubahanekuitas($id);
         $neraca = $queryBuilder->neraca($id);
         $arus_kas = $queryBuilder->arus_kas($id);

@@ -10,11 +10,11 @@
     {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> --}}
 
-    <style>
+    {{-- <style>
         table, th, td {
   border: 1px solid;
 }
-    </style>
+    </style> --}}
     <title>Hello, world!</title>
 </head>
 
@@ -195,6 +195,52 @@
                     </th>
                     <th style="width:35%">
                         Rp {{ number_format($laba_rugi['total_pendapatan']) }}
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        BIAYA
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($laba_rugi['biaya'] as $pendapatan)
+         
+                <tr>
+                    <td style="width:65%">
+                        {{  $pendapatan['nama_akun'] }}
+                    </td>
+                    <td style="width:35%">
+                        Rp  {{  number_format($pendapatan['saldo']) }}
+                    </td>
+                </tr>
+    
+                @endforeach
+                
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th style="width:65%">
+                        TOTAL BIAYA
+                    </th>
+                    <th style="width:35%">
+                        Rp {{ number_format($laba_rugi['total_biaya']) }}
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+        <table class="table">
+            <tfoot>
+                <tr>
+                    <th style="width:65%">
+                        LABA/RUGI
+                    </th>
+                    <th style="width:35%">
+                        Rp {{ number_format($laba_rugi['laba_rugi']) }}
                     </th>
                 </tr>
             </tfoot>

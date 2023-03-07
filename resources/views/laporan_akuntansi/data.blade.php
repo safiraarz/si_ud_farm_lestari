@@ -210,6 +210,52 @@
                         </tr>
                     </tfoot>
                 </table>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                BIAYA
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($laba_rugi['biaya'] as $pendapatan)
+                 
+                        <tr>
+                            <td style="width:65%">
+                                {{  $pendapatan['nama_akun'] }}
+                            </td>
+                            <td style="width:35%">
+                                Rp  {{  number_format($pendapatan['saldo']) }}
+                            </td>
+                        </tr>
+            
+                        @endforeach
+                        
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th style="width:65%">
+                                TOTAL BIAYA
+                            </th>
+                            <th style="width:35%">
+                                Rp {{ number_format($laba_rugi['total_biaya']) }}
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <table class="table">
+                    <tfoot>
+                        <tr>
+                            <th style="width:65%">
+                                LABA/RUGI
+                            </th>
+                            <th style="width:35%">
+                                Rp {{ number_format($laba_rugi['laba_rugi']) }}
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
             <div class="col-xs-6">
                 <table class="table">
