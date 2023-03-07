@@ -50,7 +50,7 @@
                                     <select name="akun" id="akun" class="form-control">
                                         <option value="" selected>==Pilih akun==</option>
                                         @foreach ($akun as $item)
-                                        <option no_akun="{{ $item->no_akun }}" value="{{ $item->nama }}" class="barang custom-select">
+                                        <option no_akun="{{ $item->id }}" value="{{ $item->nama }}" class="barang custom-select">
                                             {{ $item->nama }}
                                         </option>
                                             

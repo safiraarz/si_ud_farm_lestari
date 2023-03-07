@@ -117,7 +117,9 @@ class NotaPembelianController extends Controller
             $perid = PeriodeAkuntansi::where('status', '1')->first();
             $periode_aktif_id = $perid->id;
             // Add Transaksi
-            $cara_bayar =  $request->get('cara_bayar') == 'tunai' ? 101 : 102;
+            $cara_bayar_no_akun =  $request->get('cara_bayar') == 'tunai' ? 101 : 102;
+            $cara_bayar_akun = AkunAkuntansi::where('periode_id',$periode_aktif_id)->where('no_akun',$cara_bayar_no_akun)->first();
+            $cara_bayar_akun_id = $cara_bayar_akun->id;
             $kategori_nota = $request->get('ketegori_nota');
             $kat_nota = AkunAkuntansi::find($request->get('ketegori_nota'));
             $supplier2 = Supplier::find($request->get('supplier_id'));
@@ -137,7 +139,7 @@ class NotaPembelianController extends Controller
             $jurnal->transaksi_id = $id_transaksi ;
             $jurnal->periode_id = $periode_aktif_id;
             $jurnal->save();
-            $jurnal->akun()->attach($cara_bayar,['no_urut' =>1,'nominal_kredit' =>$total,'nominal_debit'=>0]);
+            $jurnal->akun()->attach($cara_bayar_akun_id,['no_urut' =>1,'nominal_kredit' =>$total,'nominal_debit'=>0]);
             $jurnal->akun()->attach($kategori_nota,['no_urut' =>2,'nominal_kredit' =>0,'nominal_debit'=>$total]);
 
 

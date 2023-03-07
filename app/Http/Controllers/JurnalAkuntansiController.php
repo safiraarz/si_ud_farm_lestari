@@ -39,7 +39,10 @@ class JurnalAkuntansiController extends Controller
     {
         //
         $periode = PeriodeAkuntansi::where('status', '1')->get();
-        $akun = AkunAkuntansi::all();
+         // Get Periode Aktif
+         $perid = PeriodeAkuntansi::where('status', '1')->first();
+         $periode_aktif_id = $perid->id;
+        $akun = AkunAkuntansi::where('periode_id',$periode_aktif_id)->get();
         // Generate No Bukti
         $new_count = DB::connection('akuntansi')->select(DB::raw("SELECT MAX(SUBSTRING(no_bukti,-2)) + 1 as NewCount FROM jurnal WHERE SUBSTRING(no_bukti,1,1) = 'K'; "));
         $no_bukti_generator = 'K'.str_pad($new_count[0]->NewCount, 3, "0", STR_PAD_LEFT);

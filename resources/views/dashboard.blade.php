@@ -26,7 +26,7 @@
                         Total Transaksi Pembelian Bulan Ini
                     </div>
                     <div class="numbers text-center bold" style="margin-top:2rem; padding:1.25rem 0">
-                        {{ $totalNotaPembelian }}
+                        {{ number_format($totalNotaPembelian) }}
                     </div>
                 </div>
             </div>
@@ -38,11 +38,54 @@
                         Total Transaksi Penjualan Bulan Ini
                     </div>
                     <div class="numbers text-center bold" style="margin-top:2rem; padding:1.25rem 0">
-                        {{ $totalNotaPenjualan }}
+                        {{ number_format($totalNotaPenjualan) }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
 </div>
+@endsection
+
+
+@section('javascript')
+<script>
+    const ctx = document.getElementById('myChart');
+    
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: [
+        @foreach ($hasil_produksi as $key => $item)
+        @foreach ($item as $key2 => $item2)
+        '{{  date("d-m-Y", strtotime($key2)) }}',
+        @endforeach
+        @endforeach
+    ],
+    datasets: [{
+      label: 'Total Produksi Perhari',
+      data: [
+        @foreach ($hasil_produksi as $key => $item)
+        @foreach ($item as $key2 => $item2)
+        @if($item2 != 0)
+        '{{  $item2 }}',
+        @endif
+        @endforeach
+        @endforeach
+    ],
+      borderWidth: 1
+    }]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+</script>
 @endsection

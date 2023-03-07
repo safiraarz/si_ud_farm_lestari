@@ -510,6 +510,7 @@ License: You must have a valid license purchased only from themeforest(the above
         });
 
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @yield('javascript')
     @yield('initialscript')
     <!-- END JAVASCRIPTS -->

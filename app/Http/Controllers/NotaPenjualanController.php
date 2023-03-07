@@ -101,7 +101,9 @@ class NotaPenjualanController extends Controller
             $perid = PeriodeAkuntansi::where('status', '1')->first();
             $periode_aktif_id = $perid->id;
             // Add Transaksi
-            $cara_bayar =  $request->get('cara_bayar') == 'tunai' ? 101 : 102;
+            $cara_bayar_no_akun =  $request->get('cara_bayar') == 'tunai' ? 101 : 102;
+            $cara_bayar_akun = AkunAkuntansi::where('periode_id',$periode_aktif_id)->where('no_akun',$cara_bayar_no_akun)->first();
+            $cara_bayar_akun_id = $cara_bayar_akun->id;
             $kategori_nota = $request->get('ketegori_nota');
             $kat_nota = AkunAkuntansi::find($request->get('ketegori_nota'));
             $customer2 = Customer::find($request->get('customer_id'));
@@ -120,7 +122,7 @@ class NotaPenjualanController extends Controller
             $jurnal->transaksi_id = $id_transaksi ;
             $jurnal->periode_id = $periode_aktif_id;
             $jurnal->save();
-            $jurnal->akun()->attach($cara_bayar,['no_urut' =>1,'nominal_debit' =>$request->get('total_harga_penjualan'),'nominal_kredit'=>0]);
+            $jurnal->akun()->attach($cara_bayar_akun_id,['no_urut' =>1,'nominal_debit' =>$request->get('total_harga_penjualan'),'nominal_kredit'=>0]);
             $jurnal->akun()->attach($kategori_nota,['no_urut' =>2,'nominal_debit' =>0,'nominal_kredit'=>$request->get('total_harga_penjualan')]);
 
             return redirect()->route('notapenjualan.index')->with('status', 'Berhasil menambahkan nota ' . $request->get('no_nota_penjualan'));

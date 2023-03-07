@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\AkunAkuntansi;
 use App\Barang;
 use App\Customer;
 use App\Supplier;
 use Carbon\Carbon;
+use App\AkunAkuntansi;
 use App\NotaPemesanan;
+use App\PeriodeAkuntansi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -22,7 +23,9 @@ class NotaController extends Controller
     {
         //
         $this->authorize('checktambahnota');
-        $akun = AkunAkuntansi::all();
+        $perid = PeriodeAkuntansi::where('status', '1')->first();
+        $periode_aktif_id = $perid->id;
+        $akun = AkunAkuntansi::where('periode_id',$periode_aktif_id)->get();
         $supplier = Supplier::all();
         $barang = Barang::all();
         $customer = Customer::all();

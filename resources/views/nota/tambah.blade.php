@@ -193,7 +193,7 @@
                                     <select class="form-control" name="daftar_akun" id="daftar_akun">
                                         @foreach ($akun as $item)
                                             @if ($item->jenis_akun == 'aset' && $item->no_akun != 000 && $item->no_akun != 101 && $item->no_akun != 102)
-                                                <option value="{{ $item->no_akun }}">{{ $item->nama }}</option>
+                                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -321,7 +321,7 @@
                                     <select class="form-control" name="daftar_akun" id="daftar_akun_penjualan">
                                         @foreach ($akun as $item)
                                             @if ($item->jenis_akun == 'pendapatan')
-                                                <option value="{{ $item->no_akun }}">{{ $item->nama }}</option>
+                                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                             @endif
                                         @endforeach
                                     </select>
