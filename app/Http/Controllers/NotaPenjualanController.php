@@ -95,7 +95,7 @@ class NotaPenjualanController extends Controller
     
                 $data->barang()->attach($details['id_barang'], ['kuantitas' => $details['kuantitas'], 'harga' => $details['harga_barang']]);
             }
-            $saved = $data->save();
+            // $saved = $data->save();
 
             // Get Periode Aktif
             $perid = PeriodeAkuntansi::where('status', '1')->first();

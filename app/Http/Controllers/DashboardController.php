@@ -25,18 +25,15 @@ class DashboardController extends Controller
         //
         $totalPopulasiAyam = Flok::all()->sum('populasi');
         $bulan_ini = date('m', strtotime('now'));
-        // $totalNotaPenjualan = NotaPenjualan::whereMonth('tgl_pembuatan_nota',$bulan_ini)->count();
-        // $totalNotaPembelian = NotaPembelian::whereMonth('tgl_pembuatan_nota',$bulan_ini)->count();
-        // $totalHargaPembelian = NotaPembelian::all()->sum('total_harga');
         $totalNotaPenjualan = NotaPenjualan::whereMonth('tgl_pembuatan_nota',$bulan_ini)->sum('total_harga');
-        // $totalHargaPenjualan = NotaPenjualan::all()->sum('total_harga');
         $totalNotaPembelian = NotaPembelian::whereMonth('tgl_pembuatan_nota',$bulan_ini)->sum('total_harga');
         // dd($totalNotaPembelian);
         $startDate = Carbon::today();
         $endDate = Carbon::today()->addDays(7);
         $periodeAkuntansi = PeriodeAkuntansi::whereBetween('tanggal_akhir', [$startDate, $endDate])->where('status',1)->get();
         $hasil_produksi_bulan_ini = HasilProduksi::whereMonth('tgl_pencatatan',$bulan_ini)->get();
-        $hasil_produksi_perminggu = HasilProduksi::selectRaw('tgl_pencatatan as tanggal, count(*) as total')->whereBetween('tgl_pencatatan', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->groupBy('tgl_pencatatan')->get();
+        $hasil_produksi_perminggu = HasilProduksi::selectRaw('tgl_pencatatan as tanggal, sum(total_kuantitas) as total')->
+        whereBetween('tgl_pencatatan', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->groupBy('tgl_pencatatan')->get();
         // dd($hasil_produksi_perminggu);
         $startDate = Carbon::createFromFormat('Y-m-d', Carbon::now()->startOfWeek()->format('Y-m-d'));
         $endDate = Carbon::createFromFormat('Y-m-d', Carbon::now()->endOfWeek()->format('Y-m-d'));

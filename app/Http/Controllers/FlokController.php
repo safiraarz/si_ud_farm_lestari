@@ -92,18 +92,10 @@ class FlokController extends Controller
         $flok->keterangan = $request->get('keterangan');
         $flok->cage = $request->get('cage');
         $flok->strain = $request->get('strain');
-        $flok->karantina = $request->get('karantina');
-        $flok->afkir = $request->get('afkir');
-        $flok->sehat = $request->get('sehat');
-        $flok->populasi = $request->get('populasi');
         $flok->barang_id = $request->get('pakan');
-
-
-
         $flok->usia = $request->get('usia');
         $flok->kebutuhan_pakan = $request->get('kebutuhan_pakan');
         $flok->satuan = $request->get('satuan');
-
 
         $flok->save();
         return redirect()->route('flok.index')->with('status', 'Flok '.$flok->nama.' berhasil diubah');

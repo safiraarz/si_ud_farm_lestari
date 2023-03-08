@@ -14,7 +14,7 @@
                         Total Populasi Ayam
                     </div>
                     <div class="numbers text-center bold" style="margin-top:2rem; padding:1.25rem 0">
-                        {{ $totalPopulasiAyam }}
+                        {{number_format($totalPopulasiAyam) }}
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                         Total Transaksi Pembelian Bulan Ini
                     </div>
                     <div class="numbers text-center bold" style="margin-top:2rem; padding:1.25rem 0">
-                        {{ number_format($totalNotaPembelian) }}
+                        Rp {{ number_format($totalNotaPembelian) }}
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                         Total Transaksi Penjualan Bulan Ini
                     </div>
                     <div class="numbers text-center bold" style="margin-top:2rem; padding:1.25rem 0">
-                        {{ number_format($totalNotaPenjualan) }}
+                        Rp {{ number_format($totalNotaPenjualan) }}
                     </div>
                 </div>
             </div>

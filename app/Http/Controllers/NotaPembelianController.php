@@ -26,7 +26,7 @@ class NotaPembelianController extends Controller
     public function index()
     {
         $this->authorize('checknotapembelian');
-
+        //ambil data
         $queryBuilder = NotaPembelian::all();
         $user = User::all();
         $supplier = Supplier::all();

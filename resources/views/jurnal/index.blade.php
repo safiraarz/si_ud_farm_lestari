@@ -132,7 +132,6 @@
                     @if ($jurnal->jenis == "penutup")
                     <tbody>
                             <tr>
-
                                 <td rowspan="{{ count($jurnal->akun) + 1  }}">
 
                                     {{  date('d/m/y', strtotime($jurnal->tanggal_transaksi)) }}

@@ -23,9 +23,9 @@ class JurnalAkuntansiController extends Controller
         $periode = PeriodeAkuntansi::all();
         // $queryBuilder = JurnalAkuntansi::all();
          // Get Periode Aktif
-         $perid = PeriodeAkuntansi::where('status', '1')->first();
-         $periode_aktif_id = $perid->id;
-         $jurnals = JurnalAkuntansi::where('periode_id',$periode_aktif_id)->get();
+        $perid = PeriodeAkuntansi::where('status', '1')->first();
+        $periode_aktif_id = $perid->id;
+        $jurnals = JurnalAkuntansi::where('periode_id',$periode_aktif_id)->get();
         // dd( $jurnals->akun() );
         return view('jurnal.index', ['data' => $jurnals,'periode'=>$periode]);
     }
@@ -79,7 +79,6 @@ class JurnalAkuntansiController extends Controller
              $jurnal->save();
             foreach($request->get("jurnal") as $details) 
             {
-                // dd($details);
                 $jurnal->akun()->attach(
                     $details['no_akun'],
                     [
