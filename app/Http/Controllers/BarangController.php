@@ -91,8 +91,8 @@ class BarangController extends Controller
     {
         // dd($barang);
         $data = Barang::find($barang);
-        $data->kuantitas_onorder_produksi = $request->get('kuantitas_onorder_produksi');
-        $data->kuantitas_onorder_supplier = $request->get('kuantitas_onorder_supplier');
+        $data->kuantitas_stok_onorder_produksi = $request->get('kuantitas_stok_onorder_produksi');
+        $data->kuantitas_stok_onorder_supplier = $request->get('kuantitas_stok_onorder_supplier');
         $data->kuantitas_stok_pengaman = $request->get('kuantitas_stok_pengaman');
         $data->kuantitas_stok_ready = $request->get('kuantitas_stok_ready');
         $data->total_kuantitas_stok = $request->get('total_kuantitas_stok');
