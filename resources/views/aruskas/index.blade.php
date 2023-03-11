@@ -11,12 +11,10 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <h4>Periode aktif saat ini:</h4>
-                        @foreach ($periode as $pd)
-                            <p>
-                                {{ $pd->tanggal_awal->format('d F Y') }} hingga
-                                {{ $pd->tanggal_akhir->format('d F Y') }}
-                            </p>
-                        @endforeach
+                        <p>
+                            {{ $perid->tanggal_awal->format('d F Y') }} hingga
+                            {{ $perid->tanggal_akhir->format('d F Y') }}
+                        </p>
                     </div>
                 </div>
                 <br>

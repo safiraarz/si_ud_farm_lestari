@@ -45,9 +45,7 @@ class PeriodeAkuntansiController extends Controller
         $perid = PeriodeAkuntansi::where('status', '1')->first();
         $periode_aktif_id = $perid->id;
         
-        $update_akun = $newjurnal->generate_jurnal_penutupan($periode_aktif_id);
-
-        
+        $update_akun = $newjurnal->generate_jurnal_penutupan($periode_aktif_id);        
         
         //Nonaktif Periode Aktif Sekarang
         $periode_aktif = PeriodeAkuntansi::where('status',1)->first();
@@ -68,12 +66,7 @@ class PeriodeAkuntansiController extends Controller
         $new_periode_id = $new_periode->id;
 
         $bukubesar = $newjurnal->bukubesar($periode_aktif_id);
-
-        // dd($bukubesar);
         $update_akun = $newjurnal->penutupan_create_new_akun($periode_aktif_id,$new_periode_id);
-
-
-        // dd($update_akun);
 
         return redirect()->route('periode_akuntansi.index')->with('status', 'Berhasil Ganti Periode');
 

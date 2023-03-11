@@ -26,7 +26,7 @@ class ArusKasController extends Controller
         $periode_aktif_id = $perid->id;
         $arus_kas = $arus_kas->arus_kas($periode_aktif_id);
         // dd($arus_kas);
-        return view('aruskas.index', ['data' => $arus_kas,'periode'=>$periode]);
+        return view('aruskas.index', ['data' => $arus_kas,'periode'=>$periode,'perid'=>$perid]);
     }
 
     /**

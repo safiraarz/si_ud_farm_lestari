@@ -15,7 +15,7 @@
   border: 1px solid;
 }
     </style> --}}
-    <title>Hello, world!</title>
+    <title>Laporan Keuangan</title>
 </head>
 
 <body>

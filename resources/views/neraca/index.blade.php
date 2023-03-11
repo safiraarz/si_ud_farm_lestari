@@ -11,12 +11,10 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <h4>Periode aktif saat ini:</h4>
-                        @foreach ($periode as $pd)
-                            <p>
-                                {{ $pd->tanggal_awal->format('d F Y') }} hingga
-                                {{ $pd->tanggal_akhir->format('d F Y') }}
-                            </p>
-                        @endforeach
+                        <p>
+                            {{ $perid->tanggal_awal->format('d F Y') }} hingga
+                            {{ $perid->tanggal_akhir->format('d F Y') }}
+                        </p>
                     </div>
                 </div>
                 <br>
@@ -32,17 +30,17 @@
                             </thead>
                             <tbody>
                                 @foreach ($data['aset'] as $item)
-                                <tr>
-                                    <td style="width:65%">
-                                        {{ $item['nama_akun'] }}
-                                    </td>
-                                    <td style="width:35%">
-                                        {{ number_format($item['saldo']) }}
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td style="width:65%">
+                                            {{ $item['nama_akun'] }}
+                                        </td>
+                                        <td style="width:35%">
+                                            {{ number_format($item['saldo']) }}
+                                        </td>
+                                    </tr>
                                 @endforeach
-                                
-                               
+
+
                             </tbody>
                             {{-- <thead>
                                 <tr>
@@ -82,16 +80,16 @@
                             </thead>
                             <tbody>
                                 @foreach ($data['kewajiban'] as $item)
-                                <tr>
-                                    <td style="width:65%">
-                                        {{ $item['nama_akun'] }}
-                                    </td>
-                                    <td style="width:35%">
-                                        {{ number_format($item['saldo']) }}
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td style="width:65%">
+                                            {{ $item['nama_akun'] }}
+                                        </td>
+                                        <td style="width:35%">
+                                            {{ number_format($item['saldo']) }}
+                                        </td>
+                                    </tr>
                                 @endforeach
-                                
+
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -118,14 +116,14 @@
                             </thead>
                             <tbody>
                                 @foreach ($data['ekuitas'] as $item)
-                                <tr>
-                                    <td style="width:65%">
-                                        {{ $item['nama_akun'] }}
-                                    </td>
-                                    <td style="width:35%">
-                                        {{ number_format($item['saldo']) }}
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td style="width:65%">
+                                            {{ $item['nama_akun'] }}
+                                        </td>
+                                        <td style="width:35%">
+                                            {{ number_format($item['saldo']) }}
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                             <tfoot>

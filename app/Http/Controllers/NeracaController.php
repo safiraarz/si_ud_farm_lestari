@@ -25,7 +25,7 @@ class NeracaController extends Controller
         $neraca = $queryBuilder->neraca($periode_aktif_id);
         // dd($neraca);
 
-        return view('neraca.index', ['data' => $neraca,'periode'=>$periode]);
+        return view('neraca.index', ['data' => $neraca,'periode'=>$periode,'perid'=>$perid]);
     }
 
     /**

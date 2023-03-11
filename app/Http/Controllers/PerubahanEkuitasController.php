@@ -24,7 +24,7 @@ class PerubahanEkuitasController extends Controller
         $periode_aktif_id = $perid->id;
         $ekuitas = $queryBuilder->perubahanekuitas($periode_aktif_id);
         // dd($ekuitas);
-        return view('perubahanekuitas.index', ['data' => $ekuitas,'periode'=>$periode]);
+        return view('perubahanekuitas.index', ['data' => $ekuitas,'periode'=>$periode,'perid'=>$perid]);
     }
 
     /**

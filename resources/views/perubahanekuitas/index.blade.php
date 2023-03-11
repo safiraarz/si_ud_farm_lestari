@@ -12,12 +12,10 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <h4>Periode aktif saat ini:</h4>
-                        @foreach ($periode as $pd)
-                            <p>
-                                {{ $pd->tanggal_awal->format('d F Y') }} hingga
-                                {{ $pd->tanggal_akhir->format('d F Y') }}
-                            </p>
-                        @endforeach
+                        <p>
+                            {{ $perid->tanggal_awal->format('d F Y') }} hingga
+                            {{ $perid->tanggal_akhir->format('d F Y') }}
+                        </p>
                     </div>
                 </div>
                 <br>
@@ -26,17 +24,17 @@
                         <table class="table">
                             <thead>
                                 @foreach ($data['list'] as $item)
-                                <tr>
-                                    <th style="width:65%">
-                                        {{-- Ekuitas (Modal) pemilik per 1 Des 2022 --}}
-                                        {{ $item['nama_akun'] }}
-                                    </th>
-                                    <td style="width:35%">
-                                        Rp {{ number_format($item['saldo']) }}
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <th style="width:65%">
+                                            {{-- Ekuitas (Modal) pemilik per 1 Des 2022 --}}
+                                            {{ $item['nama_akun'] }}
+                                        </th>
+                                        <td style="width:35%">
+                                            Rp {{ number_format($item['saldo']) }}
+                                        </td>
+                                    </tr>
                                 @endforeach
-                                
+
                             </thead>
                             {{-- <tbody>
                                 <tr>
@@ -59,10 +57,10 @@
                             <tfoot>
                                 <tr>
                                     <th style="width:65%">
-                                        Ekuitas (Modal) pemilik per {{ $pd->tanggal_akhir->format('d F Y') }}
+                                        Ekuitas (Modal) pemilik per {{ $perid->tanggal_akhir->format('d F Y') }}
                                     </th>
                                     <th style="width:35%">
-                                        Rp {{  number_format($data['total']) }}
+                                        Rp {{ number_format($data['total']) }}
                                     </th>
                                 </tr>
                             </tfoot>

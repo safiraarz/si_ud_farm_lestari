@@ -11,16 +11,14 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <h4>Periode aktif saat ini:</h4>
-                        @foreach ($periode as $pd)
-                            <p>
-                                {{ $pd->tanggal_awal->format('d F Y') }} hingga
-                                {{ $pd->tanggal_akhir->format('d F Y') }}
-                            </p>
-                        @endforeach
+                        <p>
+                            {{ $perid->tanggal_awal->format('d F Y') }} hingga
+                            {{ $perid->tanggal_akhir->format('d F Y') }}
+                        </p>
                     </div>
                 </div>
                 <br>
-                
+
                 {{-- @foreach ($data as $item) --}}
                 <div class="row">
                     <div class="col-xs-6">
@@ -28,21 +26,20 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        PENDAPATAN 
+                                        PENDAPATAN
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($data['pendapatan'] as $pendapatan)
-                                <tr>
-                                    <td style="width:65%">
-                                        {{  $pendapatan['nama_akun'] }}
-                                    </td>
-                                    <td style="width:35%">
-                                        Rp  {{  number_format($pendapatan['saldo']) }}
-                                    </td>
-                                </tr>
-                    
+                                    <tr>
+                                        <td style="width:65%">
+                                            {{ $pendapatan['nama_akun'] }}
+                                        </td>
+                                        <td style="width:35%">
+                                            Rp {{ number_format($pendapatan['saldo']) }}
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                             <tfoot>
@@ -58,9 +55,9 @@
                         </table>
                     </div>
                 </div>
-                
+
                 {{-- @endforeach --}}
-                
+
 
                 <div class="row">
                     <div class="col-xs-6">
@@ -74,17 +71,16 @@
                             </thead>
                             <tbody>
                                 @foreach ($data['biaya'] as $pendapatan)
-                                <tr>
-                                    <td style="width:65%">
-                                        {{  $pendapatan['nama_akun'] }}
-                                    </td>
-                                    <td style="width:35%">
-                                        Rp  {{  number_format($pendapatan['saldo']) }}
-                                    </td>
-                                </tr>
-                    
+                                    <tr>
+                                        <td style="width:65%">
+                                            {{ $pendapatan['nama_akun'] }}
+                                        </td>
+                                        <td style="width:35%">
+                                            Rp {{ number_format($pendapatan['saldo']) }}
+                                        </td>
+                                    </tr>
                                 @endforeach
-                                
+
                             </tbody>
                             <tfoot>
                                 <tr>
