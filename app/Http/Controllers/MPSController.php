@@ -45,6 +45,8 @@ class MPSController extends Controller
     public function store(Request $request)
     {
         $data = new MPS();
+        // $barang = Barang::find($request->get('bahan_baku'));
+        // dd($barang);
         $data->tgl_mulai_produksi = $request->get('tgl_mulai_produksi');
         $data->tgl_selesai_produksi = $request->get('tgl_selesai_produksi');
         $data->kuantitas_barang_jadi = $request->get('kuantitas_barang_jadi');

@@ -48,7 +48,7 @@ class SPKController extends Controller
             $noSuratMax = $sqlmaxsurat[0]->SPKMaxTanggal;
         }
         $no_surat_generator = $date_now . '-' . '02' . '-' . '01' . '-' . str_pad($noSuratMax, 3, "0", STR_PAD_LEFT);
-        return view('spk.create', ['date_now' => Carbon::now()->toDateString(), 'no_surat_generator' => $no_surat_generator, 'user' => $user, 'barang' => $barang,'flok' => $flok]);
+        return view('spk.create', ['date_now' => Carbon::now()->toDateString(), 'no_surat_generator' => $no_surat_generator, 'user' => $user, 'barang' => $barang, 'flok' => $flok]);
     }
 
     /**
@@ -61,13 +61,13 @@ class SPKController extends Controller
     {
         $user = Auth::user();
         // dd($request->get("barang"));
-        if($request->get("barang") != null) {
+        if ($request->get("barang") != null) {
             $data = new SPK();
             $data->no_surat = $request->get('no_surat');
             $data->tgl_pembuatan_surat = $request->get('tgl_pembuatan_surat');
             $data->keterangan = $request->get('keterangan_input');
             $data->pengguna_id = $user->id;
-    
+
             // dd($request->get('barang'));
             // $barang = Barang::find($request->get('barang'));
             $data->save();
@@ -77,14 +77,24 @@ class SPKController extends Controller
                     'tgl_selesai_produksi' => $details['tanggal_akhir'],
                     'kuantitas' => $details['kuantitas']
                 ]);
+                // Update Kuantitas Safety
+                $kuantitas_safety = $details['kuantitas_safety'];
+                $barang_update = Barang::find($details['id_barang']);
+                // Get Data Lama
+                $stok_ready_lama =  $barang_update->kuantitas_stok_ready ;
+                $total_kuantitas_lama = $barang_update->total_kuantitas_stok ;
+                $total_kuantitas_stok_pengaman_lama = $barang_update->kuantitas_stok_pengaman ;
+                // Set Data Baru
+                $barang_update->kuantitas_stok_ready = $stok_ready_lama + $total_kuantitas_stok_pengaman_lama;
+                $barang_update->kuantitas_stok_pengaman  = $kuantitas_safety;
+                $barang_update->total_kuantitas_stok = $total_kuantitas_lama + $kuantitas_safety;
+                $barang_update->save();
             }
             return redirect()->route('spk.index')->with('status', 'Berhasil menambahkan surat ' . $request->get('no_surat'));
-        }
-        else{
+        } else {
             return redirect()->route('spk.create')->with('error', 'Gagal menambahkan surat');
-
         }
-       
+
         // $barang->spk()->save($data);
 
     }
