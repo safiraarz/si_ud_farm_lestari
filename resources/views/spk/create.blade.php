@@ -32,8 +32,12 @@
                                 <select name="barang" id="barang" class="form-control">
                                     @foreach ($barang as $row)
                                     @if ($row->jenis == 'Barang Jadi')
+                                    @php
+                                        $keterangan  = $row->kuantitas_stok_ready + $row->kuantitas_stok_pengaman;
+                                        $hari = ceil($keterangan / 4000);
+                                    @endphp
                                     <option id={{ $row->id }} value="{{ $row->nama }}" satuan="{{ $row->satuan }}" class="barang custom-select">
-                                        {{ $row->nama }}
+                                        {{ $row->nama }} - ({{ 'Stok : '.$keterangan.' '.$row->satuan.' , '.'Untuk '.$hari.' Hari' }})
                                     </option>
                                     @endif
                                     @endforeach
