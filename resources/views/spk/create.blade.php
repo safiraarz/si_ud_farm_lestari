@@ -36,7 +36,7 @@
                                         $keterangan  = $row->kuantitas_stok_ready + $row->kuantitas_stok_pengaman;
                                         $hari = ceil($keterangan / 4000);
                                     @endphp
-                                    <option id={{ $row->id }} value="{{ $row->nama }}" satuan="{{ $row->satuan }}" class="barang custom-select">
+                                    <option id="{{ $row->id }}" ready="{{ $row->kuantitas_stok_ready }}" value="{{ $row->nama }}" satuan="{{ $row->satuan }}" class="barang custom-select">
                                         {{ $row->nama }} - ({{ 'Stok : '.$keterangan.' '.$row->satuan.' , '.'Untuk '.$hari.' Hari' }})
                                     </option>
                                     @endif
@@ -163,10 +163,12 @@
     $('#tambah').on('click', function() {
         var date_start = $('#tgl_mulai_prod').val();
         var date_end = $('#tgl_selesai_prod').val();
-        var kuantitas_ready = $('#kuantitas').val();
-        var kuantitas_safety = parseInt(kuantitas_ready) * 0.2;
-        // alert(kuantitas_safety);
-        var kuantitas = parseInt(Math.ceil(kuantitas_ready)) + parseInt(Math.ceil(kuantitas_safety));
+        var kuantitas_rekomendasi = $('#kuantitas').val();
+        var kuantitas_ready = $('#barang').find(':selected').attr('ready');
+        var kuantitas_safety = (parseInt(kuantitas_rekomendasi) * 0.2) + parseInt(kuantitas_rekomendasi);
+        // var kuantitas = parseInt(Math.ceil(kuantitas_ready)) + parseInt(Math.ceil(kuantitas_safety));
+        var kuantitas = ( parseInt(kuantitas_rekomendasi) - parseInt(kuantitas_ready) ) + ( parseInt(kuantitas_safety)  - parseInt(kuantitas_rekomendasi) );
+        // alert(kuantitas);
 
         var totalDays = getDays(new Date(date_start), new Date(date_end))
         var checkMinimalHariProduksi = checkMinProductionPeriod(kuantitas, totalDays);
@@ -185,7 +187,7 @@
             $('.errorMsg').show();
             $('.errorMsg').html(erroMsg).fadeOut(9000);
         } else {
-            var text = 'Kuantitas Ready Yang Perlu Di Produksi : ' + kuantitas_ready + '\nDitambah Dengan Safety Stok 20% : ' + Math.ceil(kuantitas_safety) + '\nTOTAL PRODUKSI : ' + kuantitas;
+            var text = 'Kuantitas Ready Pakan : '+kuantitas_ready+'\nKuantitas Ready Yang Perlu Di Produksi : ' + kuantitas_rekomendasi + '\nDitambah Dengan Safety Stok 20% : ' + Math.ceil(kuantitas_safety) + '\nTOTAL PRODUKSI : ' + kuantitas;
             if (confirm(text) == true) {
                 if (checkMinimalHariProduksi != -1) {
                     alert('Minimal pengerjaan barang jadi adalah ' + checkMinimalHariProduksi + ' hari')
